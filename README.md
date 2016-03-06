@@ -6,13 +6,14 @@ Python tools for processing HCP data using MNE-Python
 
 - this code is under active, research-driven development and the API is still unstable.
 - we only intend to support a subset of the files shipped with HCP. Precisely, for now it is not planned to support io and processing for any outputs of the HCP inverse pipelines.
+- the code is not covered by unit tests so far as I did not have the time to create mock testing data.
 - this library breaks with some MNE conventions due to peculiarities of the HCP data shipping policy. At a later stage this code will likely be wrapped by MNE-Python to provide a more common API.
 
 ## contributions
-- as in MNE
+- as in MNE-Python, open issues and pull requests, discussions are welcomed.
 
 ## dependencies
-- MNE master branch
+- MNE-Python master branch
 - scipy
 - numpy
 - matplotlib
