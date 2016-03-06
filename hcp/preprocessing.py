@@ -4,7 +4,8 @@
 import numpy as np
 from mne.io import set_bipolar_reference
 from mne.io.bit.bti import (
-    _convert_coil_trans, _coil_trans_to_loc, _get_bti_dev_t)
+    _convert_coil_trans, _coil_trans_to_loc, _get_bti_dev_t,
+    _loc_to_coil_trans)
 from mne.transforms import Transform
 
 
@@ -55,7 +56,7 @@ def apply_ica(raw, ica_mat, exclude):
 
 
 def transform_sensors_to_mne(inst):
-    """ Transform sensors to MNE coordinates 
+    """ Transform sensors to MNE coordinates
 
     For several reasons we do not use the MNE coordinates for the inverse
     modeling. This however won't always play nicely with visualization.
