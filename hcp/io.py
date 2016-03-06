@@ -91,11 +91,10 @@ class FileMap(dict):
     def __repr__(self):
         if len(self) > 1:
             subject = self.values()[0]['subject']
-            slots = ',\n'.join(['{0} ({1})'.format(k.split('-')[1:])
-                               for k in self.keys()])
+            slots = ',\n '.join(list(self.keys()))
         else:
             subject, slots = '', ''
-        show = '<FileMap | HCP subject: %s, slots: %s>' % (subject, slots)
+        show = '<FileMap | HCP subject: %s, slots:\n %s>' % (subject, slots)
         return show
 
 
