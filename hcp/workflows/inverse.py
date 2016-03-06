@@ -9,12 +9,12 @@ import mne
 from scipy import sparse
 from mne.externals.h5io import read_hdf5, write_hdf5
 
-from .io import extract_anatomy
-from .io import read_meg_noise
-from .io import read_meg_info
+from ..io import extract_anatomy
+from ..io import read_raw_hcp
+from ..io import read_info_hcp
 
 
-def prepare_inverse_solution(recs, hcp_path, anatomy_path,
+def prepare_inverse_solution(file_map, hcp_path, anatomy_path,
                              n_jobs, subject,
                              recordings_path, noise_cov_filter=None,
                              fwd_params=None, src_params=None,
@@ -27,7 +27,7 @@ def prepare_inverse_solution(recs, hcp_path, anatomy_path,
 
     Parameters
     ----------
-    recs : dict
+    file_map : dict
         The subejct records
     hcp_path : str
         The directory containing the HCP data.
@@ -53,12 +53,12 @@ def prepare_inverse_solution(recs, hcp_path, anatomy_path,
     """
     #  bake in support for precomuting h5 io
     extract_anatomy(
-        recs, hcp_path=hcp_path, anatomy_path=anatomy_path,
+        file_map, hcp_path=hcp_path, anatomy_path=anatomy_path,
         recordings_path=recordings_path)
     head_mri_t = mne.read_trans(
         op.join(recordings_path, subject, '{}-head_mri-trans.fif'.format(
             subject)))
-    meg_info = read_meg_info(subject=recs, hcp_path=hcp_path, run=1)[0]
+    meg_info = read_info_hcp(subject=file_map, hcp_path=hcp_path, run=1)[0]
     head_mri_t['from'] = mne.io.constants.FIFF.FIFFV_COORD_HEAD
 
     if cov_mode == 'raw' and noise_cov_params is None:
@@ -82,7 +82,7 @@ def prepare_inverse_solution(recs, hcp_path, anatomy_path,
         fwd = out['fwd']
         noise_covs = out['noise_cov']
     else:
-        raw_er = read_meg_noise(
+        raw_er = read_raw_hcp(
             subject=subject, hcp_path=hcp_path, kind='empty_room')
 
         raw_er.pick_types(meg=True, ref_meg=False)

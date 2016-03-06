@@ -19,9 +19,11 @@ from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
 from mne.utils import logger
 from mne.externals import six
+from mne.io.constants import Bunch
 
+HCP = Bunch()
 
-HCP_FNAME_TEMP = [
+HCP.FNAME_TEMP = [
     '3T_Structural_preproc_extended',
     'MEG_Restin_preproc',
     'MEG_anatomy',
@@ -31,33 +33,70 @@ HCP_FNAME_TEMP = [
     'MEG_Wrkmem_unproc'
 ]
 
-UNPROC_RUN_MAP = {
+HCP.RUN_MAP = {
+    'restin': 3,
+    'rnoise': 1,
+    'noise': 1,
+    'pnoise': 1,
+    'wrkmem': 2,
+    'motor': 2,
+    'story': 2,
     'meg-restin-unproc': 3,
+    'meg-rnoise-unproc': 1,
     'meg-noise-unproc': 1,
+    'meg-pnoise-unproc': 1,
     'meg-wrkmem-unproc': 2,
     'meg-motor-unproc': 2,
     'meg-story-unproc': 2
 }
 
-KIND_ID_MAP = {
+HCP.KIND_ID_MAP = {
     'meg-restin-unproc': 'Restin',
-    'meg-noise-unproc': 'Rnoise',
+    'meg-pnoise-unproc': 'Pnoise',
+    'meg-rnoise-unproc': 'Rnoise',
     'meg-wrkmem-unproc': 'Wrkmem',
     'meg-motor-unproc': 'Motor',
     'meg-story-unproc': 'Story'
 }
 
-HCP_PREPROC_TEMP = dict(
-    bads='{subject}_MEG_{run}-{kind}_baddata_bad{kind}.txt',
-    rest='{subject}_MEG_{run}-Restin_rmegpreproc.mat',
-    # task_working_memory='{subject}_MEG_'
-)
 
-FS_ANATOMY_DIR = [
+HCP.FS_ANATOMY_DIR = [
     'label',
     'surf',
     'mri'
 ]
+
+
+class FileMap(dict):
+    def __init__(self, list_of_dict):
+        """ HCP FileMap object
+
+        Sub class of dict with alternative constructor, checking and pringing
+
+        list_of_dict : list of dict
+            The input records
+        """
+        check_fields = ['status', 'kind', 'label', 'file', 'root', 'modality',
+                        'subject']
+        for field in check_fields:
+            if not all(field in rec for rec in list_of_dict):
+                raise ValueError('I need `%s` field to make a FileMap' % field)
+        subject = list_of_dict[0]['subject']
+        for rec in list_of_dict[1:]:
+            if rec['subject'] != subject:
+                raise ValueError('`subject` fields are inconsistent')
+        dict.__init__(self)
+        self.update({rec['label']: rec for rec in list_of_dict})
+
+    def __repr__(self):
+        if len(self) > 1:
+            subject = self.values()[0]['subject']
+            slots = ',\n'.join(['{0} ({1})'.format(k.split('-')[1:])
+                               for k in self.keys()])
+        else:
+            subject, slots = '', ''
+        show = '<FileMap | HCP subject: %s, slots: %s>' % (subject, slots)
+        return show
 
 
 def _kind_from_str(string):
@@ -184,7 +223,7 @@ def _classify_hcp_path(path):
     unprocessed_dir = op.join(path, 'unprocessed', 'MEG')
     expected_files = {'c,rfDC', 'config'}
     if os.path.isdir(unprocessed_dir):
-        for orig_kind in KIND_ID_MAP.values():
+        for orig_kind in HCP.KIND_ID_MAP.values():
             globbed = glob.glob(unprocessed_dir + '/*' + orig_kind)
             kind = _kind_from_str(orig_kind)
             label = '-'.join(
@@ -194,7 +233,7 @@ def _classify_hcp_path(path):
             # check if all runs are there
             if len(globbed) == 0:
                 continue
-            elif len(globbed) != UNPROC_RUN_MAP[label]:
+            elif len(globbed) != HCP.RUN_MAP[label]:
                 warnings.warn('could not find all "{}" folders for {},'
                               ' skipping.'
                               .format(kind, subject))
@@ -220,7 +259,7 @@ def _classify_hcp_path(path):
                 'root': unprocessed_dir
             })
 
-    for orig_kind in KIND_ID_MAP.values():
+    for orig_kind in HCP.KIND_ID_MAP.values():
         if orig_kind == 'anatomy':
             continue
         this_dir = op.join(path, 'MEG', orig_kind)
@@ -267,7 +306,7 @@ def _classify_hcp_zip(path):
     """check if file belongs to hcp"""
     out = False
     root, fname = op.split(path)
-    for e in HCP_FNAME_TEMP:
+    for e in HCP.FNAME_TEMP:
         if e in fname:
             break
     else:
@@ -306,7 +345,7 @@ def _assemble_file_map(hcp_files, include_subjects, exclude_subjects,
     for subject, records in itt.groupby(hcp_files, lambda m: m['subject']):
         if _check_subject(subject=subject, include_subjects=include_subjects,
                           exclude_subjects=exclude_subjects):
-            records = {r['label']: r for r in records}
+            records = FileMap([r for r in records])  # unpack grouper
             is_complete = True
             if required_fields is not None:
                 for field in required_fields:
@@ -318,8 +357,8 @@ def _assemble_file_map(hcp_files, include_subjects, exclude_subjects,
     return file_map
 
 
-def get_file_map(hcp_path, exclude_subjects=None, include_subjects=None,
-                 required_fields=None, mode='directory'):
+def get_file_maps(hcp_path, exclude_subjects=None, include_subjects=None,
+                  required_fields=None, mode='expanded'):
     """ Traverse and map zip files
 
     Parameters
@@ -348,7 +387,7 @@ def get_file_map(hcp_path, exclude_subjects=None, include_subjects=None,
         Note. The labels are derived from concatenating the file name common
         patterns of the given zip file using dashes and putting them in
         lowercase. For example, 'MEG_Wrkmem_unproc' gets 'meg-wrkmem-unproc'.
-    mode : {'zip', 'path'}
+    mode : {'zip', 'expanded'}
         Either zip or path. The latter assumes expanded directories, the former
         zip files. Currently this cannot be mixed.
     """
@@ -373,7 +412,7 @@ def get_file_map(hcp_path, exclude_subjects=None, include_subjects=None,
         hcp_files = (_classify_hcp_path(f) for f in paths)
         hcp_files = sum([m for m in hcp_files if m], [])
     else:
-        raise ValueError('Either `zip` or `expanded`, ok?')
+        raise ValueError('`mode` is either "zip" or "expanded", ok?')
 
     file_map = _assemble_file_map(hcp_files, include_subjects=include_subjects,
                                   exclude_subjects=exclude_subjects,
@@ -448,7 +487,7 @@ def _parse_hcp_trans(fid, transforms, convert_to_meter):
         raise RuntimeError('Could not parse the transforms.')
 
 
-def read_trans(fname, convert_to_meter):
+def read_trans_hcp(fname, convert_to_meter):
     """Read + parse transforms
 
     subject_MEG_anatomy_transform.txt
@@ -460,7 +499,7 @@ def read_trans(fname, convert_to_meter):
     return transforms
 
 
-def read_landmarks(fname):
+def read_landmarks_hcp(fname):
     """ parse landmarks """
     out = dict()
     with open(fname) as fid:
@@ -493,7 +532,7 @@ def _get_head_model(head_model_fid, hcp_trans, ras_trans):
 def extract_anatomy(subject, hcp_path, anatomy_path, recordings_path=None):
     """Extract relevant anatomy and create MNE friendly directory layout"""
     if isinstance(subject, six.string_types):
-        _, records = get_file_map(
+        _, records = get_file_maps(
             hcp_path=hcp_path, include_subjects=[subject])[0]
     elif isinstance(subject, dict):
         records, subject = subject, subject.values()[0]['subject']
@@ -525,9 +564,9 @@ def extract_anatomy(subject, hcp_path, anatomy_path, recordings_path=None):
 
                 sel = np.where(  # check + handle anatomy paths
                     # test if '/subpatath/' is in fname, that is how you filter
-                    ['/' + k + '/' in fname for k in FS_ANATOMY_DIR])[0]
+                    ['/' + k + '/' in fname for k in HCP.FS_ANATOMY_DIR])[0]
                 if len(sel):  # hit!
-                    start_path = FS_ANATOMY_DIR[sel[0]]
+                    start_path = HCP.FS_ANATOMY_DIR[sel[0]]
                     logger.debug(fname)
                     _write_target(
                         fname=fname, data=zf.read(fname),
@@ -662,8 +701,9 @@ def _check_infos_trans(infos):
 
 
 def _handle_records(subject, hcp_path, required_fields):
+    """" triage if input is file map or not and act accordingly """
     if isinstance(subject, six.string_types):
-        _, records = get_file_map(
+        _, records = get_file_maps(
             hcp_path=hcp_path, include_subjects=[subject])[0]
     elif isinstance(subject, dict):
         records, subject = subject, subject.values()[0]['subject']
@@ -676,63 +716,32 @@ def _handle_records(subject, hcp_path, required_fields):
     return records, subject
 
 
-def read_meg_noise(subject, hcp_path, kind='empty_room'):
-    noise_map = {
-        'empty_room': 'Rnoise',
-        'subject': 'Pnoise'
-    }
-
-    if kind not in noise_map:
-        raise ValueError('I only know `empty_room` or `subject` noise, sorry.')
-    noise_kind = noise_map[kind]
-    required_fields = ['meg-noise-unproc']
-    records, subject = _handle_records(
-        subject=subject, hcp_path=hcp_path, required_fields=required_fields)
-    rec = records['meg-noise-unproc']
-    logger.info('Reading empty room data')
-
-    if rec['file'] is not None:
-        with open(op.join(rec['root'], rec['file'])) as fid:
-            zf_er_noise = zipfile.ZipFile(fid)
-            config = _zip_get_fnames(
-                zf=zf_er_noise, kind=noise_kind, extension='config',
-                max_runs=1,
-                run=None)[0]
-            pdf_fname = _zip_get_fnames(
-                zf=zf_er_noise, kind=noise_kind, extension='c,rfDC',
-                max_runs=1,
-                run=None)[0]
-            config_fid = StringIO(zf_er_noise.read(config))
-            raw_er = _read_raw_bti(
-                StringIO(zf_er_noise.read(pdf_fname)), config_fid,
-                convert=False)
-    else:
-        location = _find_paths(
-            root=rec['root'], path_endswith=noise_kind, run=0)
-        raw_er = _read_raw_bti(op.join(location, '4D', 'c,rfDC'),
-                               op.join(location, '4D', 'c,rfDC'),
-                               convert=False)
-    return raw_er
-
-
 def _find_paths(root, path_endswith, run, substring_match=''):
     """ helper to get the files we we want """
     dirs = (f for f in os.listdir(root) if
             f.endswith(path_endswith)
             and substring_match in f)
     location = list(sorted(dirs))[run]
-    return location
+    return op.join(root, location)
 
 
-def read_meg_unprocessed(subject, hcp_path, kind='restin', run=0):
-    key = 'meg-%s-unproc' % kind
+def read_raw_hcp(subject, hcp_path, kind='restin', run=0):
+    """ Read HCP raw data
+    """
+    if kind in ('pnoise', 'rnoise'):
+        key = 'meg-noise-unproc'
+        key_id = 'meg-%s-unproc' % kind
+    else:
+        key = 'meg-%s-unproc' % kind
+        key_id = key
+
     required_fields = [key]
     records, subject = _handle_records(
         subject=subject, hcp_path=hcp_path, required_fields=required_fields)
     rec = records[key]
-    max_runs = UNPROC_RUN_MAP[key]
+    max_runs = HCP.RUN_MAP[key]
     logger.info('Reading %s data' % key)
-    my_kind = KIND_ID_MAP[key]
+    my_kind = HCP.KIND_ID_MAP[key_id]
     if rec['file'] is not None:
         with open(op.join(rec['root'], rec['file'])) as fid:
             zf = zipfile.ZipFile(fid)
@@ -749,11 +758,11 @@ def read_meg_unprocessed(subject, hcp_path, kind='restin', run=0):
         location = _find_paths(
             root=rec['root'], path_endswith=my_kind, run=run)
         raw = _read_raw_bti(op.join(location, '4D', 'c,rfDC'),
-                            op.join(location, '4D', 'c,rfDC'), convert=False)
+                            op.join(location, '4D', 'config'), convert=False)
     return raw
 
 
-def read_meg_info(subject, hcp_path, kind, run=0):
+def read_info_hcp(subject, hcp_path, kind, run=0):
     required_fields = ['meg-%s-unproc' % kind]
     records, subject = _handle_records(
         subject=subject, hcp_path=hcp_path, required_fields=required_fields)
@@ -774,7 +783,7 @@ def read_meg_info(subject, hcp_path, kind, run=0):
     return meg_info
 
 
-def read_meg_preprocessed(subject, hcp_path, kind, onset='TIM', run=0):
+def read_epochs_hcp(subject, hcp_path, kind, onset='TIM', run=0):
     """Read HCP processed data
 
     Parameters
@@ -797,7 +806,7 @@ def read_meg_preprocessed(subject, hcp_path, kind, onset='TIM', run=0):
     rec = records['meg-%s-unproc' % kind]
     logger.info('creating measurement info structure from config for '
                 'runs: %s' % run)
-    max_runs = UNPROC_RUN_MAP['%s-unproc' % kind]
+    max_runs = HCP.RUN_MAP[kind]
     if rec['file'] is not None:
         with open(op.join(rec['root'], rec['file'])) as fid:
             zf_unproc = zipfile.ZipFile(fid)
@@ -835,12 +844,32 @@ def read_meg_preprocessed(subject, hcp_path, kind, onset='TIM', run=0):
     return epochs
 
 
-def read_trial_info(subject, hcp_path, kind, run=0):
+def _read_epochs(preproc, info, zf_preproc):
+    """ read the epochs """
+    if zf_preproc is not None:
+        finput = StringIO(zf_preproc.read(preproc))
+    else:
+        finput = preproc
+    data = scio.loadmat(finput,
+                        squeeze_me=True)['data']
+    ch_names = [ch for ch in data['label'].tolist()]
+    info['sfreq'] = data['fsample'].tolist()
+    data = np.array([data['trial'].tolist()][0].tolist())
+    events = np.zeros((len(data), 3), dtype=np.int)
+    events[:, 0] = np.arange(len(data))
+    events[:, 2] = 99
+    this_info = pick_info(
+        info, [info['ch_names'].index(ch) for ch in ch_names],
+        copy=True)
+    return EpochsArray(data=data, info=this_info, events=events, tmin=0)
 
+
+def read_trial_info_hcp(subject, hcp_path, kind, run=0):
+    """ read trial info """
     required_fields = ['meg-%s-preproc' % kind]
     records, subject = _handle_records(subject, hcp_path, required_fields)
     rec = records['%s-preproc' % kind]
-    max_runs = UNPROC_RUN_MAP['%s-unproc' % kind]
+    max_runs = HCP.RUN_MAP[kind]
     if rec['file'] is not None:
         with open(op.join(rec['root'], rec['file'])) as fid:
             zf_preproc = zipfile.ZipFile(fid)
@@ -875,26 +904,6 @@ def _read_trial_info(zf_preproc, fname):
     return out
 
 
-def _read_epochs(preproc, info, zf_preproc):
-    """ read the epochs """
-    if zf_preproc is not None:
-        finput = StringIO(zf_preproc.read(preproc))
-    else:
-        finput = preproc
-    data = scio.loadmat(finput,
-                        squeeze_me=True)['data']
-    ch_names = [ch for ch in data['label'].tolist()]
-    info['sfreq'] = data['fsample'].tolist()
-    data = np.array([data['trial'].tolist()][0].tolist())
-    events = np.zeros((len(data), 3), dtype=np.int)
-    events[:, 0] = np.arange(len(data))
-    events[:, 2] = 99
-    this_info = pick_info(
-        info, [info['ch_names'].index(ch) for ch in ch_names],
-        copy=True)
-    return EpochsArray(data=data, info=this_info, events=events, tmin=0)
-
-
 def _check_sorting_runs(candidates, id_char):
     """helper to ensure correct run-parsing and mapping"""
     run_idx = [f.find(id_char) for f in candidates]
@@ -921,7 +930,7 @@ def _parse_annotations_segments(segment_strings):
     return out
 
 
-def read_annotations(subject, hcp_path, kind='restin', run=0):
+def read_annot_hcp(subject, hcp_path, kind='restin', run=0):
     """
     Parameters
     ----------
@@ -953,7 +962,8 @@ def read_annotations(subject, hcp_path, kind='restin', run=0):
         fpattern = ('icaclass_vs.txt' if subtype == 'ica' else
                     'baddata_bad%s.txt' % subtype)
         location = _find_paths(
-            op.join(rec['root'], preproc_type), path_endswith=fpattern)
+            op.join(rec['root'], preproc_type), path_endswith=fpattern,
+            run=run)
         fname = op.join(rec['root'], preproc_type, location)
         with open(fname, 'r') as fid:
             out[subtype] = fun(fid.read())
@@ -961,7 +971,7 @@ def read_annotations(subject, hcp_path, kind='restin', run=0):
     return out
 
 
-def read_ica(subject, hcp_path, kind='restin', run=0):
+def read_ica_hcp(subject, hcp_path, kind='restin', run=0):
     """
     Parameters
     ----------
@@ -986,7 +996,7 @@ def read_ica(subject, hcp_path, kind='restin', run=0):
     my_kind = kind.capitalize()
     location = _find_paths(
         op.join(rec['root'], 'icaclass'), path_endswith='icaclass_vs.mat',
-        substring_match=my_kind)
+        substring_match=my_kind, run=run)
     fname = op.join(rec['root'], 'icaclass', location)
     mat = scio.loadmat(fname, squeeze_me=True)['comp_class']
     return mat
