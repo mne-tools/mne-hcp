@@ -12,7 +12,7 @@ The core API is a file map, a list of dictionaries that map all available files
 that we have for a given subject. This is needed because the information required to construct MNE objects is scattered across several files.
 
 ## contributions
-- currently @dengemann is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact @dengemann directly. Discussions are welcomed.
+- currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
 
 ## dependencies
 - MNE-Python master branch
