@@ -21,56 +21,6 @@ from mne.utils import logger
 from mne.externals import six
 
 
-def _parse_trans(string):
-    """helper to parse transforms"""
-    return np.array(string.replace('\n', '')
-                          .strip('[] ')
-                          .split(' '), dtype=float).reshape(4, 4)
-
-
-def read_trans(fname, convert_to_meter):
-    """Read + parse transforms
-
-    subject_MEG_anatomy_transform.txt
-    """
-
-    transforms = dict()
-    with open(fname) as fid:
-        _parse_hcp_trans(fid, transforms, convert_to_meter)
-    return transforms
-
-
-def _parse_hcp_trans(fid, transforms, convert_to_meter):
-    contents = fid.read()
-    for trans in contents.split(';'):
-        if 'filename' in trans or trans == '\n':
-            continue
-        key, trans = trans.split(' = ')
-        key = key.lstrip('\ntransform.')
-        transforms[key] = _parse_trans(trans)
-        if convert_to_meter:
-            transforms[key][:3, 3] *= 1e-3  # mm to m
-    if not transforms:
-        raise RuntimeError('Could not parse the transforms.')
-
-
-def read_landmarks(fname):
-    out = dict()
-    with open(fname) as fid:
-        for line in fid:
-            kind, data = line.split(' = ')
-            kind = kind.split('.')[1]
-            if kind == 'coordsys':
-                out['coord_frame'] = data.split(';')[0].replace("'", "")
-            else:
-                data = data.split()
-                for c in ('[', '];'):
-                    if c in data:
-                        data.remove(c)
-                out[kind] = np.array(data, dtype=int) * 1e-3  # mm to m
-    return out
-
-
 HCP_FNAME_TEMP = [
     '3T_Structural_preproc_extended',
     'MEG_Restin_preproc',
@@ -102,6 +52,7 @@ HCP_PREPROC_TEMP = dict(
     rest='{subject}_MEG_{run}-Restin_rmegpreproc.mat',
     # task_working_memory='{subject}_MEG_'
 )
+
 FS_ANATOMY_DIR = [
     'label',
     'surf',
@@ -346,29 +297,9 @@ def _check_subject(subject, include_subjects, exclude_subjects):
     return out
 
 
-def parse_hcp_dir(hcp_path, exclude_subjects=None, include_subjects=None,
-                  required_fields=None):
-    if required_fields is None:
-        required_fields = [
-            'meg-restin-unproc',
-            'meg-anatomy',
-            'meg-noise-unproc',
-            '3t-structural-preproc-extended',
-            'meg-restin-preproc',
-        ]
-    paths = (op.join(hcp_path, s) for s in os.listdir(hcp_path) if s.isdigit()
-             and len(s) == 6)
-    hcp_files = (_classify_hcp_path(f) for f in paths)
-    hcp_files = sum([m for m in hcp_files if m], [])
-    file_map = _assemble_file_map(hcp_files, include_subjects=include_subjects,
-                                  exclude_subjects=exclude_subjects,
-                                  required_fields=required_fields)
-    return file_map
-
-
 def _assemble_file_map(hcp_files, include_subjects, exclude_subjects,
                        required_fields):
-
+    """ do the final mapping """
     # important: groupby won't work if iterable is not sorted already by key
     hcp_files.sort(key=lambda m: m['subject'])
     file_map = list()
@@ -387,8 +318,8 @@ def _assemble_file_map(hcp_files, include_subjects, exclude_subjects,
     return file_map
 
 
-def parse_hcp_zips(hcp_path, exclude_subjects=None, include_subjects=None,
-                   required_fields=None):
+def get_file_map(hcp_path, exclude_subjects=None, include_subjects=None,
+                 required_fields=None, mode='directory'):
     """ Traverse and map zip files
 
     Parameters
@@ -417,6 +348,9 @@ def parse_hcp_zips(hcp_path, exclude_subjects=None, include_subjects=None,
         Note. The labels are derived from concatenating the file name common
         patterns of the given zip file using dashes and putting them in
         lowercase. For example, 'MEG_Wrkmem_unproc' gets 'meg-wrkmem-unproc'.
+    mode : {'zip', 'path'}
+        Either zip or path. The latter assumes expanded directories, the former
+        zip files. Currently this cannot be mixed.
     """
     if required_fields is None:
         required_fields = [
@@ -427,14 +361,23 @@ def parse_hcp_zips(hcp_path, exclude_subjects=None, include_subjects=None,
             'meg-restin-preproc',
         ]
 
-    hcp_files = (_classify_hcp_zip(f)
-                 for f in glob.glob(op.join(hcp_path, '*.zip')))
+    if mode == 'zip':
+        hcp_files = (_classify_hcp_zip(f)
+                     for f in glob.glob(op.join(hcp_path, '*.zip')))
 
-    hcp_files = [m for m in hcp_files if m]
+        hcp_files = [m for m in hcp_files if m]
+
+    elif mode == 'expanded':
+        paths = (op.join(hcp_path, s) for s in os.listdir(hcp_path)
+                 if s.isdigit() and len(s) == 6)
+        hcp_files = (_classify_hcp_path(f) for f in paths)
+        hcp_files = sum([m for m in hcp_files if m], [])
+    else:
+        raise ValueError('Either `zip` or `expanded`, ok?')
+
     file_map = _assemble_file_map(hcp_files, include_subjects=include_subjects,
                                   exclude_subjects=exclude_subjects,
                                   required_fields=required_fields)
-
     return file_map
 
 
@@ -483,7 +426,60 @@ def _write_target(fname, data, start_path, out_path, prefix=None):
         fid.write(data)
 
 
+def _parse_trans(string):
+    """helper to parse transforms"""
+    return np.array(string.replace('\n', '')
+                          .strip('[] ')
+                          .split(' '), dtype=float).reshape(4, 4)
+
+
+def _parse_hcp_trans(fid, transforms, convert_to_meter):
+    """" another helper """
+    contents = fid.read()
+    for trans in contents.split(';'):
+        if 'filename' in trans or trans == '\n':
+            continue
+        key, trans = trans.split(' = ')
+        key = key.lstrip('\ntransform.')
+        transforms[key] = _parse_trans(trans)
+        if convert_to_meter:
+            transforms[key][:3, 3] *= 1e-3  # mm to m
+    if not transforms:
+        raise RuntimeError('Could not parse the transforms.')
+
+
+def read_trans(fname, convert_to_meter):
+    """Read + parse transforms
+
+    subject_MEG_anatomy_transform.txt
+    """
+
+    transforms = dict()
+    with open(fname) as fid:
+        _parse_hcp_trans(fid, transforms, convert_to_meter)
+    return transforms
+
+
+def read_landmarks(fname):
+    """ parse landmarks """
+    out = dict()
+    with open(fname) as fid:
+        for line in fid:
+            kind, data = line.split(' = ')
+            kind = kind.split('.')[1]
+            if kind == 'coordsys':
+                out['coord_frame'] = data.split(';')[0].replace("'", "")
+            else:
+                data = data.split()
+                for c in ('[', '];'):
+                    if c in data:
+                        data.remove(c)
+                out[kind] = np.array(data, dtype=int) * 1e-3  # mm to m
+    return out
+
+
 def _get_head_model(head_model_fid, hcp_trans, ras_trans):
+    """ read head model """
     head_mat = scio.loadmat(head_model_fid, squeeze_me=False)
     pnts = head_mat['headmodel']['bnd'][0][0][0][0][0]
     faces = head_mat['headmodel']['bnd'][0][0][0][0][1]
@@ -497,7 +493,7 @@ def _get_head_model(head_model_fid, hcp_trans, ras_trans):
 def extract_anatomy(subject, hcp_path, anatomy_path, recordings_path=None):
     """Extract relevant anatomy and create MNE friendly directory layout"""
     if isinstance(subject, six.string_types):
-        _, records = parse_hcp_dir(
+        _, records = get_file_map(
             hcp_path=hcp_path, include_subjects=[subject])[0]
     elif isinstance(subject, dict):
         records, subject = subject, subject.values()[0]['subject']
@@ -599,6 +595,7 @@ def extract_anatomy(subject, hcp_path, anatomy_path, recordings_path=None):
 
 
 def _read_bti_info(zf, config):
+    """ helper to only access bti info from pdf file """
     raw_fid = None
     if zf is not None:
         config_fid = StringIO(zf.read(config))
@@ -666,7 +663,7 @@ def _check_infos_trans(infos):
 
 def _handle_records(subject, hcp_path, required_fields):
     if isinstance(subject, six.string_types):
-        _, records = parse_hcp_dir(
+        _, records = get_file_map(
             hcp_path=hcp_path, include_subjects=[subject])[0]
     elif isinstance(subject, dict):
         records, subject = subject, subject.values()[0]['subject']
@@ -710,14 +707,21 @@ def read_meg_noise(subject, hcp_path, kind='empty_room'):
                 StringIO(zf_er_noise.read(pdf_fname)), config_fid,
                 convert=False)
     else:
-        dirs = list(sorted(
-            f for f in os.listdir(rec['root']) if f.endswith(noise_kind)))
-        location = dirs[0]
-        pdf_fname = op.join(rec['root'], location, '4D', 'c,rfDC')
-        config_fname = op.join(rec['root'], location, '4D', 'config')
-        raw_er = _read_raw_bti(pdf_fname, config_fname, convert=False)
-
+        location = _find_paths(
+            root=rec['root'], path_endswith=noise_kind, run=0)
+        raw_er = _read_raw_bti(op.join(location, '4D', 'c,rfDC'),
+                               op.join(location, '4D', 'c,rfDC'),
+                               convert=False)
     return raw_er
+
+
+def _find_paths(root, path_endswith, run, substring_match=''):
+    """ helper to get the files we we want """
+    dirs = (f for f in os.listdir(root) if
+            f.endswith(path_endswith)
+            and substring_match in f)
+    location = list(sorted(dirs))[run]
+    return location
 
 
 def read_meg_unprocessed(subject, hcp_path, kind='restin', run=0):
@@ -742,18 +746,15 @@ def read_meg_unprocessed(subject, hcp_path, kind='restin', run=0):
             raw = _read_raw_bti(
                 StringIO(zf.read(pdf_fname)), config_fid, convert=False)
     else:
-        dirs = list(sorted(
-            f for f in os.listdir(rec['root']) if f.endswith(my_kind)))
-        location = dirs[run]
-        pdf_fname = op.join(rec['root'], location, '4D', 'c,rfDC')
-        config_fname = op.join(rec['root'], location, '4D', 'config')
-        raw = _read_raw_bti(pdf_fname, config_fname, convert=False)
-
+        location = _find_paths(
+            root=rec['root'], path_endswith=my_kind, run=run)
+        raw = _read_raw_bti(op.join(location, '4D', 'c,rfDC'),
+                            op.join(location, '4D', 'c,rfDC'), convert=False)
     return raw
 
 
-def read_meg_info(subject, hcp_path, run=0):
-    required_fields = ['meg-restin-unproc']
+def read_meg_info(subject, hcp_path, kind, run=0):
+    required_fields = ['meg-%s-unproc' % kind]
     records, subject = _handle_records(
         subject=subject, hcp_path=hcp_path, required_fields=required_fields)
     rec = records['meg-restin-unproc']
@@ -766,14 +767,9 @@ def read_meg_info(subject, hcp_path, run=0):
                 run=run)[0]
             meg_info = _read_bti_info(zf_meg, config)
     else:
-        raise NotImplementedError('For now only zips supported')
-        # XXX
-        # my_kind = kind.capitalize()
-        # dirs = list(sorted(
-        #     f for f in os.listdir(rec['root']) if f.endswith(my_kind)))
-        # location = dirs[run]
-        # config_fname = op.join(rec['root'], location, '4D', 'config')
-        # meg_info = _read_bti_info(None, config_fname)
+        location = _find_paths(
+            rec['root'], path_endswith=kind.capitalize(), run=run)
+        meg_info = _read_bti_info(None, op.join(location, '4D', 'config'))
 
     return meg_info
 
@@ -810,12 +806,9 @@ def read_meg_preprocessed(subject, hcp_path, kind, onset='TIM', run=0):
                 max_runs=max_runs)[0]
             info = _read_bti_info(zf_unproc, config)
     else:
-        my_kind = kind.capitalize()
-        dirs = list(sorted(f for f in os.listdir(rec['root'])
-                           if f.endswith(my_kind)))
-        location = dirs[run]
-        config_fname = op.join(rec['root'], location, '4D', 'config')
-        info = _read_bti_info(None, config_fname)
+        location = _find_paths(rec['root'], path_endswith=kind.capitalize(),
+                               run=run)
+        info = _read_bti_info(None, op.join(location, '4D', 'config'))
 
     rec = records['%s-preproc' % kind]
     if onset is not None:
@@ -832,11 +825,10 @@ def read_meg_preprocessed(subject, hcp_path, kind, onset='TIM', run=0):
             epochs = _read_epochs(preproc, info, zf_preproc)
     else:
         preproc_type = 'rmegpreproc' if 'rest' in kind else 'tmegpreproc'
-        my_kind = kind.capitalize()
-        dirs = list(sorted(
-            f for f in os.listdir(op.join(rec['root'], preproc_type))
-            if f.endswith('.mat') and my_kind in f))
-        location = dirs[run]
+        location = _find_paths(op.join(rec['root'], preproc_type),
+                               path_endswith='.mat',
+                               match_substring=kind.capitalize(),
+                               run=run)
         preproc = op.join(rec['root'], preproc_type, location)
         epochs = _read_epochs(preproc, info, None)
 
@@ -858,10 +850,9 @@ def read_trial_info(subject, hcp_path, kind, run=0):
                 max_runs=max_runs)[0]
             trl_infos = _read_trial_info(zf_preproc, trl_info_fname)
     else:
-        dirs = list(sorted(f for f in
-                           os.listdir(op.join(rec['root'], 'tmegpreproc'))
-                           if f.endswith('trialinfo.mat')))
-        location = dirs[run]
+        preproc_type = 'tmegpreproc'
+        location = _find_paths(op.join(rec['root'], preproc_type),
+                               path_endswith='trialinfo.mat', run=run)
         fname = op.join(rec['root'], 'tmegpreproc', location)
         trl_infos = _read_trial_info(None, fname)
     return trl_infos
@@ -885,6 +876,7 @@ def _read_trial_info(zf_preproc, fname):
 
 
 def _read_epochs(preproc, info, zf_preproc):
+    """ read the epochs """
     if zf_preproc is not None:
         finput = StringIO(zf_preproc.read(preproc))
     else:
@@ -951,29 +943,20 @@ def read_annotations(subject, hcp_path, kind='restin', run=0):
     rec = records[key]
     logger.info('creating measurement info structure from config for '
                 'runs: %s' % run)
-
-    my_kind = kind.capitalize()
     out = dict()
-    call = {'channels': _parse_annotations_bad_channels,
-            'segments': _parse_annotations_segments}
-    preproc_type = 'baddata'
-    for subtype in ['channels', 'segments']:
-        dirs = list(sorted(f for f in
-                           os.listdir(op.join(rec['root'], preproc_type))
-                           if my_kind in f and
-                           f.endswith('baddata_bad%s.txt' % subtype)))
-        location = dirs[run]
+    iter_fun = [
+        ('channels', _parse_annotations_bad_channels, 'baddata'),
+        ('segments', _parse_annotations_segments, 'baddata'),
+        ('ica', _parse_annotations_ica, 'icaclass')]
+
+    for subtype, fun, preproc_type in iter_fun:
+        fpattern = ('icaclass_vs.txt' if subtype == 'ica' else
+                    'baddata_bad%s.txt' % subtype)
+        location = _find_paths(
+            op.join(rec['root'], preproc_type), path_endswith=fpattern)
         fname = op.join(rec['root'], preproc_type, location)
         with open(fname, 'r') as fid:
-            out[subtype] = call[subtype](fid.read())
-    dirs = list(sorted(f for f in
-                       os.listdir(op.join(rec['root'], 'icaclass'))
-                       if my_kind in f and
-                       f.endswith('icaclass_vs.txt')))
-    location = dirs[run]
-    fname = op.join(rec['root'], 'icaclass', location)
-    with open(fname, 'r') as fid:
-        out['ica'] = _parse_annotations_ica(fid.read())
+            out[subtype] = fun(fid.read())
 
     return out
 
@@ -1000,13 +983,10 @@ def read_ica(subject, hcp_path, kind='restin', run=0):
     rec = records[key]
     logger.info('creating measurement info structure from config for '
                 'runs: %s' % run)
-
     my_kind = kind.capitalize()
-    dirs = list(sorted(f for f in
-                       os.listdir(op.join(rec['root'], 'icaclass'))
-                       if my_kind in f and
-                       f.endswith('icaclass_vs.mat')))
-    location = dirs[run]
+    location = _find_paths(
+        op.join(rec['root'], 'icaclass'), path_endswith='icaclass_vs.mat',
+        substring_match=my_kind)
     fname = op.join(rec['root'], 'icaclass', location)
     mat = scio.loadmat(fname, squeeze_me=True)['comp_class']
     return mat
