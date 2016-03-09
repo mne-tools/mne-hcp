@@ -36,3 +36,7 @@ done
 Note. This code still contains a second API that supports direct reading from
 zipfiles. It will probably be removed as it turns out that zip files tend
 to break and hence are not the best way to keep data.
+
+# acknowledgements
+
+This project is supported by the AWS Cloud Credits for Research program.
