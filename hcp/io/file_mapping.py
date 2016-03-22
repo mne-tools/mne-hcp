@@ -25,39 +25,65 @@ unprocessed = {
     'patterns': ['c,rfDC', 'config'],
 }
 
+
 preprocessed = {
-    'path': '{subject}/MEG/{kind}/{pipeline}/',
-    'patterns': {
-        ('meg_data', 'rmeg'): [
-            '{subject}_MEG_{run}-{kind}_{context}preproc.mat'],
-        ('meg_data', 'tmeg'): [
-            '{subject}_MEG_{run}-{kind}_tmegpreproc_TIM.mat',
-            '{subject}_MEG_{run}-{kind}_tmegpreproc_TRESP.mat'
-        ],
-        'bads': [
-            '{subject}_MEG_{run}-{kind}_baddata_badchannels.txt',
-            '{subject}_MEG_{run}-{kind}_baddata_badsegments.txt',
-            '{subject}_MEG_{run}-{kind}_baddata_manual_badchannels.txt',
-            '{subject}_MEG_{run}-{kind}_baddata_manual_badsegments.txt'
-        ],
-        'ica': [
-            '100307_MEG_{run}-{kind}_icaclass_vs.mat',
-            '100307_MEG_{run}-{kind}_icaclass_vs.txt',
-            '100307_MEG_{run}-{kind}_icaclass.mat',
-            '100307_MEG_{run}-{kind}_icaclass.txt'
-        ],
-        'psd': ['{subject}_MEG_{run}-{kind}_powavg.mat'],
-        'evoked': [
-            ('{subject}_MEG_{kind}_eravg_[{condition}]_{diff_modes}_'
-             '[{sensor_mode}].mat')
+    'meg': {
+        'path': '{subject}/MEG/{kind}/{pipeline}/',
+        'patterns': {
+            ('meg_data', 'rmeg'): [
+                '{subject}_MEG_{run}-{kind}_{context}preproc.mat'],
+            ('meg_data', 'tmeg'): [
+                '{subject}_MEG_{run}-{kind}_tmegpreproc_TIM.mat',
+                '{subject}_MEG_{run}-{kind}_tmegpreproc_TRESP.mat'
             ],
-        'tfr': [
-            ('{subject}_MEG_{kind}_tfavg_[{condition}]_{diff_modes}_'
-             '[{sensor_mode}].mat')
-        ],
-        'trial_info': [
-            '{subject}_MEG_{run}-{kind}_tmegpreproc_trialinfo.mat'
-        ]
+            'bads': [
+                '{subject}_MEG_{run}-{kind}_baddata_badchannels.txt',
+                '{subject}_MEG_{run}-{kind}_baddata_badsegments.txt',
+                '{subject}_MEG_{run}-{kind}_baddata_manual_badchannels.txt',
+                '{subject}_MEG_{run}-{kind}_baddata_manual_badsegments.txt'
+            ],
+            'ica': [
+                '100307_MEG_{run}-{kind}_icaclass_vs.mat',
+                '100307_MEG_{run}-{kind}_icaclass_vs.txt',
+                '100307_MEG_{run}-{kind}_icaclass.mat',
+                '100307_MEG_{run}-{kind}_icaclass.txt'
+            ],
+            'psd': ['{subject}_MEG_{run}-{kind}_powavg.mat'],
+            'evoked': [
+                ('{subject}_MEG_{kind}_eravg_[{condition}]_{diff_modes}_'
+                 '[{sensor_mode}].mat')
+                ],
+            'tfr': [
+                ('{subject}_MEG_{kind}_tfavg_[{condition}]_{diff_modes}_'
+                 '[{sensor_mode}].mat')
+            ],
+            'trial_info': [
+                '{subject}_MEG_{run}-{kind}_tmegpreproc_trialinfo.mat'
+            ]
+        }
+    },
+    'anatomy': {
+        'path': '{subject}/MEG/anatomy',
+        'patterns': {
+            'transforms': [
+                '{subject}_MEG_anatomy_fiducials.txt',
+                '{subject}_MEG_anatomy_landmarks.txt',
+                '{subject}_MEG_anatomy_transform.txt',
+            ],
+            'head_model': [
+                '{subject}_MEG_anatomy_headmodel.mat'
+            ],
+            'source_model': [
+                '{subject}_MEG_anatomy_sourcemodel_2d.mat',
+                '{subject}_MEG_anatomy_sourcemodel_3d4mm.mat',
+                '{subject}_MEG_anatomy_sourcemodel_3d6mm.mat',
+                '{subject}_MEG_anatomy_sourcemodel_3d8mm.mat'
+            ],
+            'freesurfer': [
+                '{subject}.L.inflated.4k_fs_LR.surf.gii',
+                '{subject}.R.inflated.4k_fs_LR.surf.gii',
+                '{subject}.L.midthickness.4k_fs_LR.surf.gii']
+        }
     }
 }
 
@@ -75,7 +101,8 @@ kind_map = {
     'task_story_math': 'StoryM',
     'rest': 'Restin',
     'noise_empty_room':  'Rnoise',
-    'noise_subject': 'subject'
+    'noise_subject': 'subject',
+    'meg_anatomy': 'anatomy'
 }
 
 run_map = {
@@ -84,7 +111,8 @@ run_map = {
     'rest': ['3', '4', '5'],
     'task_working_memory': ['6', '7'],
     'task_story_math': ['8', '9'],
-    'task_motor': ['10', '11']
+    'task_motor': ['10', '11'],
+    'meg_anatomy': []
 }
 
 onset_map = {
@@ -103,23 +131,31 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
                                  [k for k in kind_map if '_' in k])))
 
     context = 'rmeg' if 'rest' in data_type else 'tmeg'
-    my_runs = run_map[data_type]
-    my_onset = onset_map[onset]
-    if run_index >= len(my_runs):
-        raise ValueError('For `data_type=%s` we have %d runs. '
-                         'You asked for run index %d.' % (
-                             data_type, len(my_runs), run_index))
-
-    run_label = my_runs[run_index]
+    if data_type != 'meg_anatomy':
+        my_runs = run_map[data_type]
+        my_onset = onset_map[onset]
+        if run_index >= len(my_runs):
+            raise ValueError('For `data_type=%s` we have %d runs. '
+                             'You asked for run index %d.' % (
+                                 data_type, len(my_runs), run_index))
+        run_label = my_runs[run_index]
+    else:
+        run_label = None
     files = list()
     output_key = (data_type if output == 'trial_info' else output)
     pipeline = pipeline_map.get(output_key, output_key)
     if processing == 'preprocessed':
-        path = preprocessed['path'].format(
+        file_map = preprocessed[('anatomy' if data_type == 'meg_anatomy' else
+                                 'meg')]
+        path = file_map['path'].format(
             subject=subject, pipeline=pipeline, kind=kind_map[data_type])
 
-        pattern_key = (output, context) if output == 'meg_data' else output
-        my_pattern = preprocessed['patterns'][pattern_key]
+        if output == 'meg_data':
+            pattern_key = (output, context)
+        else:
+            pattern_key = output
+
+        my_pattern = file_map['patterns'][pattern_key]
 
         if output in ('bads', 'ica'):
             files.extend([
@@ -154,6 +190,8 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
             this_file = my_pattern[0].format(
                 subject=subject, run=run_label, kind=kind_map[data_type])
             files.append(this_file)
+        elif data_type == 'meg_anatomy':
+            files.extend([pa.format(subject=subject) for pa in my_pattern])
         else:
             raise ValueError('I never heard of `data_type` "%s".' % output)
 
