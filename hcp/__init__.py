@@ -4,3 +4,4 @@
 __version__ = '0.1.dev0'
 from . import io
 from . import workflows
+from . import templates

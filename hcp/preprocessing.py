@@ -3,7 +3,7 @@
 
 import numpy as np
 from mne.io import set_bipolar_reference
-from mne.io.bit.bti import (
+from mne.io.bti.bti import (
     _convert_coil_trans, _coil_trans_to_loc, _get_bti_dev_t,
     _loc_to_coil_trans)
 from mne.transforms import Transform
@@ -26,7 +26,7 @@ def set_eog_ecg_channels(raw):
     raw.set_channel_types({'ECG': 'ecg', 'VEOG': 'eog', 'HEOG': 'eog'})
 
 
-def apply_ica(raw, ica_mat, exclude):
+def apply_ica_hcp(raw, ica_mat, exclude):
     """ Apply the HCP ICA.
 
     Operates in place.
@@ -48,8 +48,7 @@ def apply_ica(raw, ica_mat, exclude):
     mixing = np.array(ica_mat['topo'].tolist())
 
     proj_mat = (np.eye(n_channels) - np.dot(
-        unmixing_matrix[:, exclude], mixing[exclude, :]))
-
+        mixing[:, exclude], unmixing_matrix[exclude]))
     raw._data *= 1e15
     raw._data[:] = np.dot(proj_mat, raw._data)
     raw._data /= 1e15

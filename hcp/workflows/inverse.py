@@ -9,9 +9,9 @@ import mne
 from scipy import sparse
 from mne.externals.h5io import read_hdf5, write_hdf5
 
-from ..io import extract_anatomy
-from ..io import read_raw_hcp
-from ..io import read_info_hcp
+from ..io.readers import extract_anatomy
+from ..io.readers import read_raw_hcp
+from ..io.readers import read_info_hcp
 
 
 def prepare_inverse_solution(file_map, hcp_path, anatomy_path,
