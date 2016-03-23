@@ -120,6 +120,8 @@ to be accessed are known in advance.
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
 
-# acknowledgements 
+# Acknowledgements 
 
 This project is supported by the AWS Cloud Credits for Research program.
+Thanks Alex Gramfort, Giorgos Michalareas, Jan-Mathijs Schoffelen and Eric Larson for discussions, inputs and help with finding the best way to map
+HCP data to the MNE world. Thanks Virginie van Wassenhove for supporting this project.
