@@ -94,9 +94,12 @@ hcp.workflows.anatomy.make_mne_anatomy(
 
 ### low level file mapping
 
-The core of MNE-HCP is a file mapping that allows for quick selections
+One core element of MNE-HCP is a file mapping that allows for quick selections
 of files for a given subejct and data context.
-This is done in `hcp.io.file_mapping`, see documentiont for `get_files_subject`
+This is done in `hcp.io.file_mapping.get_files_subject`, think of it as a
+file name synthesizer that takes certain data description parameters as inputs
+and lists all corresponding files.
+
 Example usage:
 
 ```Python
@@ -109,6 +112,10 @@ print(files)
 ['/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/c,rfDC',
  '/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/config']
 ```
+
+Why we are not globbing files? Because the HCP-MEG data are fixed, all file
+patterns are known and access via Amazon web services easier if the files
+to be accessed are known in advance.
 
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
