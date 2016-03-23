@@ -97,6 +97,24 @@ hcp.workflows.anatomy.make_mne_anatomy(
     mode='full') # consider "minimal" for linking and writing less 
 ```
 
+### low level file mapping
+
+The core of MNE-HCP is a file mapping that allows for quick selections
+of files for a given subejct and data context.
+This is done in `hcp.io.file_mapping`, see documentiont for `get_files_subject`
+Example usage:
+
+```Python
+files = hcp.io.get_files_subject(
+    subject='123455', data_type='meg_anatomy', output='source_model', processing='unprocessed', hcp_path='/media/crazy_disk/HCP', onset='stim')
+
+print(files)
+# output:
+['/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/c,rfDC',
+ '/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/config']
+```
+
+
 # acknowledgements 
 
 This project is supported by the AWS Cloud Credits for Research program.
