@@ -1,0 +1,16 @@
+aseg.stats
+lh.BA.stats
+lh.BA.thresh.stats
+lh.aparc.DKTatlas40.stats
+lh.aparc.a2009s.stats
+lh.aparc.stats
+lh.curv.stats
+lh.entorhinal_exvivo.stats
+rh.BA.stats
+rh.BA.thresh.stats
+rh.aparc.DKTatlas40.stats
+rh.aparc.a2009s.stats
+rh.aparc.stats
+rh.curv.stats
+rh.entorhinal_exvivo.stats
+wmparc.stats

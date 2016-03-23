@@ -87,24 +87,6 @@ def _get_head_model(head_model_fid, hcp_trans, ras_trans):
 
 def extract_anatomy(subject, hcp_path, anatomy_path, recordings_path=None):
     """Extract relevant anatomy and create MNE friendly directory layout"""
-    if isinstance(subject, six.string_types):
-        _, records = get_file_maps(
-            hcp_path=hcp_path, include_subjects=[subject])[0]
-    elif isinstance(subject, dict):
-        records, subject = subject, subject.values()[0]['subject']
-    else:
-        raise ValueError('subject must be dict or str.')
-    this_anatomy_path = op.join(anatomy_path, subject)
-    _recursive_create_dir(this_anatomy_path, op.split(anatomy_path)[0])
-    if not recordings_path:
-        recordings_path = anatomy_path
-
-    this_recordings_path = op.join(recordings_path, subject)
-    _recursive_create_dir(this_recordings_path, op.split(recordings_path)[0])
-
-    rec = records.get('3t-structural-preproc-extended', None)
-    ras_trans_fname = ''
-    if rec:
         logger.info('reading extended structural processing ...')
         with open(op.join(rec['root'], rec['file'])) as fid:
             zf = zipfile.ZipFile(fid)

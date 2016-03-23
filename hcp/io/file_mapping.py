@@ -62,7 +62,7 @@ preprocessed = {
             ]
         }
     },
-    'anatomy': {
+    'meg_anatomy': {
         'path': '{subject}/MEG/anatomy',
         'patterns': {
             'transforms': [
@@ -84,8 +84,23 @@ preprocessed = {
                 '{subject}.R.inflated.4k_fs_LR.surf.gii',
                 '{subject}.L.midthickness.4k_fs_LR.surf.gii']
         }
+    },
+    'freesurfer': {
+        'path': '{subject}/T1w/{subject}',
+        'patterns': {
+            'label': [],
+            'surf': [],
+            'mri': [],
+            'stats': [],
+            'touch': []
+        }
     }
 }
+
+freesurfer_files = op.join(op.dirname(__file__), 'data', '%s.txt')
+for kind, patterns in preprocessed['freesurfer']['patterns'].items():
+    with open(freesurfer_files % kind) as fid:
+        patterns.extend([k.rstrip('\n') for k in fid.readlines()])
 
 pipeline_map = {
     'ica': 'icaclass',
@@ -102,7 +117,8 @@ kind_map = {
     'rest': 'Restin',
     'noise_empty_room':  'Rnoise',
     'noise_subject': 'subject',
-    'meg_anatomy': 'anatomy'
+    'meg_anatomy': 'anatomy',
+    'freesurfer': 'freesurfer'
 }
 
 run_map = {
@@ -112,7 +128,8 @@ run_map = {
     'task_working_memory': ['6', '7'],
     'task_story_math': ['8', '9'],
     'task_motor': ['10', '11'],
-    'meg_anatomy': []
+    'meg_anatomy': [],
+    'freesurfer': []
 }
 
 onset_map = {
@@ -131,7 +148,7 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
                                  [k for k in kind_map if '_' in k])))
 
     context = 'rmeg' if 'rest' in data_type else 'tmeg'
-    if data_type != 'meg_anatomy':
+    if data_type not in ('meg_anatomy', 'freesurfer'):
         my_runs = run_map[data_type]
         my_onset = onset_map[onset]
         if run_index >= len(my_runs):
@@ -145,8 +162,8 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
     output_key = (data_type if output == 'trial_info' else output)
     pipeline = pipeline_map.get(output_key, output_key)
     if processing == 'preprocessed':
-        file_map = preprocessed[('anatomy' if data_type == 'meg_anatomy' else
-                                 'meg')]
+        file_map = preprocessed[(data_type if data_type in (
+                                 'meg_anatomy', 'freesurfer') else 'meg')]
         path = file_map['path'].format(
             subject=subject, pipeline=pipeline, kind=kind_map[data_type])
 
@@ -190,7 +207,7 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
             this_file = my_pattern[0].format(
                 subject=subject, run=run_label, kind=kind_map[data_type])
             files.append(this_file)
-        elif data_type == 'meg_anatomy':
+        elif data_type in ('meg_anatomy', 'freesurfer'):
             files.extend([pa.format(subject=subject) for pa in my_pattern])
         else:
             raise ValueError('I never heard of `data_type` "%s".' % output)
