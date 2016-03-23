@@ -9,9 +9,6 @@ This code is under active, research-driven development and the API is still unst
 - the code is not covered by unit tests so far as I did not have the time to create mock testing data.
 - this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
 
-## contributions
-- currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
-
 ## dependencies
 - MNE-Python master branch
 - scipy
@@ -113,6 +110,8 @@ print(files)
  '/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/config']
 ```
 
+## contributions
+- currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
 
 # acknowledgements 
 
