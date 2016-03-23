@@ -106,7 +106,8 @@ Example usage:
 
 ```Python
 files = hcp.io.get_files_subject(
-    subject='123455', data_type='meg_anatomy', output='source_model', processing='unprocessed', hcp_path='/media/crazy_disk/HCP', onset='stim')
+    subject='123455', data_type='meg_anatomy', output='source_model',
+    processing='unprocessed', hcp_path='/media/crazy_disk/HCP', onset='stim')
 
 print(files)
 # output:
