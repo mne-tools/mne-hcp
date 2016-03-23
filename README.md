@@ -44,7 +44,7 @@ hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
 
 ### reader API
 
-All data readers have the same non-default API:
+All data readers have the same API for the first two positional arguments:
 
 ```Python
 params = dict(
