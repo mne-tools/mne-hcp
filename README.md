@@ -123,5 +123,5 @@ to be accessed are known in advance.
 # Acknowledgements 
 
 This project is supported by the AWS Cloud Credits for Research program.
-Thanks Alex Gramfort, Giorgos Michalareas, Jan-Mathijs Schoffelen and Eric Larson for discussions, inputs and help with finding the best way to map
+Thanks Alex Gramfort, Giorgos Michalareas, Eric Larson and Jan-Mathijs Schoffelen for discussions, inputs and help with finding the best way to map
 HCP data to the MNE world. Thanks Virginie van Wassenhove for supporting this project.
