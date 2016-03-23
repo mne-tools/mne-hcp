@@ -8,8 +8,6 @@ This code is under active, research-driven development and the API is still unst
 - we only intend to support a subset of the files shipped with HCP. Precisely, for now it is not planned to support io and processing for any outputs of the HCP inverse pipelines.
 - the code is not covered by unit tests so far as I did not have the time to create mock testing data.
 - this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
-The core API is a file map, a list of dictionaries that map all available files
-that we have for a given subject. This is needed because the information required to construct MNE objects is scattered across several files.
 
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
