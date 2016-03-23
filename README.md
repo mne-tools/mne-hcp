@@ -47,6 +47,8 @@ hcp.io.read_ica_hcp  # ica solution as dict
 hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
 ```
 
+### reader API
+
 All data readers have the same non-default API:
 
 ```Python
@@ -64,11 +66,36 @@ ica_dict = hcp.io.read_ica_hcp(**params) # ...
 
 ```
 
+### data kinds
+
+MNE-HCP uses custom names for values that are more mne-pythonic, the following
+table gives an overview
+
+| name                  | readers                             | HCP jargon |
+|-----------------------|-------------------------------------|------------|
+| 'rest'                | raw, epochs, info, annotations, ica | 'Restin''  |
+| 'task_working_memory' | raw, epochs, info, annotations, ica | 'Wrkmem'   |
+| 'task_story_math'     | raw, epochs, info, annotations, ica | 'StoryM'   |
+| 'task_motor'          | raw, epochs, info, annotations, ica | 'Motor'    |
+| 'noise_subject'       | raw, info                           | 'Pnoise'   |
+| 'noise_empty_room'    | raw, info                           | 'Rnoise'   |
+
+### workflows: scripts in a function to map HCP to MNE worlds 
+
 For convenience several workflows are provieded. Currently the most supported
 is `hcp.workflows.make_mne_anatomy`, a convenience function that will create
 MNE friendly anatomy directories and extractes the head model and
 coregistration MEG to MRI coregistration. Yes it maps to MRI, not to the
 helmet -- a peculiarity of the HCP data.
+It can be used as follows:
+
+```Python
+hcp.workflows.anatomy.make_mne_anatomy(
+    subject='100307', hcp_path='/media/crazy_disk/HCP',
+    anatomy_path='/home/crazy_user/hcp-subjects',
+    recordings_path='/home/crazy_user/hcp-meg',
+    mode='full') # consider "minimal" for linking and writing less 
+```
 
 # acknowledgements 
 
