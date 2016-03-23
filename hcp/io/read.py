@@ -2,15 +2,14 @@
 # License: BSD (3-clause)
 
 import os.path as op
-import os
 import itertools as itt
 
 import numpy as np
 import scipy.io as scio
 from scipy import linalg
 
-from mne import write_trans, write_surface, EpochsArray, pick_info
-from mne.transforms import Transform, apply_trans
+from mne import EpochsArray, pick_info
+from mne.transforms import apply_trans
 from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
 from mne.utils import logger
@@ -80,91 +79,6 @@ def _get_head_model(head_model_fid, hcp_trans, ras_trans):
     pnts = apply_trans(
         linalg.inv(ras_trans).dot(hcp_trans['bti2spm']), pnts)
     return pnts, faces
-
-
-def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
-                     hcp_path='.', mode='expand', outputs=(
-                         'surf', 'mri')):
-    """Extract relevant anatomy and create MNE friendly directory layout
-
-    Parameters
-    ----------
-    """
-    this_anatomy_path = op.join(anatomy_path, subject)
-    this_recordings_path = op.join(recordings_path, subject)
-    if not op.exists(this_recordings_path):
-        os.makedirs(this_recordings_path)
-
-    if 'mri' in outputs:
-        outputs += ('mri/transforms',)
-
-    for output in outputs:
-        if not op.exists(op.join(this_anatomy_path, output)):
-            os.makedirs(op.join(this_anatomy_path, output))
-        if '/' in output:
-            continue
-        if mode != 'expand-freesurfer':
-            continue
-
-        files = get_files_subject(
-            subject=subject, data_type='freesurfer', output=output,
-            processing='preprocessed', hcp_path=hcp_path)
-        for source in files:
-            target = op.join(anatomy_path, source.split(hcp_path)[-1])
-            os.symlink(source, target)
-
-    logger.info('reading extended structural processing ...')
-    # make hcp trans
-    transforms_fname = get_files_subject(
-        subject=subject, data_type='meg_anatomy', output='head_model',
-        processing='preprocessed', hcp_path=hcp_path)
-    transforms_fname = [k for k in transforms_fname if
-                        k.endswith('transform.txt')][0]
-
-    hcp_trans = read_trans_hcp(
-        fname=transforms_fname, convert_to_meter=False)
-
-    # ger RAS freesurfer trans
-    c_ras_trans_fname = get_files_subject(
-        subject=subject, data_type='meg_anatomy', output='head_model',
-        processing='preprocessed', hcp_path=hcp_path)
-    c_ras_trans_fname = [k for k in c_ras_trans_fname if
-                         k.endswith('c_ras.mat')][0]
-    logger.info('reading RAS freesurfer transform')
-    # ceci n'est pas un .mat file ...
-
-    with open(op.join(anatomy_path, c_ras_trans_fname)) as fid:
-        ras_trans = np.array([
-            r.split() for r in fid.read().split('\n') if r],
-            dtype=np.float64)
-
-    logger.info('Combining RAS transform and coregistration')
-    ras_trans_m = ras_trans.copy()
-    ras_trans_m = linalg.inv(ras_trans_m)  # and the inversion
-
-    # now convert to meter too here
-    ras_trans_m[:3, 3] *= 1e-3
-    bti2spm = hcp_trans['bti2spm']
-    bti2spm[:3, 3] *= 1e-3
-    head_mri_t = Transform(
-        'ctf_head', 'mri', np.dot(ras_trans_m, bti2spm))
-
-    logger.info('extracting coregistration')
-    write_trans(
-        op.join(this_recordings_path, '%s-head_mri-trans.fif') % subject,
-        head_mri_t)
-
-    logger.info('extracting head model')
-    head_model_fname = get_files_subject(
-        subject=subject, data_type='meg_anatomy', output='head_model',
-        processing='preprocessed', hcp_path=hcp_path)[0]
-    pnts, faces = _get_head_model(
-        head_model_fid=head_model_fname, hcp_trans=hcp_trans,
-        ras_trans=ras_trans)
-
-    tri_fname = op.join(this_anatomy_path, 'bem', 'inner_skull.surf')
-    os.makedirs(tri_fname)
-    write_surface(tri_fname, pnts, faces)
 
 
 def _read_bti_info(zf, config):

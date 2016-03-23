@@ -207,8 +207,14 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
             this_file = my_pattern[0].format(
                 subject=subject, run=run_label, kind=kind_map[data_type])
             files.append(this_file)
-        elif data_type in ('meg_anatomy', 'freesurfer'):
-            files.extend([pa.format(subject=subject) for pa in my_pattern])
+        elif data_type == 'meg_anatomy':
+            path = file_map['path'].format(subject=subject)
+            files.extend([op.join(path, pa.format(subject=subject))
+                          for pa in my_pattern])
+        elif data_type == 'freesurfer':
+            path = file_map['path'].format(subject=subject)
+            files.extend([op.join(path, output, pa.format(subject=subject))
+                          for pa in my_pattern])
         else:
             raise ValueError('I never heard of `data_type` "%s".' % output)
 

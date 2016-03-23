@@ -3,4 +3,6 @@
 """
 Experimental API don't trust it.
 """
+
+from . import anatomy
 from . import inverse
