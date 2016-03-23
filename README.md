@@ -33,10 +33,43 @@ for fname in $(ls *zip); do
 done
 ```
 
-Note. This code still contains a second API that supports direct reading from
-zipfiles. It will probably be removed as it turns out that zip files tend
-to break and hence are not the best way to keep data.
+The code is organized by different modules.
+The `io` module includes readers for sensor space data at different processing
+stages and annotations for baddata.
 
-# acknowledgements
+These are (all native coordinates + names):
+
+```Python
+hcp.io.read_info_hcp  # get channel info for rest | tasks and a given run
+hcp.io.read_raw_hcp  # same for raw data
+hcp.io.read_epochs_hcp  # same for epochs epochs
+hcp.io.read_ica_hcp  # ica solution as dict
+hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
+```
+
+All data readers have the same non-default API:
+
+```Python
+params = dict(
+    subject='1003007',
+    data_type='task_motor')  # assuming that data are unpacked here
+
+# all MNE objects have native names and coordinates, some MNE functions might
+# break.
+info = hcp.io.read_info_hcp(**params)  # MNE object
+raw = hcp.io.read_raw_hcp(**params)  # ...
+epochs = hcp.io.read_epochs_hcp(**params) # ...
+annotations_dict = hcp.io.read_annot_hcp(**params) # dict
+ica_dict = hcp.io.read_ica_hcp(**params) # ...
+
+```
+
+For convenience several workflows are provieded. Currently the most supported
+is `hcp.workflows.make_mne_anatomy`, a convenience function that will create
+MNE friendly anatomy directories and extractes the head model and
+coregistration MEG to MRI coregistration. Yes it maps to MRI, not to the
+helmet -- a peculiarity of the HCP data.
+
+# acknowledgements 
 
 This project is supported by the AWS Cloud Credits for Research program.

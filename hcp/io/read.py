@@ -12,7 +12,6 @@ from mne import EpochsArray, pick_info
 from mne.transforms import apply_trans
 from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
-from mne.utils import logger
 
 from .file_mapping import get_files_subject
 
@@ -39,20 +38,18 @@ def _parse_hcp_trans(fid, transforms, convert_to_meter):
         raise RuntimeError('Could not parse the transforms.')
 
 
-def read_trans_hcp(fname, convert_to_meter):
+def _read_trans_hcp(fname, convert_to_meter):
     """Read + parse transforms
-
     subject_MEG_anatomy_transform.txt
     """
-
     transforms = dict()
     with open(fname) as fid:
         _parse_hcp_trans(fid, transforms, convert_to_meter)
     return transforms
 
 
-def read_landmarks_hcp(fname):
-    """ parse landmarks """
+def _read_landmarks_hcp(fname):
+    """ XXX parse landmarks currently not used """
     out = dict()
     with open(fname) as fid:
         for line in fid:
@@ -70,7 +67,7 @@ def read_landmarks_hcp(fname):
 
 
 def _get_head_model(head_model_fid, hcp_trans, ras_trans):
-    """ read head model """
+    """ helper to parse head model from matfile """
     head_mat = scio.loadmat(head_model_fid, squeeze_me=False)
     pnts = head_mat['headmodel']['bnd'][0][0][0][0][0]
     faces = head_mat['headmodel']['bnd'][0][0][0][0][1]
@@ -102,7 +99,7 @@ def _read_raw_bti(raw_fid, config_fid, convert):
 
 
 def _check_raw_config_runs(raws, configs):
-    # XXX still needed?
+    """XXX this goes to tests later, currently not used """
     for raw, config in zip(raws, configs):
         assert op.split(raw)[0] == op.split(config)[0]
     run_str = set([configs[0].split('/')[-3]])
@@ -111,7 +108,7 @@ def _check_raw_config_runs(raws, configs):
 
 
 def _check_infos_trans(infos):
-    """check info extraction"""
+    """XXX this goes to tests later, currently not used"""
     chan_max_idx = np.argmax([c['nchan'] for c in infos])
     chan_template = infos[chan_max_idx]['ch_names']
     channels = [c['ch_names'] for c in infos]
@@ -133,10 +130,33 @@ def _check_infos_trans(infos):
         np.testing.assert_array_almost_equal(ct1, ct2, 12)
 
 
-def read_raw_hcp(subject, data_type, run_index=0, hcp_path='.'):
+def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """ Read HCP raw data
-    """
 
+    Parameters
+    ----------
+    subject : str, file_map
+        The subject
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+        'noise_empty_room'
+        'noise_subject'
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
+
+    Returns
+    -------
+    raw : instance of mne.io.Raw
+        The MNE raw object.
+    """
     pdf, config = get_files_subject(
         subject=subject, data_type=data_type,
         step='meg_data',
@@ -146,8 +166,33 @@ def read_raw_hcp(subject, data_type, run_index=0, hcp_path='.'):
     return raw
 
 
-def read_info_hcp(subject, data_type, run_index=0, hcp_path='.'):
-    """ Read info from unprocessed data """
+def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+    """Read info from unprocessed data
+
+    Parameters
+    ----------
+    subject : str, file_map
+        The subject
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+        'noise_empty_room'
+        'noise_subject'
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
+
+    Returns
+    -------
+    info : instance of mne.io.meas_info.Info
+        The MNE channel info object.
+    """
     _, config = get_files_subject(
         subject=subject, data_type=data_type,
         step='meg_data',
@@ -158,22 +203,34 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path='.'):
 
 
 def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
-                    hcp_path='.'):
+                    hcp_path=op.curdir):
     """Read HCP processed data
 
     Parameters
     ----------
-    subject : str, dict
-        The subject or the record from the directory parser
-    hcp_path : str
-        The directory containing the HCP data.
+    subject : str, file_map
+        The subject
     data_type : str
-        The type of epoched data, e.g. 'rest' or 'meg-motor', see
-        `required_fields` in `parse_hcp_dir`.
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
     onset : str
-        Depends on task data, e.g., 'TRESP' or 'TIM'. Defaults to 'TIM'.
-    run : int
-        The run number (not an index). Defaults to the first run.
+        The T0 of the time-locked window. Depends on task data, e.g., 'TRESP'
+        or 'TIM'. Defaults to 'TIM'.
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
+
+    Returns
+    -------
+    epochs : instance of mne.Epochs
+        The MNE epochs. Note, these are pseudo-epochs in the case of
+        onset == 'rest'.
     """
     info = read_info_hcp(subject=subject, data_type='data_type',
                          run_index=run_index)
@@ -204,7 +261,7 @@ def _read_epochs(epochs_mat_fname, info):
     return EpochsArray(data=data, info=this_info, events=events, tmin=0)
 
 
-def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path='.'):
+def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """ read trial info """
 
     trial_info_mat_fname = get_files_subject(
@@ -256,16 +313,25 @@ def _parse_annotations_segments(segment_strings):
     return out
 
 
-def read_annot_hcp(subject, data_type, run_index=0, hcp_path='.'):
-    """
+def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+    """ Read annotations for bad data and ICA.
+
     Parameters
     ----------
     subject : str, file_map
         The subject
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
     hcp_path : str
-        The HCP directory
-    kind : str
-        the data type
+        The HCP directory, defaults to op.curdir.
 
     Returns
     -------
@@ -300,7 +366,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path='.'):
     return out
 
 
-def read_ica_hcp(subject, data_type, run_index=0, hcp_path='.'):
+def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """
     Parameters
     ----------
