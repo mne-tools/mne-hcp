@@ -138,7 +138,7 @@ onset_map = {
 }
 
 
-def get_files_subject(subject, data_type, output, processing, run_index=0,
+def get_file_paths(subject, data_type, output, processing, run_index=0,
                       onset='stim', conditions=(), diff_modes=(),
                       sensor_modes=(), hcp_path='.'):
     if data_type not in kind_map:
@@ -147,7 +147,7 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
                              data_type, ' \n'.join(
                                  [k for k in kind_map if '_' in k])))
 
-    context = 'rmeg' if 'rest' in data_type else 'tmeg'
+    context = ('rmeg' if 'rest' in data_type else 'tmeg')
     if data_type not in ('meg_anatomy', 'freesurfer'):
         my_runs = run_map[data_type]
         my_onset = onset_map[onset]
@@ -165,7 +165,10 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
         file_map = preprocessed[(data_type if data_type in (
                                  'meg_anatomy', 'freesurfer') else 'meg')]
         path = file_map['path'].format(
-            subject=subject, pipeline=pipeline, kind=kind_map[data_type])
+            subject=subject,
+            pipeline=(context + 'preproc' if output == 'meg_data'
+                      else pipeline),
+            kind=kind_map[data_type])
 
         if output == 'meg_data':
             pattern_key = (output, context)
@@ -175,9 +178,11 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
         my_pattern = file_map['patterns'][pattern_key]
 
         if output in ('bads', 'ica'):
-            files.extend([
-                p.format(subject=subject, run=run_label,
-                         kind=kind_map[data_type]) for p in my_pattern])
+            files.extend(
+                [op.join(path,
+                         p.format(subject=subject, run=run_label,
+                                  kind=kind_map[data_type]))
+                 for p in my_pattern])
 
         elif output == 'meg_data':
             if 'noise' in data_type:
@@ -191,7 +196,7 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
             this_file = my_pattern.format(
                 subject=subject, run=run_label, kind=kind_map[data_type],
                 context=context)
-            files.append(this_file)
+            files.append(op.join(path, this_file))
 
         elif output == 'evoked':
             # XXX add evoked template checks
@@ -202,11 +207,11 @@ def get_files_subject(subject, data_type, output, processing, run_index=0,
                             subject=subject, kind=kind_map[data_type],
                             condition=condition, diff_mode=diff_mode,
                             sensor_mode=sensor_mode)
-                        files.append(this_file)
+                        files.append(op.join(path, this_file))
         elif output == 'trial_info':
             this_file = my_pattern[0].format(
                 subject=subject, run=run_label, kind=kind_map[data_type])
-            files.append(this_file)
+            files.append(op.join(path, this_file))
         elif data_type == 'meg_anatomy':
             path = file_map['path'].format(subject=subject)
             files.extend([op.join(path, pa.format(subject=subject))

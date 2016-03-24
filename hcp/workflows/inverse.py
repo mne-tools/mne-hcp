@@ -23,7 +23,7 @@ def prepare_inverse_solution(file_map, hcp_path, anatomy_path,
                              fname=None):
     """"
 
-    Convenience scirpt for conducting standard MNE analyses.
+    Convenience script for conducting standard MNE analyses.
 
     Parameters
     ----------

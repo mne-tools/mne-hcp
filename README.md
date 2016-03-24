@@ -96,14 +96,14 @@ hcp.workflows.anatomy.make_mne_anatomy(
 
 One core element of MNE-HCP is a file mapping that allows for quick selections
 of files for a given subejct and data context.
-This is done in `hcp.io.file_mapping.get_files_subject`, think of it as a
+This is done in `hcp.io.file_mapping.get_file_paths`, think of it as a
 file name synthesizer that takes certain data description parameters as inputs
 and lists all corresponding files.
 
 Example usage:
 
 ```Python
-files = hcp.io.get_files_subject(
+files = hcp.io.get_file_paths(
     subject='123455', data_type='meg_anatomy', output='source_model',
     processing='unprocessed', hcp_path='/media/crazy_disk/HCP', onset='stim')
 

@@ -13,7 +13,7 @@ from mne.transforms import apply_trans
 from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
 
-from .file_mapping import get_files_subject
+from .file_mapping import get_file_paths
 
 
 def _parse_trans(string):
@@ -157,7 +157,7 @@ def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     raw : instance of mne.io.Raw
         The MNE raw object.
     """
-    pdf, config = get_files_subject(
+    pdf, config = get_file_paths(
         subject=subject, data_type=data_type,
         step='meg_data',
         run_index=run_index, processing='unprocessed', hcp_path=hcp_path)
@@ -193,7 +193,7 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     info : instance of mne.io.meas_info.Info
         The MNE channel info object.
     """
-    _, config = get_files_subject(
+    _, config = get_file_paths(
         subject=subject, data_type=data_type,
         step='meg_data',
         run_index=run_index, processing='unprocessed', hcp_path=hcp_path)
@@ -235,7 +235,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
     info = read_info_hcp(subject=subject, data_type='data_type',
                          run_index=run_index)
 
-    epochs_mat_fname = get_files_subject(
+    epochs_mat_fname = get_file_paths(
         subject=subject, data_type=data_type,
         step='meg_data', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)[0]
@@ -264,7 +264,7 @@ def _read_epochs(epochs_mat_fname, info):
 def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """ read trial info """
 
-    trial_info_mat_fname = get_files_subject(
+    trial_info_mat_fname = get_file_paths(
         subject=subject, data_type=data_type,
         step='meg_data', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)[0]
@@ -338,7 +338,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     out : dict
         The annotations.
     """
-    bads_files = get_files_subject(
+    bads_files = get_file_paths(
         subject=subject, data_type=data_type,
         step='bads', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)
@@ -347,7 +347,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     bads_fname = [k for k in bads_files if
                   k.endswith('baddata_badchannels.txt')][0]
 
-    ica_files = get_files_subject(
+    ica_files = get_file_paths(
         subject=subject, data_type=data_type,
         step='ica', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)
@@ -383,7 +383,7 @@ def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
         The ICA mat struct.
     """
 
-    ica_files = get_files_subject(
+    ica_files = get_file_paths(
         subject=subject, data_type=data_type,
         step='ica', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)
