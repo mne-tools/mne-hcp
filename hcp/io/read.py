@@ -159,7 +159,7 @@ def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """
     pdf, config = get_file_paths(
         subject=subject, data_type=data_type,
-        step='meg_data',
+        output='meg_data',
         run_index=run_index, processing='unprocessed', hcp_path=hcp_path)
 
     raw = _read_raw_bti(pdf, config, convert=False)
@@ -195,7 +195,7 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """
     _, config = get_file_paths(
         subject=subject, data_type=data_type,
-        step='meg_data',
+        output='meg_data',
         run_index=run_index, processing='unprocessed', hcp_path=hcp_path)
 
     meg_info = _read_bti_info(None, config)
@@ -237,7 +237,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
 
     epochs_mat_fname = get_file_paths(
         subject=subject, data_type=data_type,
-        step='meg_data', run_index=run_index, processing='preprocessed',
+        output='meg_data', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)[0]
 
     epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info)
@@ -266,7 +266,7 @@ def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     trial_info_mat_fname = get_file_paths(
         subject=subject, data_type=data_type,
-        step='meg_data', run_index=run_index, processing='preprocessed',
+        output='meg_data', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)[0]
 
     trl_infos = _read_trial_info(trial_info_mat_fname=trial_info_mat_fname)
@@ -340,7 +340,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """
     bads_files = get_file_paths(
         subject=subject, data_type=data_type,
-        step='bads', run_index=run_index, processing='preprocessed',
+        output='bads', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)
     segments_fname = [k for k in bads_files if
                       k.endswith('baddata_badsegments.txt')][0]
@@ -349,7 +349,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     ica_files = get_file_paths(
         subject=subject, data_type=data_type,
-        step='ica', run_index=run_index, processing='preprocessed',
+        output='ica', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)
     ica_fname = [k for k in ica_files if k.endswith('icaclass_vs.txt')][0]
 
@@ -385,7 +385,7 @@ def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     ica_files = get_file_paths(
         subject=subject, data_type=data_type,
-        step='ica', run_index=run_index, processing='preprocessed',
+        output='ica', run_index=run_index, processing='preprocessed',
         hcp_path=hcp_path)
     ica_fname_mat = [k for k in ica_files if k.endswith('icaclass.mat')][0]
 
