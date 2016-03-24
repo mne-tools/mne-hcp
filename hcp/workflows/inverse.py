@@ -9,9 +9,9 @@ import mne
 from scipy import sparse
 from mne.externals.h5io import read_hdf5, write_hdf5
 
-from ..io.readers import extract_anatomy
-from ..io.readers import read_raw_hcp
-from ..io.readers import read_info_hcp
+from .anatomy import make_mne_anatomy
+from ..io.read import read_raw_hcp
+from ..io.read import read_info_hcp
 
 
 def prepare_inverse_solution(file_map, hcp_path, anatomy_path,
@@ -52,8 +52,8 @@ def prepare_inverse_solution(file_map, hcp_path, anatomy_path,
         The file namae to be used for saving.
     """
     #  bake in support for precomuting h5 io
-    extract_anatomy(
-        file_map, hcp_path=hcp_path, anatomy_path=anatomy_path,
+    make_mne_anatomy(
+        subject=subject, hcp_path=hcp_path, anatomy_path=anatomy_path,
         recordings_path=recordings_path)
     head_mri_t = mne.read_trans(
         op.join(recordings_path, subject, '{}-head_mri-trans.fif'.format(
