@@ -66,15 +66,12 @@ def _read_landmarks_hcp(fname):
     return out
 
 
-def _get_head_model(head_model_fid, hcp_trans, ras_trans):
+def _get_head_model(head_model_fname):
     """ helper to parse head model from matfile """
-    head_mat = scio.loadmat(head_model_fid, squeeze_me=False)
+    head_mat = scio.loadmat(head_model_fname, squeeze_me=False)
     pnts = head_mat['headmodel']['bnd'][0][0][0][0][0]
     faces = head_mat['headmodel']['bnd'][0][0][0][0][1]
-    faces -= 1  # correct matlab index
-
-    pnts = apply_trans(
-        linalg.inv(ras_trans).dot(hcp_trans['bti2spm']), pnts)
+    faces -= 1  # correct for Matlab's 1-based index
     return pnts, faces
 
 
