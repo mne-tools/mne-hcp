@@ -63,7 +63,8 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(*pnts.T, color='green', alpha=0.3)
     ax.scatter(*sens_pnts.T, color='purple', marker='o')
+    ax.scatter(*pnts.T, color='green', alpha=0.3)
     ax.view_init(**view_init)
+    fig.tight_layout()
     return fig
