@@ -16,7 +16,7 @@ def make_mne_forward(anatomy_path,
                      recordings_path,
                      info_from=(('data_type', 'rest'), ('run_index', 0)),
                      fwd_params=None, src_params=None,
-                     n_jobs=1, hcp_path=op.curdir):
+                     hcp_path=op.curdir, n_jobs=1):
     """"
     Convenience script for conducting standard MNE analyses.
 
@@ -44,6 +44,10 @@ def make_mne_forward(anatomy_path,
 
         dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=2,
              surface='white', subjects_dir=anatomy_path, add_dist=True)
+    hcp_path : str
+        The prefix of the path of the HCP data.
+    n_jobs : int
+        The number of jobs to use in parallel.
     """
     if isinstance(info_from, tuple):
         info_from = dict(info_from)
@@ -54,7 +58,7 @@ def make_mne_forward(anatomy_path,
 
     src_params = _update_dict_defaults(
         src_params,
-        dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=2,
+        dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=n_jobs,
              surface='white', subjects_dir=anatomy_path, add_dist=True))
 
     add_source_space_distances = False
