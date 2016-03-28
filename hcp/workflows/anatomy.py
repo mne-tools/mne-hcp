@@ -79,7 +79,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
         for source in files:
             split_path = '/' + op.join(*source.split('/')[:6]) + '/'
             target = op.join(
-                this_anatomy_path, output, source.split(split_path)[-1])
+                this_anatomy_path, source.split(split_path)[-1])
             os.symlink(source, target)
 
     logger.info('reading extended structural processing ...')
