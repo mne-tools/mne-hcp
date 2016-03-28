@@ -77,7 +77,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
             subject=subject, data_type='freesurfer', output=output,
             processing='preprocessed', hcp_path=hcp_path)
         for source in files:
-            split_path = '/' + op.join(*source.split('/')[:7] + [output]) + '/'
+            split_path = '/' + op.join(*source.split('/')[:6]) + '/'
             target = op.join(
                 this_anatomy_path, output, source.split(split_path)[-1])
             os.symlink(source, target)
