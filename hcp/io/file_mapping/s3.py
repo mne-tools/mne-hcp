@@ -5,6 +5,7 @@ def get_s3_keys_anatomy(
         subject,
         freesurfer_outputs=('label', 'mri', 'surf'),
         meg_anatomy_outputs=('head_model', 'transforms'),
+        mode='minimal',
         hcp_path_bucket='HCP_900'):
     """Helper to prepare AWS downloads """
     aws_keys = list()
@@ -13,6 +14,7 @@ def get_s3_keys_anatomy(
             get_file_paths(subject=subject, data_type='freesurfer',
                            output=output,
                            processing='preprocessed',
+                           mode=mode,
                            hcp_path=hcp_path_bucket))
     for output in meg_anatomy_outputs:
         aws_keys.extend(

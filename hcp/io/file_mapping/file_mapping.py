@@ -151,7 +151,7 @@ onset_map = {
 
 def get_file_paths(subject, data_type, output, processing, run_index=0,
                    onset='stim', conditions=(), diff_modes=(),
-                   mode='minimal',
+                   mode='full',
                    sensor_modes=(), hcp_path='.'):
     if data_type not in kind_map:
         raise ValueError('I never heard of `%s` -- are you sure this is a'
