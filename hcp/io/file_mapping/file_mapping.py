@@ -95,6 +95,19 @@ preprocessed = {
     }
 }
 
+file_modes = {
+    'freesurfer':
+        {'minimal': [
+            'c_ras.mat',
+            '001.mgz',
+            'T1.mgz',
+            'lh.white',
+            'rh.white',
+            'lh.inflated',
+            'rh.inflated']},
+}
+
+
 freesurfer_files = op.join(op.dirname(__file__), 'data', '%s.txt')
 for kind, patterns in preprocessed['freesurfer']['patterns'].items():
     with open(freesurfer_files % kind) as fid:
@@ -137,8 +150,9 @@ onset_map = {
 
 
 def get_file_paths(subject, data_type, output, processing, run_index=0,
-                      onset='stim', conditions=(), diff_modes=(),
-                      sensor_modes=(), hcp_path='.'):
+                   onset='stim', conditions=(), diff_modes=(),
+                   mode='minimal',
+                   sensor_modes=(), hcp_path='.'):
     if data_type not in kind_map:
         raise ValueError('I never heard of `%s` -- are you sure this is a'
                          ' valid HCP type? I currenlty support:\n%s' % (
@@ -216,8 +230,12 @@ def get_file_paths(subject, data_type, output, processing, run_index=0,
                           for pa in my_pattern])
         elif data_type == 'freesurfer':
             path = file_map['path'].format(subject=subject)
-            files.extend([op.join(path, output, pa.format(subject=subject))
-                          for pa in my_pattern])
+            for pa in my_pattern:
+                if mode == 'minimal':
+                    if pa not in file_modes['freesurfer']['minimal']:
+                        continue
+                files.append(
+                    op.join(path, output, pa.format(subject=subject)))
         else:
             raise ValueError('I never heard of `data_type` "%s".' % output)
 

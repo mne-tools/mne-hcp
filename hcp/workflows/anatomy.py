@@ -70,11 +70,9 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
                         op.join(this_anatomy_path, output, suboutput)):
                     os.makedirs(op.join(this_anatomy_path, output, suboutput))
 
-        if mode != 'full':
-            continue
-
         files = get_file_paths(
             subject=subject, data_type='freesurfer', output=output,
+            mode=mode,
             processing='preprocessed', hcp_path=hcp_path)
         for source in files:
             split_path = '/' + op.join(*source.split('/')[:6]) + '/'
