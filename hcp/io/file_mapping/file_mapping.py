@@ -104,7 +104,10 @@ file_modes = {
             'lh.white',
             'rh.white',
             'lh.inflated',
-            'rh.inflated']},
+            'rh.inflated',
+            'lh.sphere.reg',
+            'lh.sphere.reg'
+            ]},
 }
 
 
