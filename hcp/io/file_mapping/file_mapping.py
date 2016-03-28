@@ -66,8 +66,6 @@ preprocessed = {
         'path': '{subject}/MEG/anatomy',
         'patterns': {
             'transforms': [
-                '{subject}_MEG_anatomy_fiducials.txt',
-                '{subject}_MEG_anatomy_landmarks.txt',
                 '{subject}_MEG_anatomy_transform.txt',
             ],
             'head_model': [
