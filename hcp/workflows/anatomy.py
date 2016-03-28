@@ -121,7 +121,8 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     pnts = apply_trans(ras_trans_m.dot(hcp_trans['bti2spm']), pnts)
 
     tri_fname = op.join(this_anatomy_path, 'bem', 'inner_skull.surf')
-    os.makedirs(op.dirname(tri_fname))
+    if not op.exists(op.dirname(tri_fname)):
+        os.makedirs(op.dirname(tri_fname))
     write_surface(tri_fname, pnts, faces)
 
     # Step 2 #################################################################
