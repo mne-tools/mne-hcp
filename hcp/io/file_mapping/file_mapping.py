@@ -106,8 +106,7 @@ file_modes = {
             'lh.inflated',
             'rh.inflated',
             'lh.sphere.reg',
-            'lh.sphere.reg'
-            ]},
+            'rh.sphere.reg']},
 }
 
 
