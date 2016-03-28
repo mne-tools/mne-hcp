@@ -78,7 +78,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
             split_path = '/' + op.join(*source.split('/')[:6]) + '/'
             target = op.join(
                 this_anatomy_path, source.split(split_path)[-1])
-            if not exists(target):
+            if not op.exists(target):
                 os.symlink(source, target)
 
     logger.info('reading extended structural processing ...')
