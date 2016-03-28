@@ -13,10 +13,11 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
                         hcp_path=op.curdir,
                         info_from=(('data_type', 'rest'), ('run_index', 0)),
                         view_init=(('azim', 0), ('elev', 0))):
-    """ Plot the HCP coregistration
+    """ A diagnostic plot to show the HCP coregistration
 
     Parameters
     ----------
+
     subject : str
         The subject
     anatomy_path : str
