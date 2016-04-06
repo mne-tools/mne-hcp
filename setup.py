@@ -62,4 +62,6 @@ if __name__ == "__main__":
           packages=['hcp',
                     'hcp.io',
                     'hcp.io.file_mapping',
-                    'hcp.workflows'])
+                    'hcp.workflows'],
+          package_data={'mne': [
+              op.join('io', 'file_mapping', 'data')]})
