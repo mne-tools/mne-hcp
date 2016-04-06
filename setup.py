@@ -60,4 +60,6 @@ if __name__ == "__main__":
                        'Operating System :: MacOS'],
           platforms='any',
           packages=['hcp',
+                    'hcp.io',
+                    'hcp.io.file_mapping',
                     'hcp.workflows'])
