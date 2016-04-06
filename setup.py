@@ -27,7 +27,7 @@ DISTNAME = 'hcp'
 DESCRIPTION = descr
 MAINTAINER = 'Denis A. Engemann'
 MAINTAINER_EMAIL = 'denis.engemann@gmail.com'
-URL = 'http://github.com/mne-tools/mne-python'
+URL = 'http://github.com/mne-tools/mne-hcp'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'http://github.com/mne-tools/mne-hcp'
 VERSION = version
@@ -64,4 +64,4 @@ if __name__ == "__main__":
                     'hcp.io.file_mapping',
                     'hcp.workflows'],
           package_data={'mne': [
-              op.join('io', 'file_mapping', 'data')]})
+              op.join('io', 'file_mapping', 'data', '*txt')]})
