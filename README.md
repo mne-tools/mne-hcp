@@ -120,6 +120,10 @@ to be accessed are known in advance.
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
 
+### Unit tests
+
+Are in the making, however at this points you still need to download the HCP data to run them.
+
 # Acknowledgements 
 
 This project is supported by the AWS Cloud Credits for Research program.
