@@ -3,6 +3,7 @@
 
 import os.path as op
 import itertools as itt
+import re
 
 import numpy as np
 import scipy.io as scio
@@ -394,7 +395,11 @@ def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 def _parse_annotations_bad_channels(bads_strings):
     """Read bad channel definitions from text file"""
-    split = bads_strings.split(';')
+    for char in '}]':
+        bads_strings = bads_strings.replace(
+            char + ';', 'splitme'
+        )
+    split = bads_strings.split('splitme')
     out = dict()
     for entry in split:
         if len(entry) == 1 or entry == '\n':
@@ -407,7 +412,24 @@ def _parse_annotations_bad_channels(bads_strings):
 
 def _parse_annotations_ica(ica_strings):
     """Read bad channel definitions from text file"""
-    split = ica_strings.split(';')
+    # prepare splitting
+    for char in '}]':  # multi line array definitions
+        ica_strings = ica_strings.replace(
+            char + ';', 'splitme'
+        )
+    # scalar variables
+    match_inds = list()
+    for match in re.finditer(';', ica_strings):
+        ii = match.start()
+        if ica_strings[ii - 1].isalnum():
+            match_inds.append(ii)
+
+    ica_strings = list(ica_strings)
+    for ii in match_inds:
+        ica_strings[ii] = 'splitme'
+    ica_strings = ''.join(ica_strings)
+
+    split = ica_strings.split('splitme')
     out = dict()
     for entry in split:
         if len(entry) == 1 or entry == '\n':
