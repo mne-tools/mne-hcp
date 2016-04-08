@@ -299,15 +299,19 @@ def _check_sorting_runs(candidates, id_char):
 
 def _parse_annotations_segments(segment_strings):
     """Read bad segments defintions from text file"""
-    split = segment_strings.split(';')
+    for char in '}]':  # multi line array definitions
+        segment_strings = segment_strings.replace(
+            char + ';', 'splitme'
+        )
+    split = segment_strings.split('splitme')
     out = dict()
     for entry in split:
         if len(entry) == 1 or entry == '\n':
             continue
         key, rest = entry.split(' = ')
-
-        val = np.array([''.join([c for c in e if c.isdigit()])
-                        for e in rest.split()], dtype=int)
+        val = np.array(
+            [k for k in [''.join([c for c in e if c.isdigit()])
+             for e in rest.split()] if k.isdigit()], dtype=int)
         # reindex and reshape
         val = val.reshape(-1, 2) - 1
         out[key.split('.')[1]] = val
