@@ -305,8 +305,9 @@ def _parse_annotations_segments(segment_strings):
         if len(entry) == 1 or entry == '\n':
             continue
         key, rest = entry.split(' = ')
-        val = np.array([e.split(' ') for e in rest.split() if
-                        e.replace(' ', '').isdigit()], dtype=int)
+
+        val = np.array([''.join([c for c in e if c.isdigit()])
+                        for e in rest.split()], dtype=int)
         # reindex and reshape
         val = val.reshape(-1, 2) - 1
         out[key.split('.')[1]] = val
