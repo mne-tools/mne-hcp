@@ -43,10 +43,10 @@ preprocessed = {
                 '{subject}_MEG_{run}-{kind}_baddata_manual_badsegments.txt'
             ],
             'ica': [
-                '100307_MEG_{run}-{kind}_icaclass_vs.mat',
-                '100307_MEG_{run}-{kind}_icaclass_vs.txt',
-                '100307_MEG_{run}-{kind}_icaclass.mat',
-                '100307_MEG_{run}-{kind}_icaclass.txt'
+                '{subject}_MEG_{run}-{kind}_icaclass_vs.mat',
+                '{subject}_MEG_{run}-{kind}_icaclass_vs.txt',
+                '{subject}_MEG_{run}-{kind}_icaclass.mat',
+                '{subject}_MEG_{run}-{kind}_icaclass.txt'
             ],
             'psd': ['{subject}_MEG_{run}-{kind}_powavg.mat'],
             'evoked': [
