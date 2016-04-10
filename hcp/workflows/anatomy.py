@@ -1,5 +1,7 @@
 import os
 import os.path as op
+import re
+
 import numpy as np
 from scipy import linalg
 
@@ -75,10 +77,10 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
             mode=mode,
             processing='preprocessed', hcp_path=hcp_path)
         for source in files:
-            split_path = '/' + op.join(*source.split('/')[:6]) + '/'
-            target = op.join(
-                this_anatomy_path, source.split(split_path)[-1])
-            if not op.exists(target):
+            match = [match for match in re.finditer(subject, source)][-1]
+            split_path = source[:match.span()[1] + 1]
+            target = op.join(this_anatomy_path, source.split(split_path)[-1])
+            if not op.isfile(target) and not op.islink(target):
                 os.symlink(source, target)
 
     logger.info('reading extended structural processing ...')
