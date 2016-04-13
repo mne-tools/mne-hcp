@@ -29,7 +29,7 @@ def get_s3_keys_meg(
         subject, data_types,
         processing=('preprocessed', 'unprocessed'),
         outputs=('meg_data', 'bads', 'ica'),
-        run_inds=(0,), hcp_path_bucket='HCP_900'):
+        run_inds=(0,), hcp_path_bucket='HCP_900', onsets='auto'):
     """Helper to prepare AWS downloads """
 
     aws_keys = list()
@@ -38,11 +38,23 @@ def get_s3_keys_meg(
         for output in outputs:
             for run_index in run_inds:
                 if 'preprocessed' in processing and 'noise' not in data_type:
-                    aws_keys.extend(
-                        fun(subject=subject, data_type=data_type,
-                            output=output, processing='preprocessed',
-                            run_index=run_index,
-                            hcp_path=hcp_path_bucket))
+                    if (onsets == 'auto' and 'task' in data_type and
+                            output == 'meg_data'):
+                        if data_type == 'task_story_math':
+                            onsets_ = ('resp',)
+                        else:
+                            onsets_ = ('resp', 'stim')
+                    elif 'task' in data_type and output == 'meg_data':
+                        onsets_ = (onsets if isinstance(onsets, (list, tuple))
+                                   else [onsets])
+                    else:
+                        onsets_ = ('auto',)
+                    for onset in onsets_:
+                        aws_keys.extend(
+                            fun(subject=subject, data_type=data_type,
+                                output=output, processing='preprocessed',
+                                run_index=run_index, onset=onset,
+                                hcp_path=hcp_path_bucket))
                 if 'unprocessed' in processing and output == 'meg_data':
                     aws_keys.extend(
                         fun(subject=subject, data_type=data_type,

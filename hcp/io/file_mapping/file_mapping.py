@@ -152,7 +152,7 @@ onset_map = {
 
 
 def get_file_paths(subject, data_type, output, processing, run_index=0,
-                   onset='stim', conditions=(), diff_modes=(),
+                   onset='auto', conditions=(), diff_modes=(),
                    mode='full',
                    sensor_modes=(), hcp_path='.'):
     if data_type not in kind_map:
@@ -162,9 +162,18 @@ def get_file_paths(subject, data_type, output, processing, run_index=0,
                                  [k for k in kind_map if '_' in k])))
 
     context = ('rmeg' if 'rest' in data_type else 'tmeg')
+    if onset == 'auto':
+        if data_type == 'task_story_math':
+            onset = 'resp'
+        else:
+            onset = 'stim'
+    elif onset == 'stim' and data_type == 'task_story_math':
+        raise ValueError('No stimulus locked data are available for %s' %
+                         data_type)
+
+    my_onset = onset_map[onset]
     if data_type not in ('meg_anatomy', 'freesurfer'):
         my_runs = run_map[data_type]
-        my_onset = onset_map[onset]
         if run_index >= len(my_runs):
             raise ValueError('For `data_type=%s` we have %d runs. '
                              'You asked for run index %d.' % (
@@ -190,6 +199,8 @@ def get_file_paths(subject, data_type, output, processing, run_index=0,
             pattern_key = output
 
         my_pattern = file_map['patterns'][pattern_key]
+        if data_type == 'task_story_math':  # story math has only resp
+            my_pattern = [pp for pp in my_pattern if 'TRESP.mat' in pp]
 
         if output in ('bads', 'ica'):
             files.extend(
