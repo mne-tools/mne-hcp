@@ -200,7 +200,7 @@ def get_file_paths(subject, data_type, output, processing, run_index=0,
 
         my_pattern = file_map['patterns'][pattern_key]
         if data_type == 'task_story_math':  # story math has only resp
-            my_pattern = [pp for pp in my_pattern if 'TRESP.mat' in pp]
+            my_pattern = [pp for pp in my_pattern if 'TIM.mat' not in pp]
 
         if output in ('bads', 'ica'):
             files.extend(
