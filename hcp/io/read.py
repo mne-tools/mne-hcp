@@ -158,9 +158,8 @@ def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
         The MNE raw object.
     """
     pdf, config = get_file_paths(
-        subject=subject, data_type=data_type,
-        output='meg_data',
-        run_index=run_index, processing='unprocessed', hcp_path=hcp_path)
+        subject=subject, data_type=data_type, output='raw',
+        run_index=run_index, hcp_path=hcp_path)
 
     raw = _read_raw_bti(pdf, config, convert=False)
     return raw
@@ -194,9 +193,8 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
         The MNE channel info object.
     """
     _, config = get_file_paths(
-        subject=subject, data_type=data_type,
-        output='meg_data',
-        run_index=run_index, processing='unprocessed', hcp_path=hcp_path)
+        subject=subject, data_type=data_type, output='raw',
+        run_index=run_index, hcp_path=hcp_path)
 
     meg_info = _read_bti_info(None, config)
     return meg_info
@@ -236,9 +234,8 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
                          run_index=run_index)
 
     epochs_mat_fname = get_file_paths(
-        subject=subject, data_type=data_type,
-        output='meg_data', run_index=run_index, processing='preprocessed',
-        hcp_path=hcp_path)[0]
+        subject=subject, data_type=data_type, output='epochs',
+        run_index=run_index, hcp_path=hcp_path)[0]
 
     epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info)
 
@@ -266,7 +263,7 @@ def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     trial_info_mat_fname = get_file_paths(
         subject=subject, data_type=data_type,
-        output='meg_data', run_index=run_index, processing='preprocessed',
+        output='trial_info', run_index=run_index,
         hcp_path=hcp_path)[0]
 
     trl_infos = _read_trial_info(trial_info_mat_fname=trial_info_mat_fname)
@@ -345,7 +342,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     """
     bads_files = get_file_paths(
         subject=subject, data_type=data_type,
-        output='bads', run_index=run_index, processing='preprocessed',
+        output='bads', run_index=run_index,
         hcp_path=hcp_path)
     segments_fname = [k for k in bads_files if
                       k.endswith('baddata_badsegments.txt')][0]
@@ -354,7 +351,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     ica_files = get_file_paths(
         subject=subject, data_type=data_type,
-        output='ica', run_index=run_index, processing='preprocessed',
+        output='ica', run_index=run_index,
         hcp_path=hcp_path)
     ica_fname = [k for k in ica_files if k.endswith('icaclass_vs.txt')][0]
 
@@ -390,7 +387,7 @@ def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     ica_files = get_file_paths(
         subject=subject, data_type=data_type,
-        output='ica', run_index=run_index, processing='preprocessed',
+        output='ica', run_index=run_index,
         hcp_path=hcp_path)
     ica_fname_mat = [k for k in ica_files if k.endswith('icaclass.mat')][0]
 
@@ -448,3 +445,51 @@ def _parse_annotations_ica(ica_strings):
                rest.split(sep) if ch.isalnum()]
         out[key.split('.')[1]] = val
     return out
+
+
+def read_evokeds_hcp(subject, data_type, onset='TIM', run_index=0,
+                     hcp_path=op.curdir):
+    """Read HCP processed data
+
+    Parameters
+    ----------
+    subject : str, file_map
+        The subject
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+    onset : str
+        The T0 of the time-locked window. Depends on task data, e.g., 'TRESP'
+        or 'TIM'. Defaults to 'TIM'.
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
+
+    Returns
+    -------
+    epochs : instance of mne.Epochs
+        The MNE epochs. Note, these are pseudo-epochs in the case of
+        onset == 'rest'.
+    """
+    info = read_info_hcp(subject=subject, data_type='data_type',
+                         run_index=run_index)
+    pass
+    
+    conditions=()
+    diff_modes=()
+    # 
+    # evoked_mat_fname = get_file_paths(
+    #     subject=subject, data_type=data_type,
+    #     output='meg_data', run_index=run_index,
+    #     
+    #     hcp_path=hcp_path)[0]
+    # 
+    # epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info)
+    # 
+    # return epochs
