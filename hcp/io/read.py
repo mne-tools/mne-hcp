@@ -214,9 +214,11 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         'task_motor'
         'task_story_math'
         'task_working_memory'
-    onset : str
-        The T0 of the time-locked window. Depends on task data, e.g., 'TRESP'
-        or 'TIM'. Defaults to 'TIM'.
+    onset : {'stim', 'resp', 'sentence', 'block'}
+        The event onset. Only considered for epochs and evoked outputs
+        The mapping is generous, everything that is not a response is a
+        stimulus, in the sense of internal or external events. sentence and
+        block are specific to task_story_math.
     run_index : int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
@@ -447,7 +449,7 @@ def _parse_annotations_ica(ica_strings):
     return out
 
 
-def read_evokeds_hcp(subject, data_type, onset='TIM', run_index=0,
+def read_evokeds_hcp(subject, data_type, onset='stim', run_index=0,
                      hcp_path=op.curdir):
     """Read HCP processed data
 
@@ -461,13 +463,17 @@ def read_evokeds_hcp(subject, data_type, onset='TIM', run_index=0,
         'task_motor'
         'task_story_math'
         'task_working_memory'
-    onset : str
-        The T0 of the time-locked window. Depends on task data, e.g., 'TRESP'
-        or 'TIM'. Defaults to 'TIM'.
+    onset : {'stim', 'resp'}
+        The event onset. Only considered for epochs and evoked outputs
+        The mapping is generous, everything that is not a response is a
+        stimulus, in the sense of internal or external events.
     run_index : int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
         type.
+    sensor_mode : {'mag', 'planar'}
+        The sensor projection. Defaults to 'mag'. Only relevant for
+        evoked output.
     hcp_path : str
         The HCP directory, defaults to op.curdir.
 
@@ -477,19 +483,9 @@ def read_evokeds_hcp(subject, data_type, onset='TIM', run_index=0,
         The MNE epochs. Note, these are pseudo-epochs in the case of
         onset == 'rest'.
     """
-    info = read_info_hcp(subject=subject, data_type='data_type',
+    info = read_info_hcp(subject=subject, data_type=data_type,
                          run_index=run_index)
-    pass
-    
-    conditions=()
-    diff_modes=()
-    # 
-    # evoked_mat_fname = get_file_paths(
-    #     subject=subject, data_type=data_type,
-    #     output='meg_data', run_index=run_index,
-    #     
-    #     hcp_path=hcp_path)[0]
-    # 
-    # epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info)
-    # 
-    # return epochs
+    evoked_files = file_mapping(
+        subject=subject, onset=onset, run_index=run_index, output='evoked',
+        sensor_mode=sensor_mode)
+    import pdb; pdb.set_trace()

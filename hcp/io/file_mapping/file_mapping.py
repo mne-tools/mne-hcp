@@ -48,12 +48,12 @@ preprocessed = {
             ],
             'psd': ['{subject}_MEG_{run}-{kind}_powavg.mat'],
             'evoked': [
-                ('{subject}_MEG_{kind}_eravg_[{condition}]_{diff_modes}_'
-                 '[{sensor_mode}].mat')
+                ('{subject}_MEG_{kind}_eravg_\[{condition}\]_{diff_modes}_'
+                 '\[{sensor_mode}\].mat')
                 ],
             'tfr': [
-                ('{subject}_MEG_{kind}_tfavg_[{condition}]_{diff_modes}_'
-                 '[{sensor_mode}].mat')
+                ('{subject}_MEG_{kind}_tfavg_\[{condition}]_{diff_modes}_'
+                 '\[{sensor_mode}\].mat')
             ],
             'trial_info': [
                 '{subject}_MEG_{run}-{kind}_tmegpreproc_trialinfo.mat'
@@ -119,7 +119,7 @@ evoked_map = {
         'LM-TFLA-LH',
         'LM-TFLA-RF',
         'LM-TFLA-RH'),
-    # if versus in name then OP-diff, else BT-diff
+    # if versus in name then OP-diff + BT-diff, else BT-diff
     'task_working_memory': (
         'LM-TIM-0B',
         'LM-TIM-0B-versus-2B',
@@ -135,7 +135,7 @@ evoked_map = {
         'LM-TRESP-tool'),
     # if versus in name then OP-diff + BT-diff, else BT-diff
     'task_story_math': (
-        'LM-TEV-mathnumop',
+        'LM-TEV-mathnumopt',
         'LM-TEV-mathnumoptcor-versus-mathnumoptwro',
         'LM-TEV-mathnumque',
         'LM-TEV-mathnumque-versus-mathoper',
@@ -158,12 +158,12 @@ pipeline_map = {
     'ica': 'icaclass',
     'bads': 'baddata',
     'psd': 'powavg',
-    'evoked': 'rravg',
+    'evoked': 'eravg',
     'tfr': 'tfavg'
 }
 
 kind_map = {
-    'task_motor': 'Motor',
+    'task_motor': 'Motort',
     'task_working_memory': 'Wrkmem',
     'task_story_math': 'StoryM',
     'rest': 'Restin',
@@ -202,11 +202,9 @@ def _map_onset(onset, data_type, output):
 
 def _map_diff_mode(condition, data_type):
     """Helper to resolve diff mode according to context"""
-    diff_mode = '[BT-diff]'
-    if 'versus' in condition and data_type == 'task_story_math':
-        diff_mode = '[OP-diff]__[BT-diff]'
-    elif 'versus' in condition and data_type == 'task_working_memory':
-        diff_mode = '[OP-diff]'
+    diff_mode = '\[BT-diff\]'
+    if 'versus' in condition:
+        diff_mode = '\[OP-diff\]_\[BT-diff\]'
     return diff_mode
 
 
