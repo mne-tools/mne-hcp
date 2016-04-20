@@ -7,6 +7,7 @@ from mne.io.bti.bti import (
     _convert_coil_trans, _coil_trans_to_loc, _get_bti_dev_t,
     _loc_to_coil_trans)
 from mne.transforms import Transform
+from mne.utils import logger
 
 
 def set_eog_ecg_channels(raw):
@@ -66,7 +67,7 @@ def transform_sensors_to_mne(inst):
     for ch in inst.info['chs']:
         loc = ch['loc'][:]
         if loc is not None:
-            print('converting %s' % ch['ch_name'])
+            logger.debug('converting %s' % ch['ch_name'])
             t = _loc_to_coil_trans(loc)
             t = _convert_coil_trans(t, dev_ctf_t, bti_dev_t)
             loc = _coil_trans_to_loc(t)

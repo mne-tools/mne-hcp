@@ -74,8 +74,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
 
         files = get_file_paths(
             subject=subject, data_type='freesurfer', output=output,
-            mode=mode,
-            processing='preprocessed', hcp_path=hcp_path)
+            mode=mode, hcp_path=hcp_path)
         for source in files:
             match = [match for match in re.finditer(subject, source)][-1]
             split_path = source[:match.span()[1] + 1]
@@ -91,7 +90,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     # make hcp trans
     transforms_fname = get_file_paths(
         subject=subject, data_type='meg_anatomy', output='transforms',
-        processing='preprocessed', hcp_path=hcp_path)
+        hcp_path=hcp_path)
     transforms_fname = [k for k in transforms_fname if
                         k.endswith('transform.txt')][0]
     hcp_trans = _read_trans_hcp(fname=transforms_fname, convert_to_meter=False)
@@ -116,7 +115,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     logger.info('extracting head model')
     head_model_fname = get_file_paths(
         subject=subject, data_type='meg_anatomy', output='head_model',
-        processing='preprocessed', hcp_path=hcp_path)[0]
+        hcp_path=hcp_path)[0]
     pnts, faces = _get_head_model(head_model_fname=head_model_fname)
 
     logger.info('coregistring head model to MNE-HCP coordinates')
