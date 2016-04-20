@@ -75,6 +75,7 @@ table gives an overview
 | 'noise_subject'       | raw, info                           | 'Pnoise'   |
 | 'noise_empty_room'    | raw, info                           | 'Rnoise'   |
 
+
 ### workflows: scripts in a function to map HCP to MNE worlds 
 
 For convenience several workflows are provieded. Currently the most supported
@@ -103,14 +104,14 @@ and lists all corresponding files.
 Example usage:
 
 ```Python
-files = hcp.io.get_file_paths(
-    subject='123455', data_type='meg_anatomy', output='source_model',
-    processing='unprocessed', hcp_path='/media/crazy_disk/HCP', onset='stim')
+files = hcp.io.file_mapping.et_file_paths(
+    subject='123455', data_type='task_motor', output='raw',
+    hcp_path='/media/crazy_disk/HCP')
 
 print(files)
 # output:
-['/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/c,rfDC',
- '/media/crazy_disk/HCP/123455/unprocessed/MEG/None-anatomy/4D/config']
+['/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
+ '/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
 ```
 
 Why we are not globbing files? Because the HCP-MEG data are fixed, all file
