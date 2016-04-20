@@ -9,10 +9,10 @@ import numpy as np
 import scipy.io as scio
 from scipy import linalg
 
-from mne import EpochsArray, pick_info
-from mne.transforms import apply_trans
+from mne import EpochsArray, EvokedArray, pick_info, create_info
 from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
+from mne.utils import logger
 
 from .file_mapping import get_file_paths
 
@@ -232,7 +232,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         The MNE epochs. Note, these are pseudo-epochs in the case of
         onset == 'rest'.
     """
-    info = read_info_hcp(subject=subject, data_type='data_type',
+    info = read_info_hcp(subject=subject, data_type=data_type,
                          run_index=run_index)
 
     epochs_mat_fname = get_file_paths(
@@ -254,10 +254,14 @@ def _read_epochs(epochs_mat_fname, info):
     events = np.zeros((len(data), 3), dtype=np.int)
     events[:, 0] = np.arange(len(data))
     events[:, 2] = 99
-    this_info = pick_info(
+    this_info = _hcp_pick_info(info, ch_names)
+    return EpochsArray(data=data, info=this_info, events=events, tmin=0)
+
+
+def _hcp_pick_info(info, ch_names):
+    return pick_info(
         info, [info['ch_names'].index(ch) for ch in ch_names],
         copy=True)
-    return EpochsArray(data=data, info=this_info, events=events, tmin=0)
 
 
 def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
@@ -449,7 +453,7 @@ def _parse_annotations_ica(ica_strings):
     return out
 
 
-def read_evokeds_hcp(subject, data_type, onset='stim', run_index=0,
+def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
                      hcp_path=op.curdir):
     """Read HCP processed data
 
@@ -467,10 +471,6 @@ def read_evokeds_hcp(subject, data_type, onset='stim', run_index=0,
         The event onset. Only considered for epochs and evoked outputs
         The mapping is generous, everything that is not a response is a
         stimulus, in the sense of internal or external events.
-    run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
-        Also see HCP documentation for the number of runs for a given data
-        type.
     sensor_mode : {'mag', 'planar'}
         The sensor projection. Defaults to 'mag'. Only relevant for
         evoked output.
@@ -483,9 +483,49 @@ def read_evokeds_hcp(subject, data_type, onset='stim', run_index=0,
         The MNE epochs. Note, these are pseudo-epochs in the case of
         onset == 'rest'.
     """
-    info = read_info_hcp(subject=subject, data_type=data_type,
-                         run_index=run_index)
-    evoked_files = file_mapping(
-        subject=subject, onset=onset, run_index=run_index, output='evoked',
-        sensor_mode=sensor_mode)
-    import pdb; pdb.set_trace()
+    try:
+        info = read_info_hcp(subject=subject, data_type=data_type,
+                             hcp_path=hcp_path, run_index=0)
+    except (ValueError, IOError):
+        logger.warning('could not find config to complete info.'
+                       'reading only channel positions without transforms.')
+        info = None
+
+    evoked_files = list()
+    for fname in get_file_paths(
+            subject=subject, data_type=data_type, onset=onset,
+            output='evoked', sensor_mode=sensor_mode, hcp_path=hcp_path):
+        evoked_files.extend(_read_evoked(fname, sensor_mode, info))
+    return evoked_files
+
+
+def _read_evoked(fname, sensor_mode, info):
+    data = scio.loadmat(fname, squeeze_me=True)['data']
+    ch_names = [ch for ch in data['label'].tolist()]
+
+    # pos = data['grad']['coilpos']
+    times = data['time'].tolist()
+    sfreq = 1. / np.diff(times)[0]
+    if info is None:
+        info = create_info(
+            ch_names, ch_types=[sensor_mode] * len(ch_names),
+            sfreq=sfreq)
+    else:
+        info = _hcp_pick_info(info, ch_names)
+        info['sfreq'] = sfreq
+    orig_labels = list(data['grad'].tolist()['label'].tolist())
+    sel = [orig_labels.index(ch) for ch in ch_names]
+    pos = data['grad'].tolist()['chanpos'].tolist()[sel]
+    out = list()
+    comment = ('_'.join(fname.split('/')[-1].split('_')[2:])
+                  .replace('.mat', '')
+                  .replace('_eravg_', '_')
+                  .replace('[', '')
+                  .replace(']', ''))
+    for key, kind in (('var', 'standard_error'), ('avg', 'average')):
+        evoked = EvokedArray(
+            data=data[key].tolist(), info=info, tmin=min(times),
+            kind=kind, comment=comment)
+        evoked._set_channel_positions(pos, ch_names)
+        out.append(evoked)
+    return out
