@@ -500,10 +500,10 @@ def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
 
 
 def _read_evoked(fname, sensor_mode, info):
+    """ helper to read evokeds """
     data = scio.loadmat(fname, squeeze_me=True)['data']
     ch_names = [ch for ch in data['label'].tolist()]
 
-    # pos = data['grad']['coilpos']
     times = data['time'].tolist()
     sfreq = 1. / np.diff(times)[0]
     if info is None:
