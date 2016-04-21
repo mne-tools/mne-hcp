@@ -111,12 +111,12 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     # create new data
     existing_channels_index = [
         bti_channel_names.index(ch) for ch in inst.ch_names]
-    new_channels_indes = [
+    new_channels_index = [
         bti_channel_names.index(ch) for ch in fake_channels_to_add]
 
     out_data = np.empty(shape, dtype=np.float64)
     out_data[existing_channels_index] = data
-    out_data[new_channels_indes] = 0
+    out_data[new_channels_index] = 0
     info = _hcp_pick_info(info, bti_channel_names)
 
     if isinstance(inst, mne.io.Raw):
