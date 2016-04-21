@@ -95,8 +95,8 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     bti_channel_names = ['A%i' % ii for ii in range(1, 249, 1)]
     fake_channels_to_add = sorted(
         list(set(bti_channel_names) - set(inst.ch_names)))
-    n_channels = len(fake_channels_to_add)
-
+    n_channels = 248
+    info['sfreq'] = inst.info['sfreq']
     # compute shape of data to be added
     if isinstance(inst, mne.io.Raw):
         shape = (n_channels, inst.last_samp - inst.first_samp)
@@ -127,7 +127,7 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     elif isinstance(inst, mne.Evoked):
         out = mne.EvokedArray(
             data=out_data, info=info, tmin=inst.times.min(),
-            comment=inst.comment, nave=inst.comment, kind=inst.nave)
+            comment=inst.comment, nave=inst.nave, kind=inst.kind)
 
     # set "bad" channels and interpolate.
     out.info['bads'] = fake_channels_to_add
