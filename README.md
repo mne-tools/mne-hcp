@@ -105,7 +105,7 @@ and lists all corresponding files.
 Example usage:
 
 ```Python
-files = hcp.io.file_mapping.et_file_paths(
+files = hcp.io.file_mapping.get_file_paths(
     subject='123455', data_type='task_motor', output='raw',
     hcp_path='/media/crazy_disk/HCP')
 
