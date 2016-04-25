@@ -79,27 +79,34 @@ def transform_sensors_to_mne(inst):
 
 
 def interpolate_missing_channels(inst, subject, data_type, hcp_path,
+                                 run_index=None,
                                  mode='fast'):
     """ Interpolate all MEG channels that are missing
 
     Gentle warning: this might require some memory.
     """
     try:
-        info = read_info_hcp(subject=subject, data_type=data_type,
-                             hcp_path=hcp_path, run_index=0)
+        info = read_info_hcp(
+            subject=subject, data_type=data_type, hcp_path=hcp_path,
+            run_index=0 if run_index is None else run_index)
     except (ValueError, IOError):
-        logger.warning('could not find config to complete info.'
-                       'reading only channel positions without transforms.')
-        info = None
+        raise ValueError(
+            'could not find config to complete info.'
+            'reading only channel positions without '
+            'transforms.')
     # figure out which channels are missing
-    bti_channel_names = ['A%i' % ii for ii in range(1, 249, 1)]
+    bti_channel_names_ = ['A%i' % ii for ii in range(1, 249, 1)]
+    bti_channel_names = [ch for ch in info['ch_names']
+                         if ch in bti_channel_names_]
     fake_channels_to_add = sorted(
         list(set(bti_channel_names) - set(inst.ch_names)))
     n_channels = 248
     info['sfreq'] = inst.info['sfreq']
     # compute shape of data to be added
-    if isinstance(inst, mne.io.Raw):
-        shape = (n_channels, inst.last_samp - inst.first_samp)
+    if isinstance(inst, (mne.io.Raw,
+                         mne.io.bti.bti.RawBTi)):
+        shape = (n_channels,
+                 (inst.last_samp - inst.first_samp) + 1)
         data = inst._data
     elif isinstance(inst, mne.Epochs):
         shape = (n_channels, len(inst.events), len(inst.times))
@@ -107,6 +114,9 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     elif isinstance(inst, mne.Evoked):
         shape = (n_channels, len(inst.times))
         data = inst.data
+    else:
+        raise ValueError('instance must be Raw, Epochs '
+                         'or Evoked')
 
     # create new data
     existing_channels_index = [
@@ -119,8 +129,9 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     out_data[new_channels_index] = 0
     info = _hcp_pick_info(info, bti_channel_names)
 
-    if isinstance(inst, mne.io.Raw):
-        out = mne.RawArray(out_data, info)
+    if isinstance(inst, (
+            mne.io.Raw, mne.io.bti.bti.RawBTi)):
+        out = mne.io.RawArray(out_data, info)
     elif isinstance(inst, mne.Epochs):
         out = mne.EpochsArray(data=out_data, info=info, eventds=inst.events,
                               tmin=inst.times.min(), event_id=inst.event_id)
@@ -128,6 +139,9 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
         out = mne.EvokedArray(
             data=out_data, info=info, tmin=inst.times.min(),
             comment=inst.comment, nave=inst.nave, kind=inst.kind)
+    else:
+        raise ValueError('instance must be Raw, Epochs '
+                         'or Evoked')
 
     # set "bad" channels and interpolate.
     out.info['bads'] = fake_channels_to_add
