@@ -98,7 +98,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     # get RAS freesurfer trans
     c_ras_trans_fname = get_file_paths(
         subject=subject, data_type='freesurfer', output='mri',
-        processing='preprocessed', hcp_path=hcp_path)
+        hcp_path=hcp_path)
     c_ras_trans_fname = [k for k in c_ras_trans_fname if
                          k.endswith('c_ras.mat')][0]
     logger.info('reading RAS freesurfer transform')
