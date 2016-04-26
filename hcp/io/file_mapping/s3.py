@@ -38,6 +38,8 @@ def get_s3_keys_meg(
         run_inds = [run_inds]
     for data_type in data_types:
         for output in outputs:
+            if 'noise' in data_type and output != 'raw':
+                continue  # we only have raw for noise data
             for run_index in run_inds:
                 for onset in onsets:
                     aws_keys.extend(
