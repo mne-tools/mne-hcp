@@ -79,8 +79,7 @@ def transform_sensors_to_mne(inst):
 
 
 def interpolate_missing_channels(inst, subject, data_type, hcp_path,
-                                 run_index=None,
-                                 mode='fast'):
+                                 run_index=0, mode='fast'):
     """ Interpolate all MEG channels that are missing
 
     Gentle warning: this might require some memory.
@@ -88,7 +87,7 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     try:
         info = read_info_hcp(
             subject=subject, data_type=data_type, hcp_path=hcp_path,
-            run_index=0 if run_index is None else run_index)
+            run_index=run_index if run_index is None else run_index)
     except (ValueError, IOError):
         raise ValueError(
             'could not find config to complete info.'
