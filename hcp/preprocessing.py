@@ -9,6 +9,7 @@ from mne.io.bti.bti import (
     _loc_to_coil_trans)
 from mne.transforms import Transform
 from mne.utils import logger
+from mne.viz.topomap import _find_topomap_coords
 
 from .io import read_info_hcp
 from .io.read import _hcp_pick_info
@@ -146,3 +147,13 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     out.info['bads'] = fake_channels_to_add
     out.interpolate_bads(mode=mode)
     return out
+
+
+def get_bti_info(info):
+    """ Get Layout of HCP Magnes3600WH data """
+    picks = list(range(248))
+    pos = _find_topomap_coords(info, picks=picks)
+    return mne.channels.layout.Layout(
+        box=(-42.19, 43.52, -41.7, 28.71), pos=pos,
+        names=[info['ch_names'][idx] for idx in picks], ids=picks,
+        kind='magnesWH3600_hcp')
