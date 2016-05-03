@@ -149,7 +149,7 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     return out
 
 
-def get_bti_info(info):
+def make_hcp_bti_layout(info):
     """ Get Layout of HCP Magnes3600WH data """
     picks = list(range(248))
     pos = _find_topomap_coords(info, picks=picks)
