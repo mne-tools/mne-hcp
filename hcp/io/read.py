@@ -233,7 +233,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         onset == 'rest'.
     """
     info = read_info_hcp(subject=subject, data_type=data_type,
-                         run_index=run_index)
+                         run_index=run_index,hcp_path=hcp_path)
 
     epochs_mat_fname = get_file_paths(
         subject=subject, data_type=data_type, output='epochs',
