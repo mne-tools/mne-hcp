@@ -1,4 +1,4 @@
-from .file_mapping import get_file_paths
+from .file_mapping import get_file_paths, run_map
 
 
 def get_s3_keys_anatomy(
@@ -40,7 +40,11 @@ def get_s3_keys_meg(
         for output in outputs:
             if 'noise' in data_type and output != 'raw':
                 continue  # we only have raw for noise data
+            elif data_type == 'rest' and output == 'evoked':
+                continue  # there is no such thing as evoked resting state data
             for run_index in run_inds:
+                if run_index + 1 >= len(run_map[data_type]):
+                    continue
                 for onset in onsets:
                     aws_keys.extend(
                         fun(subject=subject, data_type=data_type,

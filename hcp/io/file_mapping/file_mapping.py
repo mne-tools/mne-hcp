@@ -167,7 +167,7 @@ kind_map = {
     'task_working_memory': 'Wrkmem',
     'task_story_math': 'StoryM',
     'rest': 'Restin',
-    'noise_empty_room':  'Rnoise',
+    'noise_empty_room': 'Rnoise',
     'noise_subject': 'subject',
     'meg_anatomy': 'anatomy',
     'freesurfer': 'freesurfer'
