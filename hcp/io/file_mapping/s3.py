@@ -35,6 +35,8 @@ def get_s3_keys_meg(
         outputs = [outputs]
     if not isinstance(run_inds, (list, tuple)):
         run_inds = [run_inds]
+    if not isinstance(data_types, (list, tuple)):
+        data_types = [data_types]
 
     if not all(isinstance(rr, int) for rr in run_inds):
         raise ValueError('Rund indices must be integers. I found: ' +
