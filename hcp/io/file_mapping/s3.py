@@ -27,7 +27,6 @@ def get_s3_keys_meg(
         subject, data_types, outputs=('raw', 'bads', 'ica'),
         run_inds=0, hcp_path_bucket='HCP_900', onsets='stim'):
     """Helper to prepare AWS downloads """
-
     aws_keys = list()
     fun = get_file_paths
     if not isinstance(onsets, (list, tuple)):
@@ -36,6 +35,19 @@ def get_s3_keys_meg(
         outputs = [outputs]
     if not isinstance(run_inds, (list, tuple)):
         run_inds = [run_inds]
+
+    if not all(isinstance(rr, int) for rr in run_inds):
+        raise ValueError('Rund indices must be integers. I found: ' +
+                         ', '.join(['%s' % type(rr) for rr in run_inds
+                                    if not isinstance(rr, int)]))
+    elif max(run_inds) > 2:
+        raise ValueError('For HCP MEG data there is no task with more'
+                         'than three runs. Among your requests there '
+                         'is run index %i. Did you forget about '
+                         'zero-based indexing?' % max(run_inds))
+    elif min(run_inds) < 0:
+        raise ValueError('Run indices must be positive')
+
     for data_type in data_types:
         for output in outputs:
             if 'noise' in data_type and output != 'raw':
@@ -44,7 +56,7 @@ def get_s3_keys_meg(
                 continue  # there is no such thing as evoked resting state data
             for run_index in run_inds:
                 if run_index + 1 >= len(run_map[data_type]):
-                    continue
+                    continue  # ignore irrelevant run indices
                 for onset in onsets:
                     aws_keys.extend(
                         fun(subject=subject, data_type=data_type,
