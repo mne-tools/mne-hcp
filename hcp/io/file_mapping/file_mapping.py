@@ -159,7 +159,8 @@ pipeline_map = {
     'bads': 'baddata',
     'psd': 'powavg',
     'evoked': 'eravg',
-    'tfr': 'tfavg'
+    'tfr': 'tfavg',
+    'trial_info': 'tmegpreproc'
 }
 
 kind_map = {
@@ -270,8 +271,7 @@ def get_file_paths(subject, data_type, output, run_index=0,
     else:
         run_label = None
     files = list()
-    output_key = (data_type if output == 'trial_info' else output)
-    pipeline = pipeline_map.get(output_key, output_key)
+    pipeline = pipeline_map.get(output, output)
     processing = 'preprocessed'
     if output == 'raw':
         processing = 'unprocessed'
