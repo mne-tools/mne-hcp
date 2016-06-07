@@ -57,7 +57,7 @@ def get_s3_keys_meg(
             elif data_type == 'rest' and output == 'evoked':
                 continue  # there is no such thing as evoked resting state data
             for run_index in run_inds:
-                if run_index + 1 >= len(run_map[data_type]):
+                if run_index + 1 > len(run_map[data_type]):
                     continue  # ignore irrelevant run indices
                 for onset in onsets:
                     aws_keys.extend(
