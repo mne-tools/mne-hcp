@@ -46,7 +46,9 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     exclude : array-like
         the components to be excluded.
     """
-    assert ica_mat['topolabel'].tolist().tolist() == raw.ch_names[:]
+    ch_names = ica_mat['topolabel'].tolist().tolist()
+    picks = mne.pick_channels(raw.info['ch_names'], include=ch_names)
+    assert ch_names == [raw.ch_names[p] for p in picks]
 
     unmixing_matrix = np.array(ica_mat['unmixing'].tolist())
 
@@ -56,7 +58,7 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     proj_mat = (np.eye(n_channels) - np.dot(
         mixing[:, exclude], unmixing_matrix[exclude]))
     raw._data *= 1e15
-    raw._data[:] = np.dot(proj_mat, raw._data)
+    raw._data[picks] = np.dot(proj_mat, raw._data[picks])
     raw._data /= 1e15
 
 
