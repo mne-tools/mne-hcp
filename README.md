@@ -4,7 +4,9 @@ Python tools for processing HCP data using MNE-Python
 
 ## disclaimer and goals
 
-This code is under active, research-driven development and the API is still unstable. At a later stage this code will likely be wrapped by MNE-Python to provide a more common API. For now consider the following caveats:
+This code is under active, research-driven development
+and the API is still unstable.
+At a later stage this code will likely be wrapped by MNE-Python to provide a more common API. For now consider the following caveats:
 - we only intend to support a subset of the files shipped with HCP. Precisely, for now it is not planned to support io and processing for any outputs of the HCP inverse pipelines.
 - the code is not covered by unit tests so far as I did not have the time to create mock testing data.
 - this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
@@ -34,7 +36,7 @@ stages and annotations for baddata.
 
 These are (all native coordinates + names):
 
-```Python
+```python
 hcp.io.read_info_hcp  # get channel info for rest | tasks and a given run
 hcp.io.read_raw_hcp  # same for raw data
 hcp.io.read_epochs_hcp  # same for epochs epochs
@@ -46,7 +48,7 @@ hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
 
 All data readers have the same API for the first two positional arguments:
 
-```Python
+```python
 params = dict(
     subject='1003007',
     data_type='task_motor')  # assuming that data are unpacked here
@@ -59,10 +61,9 @@ epochs = hcp.io.read_epochs_hcp(**params) # ...
 list_of_evoked = hcp.io.read_evokeds_hcp(**params) # ...
 annotations_dict = hcp.io.read_annot_hcp(**params) # dict
 ica_dict = hcp.io.read_ica_hcp(**params) # ...
-
 ```
 
-### data kinds
+### types of data
 
 MNE-HCP uses custom names for values that are more mne-pythonic, the following
 table gives an overview
@@ -77,7 +78,7 @@ table gives an overview
 | 'noise_empty_room'    | raw, info                           | 'Rnoise'   |
 
 
-### workflows: scripts in a function to map HCP to MNE worlds 
+### workflows scripts in a function to map HCP to MNE worlds
 
 For convenience several workflows are provieded. Currently the most supported
 is `hcp.workflows.make_mne_anatomy`, a convenience function that will create
@@ -86,12 +87,12 @@ coregistration MEG to MRI coregistration. Yes it maps to MRI, not to the
 helmet -- a peculiarity of the HCP data.
 It can be used as follows:
 
-```Python
+```python
 hcp.workflows.anatomy.make_mne_anatomy(
     subject='100307', hcp_path='/media/crazy_disk/HCP',
     anatomy_path='/home/crazy_user/hcp-subjects',
     recordings_path='/home/crazy_user/hcp-meg',
-    mode='full') # consider "minimal" for linking and writing less 
+    mode='full') # consider "minimal" for linking and writing less
 ```
 
 ### low level file mapping
@@ -126,7 +127,7 @@ to be accessed are known in advance.
 
 Are in the making, however at this points you still need to download the HCP data to run them.
 
-# Acknowledgements 
+# Acknowledgements
 
 This project is supported by the AWS Cloud Credits for Research program.
 Thanks Alex Gramfort, Giorgos Michalareas, Eric Larson and Jan-Mathijs Schoffelen for discussions, inputs and help with finding the best way to map
