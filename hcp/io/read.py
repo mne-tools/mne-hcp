@@ -91,7 +91,7 @@ def _read_bti_info(zf, config):
 
 def _read_raw_bti(raw_fid, config_fid, convert):
     """Convert and raw file from HCP input"""
-    raw = read_raw_bti(
+    raw = read_raw_bti(  # no convrt + no rename for HCP compatibility
         raw_fid, config_fid, convert=convert, head_shape_fname=None,
         sort_by_ch_name=False, rename_channels=False, preload=True)
 
@@ -233,7 +233,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         onset == 'rest'.
     """
     info = read_info_hcp(subject=subject, data_type=data_type,
-                         run_index=run_index,hcp_path=hcp_path)
+                         run_index=run_index, hcp_path=hcp_path)
 
     epochs_mat_fname = get_file_paths(
         subject=subject, data_type=data_type, output='epochs',
