@@ -6,8 +6,10 @@ Python tools for processing HCP data using MNE-Python
 
 This code is under active, research-driven development
 and the API is still unstable.
-At a later stage this code will likely be wrapped by MNE-Python to provide a more common API. For now consider the following caveats:
-- we only intend to support a subset of the files shipped with HCP. Precisely, for now it is not planned to support io and processing for any outputs of the HCP inverse pipelines.
+At a later stage this code will likely be wrapped by MNE-Python to provide a
+more common API. For now consider the following caveats:
+- we only intend to support a subset of the files shipped with HCP. Precisely, for now it is not planned to support io and processing for any outputs of the
+- HCP inverse pipelines.
 - the code is not covered by unit tests so far as I did not have the time to create mock testing data.
 - this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
 
@@ -123,41 +125,45 @@ to be accessed are known in advance.
 ## Gotchas
 
 
-### Native coordinates and resulting plotting and processing peculiartities
+### Native coordinates and resulting plotting and processing peculartities
 
 The HCP for MEG provides coregistration information for native BTI/4D
-setting. MNE-Python expects coordinates in meters and the neuromag
+setting. MNE-Python expects coordinates in meters and the Neuromag
 right anterior superior (RAS) coordinates. However, essential information is
 missing to compute all transforms needed to easily perform the conversions.
 
 For now, the way things work, all processing is performed in native BTI/4D
-coordinates with the device to head transform skipped (set to identity matrix),
-such that the coregistration directly maps from the sensors to freesurfer
-space. This has a few minor consequences that you may be wondering about
-when being used to work with MNE-Python.
+coordinates with the device-to-head transform skipped (set to identity matrix),
+such that the coregistration directly maps from the native 4D sensors,
+represented in head coordinates, to the freesurfer space. This has a few minor
+consequences that you may confusing to MNE-Python users.
 
 1. In the reader code you will see many flags set to ```convert=False```, etc.
 This is not a bug.
 
 2. All channel names and positions are native, topographic plotting might not
 work as as expected. First of all the layout file is not recognized, second,
-the coordinates are not regonized as native ones, tilting the plot by 90
-degree, etc. To fix this either a proper layout can be computed with
-```hcp.preprocessing.make_hcp_bti_layout``` or the conversion to MNE can be
-performed post-hoc using ```hcp.preprocessing.transform_sensors_to_mne```.
-Note that source localization will be wrong when computerd on transformed
-objects. As things are coordinates have to be kept in the native space to be
-aligned with the HCP outputs.
+the coordinates are not regonized as native ones, eventually rotating and
+distorting the graphical display. To fix this either a proper layout can be
+computed with ```hcp.preprocessing.make_hcp_bti_layout```.
+The conversion to MNE can be
+performed too using ```hcp.preprocessing.transform_sensors_to_mne```.
+But note that source localization will be wrong when computerd on data in
+Neuromag coordinates. As things are coordinates have to be kept in the native
+space to be aligned with the HCP outputs.
 
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
 
 ### Unit tests
 
-Are in the making, however at this points you still need to download the HCP data to run them.
+Are in the making, however at this points you still need to download the HCP
+data to run them.
 
 # Acknowledgements
 
 This project is supported by the AWS Cloud Credits for Research program.
-Thanks Alex Gramfort, Giorgos Michalareas, Eric Larson and Jan-Mathijs Schoffelen for discussions, inputs and help with finding the best way to map
-HCP data to the MNE world. Thanks Virginie van Wassenhove for supporting this project.
+Thanks Alex Gramfort, Giorgos Michalareas, Eric Larson and Jan-Mathijs
+Schoffelen for discussions, inputs and help with finding the best way to map
+HCP data to the MNE world. Thanks Virginie van Wassenhove for supporting this
+project.
