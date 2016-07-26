@@ -120,6 +120,35 @@ Why we are not globbing files? Because the HCP-MEG data are fixed, all file
 patterns are known and access via Amazon web services easier if the files
 to be accessed are known in advance.
 
+## Gotchas
+
+
+### Native coordinates and resulting plotting and processing peculiartities
+
+The HCP for MEG provides coregistration information for native BTI/4D
+setting. MNE-Python expects coordinates in meters and the neuromag
+right anterior superior (RAS) coordinates. However, essential information is
+missing to compute all transforms needed to easily perform the conversions.
+
+For now, the way things work, all processing is performed in native BTI/4D
+coordinates with the device to head transform skipped (set to identity matrix),
+such that the coregistration directly maps from the sensors to freesurfer
+space. This has a few minor consequences that you may be wondering about
+when being used to work with MNE-Python.
+
+1. In the reader code you will see many flags set to ```convert=False```, etc.
+This is not a bug.
+
+2. All channel names and positions are native, topographic plotting might not
+work as as expected. First of all the layout file is not recognized, second,
+the coordinates are not regonized as native ones, tilting the plot by 90
+degree, etc. To fix this either a proper layout can be computed with
+```hcp.preprocessing.make_hcp_bti_layout``` or the conversion to MNE can be
+performed post-hoc using ```hcp.preprocessing.transform_sensors_to_mne```.
+Note that source localization will be wrong when computerd on transformed
+objects. As things are coordinates have to be kept in the native space to be
+aligned with the HCP outputs.
+
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
 
