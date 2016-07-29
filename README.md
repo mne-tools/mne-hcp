@@ -124,7 +124,6 @@ to be accessed are known in advance.
 
 ## Gotchas
 
-
 ### Native coordinates and resulting plotting and processing peculartities
 
 The HCP for MEG provides coregistration information for native BTI/4D
@@ -151,6 +150,35 @@ performed too using ```hcp.preprocessing.transform_sensors_to_mne```.
 But note that source localization will be wrong when computerd on data in
 Neuromag coordinates. As things are coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
+
+### Workflows
+
+NNE-HCP ships convenience functions, called workflows to perform stereotypical
+tasks that are required for using standard MNE code.
+
+#### anatomy
+
+`hcp.workflows.anatomy.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
+
+```bash
+$anatomy_path/$subject/bem/inner_skull.surf
+$anatomy_path/$subject/label/*
+$anatomy_path/$subject/mri/*
+$anatomy_path/$subject/surf/*
+$recordings_path/$subject/$subject-head_mri-trans.fif
+```
+
+These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
+with MNE examples.
+Here, `inner_skull.surf` and `$subject-head_mri-trans.fif` are written  by the function such that they can be used by MNE. The latter is the coregistration matrix.
+
+### inverse
+
+`hcp.workflows.inverse.make_mne_forward` computes the bem model, the source space for a given subject and for fsaverage.
+It then computes the forward solution
+in using the morphed source space
+(from fsaverage to the subject).
+
 
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.

@@ -12,6 +12,7 @@ from ..io import read_info_hcp
 
 
 def make_mne_forward(anatomy_path,
+
                      subject,
                      recordings_path,
                      info_from=(('data_type', 'rest'), ('run_index', 0)),
