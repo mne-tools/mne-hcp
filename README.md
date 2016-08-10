@@ -175,11 +175,28 @@ to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
 In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
 to baseline correction.
 
+#### Annotations need to be loaded and registered
+
+The HCP consortium ships annotations of bad segments and bad channels.
+These have to be read and used. Checkout `hcp.io.read_annot_hcp` and add bad
+channel neame to `raw.info['bads']` and create and set an mne.Annotations
+object as atribute to raw, see below.
+
+```Python
+annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
+                               run_index=run_index)
+bad_segments = annots['segments']['all']
+raw.annotations = mne.Annotations(
+    bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
+    description='bad')
+```
+
 #### ICA components
 
 ICA components related to eye blinks and heart beats need to be removed
 from the data. Checkout the ICA slot in the output of
 `hcp.io.read_annot_hcp` to get the HCP ICA components.
+
 
 ### Workflows
 
