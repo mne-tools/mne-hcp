@@ -272,12 +272,17 @@ def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     subject : str
         The HCP subject.
     data_type : str
-        The type of data.
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
     run_index : int
-        The run number (Python index). Defaults to 0.
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
     hcp_path : str
-        The HCP path. Defaults to the current directory.
-
+        The HCP directory, defaults to op.curdir.
     Returns
     -------
     trial_info : dict

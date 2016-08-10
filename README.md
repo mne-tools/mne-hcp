@@ -14,10 +14,13 @@ more common API. For now consider the following caveats:
 - this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
 
 ## dependencies
+
+The following main and additional dependencies are required to enjoy MNE-HCP:
 - MNE-Python master branch
 - scipy
 - numpy
 - matplotlib
+- scikit-learn (additional)
 
 ## usage
 
@@ -169,6 +172,14 @@ For now we'd recommend using the events from the `hcp.io.read_trial_info_hcp`.
 
 FieldTrip uses 4th order butterworth filter. In MNE you might need
 to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
+In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
+to baseline correction.
+
+#### ICA components
+
+ICA components related to eye blinks and heart beats need to be removed
+from the data. Checkout the ICA slot in the output of
+`hcp.io.read_annot_hcp` to get the HCP ICA components.
 
 ### Workflows
 
@@ -191,13 +202,18 @@ These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
 with MNE examples.
 Here, `inner_skull.surf` and `$subject-head_mri-trans.fif` are written  by the function such that they can be used by MNE. The latter is the coregistration matrix.
 
-### inverse
+#### inverse
 
 `hcp.workflows.inverse.make_mne_forward` computes the bem model, the source space for a given subject and for fsaverage.
 It then computes the forward solution
 in using the morphed source space
 (from fsaverage to the subject).
 
+### Python Indexing
+
+MNE-HCP corrects on reading the indices it finds for data segments, events, or
+components. The indices it reads from the files will already be mapped to
+Python convention by subtracring 1.
 
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
