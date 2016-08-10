@@ -62,6 +62,42 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     raw._data /= 1e15
 
 
+def apply_ref_meg_residual_fit(raw, decim_fit=100):
+    """Regress out MEG ref channels
+
+    Computes linear models from MEG reference channels
+    on each sensors, predicts the MEG data and subtracts
+    and computes the residual by subtracting the predictions.
+    Note. Operates in place and can be memory demanding.
+    To alleviate this problem the model can be fit on decimated
+    data. This is permissive because the linear model does
+    not have any representation of time, only the distributions
+    matter.
+
+    Parameters
+    ----------
+    raw : instance of Raw
+        The BTi/4D raw data.
+    decim_fit : int
+        The decimation factor used for fitting the model.
+        Defaults to 100.
+    """
+    from sklearn.linear_model import LinearRegression
+
+    meg_picks = mne.pick_types(raw.info, ref_meg=False, meg=True)
+    ref_picks = mne.pick_types(raw.info, ref_meg=True, meg=False)
+    if len(ref_picks) == 0:
+        raise ValueError('Could not find meg ref channels.')
+
+    estimator = LinearRegression()
+    Y_pred = estimator.fit(
+        raw[ref_picks][0][:, ::decim_fit].T,
+        raw[meg_picks][0][:, ::decim_fit].T).predict(
+            raw[ref_picks][0].T)
+    raw._data[meg_picks] -= Y_pred.T
+    del Y_pred
+
+
 def transform_sensors_to_mne(inst):
     """ Transform sensors to MNE coordinates
 
