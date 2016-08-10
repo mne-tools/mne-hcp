@@ -151,6 +151,25 @@ But note that source localization will be wrong when computerd on data in
 Neuromag coordinates. As things are coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
 
+### Reproducing HCP sensor space outputs
+
+A couple of steps are necessary to reproduce
+the original sensor space outputs.
+
+#### Reference channels should be regressed out.
+
+Checkout `hcp.preprocessing.apply_ref_meg_residual_fit`.
+
+#### The trial info structure gives the correct latencies of the events
+
+The latencies in the trigger channel are shifted by around 18 ms.
+For now we'd recommend using the events from the `hcp.io.read_trial_info_hcp`.
+
+#### The default filters in MNE and FieldTrip are different.
+
+FieldTrip uses 4th order butterworth filter. In MNE you might need
+to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
+
 ### Workflows
 
 NNE-HCP ships convenience functions, called workflows to perform stereotypical
