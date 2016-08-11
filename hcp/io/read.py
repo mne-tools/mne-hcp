@@ -265,20 +265,42 @@ def _hcp_pick_info(info, ch_names):
 
 
 def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """ read trial info """
+    """ read trial info
+
+    Parameters
+    ----------
+    subject : str
+        The HCP subject.
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
+    Returns
+    -------
+    trial_info : dict
+        The trial info including event labels, indices and times.
+    """
 
     trial_info_mat_fname = get_file_paths(
         subject=subject, data_type=data_type,
         output='trial_info', run_index=run_index,
         hcp_path=hcp_path)[0]
 
-    trl_infos = _read_trial_info(trial_info_mat_fname=trial_info_mat_fname)
-    return trl_infos
+    trl_info = _read_trial_info(trial_info_mat_fname=trial_info_mat_fname)
+    return trl_info
 
 
 def _read_trial_info(trial_info_mat_fname):
     """ helper to read trial info """
-
+    # XXX FIXME index -1
     data = scio.loadmat(trial_info_mat_fname, squeeze_me=True)['trlInfo']
     out = dict()
 
@@ -315,7 +337,7 @@ def _parse_annotations_segments(segment_strings):
         val = np.array(
             [k for k in [''.join([c for c in e if c.isdigit()])
              for e in rest.split()] if k.isdigit()], dtype=int)
-        # reindex and reshape
+        # reshape and map to Python index
         val = val.reshape(-1, 2) - 1
         out[key.split('.')[1]] = val
     return out
@@ -449,6 +471,8 @@ def _parse_annotations_ica(ica_strings):
             sep = "'"
         val = [(int(ch) if ch.isdigit() else ch) for ch in
                rest.split(sep) if ch.isalnum()]
+        if all(v.isdigit() for v in val):
+            val = [v - 1 for v in val]  # map to Python index
         out[key.split('.')[1]] = val
     return out
 

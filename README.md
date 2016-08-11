@@ -14,10 +14,13 @@ more common API. For now consider the following caveats:
 - this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
 
 ## dependencies
+
+The following main and additional dependencies are required to enjoy MNE-HCP:
 - MNE-Python master branch
 - scipy
 - numpy
 - matplotlib
+- scikit-learn (additional)
 
 ## usage
 
@@ -151,6 +154,50 @@ But note that source localization will be wrong when computerd on data in
 Neuromag coordinates. As things are coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
 
+### Reproducing HCP sensor space outputs
+
+A couple of steps are necessary to reproduce
+the original sensor space outputs.
+
+#### Reference channels should be regressed out.
+
+Checkout `hcp.preprocessing.apply_ref_meg_residual_fit`.
+
+#### The trial info structure gives the correct latencies of the events
+
+The latencies in the trigger channel are shifted by around 18 ms.
+For now we'd recommend using the events from the `hcp.io.read_trial_info_hcp`.
+
+#### The default filters in MNE and FieldTrip are different.
+
+FieldTrip uses 4th order butterworth filter. In MNE you might need
+to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
+In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
+to baseline correction.
+
+#### Annotations need to be loaded and registered
+
+The HCP consortium ships annotations of bad segments and bad channels.
+These have to be read and used. Checkout `hcp.io.read_annot_hcp` and add bad
+channel neame to `raw.info['bads']` and create and set an mne.Annotations
+object as atribute to raw, see below.
+
+```Python
+annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
+                               run_index=run_index)
+bad_segments = annots['segments']['all']
+raw.annotations = mne.Annotations(
+    bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
+    description='bad')
+```
+
+#### ICA components
+
+ICA components related to eye blinks and heart beats need to be removed
+from the data. Checkout the ICA slot in the output of
+`hcp.io.read_annot_hcp` to get the HCP ICA components.
+
+
 ### Workflows
 
 NNE-HCP ships convenience functions, called workflows to perform stereotypical
@@ -172,13 +219,18 @@ These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
 with MNE examples.
 Here, `inner_skull.surf` and `$subject-head_mri-trans.fif` are written  by the function such that they can be used by MNE. The latter is the coregistration matrix.
 
-### inverse
+#### inverse
 
 `hcp.workflows.inverse.make_mne_forward` computes the bem model, the source space for a given subject and for fsaverage.
 It then computes the forward solution
 in using the morphed source space
 (from fsaverage to the subject).
 
+### Python Indexing
+
+MNE-HCP corrects on reading the indices it finds for data segments, events, or
+components. The indices it reads from the files will already be mapped to
+Python convention by subtracring 1.
 
 ## contributions
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
