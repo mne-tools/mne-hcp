@@ -89,13 +89,12 @@ def apply_ref_meg_residual_fit(raw, decim_fit=100):
     if len(ref_picks) == 0:
         raise ValueError('Could not find meg ref channels.')
 
-    estimator = LinearRegression()
+    estimator = LinearRegression(normalize=True)  # ref MAG + GRAD
     Y_pred = estimator.fit(
         raw[ref_picks][0][:, ::decim_fit].T,
         raw[meg_picks][0][:, ::decim_fit].T).predict(
             raw[ref_picks][0].T)
     raw._data[meg_picks] -= Y_pred.T
-    del Y_pred
 
 
 def transform_sensors_to_mne(inst):
