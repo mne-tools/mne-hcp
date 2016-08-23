@@ -469,10 +469,9 @@ def _parse_annotations_ica(ica_strings):
             sep = ' '
         else:
             sep = "'"
-        val = [(int(ch) if ch.isdigit() else ch) for ch in
-               rest.split(sep) if ch.isalnum()]
+        val = [ch for ch in rest.split(sep) if ch.isalnum()]
         if all(v.isdigit() for v in val):
-            val = [v - 1 for v in val]  # map to Python index
+            val = [int(v) - 1 for v in val]  # map to Python index
         out[key.split('.')[1]] = val
     return out
 
