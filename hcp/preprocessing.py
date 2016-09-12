@@ -150,8 +150,8 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
                  (inst.last_samp - inst.first_samp) + 1)
         data = inst._data
     elif is_epochs:
-        shape = (len(inst.events), n_channels, len(inst.times))
-        data = inst.get_data()
+        shape = (n_channels, len(inst.events), len(inst.times))
+        data = np.transpose(inst.get_data(), (1, 0, 2))
     elif is_evoked:
         shape = (n_channels, len(inst.times))
         data = inst.data
@@ -173,7 +173,8 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     if is_raw:
         out = mne.io.RawArray(out_data, info)
     elif is_epochs:
-        out = mne.EpochsArray(data=out_data, info=info, eventds=inst.events,
+        out = mne.EpochsArray(data=np.transpose(out_data, (1, 0, 2)),
+                              info=info, events=inst.events,
                               tmin=inst.times.min(), event_id=inst.event_id)
     elif is_evoked:
         out = mne.EvokedArray(
