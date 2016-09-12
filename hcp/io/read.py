@@ -253,9 +253,14 @@ def _read_epochs(epochs_mat_fname, info):
     data = np.array([data['trial'].tolist()][0].tolist())
     events = np.zeros((len(data), 3), dtype=np.int)
     events[:, 0] = np.arange(len(data))
-    events[:, 2] = 99
+    events[:, 2] = 99  # all events
+    # we leave it to the user to construct his events
+    # as from the data['trialinfo'] arbitrary events can be constructed.
+    # and it is task specific.
     this_info = _hcp_pick_info(info, ch_names)
-    return EpochsArray(data=data, info=this_info, events=events, tmin=0)
+    epochs = EpochsArray(data=data, info=this_info, events=events, tmin=0)
+    epochs.times = data['time'].tolist()[1]
+    return epochs
 
 
 def _hcp_pick_info(info, ch_names):
