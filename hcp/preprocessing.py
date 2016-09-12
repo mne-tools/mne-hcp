@@ -150,7 +150,7 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
                  (inst.last_samp - inst.first_samp) + 1)
         data = inst._data
     elif is_epochs:
-        shape = (n_channels, len(inst.events), len(inst.times))
+        shape = (len(inst.events), n_channels, len(inst.times))
         data = np.transpose(inst.get_data(), (1, 0, 2))
     elif is_evoked:
         shape = (n_channels, len(inst.times))
