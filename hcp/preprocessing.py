@@ -140,16 +140,19 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     n_channels = 248
     info['sfreq'] = inst.info['sfreq']
     # compute shape of data to be added
-    if isinstance(inst, (mne.io.Raw,
-                         mne.io.RawArray,
-                         mne.io.bti.bti.RawBTi)):
+    is_raw = isinstance(inst, (mne.io.Raw,
+                        mne.io.RawArray,
+                        mne.io.bti.bti.RawBTi))
+    is_epochs = isinstance(inst, (mne.Epochs, mne.EpochsArray))
+    is_evoked = isinstance(inst, (mne.Evoked, mne.EvokedArray))
+    if is_raw:
         shape = (n_channels,
                  (inst.last_samp - inst.first_samp) + 1)
         data = inst._data
-    elif isinstance(inst, (mne.Epochs, mne.EpochsArray)):
+    elif is_epochs:
         shape = (n_channels, len(inst.events), len(inst.times))
         data = inst.get_data()
-    elif isinstance(inst, (mne.Evoked, mne.EvokedArray)):
+    elif is_evoked:
         shape = (n_channels, len(inst.times))
         data = inst.data
     else:
@@ -167,13 +170,12 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     out_data[new_channels_index] = 0
     info = _hcp_pick_info(info, bti_channel_names)
 
-    if isinstance(inst, (
-            mne.io.Raw, mne.io.bti.bti.RawBTi)):
+    if is_raw:
         out = mne.io.RawArray(out_data, info)
-    elif isinstance(inst, mne.Epochs):
+    elif is_epochs:
         out = mne.EpochsArray(data=out_data, info=info, eventds=inst.events,
                               tmin=inst.times.min(), event_id=inst.event_id)
-    elif isinstance(inst, mne.Evoked):
+    elif is_evoked:
         out = mne.EvokedArray(
             data=out_data, info=info, tmin=inst.times.min(),
             comment=inst.comment, nave=inst.nave, kind=inst.kind)
