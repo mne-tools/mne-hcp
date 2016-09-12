@@ -250,6 +250,7 @@ def _read_epochs(epochs_mat_fname, info):
                         squeeze_me=True)['data']
     ch_names = [ch for ch in data['label'].tolist()]
     info['sfreq'] = data['fsample'].tolist()
+    times = data['time'].tolist()[0]
     data = np.array([data['trial'].tolist()][0].tolist())
     events = np.zeros((len(data), 3), dtype=np.int)
     events[:, 0] = np.arange(len(data))
@@ -259,7 +260,7 @@ def _read_epochs(epochs_mat_fname, info):
     # and it is task specific.
     this_info = _hcp_pick_info(info, ch_names)
     epochs = EpochsArray(data=data, info=this_info, events=events, tmin=0)
-    epochs.times = data['time'].tolist()[1]
+    epochs.times = times
     return epochs
 
 
