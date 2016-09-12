@@ -141,14 +141,15 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     info['sfreq'] = inst.info['sfreq']
     # compute shape of data to be added
     if isinstance(inst, (mne.io.Raw,
+                         mne.io.RawArray,
                          mne.io.bti.bti.RawBTi)):
         shape = (n_channels,
                  (inst.last_samp - inst.first_samp) + 1)
         data = inst._data
-    elif isinstance(inst, mne.Epochs):
+    elif isinstance(inst, (mne.Epochs, mne.EpochsArray)):
         shape = (n_channels, len(inst.events), len(inst.times))
         data = inst.get_data()
-    elif isinstance(inst, mne.Evoked):
+    elif isinstance(inst, (mne.Evoked, mne.EvokedArray)):
         shape = (n_channels, len(inst.times))
         data = inst.data
     else:
