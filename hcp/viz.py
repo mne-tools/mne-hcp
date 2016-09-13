@@ -2,11 +2,23 @@ import os.path as op
 
 import numpy as np
 
+import mne
 from mne.io.pick import _pick_data_channels, pick_info
 from mne import read_trans, read_surface
 from mne.transforms import apply_trans
+from mne.viz.topomap import _find_topomap_coords
 
 from .io import read_info_hcp
+
+
+def make_hcp_bti_layout(info):
+    """ Get Layout of HCP Magnes3600WH data """
+    picks = list(range(248))
+    pos = _find_topomap_coords(info, picks=picks)
+    return mne.channels.layout.Layout(
+        box=(-42.19, 43.52, -41.7, 28.71), pos=pos,
+        names=[info['ch_names'][idx] for idx in picks], ids=picks,
+        kind='magnesWH3600_hcp')
 
 
 def plot_coregistration(subject, anatomy_path, recordings_path,
@@ -34,7 +46,7 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
     view_init : tuple of tuples | dict
         The initival view, defaults to azimuth and elevation of 0,
         a simple lateral view
-    
+
     Returns
     -------
     fig : matplotlib.figure.Figure

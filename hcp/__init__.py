@@ -6,3 +6,4 @@ from . import io
 from . import workflows
 from . import viz
 from . import preprocessing
+from . import anatomy

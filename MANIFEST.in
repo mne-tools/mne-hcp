@@ -1,0 +1,5 @@
+include *.rst
+include hcp/__init__.py
+# recursive-include doc *
+recursive-include hcp *.py
+recursive-include hcp/io/file_mapping/*txt

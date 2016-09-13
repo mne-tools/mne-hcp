@@ -83,17 +83,16 @@ table gives an overview
 | 'noise_empty_room'    | raw, info                           | 'Rnoise'   |
 
 
-### workflows scripts in a function to map HCP to MNE worlds
+### anatomy related functionality to map HCP to MNE worlds
 
-For convenience several workflows are provieded. Currently the most supported
-is `hcp.workflows.make_mne_anatomy`, a convenience function that will create
+MNE HCP comes with convenience functions such as `hcp.make_mne_anatomy`. This one willcreate an
 MNE friendly anatomy directories and extractes the head model and
 coregistration MEG to MRI coregistration. Yes it maps to MRI, not to the
 helmet -- a peculiarity of the HCP data.
 It can be used as follows:
 
 ```python
-hcp.workflows.anatomy.make_mne_anatomy(
+hcp.anatomy.make_mne_anatomy(
     subject='100307', hcp_path='/media/crazy_disk/HCP',
     anatomy_path='/home/crazy_user/hcp-subjects',
     recordings_path='/home/crazy_user/hcp-meg',
@@ -149,7 +148,7 @@ the coordinates are not regonized as native ones, eventually rotating and
 distorting the graphical display. To fix this either a proper layout can be
 computed with ```hcp.preprocessing.make_hcp_bti_layout```.
 The conversion to MNE can be
-performed too using ```hcp.preprocessing.transform_sensors_to_mne```.
+performed too using ```hcp.preprocessing.map_chs_to_mne```.
 But note that source localization will be wrong when computerd on data in
 Neuromag coordinates. As things are coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
@@ -161,7 +160,7 @@ the original sensor space outputs.
 
 #### Reference channels should be regressed out.
 
-Checkout `hcp.preprocessing.apply_ref_meg_residual_fit`.
+Checkout `hcp.preprocessing.apply_ref_correction`.
 
 #### The trial info structure gives the correct latencies of the events
 

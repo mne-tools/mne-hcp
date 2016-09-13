@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #
 
-# Copyright (C) 2015 Denis Engemann
+# Copyright (C) 2015-2016 Denis Engemann
 # <denis.engemann@gmail.com>
 
 import os
@@ -21,7 +21,7 @@ if version is None:
     raise RuntimeError('Could not determine version')
 
 
-descr = """MNE HCP project for accessing the human connectome MEG data."""
+descr = """MNE HCP project for accessing the human connectome MEG data in Python."""
 
 DISTNAME = 'hcp'
 DESCRIPTION = descr
@@ -61,7 +61,10 @@ if __name__ == "__main__":
           platforms='any',
           packages=['hcp',
                     'hcp.io',
+                    'hcp.io.tests',
                     'hcp.io.file_mapping',
+                    'hcp.io.file_mapping.tests',
+                    'hcp.tests',
                     'hcp.workflows'],
           package_data={'hcp': [
               op.join('io', 'file_mapping', 'data', '*txt')]})

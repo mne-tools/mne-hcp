@@ -9,7 +9,6 @@ from mne.io.bti.bti import (
     _loc_to_coil_trans)
 from mne.transforms import Transform
 from mne.utils import logger
-from mne.viz.topomap import _find_topomap_coords
 
 from .io import read_info_hcp
 from .io.read import _hcp_pick_info
@@ -62,7 +61,7 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     raw._data /= 1e15
 
 
-def apply_ref_meg_residual_fit(raw, decim_fit=100):
+def apply_ref_correction(raw, decim_fit=100):
     """Regress out MEG ref channels
 
     Computes linear models from MEG reference channels
@@ -97,7 +96,7 @@ def apply_ref_meg_residual_fit(raw, decim_fit=100):
     raw._data[meg_picks] -= Y_pred.T
 
 
-def transform_sensors_to_mne(inst):
+def map_chs_to_mne(inst):
     """ Transform sensors to MNE coordinates
 
     For several reasons we do not use the MNE coordinates for the inverse
@@ -116,7 +115,7 @@ def transform_sensors_to_mne(inst):
             ch['loc'] = loc
 
 
-def interpolate_missing_channels(inst, subject, data_type, hcp_path,
+def interpolate_missing_chs(inst, subject, data_type, hcp_path,
                                  run_index=0, mode='fast'):
     """ Interpolate all MEG channels that are missing
 
@@ -188,13 +187,3 @@ def interpolate_missing_channels(inst, subject, data_type, hcp_path,
     out.info['bads'] = fake_channels_to_add
     out.interpolate_bads(mode=mode)
     return out
-
-
-def make_hcp_bti_layout(info):
-    """ Get Layout of HCP Magnes3600WH data """
-    picks = list(range(248))
-    pos = _find_topomap_coords(info, picks=picks)
-    return mne.channels.layout.Layout(
-        box=(-42.19, 43.52, -41.7, 28.71), pos=pos,
-        names=[info['ch_names'][idx] for idx in picks], ids=picks,
-        kind='magnesWH3600_hcp')
