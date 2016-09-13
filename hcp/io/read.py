@@ -551,10 +551,13 @@ def _read_evoked(fname, sensor_mode, info):
                   .replace('_eravg_', '_')
                   .replace('[', '')
                   .replace(']', ''))
+    nave = np.unique(data['dof'].tolist())
+    assert len(nave) == 1
+    nave = nave[0]
     for key, kind in (('var', 'standard_error'), ('avg', 'average')):
         evoked = EvokedArray(
             data=data[key].tolist(), info=info, tmin=min(times),
-            kind=kind, comment=comment)
+            kind=kind, comment=comment, nave=nave)
         evoked._set_channel_positions(pos, ch_names)
         out.append(evoked)
     return out
