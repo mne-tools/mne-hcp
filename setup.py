@@ -23,7 +23,7 @@ if version is None:
 
 descr = """MNE HCP project for accessing the human connectome MEG data in Python."""
 
-DISTNAME = 'hcp'
+DISTNAME = 'mne-hcp'
 DESCRIPTION = descr
 MAINTAINER = 'Denis A. Engemann'
 MAINTAINER_EMAIL = 'denis.engemann@gmail.com'
