@@ -13,9 +13,7 @@ read the ERF files. Subsequently we will compare these outputs.
 
 from __future__ import division, absolute_import, print_function
 
-import os
 import os.path as op
-from collections import Counter
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,8 +42,6 @@ data_type = 'task_working_memory'
 # the reference sensor compensation, the ICA, bandpass filter, baseline
 # correction and decimation (downsampling)
 
-evokeds = list()
-
 # these values are looked up from the HCP manual
 tmin, tmax = -1.5, 2.5
 decim = 4
@@ -53,7 +49,6 @@ event_id = dict(face=1)
 baseline = (-0.5, 0)
 
 # we first collect annotations and events
-
 all_annotations = list()
 trial_infos = list()
 for run_index in [0, 1]:
@@ -82,8 +77,8 @@ for run_index in [0, 1]:
 print(trial_info['TIM']['comments'][:10])  # which column?
 print(set(trial_info['TIM']['codes'][:, 3]))  # check values
 
-# so according to this we need to use the column 7 for the time sample
-# and column 3 to get the image types
+# so according to this we need to use the column 7 (index 6)
+# for the time sample and column 4 (index 3) to get the image types
 # with this information we can construct our event vectors
 
 all_events = list()
@@ -96,8 +91,8 @@ for trial_info in trial_infos:
     all_events.append(events)
 
 # now we can go ahead
+evokeds = list()
 for run_index, events, annotations in zip([0, 1], all_events, all_annotations):
-
     raw = io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
                           run_index=run_index, data_type=data_type)
 
@@ -192,7 +187,7 @@ evoked_from_epochs_hcp.plot(axes=axes[1], show=False)
 axes[1].set_title('HCP epochs')
 
 evoked_hcp.plot(axes=axes[2], show=False)
-axes[2].set_title('HCP')
+axes[2].set_title('HCP evoked')
 fig1.canvas.draw()
 
 plt.show()
@@ -208,7 +203,7 @@ plt.plot(evoked_from_epochs_hcp.data.ravel() * 1e15,
          mec='orange', color='orange')
 plt.annotate("r=%0.3f" % r1, xy=(-300, 250))
 plt.ylabel('evoked from HCP epochs')
-plt.xlabel('evoked from HCP evoked file')
+plt.xlabel('evoked from HCP evoked')
 
 plt.figure()
 r1 = np.corrcoef(evoked.data.ravel(), evoked_hcp.data.ravel())[0][1]
