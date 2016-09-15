@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import mne
 import hcp
 from hcp import io
-import hco.preprocessing as preproc
+import hcp.preprocessing as preproc
 
 mne.set_log_level('WARNING')
 
@@ -95,6 +95,7 @@ evokeds = list()
 for run_index, events, annotations in zip([0, 1], all_events, all_annotations):
     raw = io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
                           run_index=run_index, data_type=data_type)
+    raw.load_data()
 
     # apply ref channel correction and drop ref channels
     preproc.apply_ref_correction(raw)
@@ -118,7 +119,7 @@ for run_index, events, annotations in zip([0, 1], all_events, all_annotations):
     evoked = epochs.average()
     evoked.interpolate_bads()  # let's interpolate bads for easy averaging
     evokeds.append(evoked)
-    del epochs
+    del epochs, raw
 
 
 ##############################################################################
