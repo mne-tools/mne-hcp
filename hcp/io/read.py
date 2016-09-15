@@ -9,12 +9,27 @@ import numpy as np
 import scipy.io as scio
 from scipy import linalg
 
-from mne import EpochsArray, EvokedArray, pick_info, create_info
+from mne import (EpochsArray, EvokedArray, pick_info, create_info,
+                 rename_channels)
 from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
 from mne.utils import logger
 
 from .file_mapping import get_file_paths
+
+
+_label_mapping = [
+    ('E1', 'ECG+'),
+    ('E3', 'VEOG+'),
+    ('E5', 'HEOG+'),
+    ('E63', 'EMG_LF'),
+    ('E31', 'EMG_LH'),
+    ('E2', 'ECG-'),
+    ('E4', 'VEOG-'),
+    ('E6', 'HEOG-'),
+    ('E64', 'EMG_RF'),
+    ('E32', 'EMG_RH')
+]
 
 
 def _parse_trans(string):
@@ -76,9 +91,8 @@ def _get_head_model(head_model_fname):
     return pnts, faces
 
 
-def _read_bti_info(zf, config):
+def _read_bti_info(raw_fid, config):
     """ helper to only access bti info from pdf file """
-    raw_fid = None
     info, bti_info = _get_bti_info(
         pdf_fname=raw_fid, config_fname=config, head_shape_fname=None,
         rotation_x=0.0, translation=(0.0, 0.02, 0.11),
@@ -93,7 +107,7 @@ def _read_raw_bti(raw_fid, config_fid, convert):
     """Convert and raw file from HCP input"""
     raw = read_raw_bti(  # no convrt + no rename for HCP compatibility
         raw_fid, config_fid, convert=convert, head_shape_fname=None,
-        sort_by_ch_name=False, rename_channels=False, preload=True)
+        sort_by_ch_name=False, rename_channels=False, preload=False)
 
     return raw
 
@@ -192,16 +206,24 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     info : instance of mne.io.meas_info.Info
         The MNE channel info object.
     """
-    _, config = get_file_paths(
+    raw, config = get_file_paths(
         subject=subject, data_type=data_type, output='raw',
         run_index=run_index, hcp_path=hcp_path)
 
-    meg_info = _read_bti_info(None, config)
+    if not op.exists(raw):
+        raw = None
+
+    meg_info = _read_bti_info(raw, config)
+
+    if raw is None:
+        logger.info('Did not find Raw data. Guessing EMG, ECG and EOG '
+                    'channels')
+        rename_channels(meg_info, dict(_label_mapping))
     return meg_info
 
 
 def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
-                    hcp_path=op.curdir):
+                    hcp_path=op.curdir, return_fixations_motor=False):
     """Read HCP processed data
 
     Parameters
@@ -225,7 +247,9 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         type.
     hcp_path : str
         The HCP directory, defaults to op.curdir.
-
+    return_fixations_motor : bool
+        Weather to return fixations or regular trials. For motor data only.
+        Defaults to False.
     Returns
     -------
     epochs : instance of mne.Epochs
@@ -238,20 +262,35 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
     epochs_mat_fname = get_file_paths(
         subject=subject, data_type=data_type, output='epochs',
         run_index=run_index, hcp_path=hcp_path)[0]
-
-    epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info)
-
+    if data_type != 'task_motor':
+        return_fixations_motor = None
+    epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info,
+                          return_fixations_motor=return_fixations_motor)
+    if data_type == 'task_motor':
+        epochs.set_channel_types(
+            {ch: 'emg' for ch in epochs.ch_names if 'EMG' in ch})
     return epochs
 
 
-def _read_epochs(epochs_mat_fname, info):
+def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     """ read the epochs from matfile """
     data = scio.loadmat(epochs_mat_fname,
                         squeeze_me=True)['data']
     ch_names = [ch for ch in data['label'].tolist()]
     info['sfreq'] = data['fsample'].tolist()
     times = data['time'].tolist()[0]
-    data = np.array([data['trial'].tolist()][0].tolist())
+
+    # deal with different event lengths
+    if return_fixations_motor is not None:
+        fixation_mask = data['trialinfo'].tolist()[:, 1] == 6
+        if return_fixations_motor is False:
+            fixation_mask = ~fixation_mask
+        data = np.array(data['trial'].tolist()[fixation_mask].tolist())
+    else:
+        data = np.array(data['trial'].tolist().tolist())
+
+    # warning: data are not chronologically ordered but
+    # match the trial info
     events = np.zeros((len(data), 3), dtype=np.int)
     events[:, 0] = np.arange(len(data))
     events[:, 2] = 99  # all events

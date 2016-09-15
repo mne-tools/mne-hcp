@@ -3,7 +3,6 @@
 
 __version__ = '0.1.dev0'
 from . import io
-from . import workflows
 from . import viz
 from . import preprocessing
 from . import anatomy
