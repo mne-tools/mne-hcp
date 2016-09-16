@@ -16,5 +16,5 @@ def test_map_chs_to_mne():
     pass
 
 
-def test_interpolate_missing_chs():
+def test_interpolate_missing():
     pass

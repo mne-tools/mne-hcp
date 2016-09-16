@@ -115,7 +115,7 @@ def map_chs_to_mne(inst):
             ch['loc'] = loc
 
 
-def interpolate_missing_chs(inst, subject, data_type, hcp_path,
+def interpolate_missing(inst, subject, data_type, hcp_path,
                                  run_index=0, mode='fast'):
     """ Interpolate all MEG channels that are missing
 
