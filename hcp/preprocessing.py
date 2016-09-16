@@ -17,7 +17,8 @@ from .io.read import _hcp_pick_info
 def set_eog_ecg_channels(raw):
     """Set the HCP ECG and EOG channels
 
-    Operates in place.
+    .. note::
+       Operates in place.
 
     Parameters
     ----------
@@ -34,7 +35,8 @@ def set_eog_ecg_channels(raw):
 def apply_ica_hcp(raw, ica_mat, exclude):
     """ Apply the HCP ICA.
 
-    Operates in place.
+    .. note::
+       Operates in place.
 
     Parameters
     ----------
@@ -67,11 +69,15 @@ def apply_ref_correction(raw, decim_fit=100):
     Computes linear models from MEG reference channels
     on each sensors, predicts the MEG data and subtracts
     and computes the residual by subtracting the predictions.
-    Note. Operates in place and can be memory demanding.
-    To alleviate this problem the model can be fit on decimated
-    data. This is permissive because the linear model does
-    not have any representation of time, only the distributions
-    matter.
+
+    .. note::
+       Operates in place.
+
+    .. note::
+       Can be memory demanding. To alleviate this problem the model can be fit
+       on decimated data. This is legitimate because the linear model does
+       not have any representation of time, only the distributions
+       matter.
 
     Parameters
     ----------
@@ -99,8 +105,12 @@ def apply_ref_correction(raw, decim_fit=100):
 def map_chs_to_mne(inst):
     """ Transform sensors to MNE coordinates
 
-    For several reasons we do not use the MNE coordinates for the inverse
-    modeling. This however won't always play nicely with visualization.
+    .. note::
+        operates in place
+
+    .. warning::
+        For several reasons we do not use the MNE coordinates for the inverse
+        modeling. This however won't always play nicely with visualization.
 
     Parameters
     ----------
@@ -123,7 +133,8 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
                         run_index=0, mode='fast'):
     """ Interpolate all MEG channels that are missing
 
-    Gentle warning: this might require some memory.
+    .. warning::
+       This function may require some memory.
 
     Parameters
     ----------

@@ -223,6 +223,7 @@ def get_file_paths(subject, data_type, output, run_index=0,
     data_type : str
         The acquisition context of the data. The following ones are supported:
         'rest'
+        'noise'
         'task_motor'
         'task_story_math'
         'task_working_memory'

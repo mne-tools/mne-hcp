@@ -9,10 +9,13 @@ Scope and Disclaimer
 This code is under active research-driven development
 and the API is still changing but is getting closer to a stable release.
 
-For now please consider the following caveats:
-- we only intend to support a subset of the files shipped with HCP.
-- Precisely, for now it is not planned to support io and processing for any outputs of the HCP source space pipelines.
-- This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
+.. note::
+
+    For now please consider the following caveats:
+
+    - we only intend to support a subset of the files shipped with HCP.
+    - Precisely, for now it is not planned to support io and processing for any outputs of the HCP source space pipelines.
+    - This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
 
 Installation
 ============
@@ -198,46 +201,35 @@ Reproducing HCP sensor space outputs
 A couple of steps are necessary to reproduce
 the original sensor space outputs.
 
-Reference channels should be regressed out.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Checkout :func:`hcp.preprocessing.apply_ref_correction`.
+1. Reference channels should be regressed out. Checkout :func:`hcp.preprocessing.apply_ref_correction`.
 
-The trial info structure gives the correct latencies of the events
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2. The trial info structure gives the correct latencies of the events
+   The latencies in the trigger channel are shifted by around 18 ms.
+   For now we'd recommend using the events from the :func:`hcp.io.read_trial_info_hcp`.
 
-The latencies in the trigger channel are shifted by around 18 ms.
-For now we'd recommend using the events from the :func:`hcp.io.read_trial_info_hcp`.
+3. The default filters in MNE and FieldTrip are different.
+   FieldTrip uses 4th order butterworth filter. In MNE you might need
+   to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
+   In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
+   to baseline correction.
 
-The default filters in MNE and FieldTrip are different.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4. Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
+   These have to be read and used. Checkout `hcp.io.read_annot_hcp` and add bad
+   channel neame to `raw.info['bads']` and create and set an mne.Annotations
+   object as atribute to raw, see below.
 
-FieldTrip uses 4th order butterworth filter. In MNE you might need
-to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
-In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
-to baseline correction.
+    .. code-block:: python
 
-Annotations need to be loaded and registered
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
+                                       run_index=run_index)
+        bad_segments = annots['segments']['all']
+        raw.annotations = mne.Annotations(
+            bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
+            description='bad')
 
-The HCP consortium ships annotations of bad segments and bad channels.
-These have to be read and used. Checkout `hcp.io.read_annot_hcp` and add bad
-channel neame to `raw.info['bads']` and create and set an mne.Annotations
-object as atribute to raw, see below.
-
-.. code-block:: python
-    annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
-                                   run_index=run_index)
-    bad_segments = annots['segments']['all']
-    raw.annotations = mne.Annotations(
-        bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
-        description='bad')
-
-ICA components
-^^^^^^^^^^^^^^
-
-ICA components related to eye blinks and heart beats need to be removed
-from the data. Checkout the ICA slot in the output of
-`hcp.io.read_annot_hcp` to get the HCP ICA components.
+5. ICA components related to eye blinks and heart beats need to be removed
+   from the data. Checkout the ICA slot in the output of
+   `hcp.io.read_annot_hcp` to get the HCP ICA components.
 
 
 Convenience functions
