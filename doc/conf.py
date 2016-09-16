@@ -128,11 +128,25 @@ html_theme_options = {
     'navbar_sidebarrel': False,
     'navbar_links': [
         ("Examples", "auto_examples/index"),
-        ("API", "api"),
+        ("Tutorials", "auto_tutorials/index"),
+        ("API", "python_reference"),
         ("GitHub", "https://github.com/mne-tools/mne-hcp", True)
     ],
-    'bootswatch_theme': "united"
+    'bootswatch_theme': "cosmo"
 }
+
+# amelia
+# cerulean
+# cosmo
+# cyborg
+# journal
+# readable
+# simplex
+# slate
+# spacelab
+# spruce
+# superhero
+# united
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()

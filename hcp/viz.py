@@ -12,7 +12,18 @@ from .io import read_info_hcp
 
 
 def make_hcp_bti_layout(info):
-    """ Get Layout of HCP Magnes3600WH data """
+    """ Get Layout of HCP Magnes3600WH data
+
+    Parameters
+    ----------
+    info : mne.io.meas_info.Info
+        The measurement info
+    
+    Returns
+    -------
+    lout : mne.channels.Layout
+        The layout that can be used for plotting.
+    """
     picks = list(range(248))
     pos = _find_topomap_coords(info, picks=picks)
     return mne.channels.layout.Layout(

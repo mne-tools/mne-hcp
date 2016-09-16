@@ -36,11 +36,12 @@ The following data layout is expected. A folder that contains the HCP data
 as they are unpacked by a zip, subject wise. See command that will produce this
 layout.
 
-.. code:: bash
-    for fname in $(ls *zip); do
-        echo unpacking $fname;
-        unzip -o $fname; rm $fname;
-    done
+.. code-block:: bash
+
+   for fname in $(ls *zip); do
+       echo unpacking $fname;
+       unzip -o $fname; rm $fname;
+   done
 
 The code is organized by different modules.
 The `io` module includes readers for sensor space data at different processing
@@ -48,12 +49,13 @@ stages and annotations for baddata.
 
 These are (all native coordinates + names):
 
-.. code:: python
-    hcp.io.read_info_hcp  # get channel info for rest | tasks and a given run
-    hcp.io.read_raw_hcp  # same for raw data
-    hcp.io.read_epochs_hcp  # same for epochs epochs
-    hcp.io.read_ica_hcp  # ica solution as dict
-    hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
+.. code-block:: python
+
+   hcp.io.read_info_hcp  # get channel info for rest | tasks and a given run
+   hcp.io.read_raw_hcp  # same for raw data
+   hcp.io.read_epochs_hcp  # same for epochs epochs
+   hcp.io.read_ica_hcp  # ica solution as dict
+   hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
 
 
 reader API
@@ -61,19 +63,20 @@ reader API
 
 All data readers have the same API for the first two positional arguments:
 
-.. code:: python
-    params = dict(
-        subject='1003007',
-        data_type='task_motor')  # assuming that data are unpacked here
-    # all MNE objects have native names and coordinates, some MNE functions might
-    # break.
-    info = hcp.io.read_info_hcp(**params)  # MNE object
-    raw = hcp.io.read_raw_hcp(**params)  # ...
-    epochs = hcp.io.read_epochs_hcp(**params) # ...
-    list_of_evoked = hcp.io.read_evokeds_hcp(**params) # ...
-    annotations_dict = hcp.io.read_annot_hcp(**params) # dict
-    ica_dict = hcp.io.read_ica_hcp(**params) # ...
 
+.. code-block:: python
+
+   params = dict(
+       subject='1003007',
+       data_type='task_motor')  # assuming that data are unpacked here
+   # all MNE objects have native names and coordinates, some MNE functions might
+   # break.
+   info = hcp.io.read_info_hcp(**params)  # MNE object
+   raw = hcp.io.read_raw_hcp(**params)  # ...
+   epochs = hcp.io.read_epochs_hcp(**params) # ...
+   list_of_evoked = hcp.io.read_evokeds_hcp(**params) # ...
+   annotations_dict = hcp.io.read_annot_hcp(**params) # dict
+   ica_dict = hcp.io.read_ica_hcp(**params) # ...
 
 types of data
 -------------
@@ -81,21 +84,21 @@ types of data
 MNE-HCP uses custom names for values that are more mne-pythonic, the following
 table gives an overview
 
-+-----------------------+-------------------------------------+------------+
-| name                  | readers                             | HCP jargon |
-+=======================+=====================================+============|
-| 'rest'                | raw, epochs, info, annotations, ica | 'Restin''  |
-+-----------------------+-------------------------------------+------------+
-| 'task_working_memory' | raw, epochs, info, annotations, ica | 'Wrkmem'   |
-+-----------------------+-------------------------------------+------------+
-| 'task_story_math'     | raw, epochs, info, annotations, ica | 'StoryM'   |
-+-----------------------+-------------------------------------+------------+
-| 'task_motor'          | raw, epochs, info, annotations, ica | 'Motor'    |
-+-----------------------+-------------------------------------+------------+
-| 'noise_subject'       | raw, info                           | 'Pnoise'   |
-+-----------------------+-------------------------------------+------------+
-| 'noise_empty_room'    | raw, info                           | 'Rnoise'   |
-+-----------------------+-------------------------------------+------------+
++-----------------------+-------------------------------------+----------------+
+| **name**              | **readers**                         | **HCP jargon** |
++-----------------------+-------------------------------------+----------------+
+| 'rest'                | raw, epochs, info, annotations, ica | 'Restin''      |
++-----------------------+-------------------------------------+----------------+
+| 'task_working_memory' | raw, epochs, info, annotations, ica | 'Wrkmem'       |
++-----------------------+-------------------------------------+----------------+
+| 'task_story_math'     | raw, epochs, info, annotations, ica | 'StoryM'       |
++-----------------------+-------------------------------------+----------------+
+| 'task_motor'          | raw, epochs, info, annotations, ica | 'Motor'        |
++-----------------------+-------------------------------------+----------------+
+| 'noise_subject'       | raw, info                           | 'Pnoise'       |
++-----------------------+-------------------------------------+----------------+
+| 'noise_empty_room'    | raw, info                           | 'Rnoise'       |
++-----------------------+-------------------------------------+----------------+
 
 anatomy related functionality to map HCP to MNE worlds
 ------------------------------------------------------
@@ -106,12 +109,13 @@ coregistration MEG to MRI coregistration. Yes it maps to MRI, not to the
 helmet -- a peculiarity of the HCP data.
 It can be used as follows:
 
-.. code:: python
-    hcp.anatomy.make_mne_anatomy(
-        subject='100307', hcp_path='/media/crazy_disk/HCP',
-        anatomy_path='/home/crazy_user/hcp-subjects',
-        recordings_path='/home/crazy_user/hcp-meg',
-        mode='full') # consider "minimal" for linking and writing less
+.. code-block:: python
+
+   hcp.anatomy.make_mne_anatomy(
+       subject='100307', hcp_path='/media/crazy_disk/HCP',
+       anatomy_path='/home/crazy_user/hcp-subjects',
+       recordings_path='/home/crazy_user/hcp-meg',
+       mode='full') # consider "minimal" for linking and writing less
 
 File mapping
 ------------
@@ -124,15 +128,16 @@ and lists all corresponding files.
 
 Example usage:
 
-.. code:: python
-    files = hcp.io.file_mapping.get_file_paths(
-        subject='123455', data_type='task_motor', output='raw',
-        hcp_path='/media/crazy_disk/HCP')
+.. code-block:: python
 
-    print(files)
-    # output:
-    ['/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
-     '/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
+   files = hcp.io.file_mapping.get_file_paths(
+       subject='123455', data_type='task_motor', output='raw',
+       hcp_path='/media/crazy_disk/HCP')
+
+   print(files)
+   # output:
+   ['/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
+    '/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
 
 Why we are not globbing files? Because the HCP-MEG data are fixed, all file
 patterns are known and access via Amazon web services easier if the files
@@ -201,7 +206,7 @@ These have to be read and used. Checkout `hcp.io.read_annot_hcp` and add bad
 channel neame to `raw.info['bads']` and create and set an mne.Annotations
 object as atribute to raw, see below.
 
-.. code:: python
+.. code-block:: python
     annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
                                    run_index=run_index)
     bad_segments = annots['segments']['all']
@@ -225,7 +230,7 @@ expected by MNE-Python.
 
 `hcp.workflows.anatomy.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
 
-.. code:: bash
+.. code-block:: bash
     $anatomy_path/$subject/bem/inner_skull.surf
     $anatomy_path/$subject/label/*
     $anatomy_path/$subject/mri/*

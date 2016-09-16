@@ -102,6 +102,10 @@ def map_chs_to_mne(inst):
     For several reasons we do not use the MNE coordinates for the inverse
     modeling. This however won't always play nicely with visualization.
 
+    Parameters
+    ----------
+    inst :  MNE data containers
+        Raw, Epochs, Evoked.
     """
     bti_dev_t = Transform('ctf_meg', 'meg', _get_bti_dev_t())
     dev_ctf_t = inst.info['dev_ctf_t']
@@ -116,10 +120,40 @@ def map_chs_to_mne(inst):
 
 
 def interpolate_missing(inst, subject, data_type, hcp_path,
-                                 run_index=0, mode='fast'):
+                        run_index=0, mode='fast'):
     """ Interpolate all MEG channels that are missing
 
     Gentle warning: this might require some memory.
+
+    Parameters
+    ----------
+    inst :  MNE data containers
+        Raw, Epochs, Evoked.
+    subject : str, file_map
+        The subject
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+        'noise_empty_room'
+        'noise_subject'
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
+    mode : str
+        Either `'accurate'` or `'fast'`, determines the quality of the
+        Legendre polynomial expansion used for interpolation of MEG
+        channels.
+
+    Returns
+    -------
+    out :   MNE data containers
+        Raw, Epochs, Evoked but with missing channels interpolated.
     """
     try:
         info = read_info_hcp(
