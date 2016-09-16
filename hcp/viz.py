@@ -17,7 +17,7 @@ def make_hcp_bti_layout(info):
     Parameters
     ----------
     info : mne.io.meas_info.Info
-        The measurement info
+        The measurement info.
     
     Returns
     -------
@@ -61,7 +61,7 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The figure object
+        The figure object.
     """
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D

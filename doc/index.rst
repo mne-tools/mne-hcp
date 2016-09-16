@@ -3,23 +3,48 @@ MNE-HCP
 
 Python tools for processing HCP data using MNE-Python
 
-disclaimer and goals
+Scope and Disclaimer
 --------------------
 
-This code is under active, research-driven development
-and the API is still unstable.
-At a later stage this code will likely be wrapped by MNE-Python to provide a
-more common API. For now consider the following caveats:
-- we only intend to support a subset of the files shipped with HCP. Precisely, for now it is not planned to support io and processing for any outputs of the
-- HCP inverse pipelines.
-- the code is not covered by unit tests so far as I did not have the time to create mock testing data.
+This code is under active research-driven development
+and the API is still changing but is getting closer to a stable release.
+
+For now please consider the following caveats:
+- we only intend to support a subset of the files shipped with HCP.
+- Precisely, for now it is not planned to support io and processing for any outputs of the HCP source space pipelines.
+- This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
 
 Installation
 ============
 
-this library breaks with some of MNE conventions due to peculiarities of the HCP data shipping policy. The basic IO is based on paths, not on files.
+We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_. To install ``mne-hcp``, you first need to install its dependencies::
 
-dependencies
+	$ pip install numpy matplotlib scipy scikit-learn mne joblib pandas
+
+Then clone the repository::
+
+	$ git clone http://github.com/mne-tools/mne-hcp
+
+and finally run `setup.py` to install the package::
+
+	$ cd mne-hcp/
+	$ python setup.py install
+
+If you do not have admin privileges on the computer, use the ``--user`` flag
+with `setup.py`.
+
+For a devoloper install based on symbolic links do::
+
+	$ cd mne-hcp/
+	$ python setup.py develop
+
+To check if everything worked fine, you can do::
+
+	$ python -c 'import hcp'
+
+and it should not give any error messages.
+
+Dependencies
 ------------
 
 The following main and additional dependencies are required to enjoy MNE-HCP:
@@ -27,14 +52,15 @@ The following main and additional dependencies are required to enjoy MNE-HCP:
 - scipy
 - numpy
 - matplotlib
-- scikit-learn (additional)
+- scikit-learn (optional)
 
 Quickstart
 ==========
 
 The following data layout is expected. A folder that contains the HCP data
-as they are unpacked by a zip, subject wise. See command that will produce this
-layout.
+as they are unpacked by a zip, subject wise.
+When data were downloaded via the Aspera connect client the following
+command should produce the expected layout.
 
 .. code-block:: bash
 
@@ -43,22 +69,14 @@ layout.
        unzip -o $fname; rm $fname;
    done
 
+When files are downloaded using the amazon webserviced tools, e.g. `s3rcmd`,
+all should be fine.
+
 The code is organized by different modules.
 The `io` module includes readers for sensor space data at different processing
 stages and annotations for baddata.
 
-These are (all native coordinates + names):
-
-.. code-block:: python
-
-   hcp.io.read_info_hcp  # get channel info for rest | tasks and a given run
-   hcp.io.read_raw_hcp  # same for raw data
-   hcp.io.read_epochs_hcp  # same for epochs epochs
-   hcp.io.read_ica_hcp  # ica solution as dict
-   hcp.io.read_annot_hcp  # bad channels, segments and ICA annotations
-
-
-reader API
+Reader API
 ----------
 
 All data readers have the same API for the first two positional arguments:
@@ -69,8 +87,8 @@ All data readers have the same API for the first two positional arguments:
    params = dict(
        subject='1003007',
        data_type='task_motor')  # assuming that data are unpacked here
-   # all MNE objects have native names and coordinates, some MNE functions might
-   # break.
+
+   # all MNE objects have native names and coordinates, some MNE functions might break.
    info = hcp.io.read_info_hcp(**params)  # MNE object
    raw = hcp.io.read_raw_hcp(**params)  # ...
    epochs = hcp.io.read_epochs_hcp(**params) # ...
@@ -78,7 +96,7 @@ All data readers have the same API for the first two positional arguments:
    annotations_dict = hcp.io.read_annot_hcp(**params) # dict
    ica_dict = hcp.io.read_ica_hcp(**params) # ...
 
-types of data
+Types of Data
 -------------
 
 MNE-HCP uses custom names for values that are more mne-pythonic, the following
@@ -100,8 +118,8 @@ table gives an overview
 | 'noise_empty_room'    | raw, info                           | 'Rnoise'       |
 +-----------------------+-------------------------------------+----------------+
 
-anatomy related functionality to map HCP to MNE worlds
-------------------------------------------------------
+Functionality to make the HCP compatible with MNE
+-------------------------------------------------
 
 MNE HCP comes with convenience functions such as `hcp.make_mne_anatomy`. This one willcreate an
 MNE friendly anatomy directories and extractes the head model and
@@ -117,12 +135,12 @@ It can be used as follows:
        recordings_path='/home/crazy_user/hcp-meg',
        mode='full') # consider "minimal" for linking and writing less
 
-File mapping
+File Mapping
 ------------
 
 MNE-HCP supports a low level file mapping that allows for quick compilations
 of sets of files for a given subejct and data context.
-This is done in `hcp.io.file_mapping.get_file_paths`, think of it as a
+This is done in :func:`hcp.io.file_mapping.get_file_paths`, think of it as a
 file name synthesizer that takes certain data description parameters as inputs
 and lists all corresponding files.
 
@@ -167,9 +185,9 @@ This is not a bug.
 work as as expected. First of all the layout file is not recognized, second,
 the coordinates are not regonized as native ones, eventually rotating and
 distorting the graphical display. To fix this either a proper layout can be
-computed with ```hcp.preprocessing.make_hcp_bti_layout```.
+computed with :func:`hcp.viz.make_hcp_bti_layout`.
 The conversion to MNE can be
-performed too using ```hcp.preprocessing.map_chs_to_mne```.
+performed too using :func:`hcp.preprocessing.map_chs_to_mne`.
 But note that source localization will be wrong when computerd on data in
 Neuromag coordinates. As things are coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
@@ -182,13 +200,13 @@ the original sensor space outputs.
 
 Reference channels should be regressed out.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Checkout `hcp.preprocessing.apply_ref_correction`.
+Checkout :func:`hcp.preprocessing.apply_ref_correction`.
 
 The trial info structure gives the correct latencies of the events
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The latencies in the trigger channel are shifted by around 18 ms.
-For now we'd recommend using the events from the `hcp.io.read_trial_info_hcp`.
+For now we'd recommend using the events from the :func:`hcp.io.read_trial_info_hcp`.
 
 The default filters in MNE and FieldTrip are different.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -228,7 +246,7 @@ Convenience functions
 NNE-HCP ships convenience functions that help set up directory and file layouts
 expected by MNE-Python.
 
-`hcp.workflows.anatomy.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
+:func:`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
 
 .. code-block:: bash
     $anatomy_path/$subject/bem/inner_skull.surf
@@ -251,12 +269,6 @@ Python convention by subtracring 1.
 Contributions
 -------------
 - currently `@dengemann` is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact `@dengemann` directly. Discussions are welcomed.
-
-Unit tests
-^^^^^^^^^^
-
-For unit tests you need to download a few subjects from the MNE-HCP
-
 
 Acknowledgements
 ================

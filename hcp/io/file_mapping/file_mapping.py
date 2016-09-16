@@ -215,6 +215,7 @@ def get_file_paths(subject, data_type, output, run_index=0,
     """ This is the MNE-HCP file path synthesizer
 
     An easy conceptual mapper from questions to file paths
+
     Parameters
     ----------
     subject : str
@@ -252,6 +253,11 @@ def get_file_paths(subject, data_type, output, run_index=0,
         type.
     hcp_path : str
         The HCP directory, defaults to op.curdir.
+
+    Returns
+    -------
+    out : list of str
+        The file names.
     """
     if data_type not in kind_map:
         raise ValueError('I never heard of `%s` -- are you sure this is a'

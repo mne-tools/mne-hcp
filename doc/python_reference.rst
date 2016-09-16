@@ -12,6 +12,15 @@ below a module heading are found in the :py:mod:`hcp` namespace.
    :local:
    :depth: 2
 
+.. currentmodule:: hcp
+
+.. autosummary::
+   :toctree: generated/
+   :template: function.rst
+
+   make_mne_anatomy
+
+
 =================
 Reading HCP files 
 =================
@@ -32,6 +41,17 @@ Reading HCP files
    read_ica_hcp
    read_trial_info_hcp
   
+:py:mod:`hcp.io.file_mapping`:
+
+.. currentmodule:: hcp.io.file_mapping
+
+.. autosummary::
+   :toctree: generated/
+   :template: function.rst
+
+   get_file_paths
+   get_s3_keys_meg
+   get_s3_keys_anatomy
 
 =============================
 Manipulating data and sensors
@@ -61,8 +81,8 @@ Visualizing data
 .. currentmodule:: hcp.viz
 
 .. autosummary::
-  :toctree: generated/
-  :template: function.rst
+   :toctree: generated/
+   :template: function.rst
 
-  plot_coregistration
-  make_hcp_bti_layout
+   plot_coregistration
+   make_hcp_bti_layout
