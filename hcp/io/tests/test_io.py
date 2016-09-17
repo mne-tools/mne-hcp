@@ -23,6 +23,13 @@ sfreq_raw = 2034.5101
 lowpass_preproc = 150
 highpass_preproc = 1.3
 
+epochs_bounds = {
+    'task_motor': (-1.2, 1.2),
+    'task_working_memory': (-1.5, 2.5),
+    'task_story_math': (-1.5, 4),
+    'rest': (0, 2)
+}
+
 
 def test_read_annot():
 
@@ -113,7 +120,12 @@ def _epochs_basic_checks(epochs, annots, data_type):
     assert_array_equal(
         np.unique(epochs.events[:, 2]),
         np.array([99], dtype=np.int))
-    # XXX these seem not to be reliably set.
+    assert_true(
+        _check_bounds(epochs.times,
+                      epochs_bounds[data_type])
+    )
+
+    # XXX these seem not to be reliably set. checkout later.
     # assert_equal(
     #     epochs.info['lowpass'],
     #     lowpass_preproc)
@@ -153,6 +165,16 @@ def test_read_epochs_task():
             _epochs_basic_checks(epochs, annots, data_type)
 
 
+def _check_bounds(array, bounds):
+    """helper for bounds checking"""
+    is_in = True
+    if not np.allclose(np.min(array), min(bounds), atol=0.01):
+        is_in = False
+    elif not np.allclose(np.max(array), max(bounds), atol=0.01):
+        is_in = False
+    return is_in
+
+
 def test_read_evoked():
     for data_type in task_types:
         all_annots = list()
@@ -176,6 +198,10 @@ def test_read_evoked():
         n_chans -= len(set(sum(
             [an['channels']['all'] for an in all_annots], [])))
         assert_equal(n_chans, len(evokeds[0].ch_names))
+        assert_true(
+            _check_bounds(evokeds[0].times,
+                          epochs_bounds[data_type])
+        )
 
 
 def test_read_info():
