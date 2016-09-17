@@ -37,6 +37,8 @@ _time_lock_mapping = dict(
     TIM='stim',
     TEV='stim',
     TFLA='stim',
+    BSENT='stim',
+    BU='stim'
 )
 
 

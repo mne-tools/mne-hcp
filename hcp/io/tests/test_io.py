@@ -209,10 +209,16 @@ def test_read_info():
 
 
 def test_read_trial_info():
+    """Test trial info basics"""
     for data_type in task_types:
         for run_index in [0, 1]:
             trial_info = hcp.io.read_trial_info_hcp(
                 subject=task_subject, data_type=data_type,
                 hcp_path=hcp_path,
                 run_index=run_index)
-            
+            assert_true('stim' in trial_info)
+            assert_true('resp' in trial_info)
+            assert_equal(2, len(trial_info))
+            for key, val in trial_info.items():
+                assert_array_equal(np.ndim(val['comments']), 1)
+                assert_array_equal(np.ndim(val['codes']), 2)
