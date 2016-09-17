@@ -18,7 +18,7 @@ def make_hcp_bti_layout(info):
     ----------
     info : mne.io.meas_info.Info
         The measurement info.
-    
+
     Returns
     -------
     lout : mne.channels.Layout
@@ -64,7 +64,7 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
         The figure object.
     """
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
+    from mpl_toolkits.mplot3d import Axes3D  # noqa
 
     if isinstance(info_from, tuple):
         info_from = dict(info_from)

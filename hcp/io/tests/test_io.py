@@ -209,4 +209,10 @@ def test_read_info():
 
 
 def test_read_trial_info():
-    pass
+    for data_type in task_types:
+        for run_index in [0, 1]:
+            trial_info = hcp.io.read_trial_info_hcp(
+                subject=task_subject, data_type=data_type,
+                hcp_path=hcp_path,
+                run_index=run_index)
+            

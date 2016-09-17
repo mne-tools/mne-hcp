@@ -9,7 +9,7 @@ import numpy as np
 import scipy.io as scio
 from scipy import linalg
 
-from mne import (EpochsArray, EvokedArray, pick_info, create_info,
+from mne import (EpochsArray, EvokedArray, pick_info,
                  rename_channels)
 from mne.io.bti.bti import _get_bti_info, read_raw_bti
 from mne.io import _loc_to_coil_trans
@@ -30,6 +30,14 @@ _label_mapping = [
     ('E64', 'EMG_RF'),
     ('E32', 'EMG_RH')
 ]
+
+_time_lock_mapping = dict(
+    TRESP='resp',
+    TEMG='resp',
+    TIM='stim',
+    TEV='stim',
+    TFLA='stim',
+)
 
 
 def _parse_trans(string):
@@ -304,13 +312,14 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
 
 
 def _hcp_pick_info(info, ch_names):
+    """helper to subset info"""
     return pick_info(
         info, [info['ch_names'].index(ch) for ch in ch_names],
         copy=True)
 
 
 def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """ read trial info
+    """Read information about trials
 
     Parameters
     ----------
@@ -350,7 +359,8 @@ def _read_trial_info(trial_info_mat_fname):
     out = dict()
 
     for idx, lock_name in enumerate(data['lockNames'].tolist()):
-        out[lock_name] = dict(
+        key = _time_lock_mapping[lock_name]
+        out[key] = dict(
             comments=data['trlColDescr'].tolist()[idx],
             codes=data['lockTrl'].tolist().tolist()[idx])
 

@@ -81,8 +81,8 @@ for run_index in [0, 1]:
 # trial_info is a dict
 # it contains a 'comments' vector that maps on the columns of 'codes'
 # 'codes is a matrix with its length corresponding to the number of trials
-print(trial_info['TIM']['comments'][:10])  # which column?
-print(set(trial_info['TIM']['codes'][:, 3]))  # check values
+print(trial_info['stim']['comments'][:10])  # which column?
+print(set(trial_info['stim']['codes'][:, 3]))  # check values
 
 # so according to this we need to use the column 7 (index 6)
 # for the time sample and column 4 (index 3) to get the image types
@@ -91,9 +91,9 @@ print(set(trial_info['TIM']['codes'][:, 3]))  # check values
 all_events = list()
 for trial_info in trial_infos:
     events = np.c_[
-        trial_info['TIM']['codes'][:, 6] - 1,  # time sample
-        np.zeros(len(trial_info['TIM']['codes'])),
-        trial_info['TIM']['codes'][:, 3]  # event codes
+        trial_info['stim']['codes'][:, 6] - 1,  # time sample
+        np.zeros(len(trial_info['stim']['codes'])),
+        trial_info['stim']['codes'][:, 3]  # event codes
     ].astype(int)
 
     # for some reason in the HCP data the time events may not always be unique
