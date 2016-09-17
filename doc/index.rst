@@ -67,10 +67,10 @@ command should produce the expected layout.
 
 .. code-block:: bash
 
-   for fname in $(ls *zip); do
-       echo unpacking $fname;
-       unzip -o $fname; rm $fname;
-   done
+   $ for fname in $(ls *zip); do
+   $    echo unpacking $fname;
+   $    unzip -o $fname; rm $fname;
+   $ done
 
 When files are downloaded using the amazon webserviced tools, e.g. `s3rcmd`,
 all should be fine.
@@ -97,7 +97,7 @@ All data readers have the same API for the first two positional arguments:
    epochs = hcp.io.read_epochs_hcp(**params) # ...
    list_of_evoked = hcp.io.read_evokeds_hcp(**params) # ...
    annotations_dict = hcp.io.read_annot_hcp(**params) # dict
-   ica_dict = hcp.io.read_ica_hcp(**params) # ...
+   ica_mat = hcp.io.read_ica_hcp(**params) # ...
 
 Types of Data
 -------------
@@ -132,11 +132,20 @@ It can be used as follows:
 
 .. code-block:: python
 
-   hcp.anatomy.make_mne_anatomy(
-       subject='100307', hcp_path='/media/crazy_disk/HCP',
-       anatomy_path='/home/crazy_user/hcp-subjects',
-       recordings_path='/home/crazy_user/hcp-meg',
-       mode='full') # consider "minimal" for linking and writing less
+   >>> import os.path as op
+   >>> import hcp
+   >>> storage_dir = op.expanduser('~/data/MNE-HCP')
+   >>>  hcp.make_mne_anatomy(
+   >>>      '100307', anatomy_path=storage_dir + '/subjects',
+   >>>      hcp_path=storage_dir + '/HCP',
+   >>>      recordings_path=storage_dir + '/hcp-meg')
+   reading extended structural processing ...
+   reading RAS freesurfer transform
+   Combining RAS transform and coregistration
+   extracting head model
+   coregistring head model to MNE-HCP coordinates
+   extracting coregistration
+
 
 File Mapping
 ------------
@@ -150,13 +159,11 @@ and lists all corresponding files.
 Example usage:
 
 .. code-block:: python
-
-   files = hcp.io.file_mapping.get_file_paths(
-       subject='123455', data_type='task_motor', output='raw',
-       hcp_path='/media/crazy_disk/HCP')
-
-   print(files)
-   # output:
+    
+   >>> import hcp
+   >>> files = hcp.io.file_mapping.get_file_paths(
+   >>>     subject='123455', data_type='task_motor', output='raw',
+   >>>     hcp_path='/media/crazy_disk/HCP')
    ['/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
     '/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
 
@@ -222,7 +229,7 @@ the original sensor space outputs.
 
         annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
                                        run_index=run_index)
-        bad_segments = annots['segments']['all']
+        bad_segments = annots['segments']['all'] / raw.info['sfreq']
         raw.annotations = mne.Annotations(
             bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
             description='bad')
@@ -265,8 +272,10 @@ Contributions
 Acknowledgements
 ================
 
-This project is supported by the AWS Cloud Credits fo Research program.
-Thanks Alex Gramfort, Giorgos Michalareas, Eric Larson and Jan-Mathijs
-Schoffelen for discussions, inputs and help with finding the best way to map
-HCP data to the MNE world. Thanks Virginie van Wassenhove for supporting this
-project.
+This project is supported by the AWS Cloud Credits fo Research program and
+bu the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.
+
+I acknowledge support by Alex Gramfort, Mainak Jas, Jona Sassenhagen, Giorgos Michalareas,
+Eric Larson, Danilo Bzdok, and Jan-Mathijs Schoffelen for discussions,
+inputs and help with finding the best way to map
+HCP data to the MNE world. 

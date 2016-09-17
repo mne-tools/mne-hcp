@@ -551,13 +551,8 @@ def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
         The MNE epochs. Note, these are pseudo-epochs in the case of
         onset == 'rest'.
     """
-    try:
-        info = read_info_hcp(subject=subject, data_type=data_type,
-                             hcp_path=hcp_path, run_index=0)
-    except (ValueError, IOError):
-        logger.warning('could not find config to complete info.'
-                       'reading only channel positions without transforms.')
-        info = None
+    info = read_info_hcp(subject=subject, data_type=data_type,
+                         hcp_path=hcp_path, run_index=0)
 
     evoked_files = list()
     for fname in get_file_paths(
@@ -574,16 +569,10 @@ def _read_evoked(fname, sensor_mode, info):
 
     times = data['time'].tolist()
     sfreq = 1. / np.diff(times)[0]
-    if info is None:
-        info = create_info(
-            ch_names, ch_types=[sensor_mode] * len(ch_names),
-            sfreq=sfreq)
-    else:
-        info = _hcp_pick_info(info, ch_names)
-        info['sfreq'] = sfreq
-    orig_labels = list(data['grad'].tolist()['label'].tolist())
-    sel = [orig_labels.index(ch) for ch in ch_names]
-    pos = data['grad'].tolist()['chanpos'].tolist()[sel]
+
+    info = _hcp_pick_info(info, ch_names)
+    info['sfreq'] = sfreq
+
     out = list()
     comment = ('_'.join(fname.split('/')[-1].split('_')[2:])
                   .replace('.mat', '')
@@ -597,6 +586,5 @@ def _read_evoked(fname, sensor_mode, info):
         evoked = EvokedArray(
             data=data[key].tolist(), info=info, tmin=min(times),
             kind=kind, comment=comment, nave=nave)
-        evoked._set_channel_positions(pos, ch_names)
         out.append(evoked)
     return out
