@@ -1,3 +1,5 @@
+import shutil
+import os
 import os.path as op
 
 import numpy as np
@@ -8,6 +10,8 @@ from nose.tools import assert_equal, assert_true, assert_raises
 
 import mne
 import hcp
+from mne.utils import _TempDir
+
 
 hcp_path = op.join(op.dirname(op.dirname(op.dirname(__file__))),
                    'data', 'HCP')
@@ -205,7 +209,44 @@ def test_read_evoked():
 
 
 def test_read_info():
-    pass
+    """test reading info""" 
+    tempdir = _TempDir()
+    for data_type in task_types:
+        for run_index in [0, 1]:
+            # with pdf file
+            info = hcp.io.read_info_hcp(
+                subject=task_subject, data_type=data_type,
+                hcp_path=hcp_path,
+                run_index=run_index)
+            assert_equal(
+                {k for k in info['ch_names'] if k.startswith('A')},
+                _bti_chans
+            )
+            # without pdf file
+            # in this case the hcp code guesses certain channel labels
+            cp_paths = hcp.io.file_mapping.get_file_paths(
+                subject=task_subject, data_type=data_type, run_index=run_index,
+                output='raw', hcp_path='',
+            )
+            for pp in cp_paths:
+                if 'c,' in pp:  # don't copy pdf
+                    continue
+                os.makedirs(op.join(tempdir, op.dirname(pp)))
+                shutil.copy(op.join(hcp_path, pp), op.join(tempdir, pp))
+
+            info2 = hcp.io.read_info_hcp(
+                subject=task_subject, data_type=data_type,
+                hcp_path=tempdir,
+                run_index=run_index)
+
+            assert_true(len(info['chs']) != len(info2['chs']))
+            common_chs = [ch for ch in info2['ch_names'] if ch in info['ch_names']]
+            assert_equal(len(common_chs), len(info['chs']))
+            info2 = hcp.io.read._hcp_pick_info(info2, common_chs)
+            assert_equal(info['ch_names'], info2['ch_names'])
+            for ch1, ch2 in zip(info['chs'], info2['chs']):
+                assert_array_equal(ch1['loc'], ch2['loc'])
+ 
 
 
 def test_read_trial_info():
