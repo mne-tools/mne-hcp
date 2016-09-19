@@ -21,7 +21,7 @@ before_install:
   +render -noreset"
 - conda create -n get-hcp-env --yes pip python=2.7
 - source activate get-hcp-env
-- conda install conda install scipy --yes --quiet
+- conda install scipy --yes --quiet
 - mkdir $HOME/mne-hcp-data
 - mkdir $HOME/mnd-hcp-data/HCP
 - pip install -q s3cmd
