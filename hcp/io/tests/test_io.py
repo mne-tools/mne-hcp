@@ -208,8 +208,10 @@ def test_read_info():
                 subject=tconf.test_subject, data_type=data_type,
                 hcp_path=tempdir,
                 run_index=run_index)
-
-            assert_true(len(info['chs']) != len(info2['chs']))
+            if os.getenv('MNE_HCP_CHEAP', False):
+                assert_true(len(info['chs']) == len(info2['chs']))
+            else:
+                assert_true(len(info['chs']) != len(info2['chs']))
             common_chs = [ch for ch in info2['ch_names'] if
                           ch in info['ch_names']]
             assert_equal(len(common_chs), len(info['chs']))
