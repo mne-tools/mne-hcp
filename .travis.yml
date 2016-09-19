@@ -3,7 +3,7 @@ language: python
 sudo: false
 
 env:
-- PYTHON=2.7 TEST_LOCATION=src
+# - PYTHON=2.7 TEST_LOCATION=src
 - PYTHON=3.5 TEST_LOCATION=src
 
 before_install:
