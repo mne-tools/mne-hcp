@@ -22,7 +22,7 @@ before_install:
 - conda create -n get-hcp-env --yes pip python=2.7
 - source activate get-hcp-env
 - conda install scipy --yes --quiet
-- pip install -q s3cmd
+- pip install -q s3cmd mne
 - python setup.py develop
 - python -c "import hcp; hcp.tests._download_testing_data()"
 
