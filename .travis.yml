@@ -25,7 +25,9 @@ before_install:
 - pip install -q s3cmd mne
 - python setup.py develop
 - python -c "import hcp; hcp.tests._download_testing_data()"
-- find $HOME/mne-hcp-data/HCP/105923 -name "*"
+- find $HOME/mne-hcp-data/HCP/105923 -name "*" > output.txt
+- cat output.txt | wc -l
+- cat output.txt
 
 install:
 - conda create -n testenv --yes pip python=$PYTHON
