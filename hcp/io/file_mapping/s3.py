@@ -129,7 +129,7 @@ def get_s3_keys_meg(
         for output in outputs:
             if 'noise' in data_type and output != 'raw':
                 continue  # we only have raw for noise data
-            elif data_type == 'rest' and output == 'evoked':
+            elif data_type == 'rest' and output in ('evoked', 'trial_info'):
                 continue  # there is no such thing as evoked resting state data
             for run_index in run_inds:
                 if run_index + 1 > len(run_map[data_type]):

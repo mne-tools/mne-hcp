@@ -283,6 +283,10 @@ def get_file_paths(subject, data_type, output, run_index=0,
     if output == 'raw':
         processing = 'unprocessed'
     if processing == 'preprocessed':
+        if (data_type in ('rest', 'noise_subject', 'noise_empty_room') and
+                output in ('trial_info', 'evoked')):
+            raise ValueError('%s not defined for %s' % (output, data_type))
+
         file_map = preprocessed[(data_type if data_type in (
                                  'meg_anatomy', 'freesurfer') else 'meg')]
         path = file_map['path'].format(
