@@ -21,7 +21,7 @@ if version is None:
     raise RuntimeError('Could not determine version')
 
 
-descr = """MNE HCP project for accessing the human connectome MEG data in Python."""
+descr = """MNE HCP project for accessing the human connectome MEG data in Python."""  # noqa
 
 DISTNAME = 'mne-hcp'
 DESCRIPTION = descr

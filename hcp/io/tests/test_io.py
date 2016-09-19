@@ -13,13 +13,12 @@ import hcp
 from mne.utils import _TempDir
 
 
-hcp_path = op.join(op.dirname(op.dirname(op.dirname(__file__))),
-                   'data', 'HCP')
+hcp_path = op.join(op.expanduser('~'), 'mne-hcp-data', 'HCP')
 
 _bti_chans = {'A' + str(i) for i in range(1, 249, 1)}
 
-rest_subject = '100307'
-task_subject = '104012'
+rest_subject = '105923'
+task_subject = '105923'
 task_types = ['task_story_math', 'task_working_memory', 'task_motor']
 noise_types = ['noise_empty_room']
 sfreq_preproc = 508.63
@@ -210,7 +209,7 @@ def test_read_evoked():
 
 
 def test_read_info():
-    """test reading info""" 
+    """test reading info"""
     tempdir = _TempDir()
     for data_type in task_types:
         for run_index in [0, 1]:
@@ -241,13 +240,13 @@ def test_read_info():
                 run_index=run_index)
 
             assert_true(len(info['chs']) != len(info2['chs']))
-            common_chs = [ch for ch in info2['ch_names'] if ch in info['ch_names']]
+            common_chs = [ch for ch in info2['ch_names'] if
+                          ch in info['ch_names']]
             assert_equal(len(common_chs), len(info['chs']))
             info2 = hcp.io.read._hcp_pick_info(info2, common_chs)
             assert_equal(info['ch_names'], info2['ch_names'])
             for ch1, ch2 in zip(info['chs'], info2['chs']):
                 assert_array_equal(ch1['loc'], ch2['loc'])
- 
 
 
 def test_read_trial_info():
