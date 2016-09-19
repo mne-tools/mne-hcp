@@ -1,9 +1,7 @@
 # Author: Denis A. Engemann <denis.engemann@gmail.com>
 # License: BSD (3-clause)
-"""example usage
 
-python down_testing_dayta.py --subject 105923 --storage_dir $HOME/mne-hcp-data
-"""
+import os
 import os.path as op
 from ..io.file_mapping import get_s3_keys_anatomy, get_s3_keys_meg
 
@@ -31,7 +29,8 @@ hcp_outputs = [
 
 hcp_onsets = ['stim']
 
-run_inds = [0, 1, 2]
+# allow for downloading fewer data
+run_inds = [0, 1, 2][:int(os.getenv('MNE_HCP_N_RUNS', 3))]
 
 s3_keys = list()
 

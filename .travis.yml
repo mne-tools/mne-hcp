@@ -24,6 +24,7 @@ before_install:
 - conda install scipy --yes --quiet
 - pip install -q s3cmd mne
 - python setup.py develop
+- export MNE_HCP_N_RUNS=1
 - python -c "import hcp; hcp.tests._download_testing_data()"
 - find $HOME/mne-hcp-data/HCP/105923 -name "*" > output.txt
 - cat output.txt | wc -l
@@ -66,6 +67,7 @@ install:
     COVERAGE=;
   else cd ${SRC_DIR};
     COVERAGE=--with-coverage; fi;
+- export MNE_HCP_N_RUNS=1
 
 script:
 - nosetests --with-timer --timer-top-n 30 --verbosity=2 $COVERAGE
