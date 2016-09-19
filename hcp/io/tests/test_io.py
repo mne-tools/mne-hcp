@@ -36,7 +36,7 @@ epochs_bounds = {
 
 
 def test_read_annot():
-
+    """testing annotations"""
     for run_index in range(3):
         annots = hcp.io.read_annot_hcp(subject=rest_subject, data_type='rest',
                                        hcp_path=hcp_path,
@@ -62,6 +62,7 @@ def test_read_annot():
 
 
 def _basic_raw_checks(raw):
+    """ helper for testing raw files """
     picks = mne.pick_types(raw.info, meg=True, ref_meg=False)
     assert_equal(len(picks), 248)
     ch_names = [raw.ch_names[pp] for pp in picks]
