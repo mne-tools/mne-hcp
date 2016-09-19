@@ -39,15 +39,15 @@ s3_keys += get_s3_keys_anatomy(
 
 s3_keys += get_s3_keys_meg(
     subject,
-    data_types=[dd for dd in hcp_data_types if dd in ('raw', 'epochs')],
+    data_types=hcp_data_types,
     onsets=hcp_onsets,
     hcp_path_bucket=hcp_prefix,
-    outputs=hcp_outputs,
+    outputs=[dd for dd in hcp_outputs if dd in ('raw', 'epochs')],
     run_inds=run_inds[:max_runs])
 
 s3_keys += get_s3_keys_meg(
     subject,
-    data_types=[dd for dd in hcp_data_types if dd not in ('raw', 'epochs')],
+    data_types=[dd for dd in hcp_outputs if dd not in ('raw', 'epochs')],
     onsets=hcp_onsets,
     hcp_path_bucket=hcp_prefix,
     outputs=hcp_outputs, run_inds=run_inds)
