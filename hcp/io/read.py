@@ -359,7 +359,7 @@ def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def _read_trial_info(trial_info_mat_fname):
-    """ helper to read trial info """
+    """helper to read trial info"""
     # XXX FIXME index -1
     data = scio.loadmat(trial_info_mat_fname, squeeze_me=True)['trlInfo']
     out = dict()
@@ -405,7 +405,7 @@ def _parse_annotations_segments(segment_strings):
 
 
 def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """ Read annotations for bad data and ICA.
+    """Read annotations for bad data and ICA.
 
     Parameters
     ----------
