@@ -1,0 +1,12 @@
+hcp.viz.plot_coregistration
+===========================
+
+.. currentmodule:: hcp.viz
+
+.. autofunction:: plot_coregistration
+
+.. include:: hcp.viz.plot_coregistration.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

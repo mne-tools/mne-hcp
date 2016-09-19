@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Read and plot coregistration &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="index.html">Examples</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Read and plot coregistration</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/plot_coregistration.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">Read and plot coregistration</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="read-and-plot-coregistration">
+<span id="sphx-glr-auto-examples-plot-coregistration-py"></span><h1>Read and plot coregistration<a class="headerlink" href="#read-and-plot-coregistration" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ll take a look at the coregistration here.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Denis A. Enegemann</span>
+<span class="c1"># License: BSD 3 clause</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+
+<span class="kn">from</span> <span class="nn">hcp.viz</span> <span class="kn">import</span> <span class="n">plot_coregistration</span>
+</pre></div>
+</div>
+<p>we assume our data is inside a designated folder under $HOME</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/data/MNE-HCP&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and we assume to have the downloaded data, the MNE/freesurfer style
+anatomy directory, and the MNE style MEG directory.
+these can be obtained from <code class="xref py py-func docutils literal"><span class="pre">make_mne_anatomy()</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hcp_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;100307&#39;</span><span class="p">,</span>
+    <span class="n">hcp_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">),</span>
+    <span class="n">anatomy_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;subjects&#39;</span><span class="p">),</span>
+    <span class="n">recordings_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;hcp-meg&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>let&#8217;s plot two views</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">azim</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">):</span>
+    <span class="n">plot_coregistration</span><span class="p">(</span>
+        <span class="n">view_init</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39;azim&#39;</span><span class="p">,</span> <span class="n">azim</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;elev&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_coregistration_001.png"><img alt="../_images/sphx_glr_plot_coregistration_001.png" src="../_images/sphx_glr_plot_coregistration_001.png" style="width: 376.0px; height: 282.0px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_coregistration_002.png"><img alt="../_images/sphx_glr_plot_coregistration_002.png" src="../_images/sphx_glr_plot_coregistration_002.png" style="width: 376.0px; height: 282.0px;" /></a>
+</li>
+</ul>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Reading</span> <span class="mi">4</span><span class="n">D</span> <span class="n">PDF</span> <span class="n">file</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">MNE</span><span class="o">-</span><span class="n">HCP</span><span class="o">/</span><span class="n">HCP</span><span class="o">/</span><span class="mi">100307</span><span class="o">/</span><span class="n">unprocessed</span><span class="o">/</span><span class="n">MEG</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">Restin</span><span class="o">/</span><span class="mi">4</span><span class="n">D</span><span class="o">/</span><span class="n">c</span><span class="p">,</span><span class="n">rfDC</span><span class="o">...</span>
+<span class="n">Creating</span> <span class="n">Neuromag</span> <span class="n">info</span> <span class="n">structure</span> <span class="o">...</span>
+<span class="o">...</span> <span class="n">Setting</span> <span class="n">channel</span> <span class="n">info</span> <span class="n">structure</span><span class="o">.</span>
+<span class="o">...</span> <span class="n">no</span> <span class="n">headshape</span> <span class="n">file</span> <span class="n">supplied</span><span class="p">,</span> <span class="n">doing</span> <span class="n">nothing</span><span class="o">.</span>
+<span class="n">Currently</span> <span class="n">direct</span> <span class="n">inclusion</span> <span class="n">of</span> <span class="mi">4</span><span class="n">D</span> <span class="n">weight</span> <span class="n">tables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">supported</span><span class="o">.</span> <span class="n">For</span> <span class="n">critical</span> <span class="n">use</span> <span class="n">cases</span> <span class="n">please</span> <span class="n">take</span> <span class="n">into</span> <span class="n">account</span> <span class="n">the</span> <span class="n">MNE</span> <span class="n">command</span> <span class="s2">&quot;mne_create_comp_data&quot;</span> <span class="n">to</span> <span class="n">include</span> <span class="n">weights</span> <span class="k">as</span> <span class="n">printed</span> <span class="n">out</span> <span class="n">by</span> <span class="n">the</span> <span class="mi">4</span><span class="n">D</span> <span class="s2">&quot;print_table&quot;</span> <span class="n">routine</span><span class="o">.</span>
+<span class="n">Triangle</span> <span class="n">file</span><span class="p">:</span> <span class="n">b</span><span class="s1">&#39;&#39;</span> <span class="n">nvert</span> <span class="o">=</span> <span class="mi">5000</span> <span class="n">ntri</span> <span class="o">=</span> <span class="mi">9996</span>
+<span class="n">Reading</span> <span class="mi">4</span><span class="n">D</span> <span class="n">PDF</span> <span class="n">file</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">MNE</span><span class="o">-</span><span class="n">HCP</span><span class="o">/</span><span class="n">HCP</span><span class="o">/</span><span class="mi">100307</span><span class="o">/</span><span class="n">unprocessed</span><span class="o">/</span><span class="n">MEG</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">Restin</span><span class="o">/</span><span class="mi">4</span><span class="n">D</span><span class="o">/</span><span class="n">c</span><span class="p">,</span><span class="n">rfDC</span><span class="o">...</span>
+<span class="n">Creating</span> <span class="n">Neuromag</span> <span class="n">info</span> <span class="n">structure</span> <span class="o">...</span>
+<span class="o">...</span> <span class="n">Setting</span> <span class="n">channel</span> <span class="n">info</span> <span class="n">structure</span><span class="o">.</span>
+<span class="o">...</span> <span class="n">no</span> <span class="n">headshape</span> <span class="n">file</span> <span class="n">supplied</span><span class="p">,</span> <span class="n">doing</span> <span class="n">nothing</span><span class="o">.</span>
+<span class="n">Currently</span> <span class="n">direct</span> <span class="n">inclusion</span> <span class="n">of</span> <span class="mi">4</span><span class="n">D</span> <span class="n">weight</span> <span class="n">tables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">supported</span><span class="o">.</span> <span class="n">For</span> <span class="n">critical</span> <span class="n">use</span> <span class="n">cases</span> <span class="n">please</span> <span class="n">take</span> <span class="n">into</span> <span class="n">account</span> <span class="n">the</span> <span class="n">MNE</span> <span class="n">command</span> <span class="s2">&quot;mne_create_comp_data&quot;</span> <span class="n">to</span> <span class="n">include</span> <span class="n">weights</span> <span class="k">as</span> <span class="n">printed</span> <span class="n">out</span> <span class="n">by</span> <span class="n">the</span> <span class="mi">4</span><span class="n">D</span> <span class="s2">&quot;print_table&quot;</span> <span class="n">routine</span><span class="o">.</span>
+<span class="n">Triangle</span> <span class="n">file</span><span class="p">:</span> <span class="n">b</span><span class="s1">&#39;&#39;</span> <span class="n">nvert</span> <span class="o">=</span> <span class="mi">5000</span> <span class="n">ntri</span> <span class="o">=</span> <span class="mi">9996</span>
+</pre></div>
+</div>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.347 seconds)</p>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_coregistration.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_coregistration.py</span></code></a></div>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_coregistration.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_coregistration.ipynb</span></code></a></div>
+<p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

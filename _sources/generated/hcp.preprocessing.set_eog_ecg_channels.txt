@@ -1,0 +1,12 @@
+hcp.preprocessing.set_eog_ecg_channels
+======================================
+
+.. currentmodule:: hcp.preprocessing
+
+.. autofunction:: set_eog_ecg_channels
+
+.. include:: hcp.preprocessing.set_eog_ecg_channels.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

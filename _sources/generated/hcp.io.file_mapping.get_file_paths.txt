@@ -1,0 +1,12 @@
+hcp.io.file_mapping.get_file_paths
+==================================
+
+.. currentmodule:: hcp.io.file_mapping
+
+.. autofunction:: get_file_paths
+
+.. include:: hcp.io.file_mapping.get_file_paths.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

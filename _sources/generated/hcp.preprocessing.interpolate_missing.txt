@@ -1,0 +1,12 @@
+hcp.preprocessing.interpolate_missing
+=====================================
+
+.. currentmodule:: hcp.preprocessing
+
+.. autofunction:: interpolate_missing
+
+.. include:: hcp.preprocessing.interpolate_missing.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

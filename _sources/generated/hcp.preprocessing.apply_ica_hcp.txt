@@ -1,0 +1,12 @@
+hcp.preprocessing.apply_ica_hcp
+===============================
+
+.. currentmodule:: hcp.preprocessing
+
+.. autofunction:: apply_ica_hcp
+
+.. include:: hcp.preprocessing.apply_ica_hcp.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

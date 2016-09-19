@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MNE-HCP &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="#" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="auto_examples/index.html">Examples</a></li>
+                <li><a href="auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">MNE-HCP</a><ul>
+<li><a class="reference internal" href="#scope-and-disclaimer">Scope and Disclaimer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li><a class="reference internal" href="#reader-api">Reader API</a></li>
+<li><a class="reference internal" href="#types-of-data">Types of Data</a></li>
+<li><a class="reference internal" href="#functionality-to-make-the-hcp-compatible-with-mne">Functionality to make the HCP compatible with MNE</a></li>
+<li><a class="reference internal" href="#file-mapping">File Mapping</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gotchas">Gotchas</a><ul>
+<li><a class="reference internal" href="#native-coordinates-and-resulting-plotting-and-processing-peculartities">Native coordinates and resulting plotting and processing peculartities</a></li>
+<li><a class="reference internal" href="#reproducing-hcp-sensor-space-outputs">Reproducing HCP sensor space outputs</a></li>
+<li><a class="reference internal" href="#convenience-functions">Convenience functions</a><ul>
+<li><a class="reference internal" href="#python-indexing">Python Indexing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributions">Contributions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/index.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">MNE-HCP</a><ul>
+<li><a class="reference internal" href="#scope-and-disclaimer">Scope and Disclaimer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li><a class="reference internal" href="#reader-api">Reader API</a></li>
+<li><a class="reference internal" href="#types-of-data">Types of Data</a></li>
+<li><a class="reference internal" href="#functionality-to-make-the-hcp-compatible-with-mne">Functionality to make the HCP compatible with MNE</a></li>
+<li><a class="reference internal" href="#file-mapping">File Mapping</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gotchas">Gotchas</a><ul>
+<li><a class="reference internal" href="#native-coordinates-and-resulting-plotting-and-processing-peculartities">Native coordinates and resulting plotting and processing peculartities</a></li>
+<li><a class="reference internal" href="#reproducing-hcp-sensor-space-outputs">Reproducing HCP sensor space outputs</a></li>
+<li><a class="reference internal" href="#convenience-functions">Convenience functions</a><ul>
+<li><a class="reference internal" href="#python-indexing">Python Indexing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributions">Contributions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="mne-hcp">
+<h1>MNE-HCP<a class="headerlink" href="#mne-hcp" title="Permalink to this headline">¶</a></h1>
+<p>Python tools for processing HCP data using MNE-Python</p>
+<div class="section" id="scope-and-disclaimer">
+<h2>Scope and Disclaimer<a class="headerlink" href="#scope-and-disclaimer" title="Permalink to this headline">¶</a></h2>
+<p>This code is under active research-driven development
+and the API is still changing but is getting closer to a stable release.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For now please consider the following caveats:</p>
+<ul class="last simple">
+<li>we only intend to support a subset of the files shipped with HCP.</li>
+<li>Precisely, for now it is not planned to support io and processing for any outputs of the HCP source space pipelines.</li>
+<li>This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>We recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda Python distribution</a>. To install <code class="docutils literal"><span class="pre">mne-hcp</span></code>, you first need to install its dependencies:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install numpy matplotlib scipy scikit-learn mne joblib pandas
+</pre></div>
+</div>
+<p>Then clone the repository:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone http://github.com/mne-tools/mne-hcp
+</pre></div>
+</div>
+<p>and finally run <cite>setup.py</cite> to install the package:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mne-hcp/
+$ python setup.py install
+</pre></div>
+</div>
+<p>If you do not have admin privileges on the computer, use the <code class="docutils literal"><span class="pre">--user</span></code> flag
+with <cite>setup.py</cite>.</p>
+<p>For a devoloper install based on symbolic links do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mne-hcp/
+$ python setup.py develop
+</pre></div>
+</div>
+<p>To check if everything worked fine, you can do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ python -c &#39;import hcp&#39;
+</pre></div>
+</div>
+<p>and it should not give any error messages.</p>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>The following main and additional dependencies are required to enjoy MNE-HCP:
+- MNE-Python master branch
+- scipy
+- numpy
+- matplotlib
+- scikit-learn (optional)</p>
+</div>
+</div>
+<div class="section" id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>The following data layout is expected. A folder that contains the HCP data
+as they are unpacked by a zip, subject wise.
+When data were downloaded via the Aspera connect client the following
+command should produce the expected layout.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="k">for</span> fname in <span class="k">$(</span>ls *zip<span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+$    <span class="nb">echo</span> unpacking <span class="nv">$fname</span><span class="p">;</span>
+$    unzip -o <span class="nv">$fname</span><span class="p">;</span> rm <span class="nv">$fname</span><span class="p">;</span>
+$ <span class="k">done</span>
+</pre></div>
+</div>
+<p>When files are downloaded using the amazon webserviced tools, e.g. <cite>s3rcmd</cite>,
+all should be fine.</p>
+<p>The code is organized by different modules.
+The <cite>io</cite> module includes readers for sensor space data at different processing
+stages and annotations for baddata.</p>
+<div class="section" id="reader-api">
+<h2>Reader API<a class="headerlink" href="#reader-api" title="Permalink to this headline">¶</a></h2>
+<p>All data readers have the same API for the first two positional arguments:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span>
+    <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>  <span class="c1"># assuming that data are unpacked here</span>
+
+<span class="c1"># all MNE objects have native names and coordinates, some MNE functions might break.</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_info_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># MNE object</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># ...</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_epochs_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># ...</span>
+<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_evokeds_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># ...</span>
+<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># dict</span>
+<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_ica_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="types-of-data">
+<h2>Types of Data<a class="headerlink" href="#types-of-data" title="Permalink to this headline">¶</a></h2>
+<p>MNE-HCP uses custom names for values that are more mne-pythonic, the following
+table gives an overview</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="49%" />
+<col width="21%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>name</strong></td>
+<td><strong>readers</strong></td>
+<td><strong>HCP jargon</strong></td>
+</tr>
+<tr class="row-even"><td>&#8216;rest&#8217;</td>
+<td>raw, epochs, info, annotations, ica</td>
+<td>&#8216;Restin&#8217;&#8216;</td>
+</tr>
+<tr class="row-odd"><td>&#8216;task_working_memory&#8217;</td>
+<td>raw, epochs, info, annotations, ica</td>
+<td>&#8216;Wrkmem&#8217;</td>
+</tr>
+<tr class="row-even"><td>&#8216;task_story_math&#8217;</td>
+<td>raw, epochs, info, annotations, ica</td>
+<td>&#8216;StoryM&#8217;</td>
+</tr>
+<tr class="row-odd"><td>&#8216;task_motor&#8217;</td>
+<td>raw, epochs, info, annotations, ica</td>
+<td>&#8216;Motor&#8217;</td>
+</tr>
+<tr class="row-even"><td>&#8216;noise_subject&#8217;</td>
+<td>raw, info</td>
+<td>&#8216;Pnoise&#8217;</td>
+</tr>
+<tr class="row-odd"><td>&#8216;noise_empty_room&#8217;</td>
+<td>raw, info</td>
+<td>&#8216;Rnoise&#8217;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functionality-to-make-the-hcp-compatible-with-mne">
+<h2>Functionality to make the HCP compatible with MNE<a class="headerlink" href="#functionality-to-make-the-hcp-compatible-with-mne" title="Permalink to this headline">¶</a></h2>
+<p>MNE HCP comes with convenience functions such as <cite>hcp.make_mne_anatomy</cite>. This one willcreate an
+MNE friendly anatomy directories and extractes the head model and
+coregistration MEG to MRI coregistration. Yes it maps to MRI, not to the
+helmet &#8211; a peculiarity of the HCP data.
+It can be used as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hcp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/data/MNE-HCP&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">hcp</span><span class="o">.</span><span class="n">make_mne_anatomy</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>     <span class="s1">&#39;100307&#39;</span><span class="p">,</span> <span class="n">anatomy_path</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/subjects&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>     <span class="n">hcp_path</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/HCP&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>     <span class="n">recordings_path</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/hcp-meg&#39;</span><span class="p">)</span>
+<span class="go">reading extended structural processing ...</span>
+<span class="go">reading RAS freesurfer transform</span>
+<span class="go">Combining RAS transform and coregistration</span>
+<span class="go">extracting head model</span>
+<span class="go">coregistring head model to MNE-HCP coordinates</span>
+<span class="go">extracting coregistration</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="file-mapping">
+<h2>File Mapping<a class="headerlink" href="#file-mapping" title="Permalink to this headline">¶</a></h2>
+<p>MNE-HCP supports a low level file mapping that allows for quick compilations
+of sets of files for a given subejct and data context.
+This is done in <a class="reference internal" href="generated/hcp.io.file_mapping.get_file_paths.html#hcp.io.file_mapping.get_file_paths" title="hcp.io.file_mapping.get_file_paths"><code class="xref py py-func docutils literal"><span class="pre">hcp.io.file_mapping.get_file_paths()</span></code></a>, think of it as a
+file name synthesizer that takes certain data description parameters as inputs
+and lists all corresponding files.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hcp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">files</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">file_mapping</span><span class="o">.</span><span class="n">get_file_paths</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;123455&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;task_motor&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;raw&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">hcp_path</span><span class="o">=</span><span class="s1">&#39;/media/crazy_disk/HCP&#39;</span><span class="p">)</span>
+<span class="go">[&#39;/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC&#39;,</span>
+<span class="go"> &#39;/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/config&#39;]</span>
+</pre></div>
+</div>
+<p>Why we are not globbing files? Because the HCP-MEG data are fixed, all file
+patterns are known and access via Amazon web services easier if the files
+to be accessed are known in advance.</p>
+</div>
+</div>
+<div class="section" id="gotchas">
+<h1>Gotchas<a class="headerlink" href="#gotchas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="native-coordinates-and-resulting-plotting-and-processing-peculartities">
+<h2>Native coordinates and resulting plotting and processing peculartities<a class="headerlink" href="#native-coordinates-and-resulting-plotting-and-processing-peculartities" title="Permalink to this headline">¶</a></h2>
+<p>The HCP for MEG provides coregistration information for native BTI/4D
+setting. MNE-Python expects coordinates in meters and the Neuromag
+right anterior superior (RAS) coordinates. However, essential information is
+missing to compute all transforms needed to easily perform the conversions.</p>
+<p>For now, the way things work, all processing is performed in native BTI/4D
+coordinates with the device-to-head transform skipped (set to identity matrix),
+such that the coregistration directly maps from the native 4D sensors,
+represented in head coordinates, to the freesurfer space. This has a few minor
+consequences that you may confusing to MNE-Python users.</p>
+<p>1. In the reader code you will see many flags set to <code class="docutils literal"><span class="pre">`convert=False`</span></code>, etc.
+This is not a bug.</p>
+<p>2. All channel names and positions are native, topographic plotting might not
+work as as expected. First of all the layout file is not recognized, second,
+the coordinates are not regonized as native ones, eventually rotating and
+distorting the graphical display. To fix this either a proper layout can be
+computed with <a class="reference internal" href="generated/hcp.viz.make_hcp_bti_layout.html#hcp.viz.make_hcp_bti_layout" title="hcp.viz.make_hcp_bti_layout"><code class="xref py py-func docutils literal"><span class="pre">hcp.viz.make_hcp_bti_layout()</span></code></a>.
+The conversion to MNE can be
+performed too using <a class="reference internal" href="generated/hcp.preprocessing.map_chs_to_mne.html#hcp.preprocessing.map_chs_to_mne" title="hcp.preprocessing.map_chs_to_mne"><code class="xref py py-func docutils literal"><span class="pre">hcp.preprocessing.map_chs_to_mne()</span></code></a>.
+But note that source localization will be wrong when computerd on data in
+Neuromag coordinates. As things are coordinates have to be kept in the native
+space to be aligned with the HCP outputs.</p>
+</div>
+<div class="section" id="reproducing-hcp-sensor-space-outputs">
+<h2>Reproducing HCP sensor space outputs<a class="headerlink" href="#reproducing-hcp-sensor-space-outputs" title="Permalink to this headline">¶</a></h2>
+<p>A couple of steps are necessary to reproduce
+the original sensor space outputs.</p>
+<ol class="arabic">
+<li><p class="first">Reference channels should be regressed out. Checkout <a class="reference internal" href="generated/hcp.preprocessing.apply_ref_correction.html#hcp.preprocessing.apply_ref_correction" title="hcp.preprocessing.apply_ref_correction"><code class="xref py py-func docutils literal"><span class="pre">hcp.preprocessing.apply_ref_correction()</span></code></a>.</p>
+</li>
+<li><p class="first">The trial info structure gives the correct latencies of the events
+The latencies in the trigger channel are shifted by around 18 ms.
+For now we&#8217;d recommend using the events from the <a class="reference internal" href="generated/hcp.io.read_trial_info_hcp.html#hcp.io.read_trial_info_hcp" title="hcp.io.read_trial_info_hcp"><code class="xref py py-func docutils literal"><span class="pre">hcp.io.read_trial_info_hcp()</span></code></a>.</p>
+</li>
+<li><p class="first">The default filters in MNE and FieldTrip are different.
+FieldTrip uses 4th order butterworth filter. In MNE you might need
+to adjust the <cite>*_trans_bandwidth</cite> parameter to avoid numerical error.
+In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
+to baseline correction.</p>
+</li>
+<li><p class="first">Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
+These have to be read and used. Checkout <cite>hcp.io.read_annot_hcp</cite> and add bad
+channel neame to <cite>raw.info[&#8216;bads&#8217;]</cite> and create and set an mne.Annotations
+object as atribute to raw, see below.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">annots</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
+                               <span class="n">run_index</span><span class="o">=</span><span class="n">run_index</span><span class="p">)</span>
+<span class="n">bad_segments</span> <span class="o">=</span> <span class="n">annots</span><span class="p">[</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">]</span>
+<span class="n">raw</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">Annotations</span><span class="p">(</span>
+    <span class="n">bad_segments</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bad_segments</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;bad&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">ICA components related to eye blinks and heart beats need to be removed
+from the data. Checkout the ICA slot in the output of
+<cite>hcp.io.read_annot_hcp</cite> to get the HCP ICA components.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="convenience-functions">
+<h2>Convenience functions<a class="headerlink" href="#convenience-functions" title="Permalink to this headline">¶</a></h2>
+<p>NNE-HCP ships convenience functions that help set up directory and file layouts
+expected by MNE-Python.</p>
+<p><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-func docutils literal"><span class="pre">hcp.make_mne_anatomy()</span></code></a> will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:</p>
+<p>These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
+with MNE examples.
+Here, <cite>inner_skull.surf</cite> and <cite>$subject-head_mri-trans.fif</cite> are written  by the function such that they can be used by MNE. The latter is the coregistration matrix.</p>
+<div class="section" id="python-indexing">
+<h3>Python Indexing<a class="headerlink" href="#python-indexing" title="Permalink to this headline">¶</a></h3>
+<p>MNE-HCP corrects on reading the indices it finds for data segments, events, or
+components. The indices it reads from the files will already be mapped to
+Python convention by subtracring 1.</p>
+</div>
+</div>
+<div class="section" id="contributions">
+<h2>Contributions<a class="headerlink" href="#contributions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>currently <cite>&#64;dengemann</cite> is pushing frequently to master, if you plan to contribute, open issues and pull requests, or contact <cite>&#64;dengemann</cite> directly. Discussions are welcomed.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="acknowledgements">
+<h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
+<p>This project is supported by the AWS Cloud Credits fo Research program and
+bu the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.</p>
+<p>I acknowledge support by Alex Gramfort, Mainak Jas, Jona Sassenhagen, Giorgos Michalareas,
+Eric Larson, Danilo Bzdok, and Jan-Mathijs Schoffelen for discussions,
+inputs and help with finding the best way to map
+HCP data to the MNE world.</p>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

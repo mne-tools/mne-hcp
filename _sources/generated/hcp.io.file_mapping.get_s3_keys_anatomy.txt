@@ -1,0 +1,12 @@
+hcp.io.file_mapping.get_s3_keys_anatomy
+=======================================
+
+.. currentmodule:: hcp.io.file_mapping
+
+.. autofunction:: get_s3_keys_anatomy
+
+.. include:: hcp.io.file_mapping.get_s3_keys_anatomy.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

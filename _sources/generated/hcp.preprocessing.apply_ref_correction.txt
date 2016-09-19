@@ -1,0 +1,12 @@
+hcp.preprocessing.apply_ref_correction
+======================================
+
+.. currentmodule:: hcp.preprocessing
+
+.. autofunction:: apply_ref_correction
+
+.. include:: hcp.preprocessing.apply_ref_correction.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

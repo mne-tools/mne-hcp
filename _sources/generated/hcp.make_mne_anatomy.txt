@@ -1,0 +1,12 @@
+hcp.make_mne_anatomy
+====================
+
+.. currentmodule:: hcp
+
+.. autofunction:: make_mne_anatomy
+
+.. include:: hcp.make_mne_anatomy.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

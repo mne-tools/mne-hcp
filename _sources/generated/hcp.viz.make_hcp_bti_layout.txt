@@ -1,0 +1,12 @@
+hcp.viz.make_hcp_bti_layout
+===========================
+
+.. currentmodule:: hcp.viz
+
+.. autofunction:: make_hcp_bti_layout
+
+.. include:: hcp.viz.make_hcp_bti_layout.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

@@ -1,0 +1,12 @@
+hcp.preprocessing.map_chs_to_mne
+================================
+
+.. currentmodule:: hcp.preprocessing
+
+.. autofunction:: map_chs_to_mne
+
+.. include:: hcp.preprocessing.map_chs_to_mne.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

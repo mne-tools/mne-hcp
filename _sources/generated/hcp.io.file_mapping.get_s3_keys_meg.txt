@@ -1,0 +1,12 @@
+hcp.io.file_mapping.get_s3_keys_meg
+===================================
+
+.. currentmodule:: hcp.io.file_mapping
+
+.. autofunction:: get_s3_keys_meg
+
+.. include:: hcp.io.file_mapping.get_s3_keys_meg.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>
