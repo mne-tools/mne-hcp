@@ -11,42 +11,25 @@ from nose.tools import assert_equal, assert_true, assert_raises
 import mne
 import hcp
 from mne.utils import _TempDir
+from hcp.tests import config as tconf
 
 
-hcp_path = op.join(op.expanduser('~'), 'mne-hcp-data', 'HCP')
-
-_bti_chans = {'A' + str(i) for i in range(1, 249, 1)}
-
-rest_subject = '105923'
-task_subject = '105923'
-task_types = ['task_story_math', 'task_working_memory', 'task_motor']
-noise_types = ['noise_empty_room']
-sfreq_preproc = 508.63
-sfreq_raw = 2034.5101
-lowpass_preproc = 150
-highpass_preproc = 1.3
-
-epochs_bounds = {
-    'task_motor': (-1.2, 1.2),
-    'task_working_memory': (-1.5, 2.5),
-    'task_story_math': (-1.5, 4),
-    'rest': (0, 2)
-}
+hcp_params = dict(hcp_path=tconf.hcp_path,
+                  subject=tconf.test_subject)
 
 
 def test_read_annot():
     """testing annotations"""
     for run_index in range(3):
-        annots = hcp.io.read_annot_hcp(subject=rest_subject, data_type='rest',
-                                       hcp_path=hcp_path,
-                                       run_index=run_index)
+        annots = hcp.io.read_annot_hcp(data_type='rest', run_index=run_index,
+                                       **hcp_params)
         # channels
         assert_equal(list(sorted(annots['channels'])),
                      ['all', 'ica', 'manual',  'neigh_corr',
                       'neigh_stdratio'])
         for channels in annots['channels'].values():
             for chan in channels:
-                assert_true(chan in _bti_chans)
+                assert_true(chan in tconf.bti_chans)
 
         # segments
         assert_equal(list(sorted(annots['ica'])),
@@ -69,47 +52,42 @@ def _basic_raw_checks(raw):
     ch_sorted = list(sorted(ch_names))
     assert_true(ch_sorted != ch_names)
     assert_equal(np.round(raw.info['sfreq'], 4),
-                 sfreq_raw)
+                 tconf.sfreq_raw)
 
 
 def test_read_raw_rest():
     """Test reading raw for resting state"""
     for run_index in [0, 1, 2]:
-        raw = hcp.io.read_raw_hcp(
-            subject=rest_subject, hcp_path=hcp_path,
-            data_type='rest', run_index=run_index)
+        raw = hcp.io.read_raw_hcp(data_type='rest', run_index=run_index,
+                                  **hcp_params)
         _basic_raw_checks(raw=raw)
 
 
 def test_read_raw_task():
     """Test reading raw for tasks"""
     for run_index in [0, 1, 2]:
-        for data_type in task_types:
+        for data_type in tconf.task_types:
             if run_index == 2:
                 assert_raises(
                     ValueError, hcp.io.read_raw_hcp,
-                    subject=task_subject, hcp_path=hcp_path,
-                    data_type=data_type, run_index=run_index)
+                    data_type=data_type, run_index=run_index, **hcp_params)
                 continue
             raw = hcp.io.read_raw_hcp(
-                subject=task_subject, hcp_path=hcp_path,
-                data_type=data_type, run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
             _basic_raw_checks(raw=raw)
 
 
 def test_read_raw_noise():
     """Test reading raw for empty room noise"""
     for run_index in [0, 1]:
-        for data_type in noise_types:
+        for data_type in tconf.noise_types:
             if run_index == 1:
                 assert_raises(
                     ValueError, hcp.io.read_raw_hcp,
-                    subject=task_subject, hcp_path=hcp_path,
-                    data_type=data_type, run_index=run_index)
+                    data_type=data_type, run_index=run_index, **hcp_params)
                 continue
             raw = hcp.io.read_raw_hcp(
-                subject=task_subject, hcp_path=hcp_path,
-                data_type=data_type, run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
             _basic_raw_checks(raw=raw)
 
 
@@ -120,13 +98,13 @@ def _epochs_basic_checks(epochs, annots, data_type):
     assert_equal(len(epochs.ch_names), n_good)
     assert_equal(
         np.round(epochs.info['sfreq'], 2),
-        sfreq_preproc)
+        tconf.sfreq_preproc)
     assert_array_equal(
         np.unique(epochs.events[:, 2]),
         np.array([99], dtype=np.int))
     assert_true(
         _check_bounds(epochs.times,
-                      epochs_bounds[data_type])
+                      tconf.epochs_bounds[data_type])
     )
 
     # XXX these seem not to be reliably set. checkout later.
@@ -142,13 +120,10 @@ def test_read_epochs_rest():
     """Test reading epochs for resting state"""
     for run_index in [0]:
         annots = hcp.io.read_annot_hcp(
-            subject=rest_subject, data_type='rest',
-            hcp_path=hcp_path,
-            run_index=run_index)
+            data_type='rest', run_index=run_index, **hcp_params)
 
         epochs = hcp.io.read_epochs_hcp(
-            subject=rest_subject, hcp_path=hcp_path,
-            data_type='rest', run_index=run_index)
+            data_type='rest', run_index=run_index, **hcp_params)
 
         _epochs_basic_checks(epochs, annots, data_type='rest')
 
@@ -156,15 +131,12 @@ def test_read_epochs_rest():
 def test_read_epochs_task():
     """Test reading epochs for task"""
     for run_index in [0]:
-        for data_type in task_types:
+        for data_type in tconf.task_types:
             annots = hcp.io.read_annot_hcp(
-                subject=task_subject, data_type=data_type,
-                hcp_path=hcp_path,
-                run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
 
             epochs = hcp.io.read_epochs_hcp(
-                subject=task_subject, hcp_path=hcp_path,
-                data_type=data_type, run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
 
             _epochs_basic_checks(epochs, annots, data_type)
 
@@ -180,18 +152,14 @@ def _check_bounds(array, bounds):
 
 
 def test_read_evoked():
-    for data_type in task_types:
+    for data_type in tconf.task_types:
         all_annots = list()
         for run_index in [0, 1]:
             annots = hcp.io.read_annot_hcp(
-                subject=task_subject, data_type=data_type,
-                hcp_path=hcp_path,
-                run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
             all_annots.append(annots)
 
-        evokeds = hcp.io.read_evokeds_hcp(
-            subject=task_subject, data_type=data_type,
-            hcp_path=hcp_path)
+        evokeds = hcp.io.read_evokeds_hcp(data_type=data_type, **hcp_params)
 
         n_average = sum(ee.kind == 'average' for ee in evokeds)
         assert_equal(n_average, len(evokeds) - n_average)
@@ -204,38 +172,36 @@ def test_read_evoked():
         assert_equal(n_chans, len(evokeds[0].ch_names))
         assert_true(
             _check_bounds(evokeds[0].times,
-                          epochs_bounds[data_type])
+                          tconf.epochs_bounds[data_type])
         )
 
 
 def test_read_info():
     """test reading info"""
     tempdir = _TempDir()
-    for data_type in task_types:
+    for data_type in tconf.task_types:
         for run_index in [0, 1]:
             # with pdf file
             info = hcp.io.read_info_hcp(
-                subject=task_subject, data_type=data_type,
-                hcp_path=hcp_path,
-                run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
             assert_equal(
                 {k for k in info['ch_names'] if k.startswith('A')},
-                _bti_chans
+                tconf.bti_chans
             )
             # without pdf file
             # in this case the hcp code guesses certain channel labels
             cp_paths = hcp.io.file_mapping.get_file_paths(
-                subject=task_subject, data_type=data_type, run_index=run_index,
-                output='raw', hcp_path='',
+                subject=tconf.test_subject, data_type=data_type,
+                run_index=run_index, output='raw', hcp_path='',
             )
             for pp in cp_paths:
                 if 'c,' in pp:  # don't copy pdf
                     continue
                 os.makedirs(op.join(tempdir, op.dirname(pp)))
-                shutil.copy(op.join(hcp_path, pp), op.join(tempdir, pp))
+                shutil.copy(op.join(tconf.hcp_path, pp), op.join(tempdir, pp))
 
             info2 = hcp.io.read_info_hcp(
-                subject=task_subject, data_type=data_type,
+                subject=tconf.test_subject, data_type=data_type,
                 hcp_path=tempdir,
                 run_index=run_index)
 
@@ -251,12 +217,10 @@ def test_read_info():
 
 def test_read_trial_info():
     """Test trial info basics"""
-    for data_type in task_types:
+    for data_type in tconf.task_types:
         for run_index in [0, 1]:
             trial_info = hcp.io.read_trial_info_hcp(
-                subject=task_subject, data_type=data_type,
-                hcp_path=hcp_path,
-                run_index=run_index)
+                data_type=data_type, run_index=run_index, **hcp_params)
             assert_true('stim' in trial_info)
             assert_true('resp' in trial_info)
             assert_equal(2, len(trial_info))

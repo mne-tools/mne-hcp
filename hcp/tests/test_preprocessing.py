@@ -1,3 +1,5 @@
+import hcp
+from hcp.tests import config as tconf
 
 
 def test_set_eog_channels():
