@@ -9,6 +9,7 @@ env:
 before_install:
 - openssl aes-256-cbc -K $encrypted_73bd2a498087_key -iv $encrypted_73bd2a498087_iv
   -in .s3cfg.enc -out $HOME/.s3cfg -d
+- python -c "import os; assert os.path.exists(op.join(os.path.expanduser('~')), '.s3cfg')"
 - wget -q http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
 - chmod +x miniconda.sh
 - "./miniconda.sh -b -p /home/travis/miniconda"
@@ -18,7 +19,7 @@ before_install:
 - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
   --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX
   +render -noreset"
-- conda create -n get-hcp-env --yes pip python=$2.7
+- conda create -n get-hcp-env --yes pip python=2.7
 - source activate get-hcp-env
 - conda install conda install scipy --yes --quiet
 - mkdir $HOME/mne-hcp-data
