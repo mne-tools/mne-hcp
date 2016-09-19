@@ -31,10 +31,16 @@ install:
 - source activate testenv
 - ENSURE_PACKAGES="numpy$NUMPY scipy$SCIPY matplotlib$MPL libpng$LIBPNG"
 - conda install --yes --quiet $ENSURE_PACKAGES nose coverage
-- if [ "${PYTHON}" == "3.5" ]; then conda install --yes --quiet $ENSURE_PACKAGES ipython;
-  else conda install --yes --quiet $ENSURE_PACKAGES ipython==1.1.0 pip install nitime
-  faulthandler; if [ "${NUMPY}" != "=1.8" ]; then conda install --yes --quiet $ENSURE_PACKAGES
-  mayavi$MAYAVI; pip install pysurfer; fi; fi;
+- if [ "${PYTHON}" == "3.5" ]; then
+    conda install --yes --quiet $ENSURE_PACKAGES ipython;
+  else
+    conda install --yes --quiet $ENSURE_PACKAGES ipython==1.1.0;
+    pip install nitime faulthandler;
+    if [ "${NUMPY}" != "=1.8" ]; then
+      conda install --yes --quiet $ENSURE_PACKAGES mayavi$MAYAVI;
+      pip install pysurfer;
+    fi;
+  fi;
 - pip install -q codecov nose-timer mne
 - NP_VERSION=`python -c 'import numpy; print(numpy.__version__)'`
 - if [ -n "$NUMPY" ] && [ "${NUMPY:(-3)}" != "${NP_VERSION::3}" ]; then echo "Incorrect

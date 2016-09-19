@@ -1,3 +1,6 @@
+# Author: Denis A. Engemann <denis.engemann@gmail.com>
+# License: BSD (3-clause)
+
 from . import config
 
 import os
@@ -12,7 +15,7 @@ def _download_testing_data():
     """
     for s3key in config.s3_keys:
         new_path = op.dirname(s3key).split(config.hcp_prefix)[-1][1:]
-        new_path = op.join(op.expanduser('~'), 'mne-hcp-data', new_path)
+        new_path = op.join(config.hcp_path, 'HCP', new_path)
         if not op.exists(new_path):
             os.makedirs(new_path)
         print('downloading:\n\tfrom %s\n\tto %s' % (s3key, new_path))
