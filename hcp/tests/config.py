@@ -47,10 +47,11 @@ s3_keys += get_s3_keys_meg(
 
 s3_keys += get_s3_keys_meg(
     subject,
-    data_types=[dd for dd in hcp_outputs if dd not in ('raw', 'epochs')],
+    data_types=hcp_data_types,
     onsets=hcp_onsets,
     hcp_path_bucket=hcp_prefix,
-    outputs=hcp_outputs, run_inds=run_inds)
+    outputs=[dd for dd in hcp_outputs if dd not in ('raw', 'epochs')],
+    run_inds=run_inds)
 
 ##############################################################################
 # variable used in different tests
