@@ -56,7 +56,6 @@ def get_s3_keys_meg(
         run_inds=0, hcp_path_bucket='HCP_900', onsets='stim'):
     """Helper to prepare AWS downloads
 
-
     A helper function useful for working with Amazon EC2 and S3.
     It compiles a list of related files.
 
