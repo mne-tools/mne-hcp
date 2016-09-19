@@ -30,16 +30,24 @@ hcp_outputs = [
 hcp_onsets = ['stim']
 
 # allow for downloading fewer data
-run_inds = [0, 1, 2][:int(os.getenv('MNE_HCP_N_RUNS', 3))]
-
+run_inds = [0, 1, 2]
+max_runs = int(os.getenv('MNE_HCP_N_RUNS', 3))
 s3_keys = list()
 
 s3_keys += get_s3_keys_anatomy(
     subject, hcp_path_bucket=hcp_prefix, mode='minimal')
 
 s3_keys += get_s3_keys_meg(
-    subject, data_types=[
-        k for k in hcp_data_types if 'noise' not in k],
+    subject,
+    data_types=[dd for dd in hcp_data_types if dd in ('raw', 'epochs')],
+    onsets=hcp_onsets,
+    hcp_path_bucket=hcp_prefix,
+    outputs=hcp_outputs,
+    run_inds=run_inds[:max_runs])
+
+s3_keys += get_s3_keys_meg(
+    subject,
+    data_types=[dd for dd in hcp_data_types if dd not in ('raw', 'epochs')],
     onsets=hcp_onsets,
     hcp_path_bucket=hcp_prefix,
     outputs=hcp_outputs, run_inds=run_inds)

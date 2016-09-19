@@ -57,7 +57,7 @@ def _basic_raw_checks(raw):
 
 def test_read_raw_rest():
     """Test reading raw for resting state"""
-    for run_index in tconf.run_inds:
+    for run_index in tconf.run_inds[:tconf.max_runs]:
         raw = hcp.io.read_raw_hcp(data_type='rest', run_index=run_index,
                                   **hcp_params)
         _basic_raw_checks(raw=raw)
@@ -65,7 +65,7 @@ def test_read_raw_rest():
 
 def test_read_raw_task():
     """Test reading raw for tasks"""
-    for run_index in tconf.run_inds:
+    for run_index in tconf.run_inds[:tconf.max_runs]:
         for data_type in tconf.task_types:
             if run_index == 2:
                 assert_raises(
@@ -79,7 +79,7 @@ def test_read_raw_task():
 
 def test_read_raw_noise():
     """Test reading raw for empty room noise"""
-    for run_index in tconf.run_inds[:2]:
+    for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         for data_type in tconf.noise_types:
             if run_index == 1:
                 assert_raises(
@@ -118,7 +118,7 @@ def _epochs_basic_checks(epochs, annots, data_type):
 
 def test_read_epochs_rest():
     """Test reading epochs for resting state"""
-    for run_index in tconf.run_inds[:2]:
+    for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         annots = hcp.io.read_annot_hcp(
             data_type='rest', run_index=run_index, **hcp_params)
 
@@ -130,7 +130,7 @@ def test_read_epochs_rest():
 
 def test_read_epochs_task():
     """Test reading epochs for task"""
-    for run_index in [0]:
+    for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         for data_type in tconf.task_types:
             annots = hcp.io.read_annot_hcp(
                 data_type=data_type, run_index=run_index, **hcp_params)
@@ -152,6 +152,7 @@ def _check_bounds(array, bounds):
 
 
 def test_read_evoked():
+    """ test reading evokeds """
     for data_type in tconf.task_types:
         all_annots = list()
         for run_index in tconf.run_inds[:2]:
