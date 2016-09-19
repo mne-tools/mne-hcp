@@ -18,6 +18,7 @@ hcp_data_types = [
     'noise_empty_room'
 ]
 
+
 hcp_outputs = [
     'raw',
     'epochs',
@@ -26,6 +27,8 @@ hcp_outputs = [
     'trial_info',
     'bads'
 ]
+
+hcp_cheap = os.getenv('MNE_HCP_CHEAP', False)
 
 hcp_onsets = ['stim']
 
@@ -39,10 +42,18 @@ s3_keys += get_s3_keys_anatomy(
 
 s3_keys += get_s3_keys_meg(
     subject,
+    data_types=['rest'] if hcp_cheap else hcp_data_types,
+    onsets=hcp_onsets,
+    hcp_path_bucket=hcp_prefix,
+    outputs=[dd for dd in hcp_outputs if dd in ('raw',)],
+    run_inds=run_inds[:max_runs])
+
+s3_keys += get_s3_keys_meg(
+    subject,
     data_types=hcp_data_types,
     onsets=hcp_onsets,
     hcp_path_bucket=hcp_prefix,
-    outputs=[dd for dd in hcp_outputs if dd in ('raw', 'epochs')],
+    outputs=[dd for dd in hcp_outputs if dd in ('epochs')],
     run_inds=run_inds[:max_runs])
 
 s3_keys += get_s3_keys_meg(
@@ -74,3 +85,16 @@ epochs_bounds = {
     'task_story_math': (-1.5, 4),
     'rest': (0, 2)
 }
+
+
+def nottest(f):
+    """Decorator to mark a function as not a test"""
+    f.__test__ = False
+    return f
+
+
+@nottest
+def expensive_test(f):
+    """Decorator for expensive testing"""
+    f.expensive_test = True
+    return f
