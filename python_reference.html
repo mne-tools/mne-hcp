@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python API Reference &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="auto_examples/index.html">Examples</a></li>
+                <li><a href="auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="#">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Python API Reference</a></li>
+<li><a class="reference internal" href="#reading-hcp-files">Reading HCP files</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#manipulating-data-and-sensors">Manipulating data and sensors</a></li>
+<li><a class="reference internal" href="#visualizing-data">Visualizing data</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/python_reference.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">Python API Reference</a></li>
+<li><a class="reference internal" href="#reading-hcp-files">Reading HCP files</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#manipulating-data-and-sensors">Manipulating data and sensors</a></li>
+<li><a class="reference internal" href="#visualizing-data">Visualizing data</a></li>
+</ul>
+
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="python-api-reference">
+<span id="api-reference"></span><h1>Python API Reference<a class="headerlink" href="#python-api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the functions reference of MNE-HCP. Functions are
+grouped thematically by analysis stage. Functions  that are not
+below a module heading are found in the <code class="xref py py-mod docutils literal"><span class="pre">hcp</span></code> namespace.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">make_mne_anatomy</span></code></a>(subject,&nbsp;anatomy_path[,&nbsp;...])</td>
+<td>Extract relevant anatomy and create MNE friendly directory layout</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="reading-hcp-files">
+<h1>Reading HCP files<a class="headerlink" href="#reading-hcp-files" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal"><span class="pre">hcp.io</span></code>:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_raw_hcp.html#hcp.io.read_raw_hcp" title="hcp.io.read_raw_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_raw_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Read HCP raw data</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_epochs_hcp.html#hcp.io.read_epochs_hcp" title="hcp.io.read_epochs_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_epochs_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;onset,&nbsp;...])</td>
+<td>Read HCP processed data</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_evokeds_hcp.html#hcp.io.read_evokeds_hcp" title="hcp.io.read_evokeds_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_evokeds_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Read HCP processed data</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_info_hcp.html#hcp.io.read_info_hcp" title="hcp.io.read_info_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_info_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Read info from unprocessed data</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_annot_hcp.html#hcp.io.read_annot_hcp" title="hcp.io.read_annot_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_annot_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Read annotations for bad data and ICA.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_ica_hcp.html#hcp.io.read_ica_hcp" title="hcp.io.read_ica_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_ica_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Parameters</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_trial_info_hcp.html#hcp.io.read_trial_info_hcp" title="hcp.io.read_trial_info_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_trial_info_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Read information about trials</td>
+</tr>
+</tbody>
+</table>
+<p><code class="xref py py-mod docutils literal"><span class="pre">hcp.io.file_mapping</span></code>:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_file_paths.html#hcp.io.file_mapping.get_file_paths" title="hcp.io.file_mapping.get_file_paths"><code class="xref py py-obj docutils literal"><span class="pre">get_file_paths</span></code></a>(subject,&nbsp;data_type,&nbsp;output[,&nbsp;...])</td>
+<td>This is the MNE-HCP file path synthesizer</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_s3_keys_meg.html#hcp.io.file_mapping.get_s3_keys_meg" title="hcp.io.file_mapping.get_s3_keys_meg"><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_meg</span></code></a>(subject,&nbsp;data_types[,&nbsp;...])</td>
+<td>Helper to prepare AWS downloads</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_s3_keys_anatomy.html#hcp.io.file_mapping.get_s3_keys_anatomy" title="hcp.io.file_mapping.get_s3_keys_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_anatomy</span></code></a>(subject[,&nbsp;...])</td>
+<td>Helper to prepare AWS downloads</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="manipulating-data-and-sensors">
+<h1>Manipulating data and sensors<a class="headerlink" href="#manipulating-data-and-sensors" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal"><span class="pre">hcp.preprocessing</span></code>:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.preprocessing.set_eog_ecg_channels.html#hcp.preprocessing.set_eog_ecg_channels" title="hcp.preprocessing.set_eog_ecg_channels"><code class="xref py py-obj docutils literal"><span class="pre">set_eog_ecg_channels</span></code></a>(raw)</td>
+<td>Set the HCP ECG and EOG channels</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.preprocessing.apply_ica_hcp.html#hcp.preprocessing.apply_ica_hcp" title="hcp.preprocessing.apply_ica_hcp"><code class="xref py py-obj docutils literal"><span class="pre">apply_ica_hcp</span></code></a>(raw,&nbsp;ica_mat,&nbsp;exclude)</td>
+<td>Apply the HCP ICA.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.preprocessing.apply_ref_correction.html#hcp.preprocessing.apply_ref_correction" title="hcp.preprocessing.apply_ref_correction"><code class="xref py py-obj docutils literal"><span class="pre">apply_ref_correction</span></code></a>(raw[,&nbsp;decim_fit])</td>
+<td>Regress out MEG ref channels</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.preprocessing.map_chs_to_mne.html#hcp.preprocessing.map_chs_to_mne" title="hcp.preprocessing.map_chs_to_mne"><code class="xref py py-obj docutils literal"><span class="pre">map_chs_to_mne</span></code></a>(inst)</td>
+<td>Transform sensors to MNE coordinates</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.preprocessing.interpolate_missing.html#hcp.preprocessing.interpolate_missing" title="hcp.preprocessing.interpolate_missing"><code class="xref py py-obj docutils literal"><span class="pre">interpolate_missing</span></code></a>(inst,&nbsp;subject,&nbsp;...[,&nbsp;...])</td>
+<td>Interpolate all MEG channels that are missing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="visualizing-data">
+<h1>Visualizing data<a class="headerlink" href="#visualizing-data" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal"><span class="pre">hcp.viz</span></code>:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.viz.plot_coregistration.html#hcp.viz.plot_coregistration" title="hcp.viz.plot_coregistration"><code class="xref py py-obj docutils literal"><span class="pre">plot_coregistration</span></code></a>(subject,&nbsp;anatomy_path,&nbsp;...)</td>
+<td>A diagnostic plot to show the HCP coregistration</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.viz.make_hcp_bti_layout.html#hcp.viz.make_hcp_bti_layout" title="hcp.viz.make_hcp_bti_layout"><code class="xref py py-obj docutils literal"><span class="pre">make_hcp_bti_layout</span></code></a>(info)</td>
+<td>Get Layout of HCP Magnes3600WH data</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
