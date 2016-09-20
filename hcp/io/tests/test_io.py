@@ -184,7 +184,7 @@ def test_read_info():
     """test reading info"""
     tempdir = _TempDir()
     for data_type in tconf.task_types:
-        for run_index in tconf.run_inds[:2]:
+        for run_index in tconf.run_inds[:tconf.max_runs][:2]:
             # with pdf file
             info = hcp.io.read_info_hcp(
                 data_type=data_type, run_index=run_index, **hcp_params)
