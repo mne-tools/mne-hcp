@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hcp.io.file_mapping.get_file_paths &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">hcp.io.file_mapping.get_file_paths</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/generated/hcp.io.file_mapping.get_file_paths.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">hcp.io.file_mapping.get_file_paths</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="hcp-io-file-mapping-get-file-paths">
+<h1>hcp.io.file_mapping.get_file_paths<a class="headerlink" href="#hcp-io-file-mapping-get-file-paths" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hcp.io.file_mapping.get_file_paths">
+<code class="descclassname">hcp.io.file_mapping.</code><code class="descname">get_file_paths</code><span class="sig-paren">(</span><em>subject</em>, <em>data_type</em>, <em>output</em>, <em>run_index=0</em>, <em>onset='stim'</em>, <em>mode='full'</em>, <em>sensor_mode='mag'</em>, <em>hcp_path='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.io.file_mapping.get_file_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the MNE-HCP file path synthesizer</p>
+<p>An easy conceptual mapper from questions to file paths</p>
+<dl class="docutils">
+<dt>subject</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject, a 6 digit code.</dd>
+<dt>data_type</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The acquisition context of the data. The following ones are supported:
+&#8216;rest&#8217;
+&#8216;noise&#8217;
+&#8216;task_motor&#8217;
+&#8216;task_story_math&#8217;
+&#8216;task_working_memory&#8217;</dd>
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The kind of output. The following ones are supported:
+&#8216;raw&#8217;
+&#8216;epochs&#8217;
+&#8216;evoked&#8217;
+&#8216;ica&#8217;
+&#8216;annotations&#8217;
+&#8216;trial_info&#8217;
+&#8216;freesurfer&#8217;
+&#8216;meg_anatomy&#8217;</dd>
+<dt>onset</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;stim&#8217;, &#8216;resp&#8217;, &#8216;sentence&#8217;, &#8216;block&#8217;}</span><dd>The event onset. Only considered for epochs and evoked outputs
+The mapping is generous, everything that is not a response is a
+stimulus, in the sense of internal or external events. sentence and
+block are specific to task_story_math.</dd>
+<dt>mode</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;full&#8217;, &#8216;minimal&#8217;}</span><dd>Return minimum files or all of them. Only relevant for freesurfer
+and anatomy</dd>
+<dt>sensor_mode</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;mag&#8217;, &#8216;planar&#8217;}</span><dd>The sensor projection. Defaults to &#8216;mag&#8217;. Only relevant for
+evoked output.</dd>
+<dt>run_index</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>The run index. For the first run, use 0, for the second, use 1.
+Also see HCP documentation for the number of runs for a given data
+type.</dd>
+<dt>hcp_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The HCP directory, defaults to op.curdir.</dd>
+</dl>
+<dl class="docutils">
+<dt>out</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of str</span><dd>The file names.</dd>
+</dl>
+</dd></dl>
+
+<div style='clear:both'></div></div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

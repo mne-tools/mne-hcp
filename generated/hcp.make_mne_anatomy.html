@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hcp.make_mne_anatomy &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">hcp.make_mne_anatomy</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/generated/hcp.make_mne_anatomy.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">hcp.make_mne_anatomy</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="hcp-make-mne-anatomy">
+<h1>hcp.make_mne_anatomy<a class="headerlink" href="#hcp-make-mne-anatomy" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hcp.make_mne_anatomy">
+<code class="descclassname">hcp.</code><code class="descname">make_mne_anatomy</code><span class="sig-paren">(</span><em>subject</em>, <em>anatomy_path</em>, <em>recordings_path=None</em>, <em>hcp_path='.'</em>, <em>mode='minimal'</em>, <em>outputs=('label'</em>, <em>'mri'</em>, <em>'surf')</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.make_mne_anatomy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract relevant anatomy and create MNE friendly directory layout</p>
+<p>The function will create the following outputs by default:</p>
+<p>$anatomy_path/$subject/bem/inner_skull.surf
+$anatomy_path/$subject/label/*
+$anatomy_path/$subject/mri/*
+$anatomy_path/$subject/surf/*
+$recordings_path/$subject/$subject-head_mri-trans.fif</p>
+<p>These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
+with MNE examples.</p>
+<dl class="docutils">
+<dt>subject</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject name.</dd>
+<dt>anatomy_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)</dd>
+<dt>hcp_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path where the HCP files can be found.</dd>
+<dt>mode</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;minimal&#8217;, &#8216;full&#8217;}</span><dd>If &#8216;minimal&#8217;, only the directory structure is created. If &#8216;full&#8217; the
+freesurfer outputs shipped withm HCP (see <cite>outputs</cite>) are symbolically
+linked.</dd>
+<dt>outputs</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;label&#8217;, &#8216;mri&#8217;, &#8216;stats&#8217;, &#8216;surf&#8217;, &#8216;touch&#8217;}</span><dd>The outputs of the freesrufer pipeline shipped by HCP. Defaults to
+(&#8216;mri&#8217;, &#8216;surf&#8217;), the minimum needed to extract MNE-friendly anatomy
+files and data.</dd>
+</dl>
+</dd></dl>
+
+<div style='clear:both'></div></div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

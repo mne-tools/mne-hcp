@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hcp.preprocessing.interpolate_missing &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">hcp.preprocessing.interpolate_missing</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/generated/hcp.preprocessing.interpolate_missing.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">hcp.preprocessing.interpolate_missing</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="hcp-preprocessing-interpolate-missing">
+<h1>hcp.preprocessing.interpolate_missing<a class="headerlink" href="#hcp-preprocessing-interpolate-missing" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hcp.preprocessing.interpolate_missing">
+<code class="descclassname">hcp.preprocessing.</code><code class="descname">interpolate_missing</code><span class="sig-paren">(</span><em>inst</em>, <em>subject</em>, <em>data_type</em>, <em>hcp_path</em>, <em>run_index=0</em>, <em>mode='fast'</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.preprocessing.interpolate_missing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate all MEG channels that are missing</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function may require some memory.</p>
+</div>
+<dl class="docutils">
+<dt>inst</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">MNE data containers</span><dd>Raw, Epochs, Evoked.</dd>
+<dt>subject</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str, file_map</span><dd>The subject</dd>
+<dt>data_type</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The kind of data to read. The following options are supported:
+&#8216;rest&#8217;
+&#8216;task_motor&#8217;
+&#8216;task_story_math&#8217;
+&#8216;task_working_memory&#8217;
+&#8216;noise_empty_room&#8217;
+&#8216;noise_subject&#8217;</dd>
+<dt>run_index</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>The run index. For the first run, use 0, for the second, use 1.
+Also see HCP documentation for the number of runs for a given data
+type.</dd>
+<dt>hcp_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The HCP directory, defaults to op.curdir.</dd>
+<dt>mode</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>Either <cite>&#8216;accurate&#8217;</cite> or <cite>&#8216;fast&#8217;</cite>, determines the quality of the
+Legendre polynomial expansion used for interpolation of MEG
+channels.</dd>
+</dl>
+<dl class="docutils">
+<dt>out</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">MNE data containers</span><dd>Raw, Epochs, Evoked but with missing channels interpolated.</dd>
+</dl>
+</dd></dl>
+
+<div style='clear:both'></div></div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
