@@ -454,19 +454,28 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """
+    """Read ICA solutions
+
     Parameters
     ----------
     subject : str, file_map
         The subject
+    data_type : str
+        The kind of data to read. The following options are supported:
+        'rest'
+        'task_motor'
+        'task_story_math'
+        'task_working_memory'
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
     hcp_path : str
-        The HCP directory
-    kind : str
-        the data type
+        The HCP directory, defaults to op.curdir.
 
     Returns
     -------
-    out : numpy structured array
+    mat : numpy structured array
         The ICA mat struct.
     """
 
