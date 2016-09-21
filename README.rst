@@ -8,7 +8,8 @@
 MNE-HCP
 =======
 
-Python tools for processing HCP data using MNE-Python
+Python tools for processing the Human Connectome Date using MNE-Python.
+Visit the `MNE-HCP homepage <http://mne-tools.github.io/mne-hcp>`_ for full user documentation.
 
 Scope and Disclaimer
 --------------------
@@ -166,7 +167,7 @@ and lists all corresponding files.
 Example usage:
 
 .. code-block:: python
-    
+
    >>> import hcp
    >>> files = hcp.io.file_mapping.get_file_paths(
    >>>     subject='123455', data_type='task_motor', output='raw',
@@ -285,4 +286,4 @@ bu the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.
 I acknowledge support by Alex Gramfort, Mainak Jas, Jona Sassenhagen, Giorgos Michalareas,
 Eric Larson, Danilo Bzdok, and Jan-Mathijs Schoffelen for discussions,
 inputs and help with finding the best way to map
-HCP data to the MNE world. 
+HCP data to the MNE world.
