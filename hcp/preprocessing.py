@@ -102,7 +102,7 @@ def apply_ref_correction(raw, decim_fit=100):
     raw._data[meg_picks] -= Y_pred.T
 
 
-def map_chs_to_mne(inst):
+def map_ch_coords_to_mne(inst):
     """ Transform sensors to MNE coordinates
 
     .. note::

@@ -204,7 +204,7 @@ the coordinates are not regonized as native ones, eventually rotating and
 distorting the graphical display. To fix this either a proper layout can be
 computed with :func:`hcp.viz.make_hcp_bti_layout`.
 The conversion to MNE can be
-performed too using :func:`hcp.preprocessing.map_chs_to_mne`.
+performed too using :func:`hcp.preprocessing.map_ch_coords_to_mne`.
 But note that source localization will be wrong when computerd on data in
 Neuromag coordinates. As things are coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
