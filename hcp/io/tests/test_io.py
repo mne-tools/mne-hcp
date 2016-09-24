@@ -12,6 +12,7 @@ import mne
 import hcp
 from mne.utils import _TempDir
 from hcp.tests import config as tconf
+from hcp.tests.config import expensive_test
 
 
 hcp_params = dict(hcp_path=tconf.hcp_path,
@@ -57,15 +58,16 @@ def _basic_raw_checks(raw):
 
 def test_read_raw_rest():
     """Test reading raw for resting state"""
-    for run_index in tconf.run_inds:
+    for run_index in tconf.run_inds[:tconf.max_runs]:
         raw = hcp.io.read_raw_hcp(data_type='rest', run_index=run_index,
                                   **hcp_params)
         _basic_raw_checks(raw=raw)
 
 
+@expensive_test
 def test_read_raw_task():
     """Test reading raw for tasks"""
-    for run_index in tconf.run_inds:
+    for run_index in tconf.run_inds[:tconf.max_runs]:
         for data_type in tconf.task_types:
             if run_index == 2:
                 assert_raises(
@@ -77,9 +79,10 @@ def test_read_raw_task():
             _basic_raw_checks(raw=raw)
 
 
+@expensive_test
 def test_read_raw_noise():
     """Test reading raw for empty room noise"""
-    for run_index in tconf.run_inds[:2]:
+    for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         for data_type in tconf.noise_types:
             if run_index == 1:
                 assert_raises(
@@ -118,7 +121,7 @@ def _epochs_basic_checks(epochs, annots, data_type):
 
 def test_read_epochs_rest():
     """Test reading epochs for resting state"""
-    for run_index in tconf.run_inds[:2]:
+    for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         annots = hcp.io.read_annot_hcp(
             data_type='rest', run_index=run_index, **hcp_params)
 
@@ -130,7 +133,7 @@ def test_read_epochs_rest():
 
 def test_read_epochs_task():
     """Test reading epochs for task"""
-    for run_index in [0]:
+    for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         for data_type in tconf.task_types:
             annots = hcp.io.read_annot_hcp(
                 data_type=data_type, run_index=run_index, **hcp_params)
@@ -152,6 +155,7 @@ def _check_bounds(array, bounds):
 
 
 def test_read_evoked():
+    """ test reading evokeds """
     for data_type in tconf.task_types:
         all_annots = list()
         for run_index in tconf.run_inds[:2]:
@@ -180,7 +184,7 @@ def test_read_info():
     """test reading info"""
     tempdir = _TempDir()
     for data_type in tconf.task_types:
-        for run_index in tconf.run_inds[:2]:
+        for run_index in tconf.run_inds[:tconf.max_runs][:2]:
             # with pdf file
             info = hcp.io.read_info_hcp(
                 data_type=data_type, run_index=run_index, **hcp_params)
@@ -204,8 +208,10 @@ def test_read_info():
                 subject=tconf.test_subject, data_type=data_type,
                 hcp_path=tempdir,
                 run_index=run_index)
-
-            assert_true(len(info['chs']) != len(info2['chs']))
+            if os.getenv('MNE_HCP_CHEAP', False):
+                assert_true(len(info['chs']) == len(info2['chs']))
+            else:
+                assert_true(len(info['chs']) != len(info2['chs']))
             common_chs = [ch for ch in info2['ch_names'] if
                           ch in info['ch_names']]
             assert_equal(len(common_chs), len(info['chs']))
@@ -218,7 +224,7 @@ def test_read_info():
 def test_read_trial_info():
     """Test trial info basics"""
     for data_type in tconf.task_types:
-        for run_index in tconf.run_inds[:2]:
+        for run_index in tconf.run_inds[:tconf.max_runs][:2]:
             trial_info = hcp.io.read_trial_info_hcp(
                 data_type=data_type, run_index=run_index, **hcp_params)
             assert_true('stim' in trial_info)

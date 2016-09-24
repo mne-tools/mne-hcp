@@ -68,7 +68,7 @@ Manipulating data and sensors
    set_eog_ecg_channels
    apply_ica_hcp
    apply_ref_correction
-   map_chs_to_mne
+   map_ch_coords_to_mne
    interpolate_missing
 
 

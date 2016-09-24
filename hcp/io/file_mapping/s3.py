@@ -7,7 +7,7 @@ def get_s3_keys_anatomy(
         meg_anatomy_outputs=('head_model', 'transforms'),
         mode='minimal',
         hcp_path_bucket='HCP_900'):
-    """Helper to prepare AWS downloads
+    """Helper to prepare AWS downloads for anatomy data
 
     A helper function useful for working with Amazon EC2 and S3.
     It compiles a list of related files.
@@ -54,7 +54,7 @@ def get_s3_keys_anatomy(
 def get_s3_keys_meg(
         subject, data_types, outputs=('raw', 'bads', 'ica'),
         run_inds=0, hcp_path_bucket='HCP_900', onsets='stim'):
-    """Helper to prepare AWS downloads
+    """Helper to prepare AWS downloads for MEG data
 
     A helper function useful for working with Amazon EC2 and S3.
     It compiles a list of related files.

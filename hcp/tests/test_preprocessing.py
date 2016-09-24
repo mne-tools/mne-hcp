@@ -14,7 +14,7 @@ def test_apply_ref_correction():
     pass
 
 
-def test_map_chs_to_mne():
+def test_map_ch_coords_to_mne():
     pass
 
 

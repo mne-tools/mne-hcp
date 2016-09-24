@@ -229,7 +229,7 @@ def get_file_paths(subject, data_type, output, run_index=0,
         'task_working_memory'
     output : str
         The kind of output. The following ones are supported:
-        'raw'
+        'raw',
         'epochs'
         'evoked'
         'ica'
