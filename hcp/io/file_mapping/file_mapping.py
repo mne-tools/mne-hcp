@@ -212,7 +212,7 @@ def _map_diff_mode(condition, data_type):
 def get_file_paths(subject, data_type, output, run_index=0,
                    onset='stim', mode='full',
                    sensor_mode='mag', hcp_path='.'):
-    """ This is the MNE-HCP file path synthesizer
+    """This is the MNE-HCP file path synthesizer
 
     An easy conceptual mapper from questions to file paths
 

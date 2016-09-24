@@ -50,7 +50,7 @@ def _parse_trans(string):
 
 
 def _parse_hcp_trans(fid, transforms, convert_to_meter):
-    """" another helper """
+    """"another helper"""
     contents = fid.read()
     for trans in contents.split(';'):
         if 'filename' in trans or trans == '\n':
@@ -75,7 +75,7 @@ def _read_trans_hcp(fname, convert_to_meter):
 
 
 def _read_landmarks_hcp(fname):
-    """ XXX parse landmarks currently not used """
+    """XXX parse landmarks currently not used"""
     out = dict()
     with open(fname) as fid:
         for line in fid:
@@ -93,7 +93,7 @@ def _read_landmarks_hcp(fname):
 
 
 def _get_head_model(head_model_fname):
-    """ helper to parse head model from matfile """
+    """helper to parse head model from matfile"""
     head_mat = scio.loadmat(head_model_fname, squeeze_me=False)
     pnts = head_mat['headmodel']['bnd'][0][0][0][0][0]
     faces = head_mat['headmodel']['bnd'][0][0][0][0][1]
@@ -102,7 +102,7 @@ def _get_head_model(head_model_fname):
 
 
 def _read_bti_info(raw_fid, config):
-    """ helper to only access bti info from pdf file """
+    """helper to only access bti info from pdf file"""
     info, bti_info = _get_bti_info(
         pdf_fname=raw_fid, config_fname=config, head_shape_fname=None,
         rotation_x=0.0, translation=(0.0, 0.02, 0.11),
@@ -155,7 +155,7 @@ def _check_infos_trans(infos):
 
 
 def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """ Read HCP raw data
+    """Read HCP raw data
 
     Parameters
     ----------
@@ -215,6 +215,9 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     -------
     info : instance of mne.io.meas_info.Info
         The MNE channel info object.
+
+    .. note::
+        HCP MEG does not deliver only 3 of the 5 task packages from MRI HCP.
     """
     raw, config = get_file_paths(
         subject=subject, data_type=data_type, output='raw',
@@ -283,7 +286,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
 
 
 def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
-    """ read the epochs from matfile """
+    """read the epochs from matfile"""
     data = scio.loadmat(epochs_mat_fname,
                         squeeze_me=True)['data']
     ch_names = [ch for ch in data['label'].tolist()]
@@ -355,7 +358,7 @@ def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def _read_trial_info(trial_info_mat_fname):
-    """ helper to read trial info """
+    """helper to read trial info"""
     # XXX FIXME index -1
     data = scio.loadmat(trial_info_mat_fname, squeeze_me=True)['trlInfo']
     out = dict()
@@ -401,7 +404,7 @@ def _parse_annotations_segments(segment_strings):
 
 
 def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """ Read annotations for bad data and ICA.
+    """Read annotations for bad data and ICA.
 
     Parameters
     ----------
@@ -454,7 +457,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """Read ICA solutions
+    """Read precomputed independent components from subject
 
     Parameters
     ----------
@@ -584,7 +587,7 @@ def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
 
 
 def _read_evoked(fname, sensor_mode, info):
-    """ helper to read evokeds """
+    """helper to read evokeds"""
     data = scio.loadmat(fname, squeeze_me=True)['data']
     ch_names = [ch for ch in data['label'].tolist()]
 
