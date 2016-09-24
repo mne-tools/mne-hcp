@@ -59,12 +59,13 @@ Dependencies
 ------------
 
 The following main and additional dependencies are required to use MNE-HCP:
-- MNE-Python master branch
-- the MNE-Python dependencies, specifically:
-    - scipy
-    - numpy
-    - matplotlib
-- scikit-learn (optional)
+
+    - MNE-Python master branch
+    - the MNE-Python dependencies, specifically
+        - scipy
+        - numpy
+        - matplotlib
+    - scikit-learn (optional)
 
 Quickstart
 ==========
@@ -111,13 +112,13 @@ All data readers have the same API for the first two positional arguments:
 Types of Data
 -------------
 
-MNE-HCP uses custom names for values that are more mne-pythonic, the following
-table gives an overview
+MNE-HCP uses custom names for values that are more MNE-pythonic, the following
+table gives an overview:
 
 +-----------------------+-------------------------------------+----------------+
 | **name**              | **readers**                         | **HCP jargon** |
 +-----------------------+-------------------------------------+----------------+
-| 'rest'                | raw, epochs, info, annotations, ica | 'Restin''      |
+| 'rest'                | raw, epochs, info, annotations, ica | 'Restin'       |
 +-----------------------+-------------------------------------+----------------+
 | 'task_working_memory' | raw, epochs, info, annotations, ica | 'Wrkmem'       |
 +-----------------------+-------------------------------------+----------------+
@@ -145,9 +146,9 @@ It can be used as follows:
    >>> import hcp
    >>> storage_dir = op.expanduser('~/data/MNE-HCP')
    >>> hcp.make_mne_anatomy(
-   >>>      '100307', anatomy_path=storage_dir + '/subjects',
-   >>>      hcp_path=storage_dir + '/HCP',
-   >>>      recordings_path=storage_dir + '/hcp-meg')
+   >>>     '100307', anatomy_path=storage_dir + '/subjects',
+   >>>     hcp_path=storage_dir + '/HCP',
+   >>>     recordings_path=storage_dir + '/hcp-meg')
    reading extended structural processing ...
    reading RAS freesurfer transform
    Combining RAS transform and coregistration
@@ -280,8 +281,8 @@ Contributions
 Acknowledgements
 ================
 
-This project is supported by the AWS Cloud Credits fo Research program and
-bu the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.
+This project is supported by the AWS Cloud Credits for Research program and
+by the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.
 
 I acknowledge support by Alex Gramfort, Mainak Jas, Jona Sassenhagen, Giorgos Michalareas,
 Eric Larson, Danilo Bzdok, and Jan-Mathijs Schoffelen for discussions,
