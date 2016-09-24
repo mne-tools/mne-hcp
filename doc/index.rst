@@ -73,7 +73,7 @@ Quickstart
 The following data layout is expected: a folder that contains the HCP data
 as they are unpacked by a zip, subject wise.
 When data were downloaded via the Aspera connect client, the following
-command should produce the expected layout::
+command should produce the expected layout:
 
 .. code-block:: bash
 
@@ -82,7 +82,7 @@ command should produce the expected layout::
    $    unzip -o $fname; rm $fname;
    $ done
 
-When files are downloaded using the amazon webserviced tools, e.g. `s3rcmd`,
+When files are downloaded using the `Amazon webservice tools <http://s3tools.org/s3cmd>`_, e.g. `s3rcmd`,
 all should be fine.
 
 The code is organized by different modules.
