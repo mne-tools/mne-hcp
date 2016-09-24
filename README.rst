@@ -258,6 +258,7 @@ expected by MNE-Python.
 `hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
 
 .. code-block:: bash
+
     $anatomy_path/$subject/bem/inner_skull.surf
     $anatomy_path/$subject/label/*
     $anatomy_path/$subject/mri/*
@@ -266,7 +267,7 @@ expected by MNE-Python.
 
 These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
 with MNE examples.
-Here, `inner_skull.surf` and `$subject-head_mri-trans.fif` are written  by the function such that they can be used by MNE. The latter is the coregistration matrix.
+Here, `inner_skull.surf` and `$subject-head_mri-trans.fif` are written by the function such that they can be used by MNE. The latter is the coregistration matrix.
 
 Python Indexing
 ^^^^^^^^^^^^^^^
