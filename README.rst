@@ -9,7 +9,8 @@ MNE-HCP
 =======
 
 Python tools for processing `Human Connectome Project  <http://www.humanconnectome.org>`_ MEG data
-using `MNE-Python <http://martinos.org/mne/>`_
+using `MNE-Python <http://martinos.org/mne/>`_.  
+
 Visit the `MNE-HCP homepage <http://mne-tools.github.io/mne-hcp>`_ for full user documentation.
 
 Scope and Disclaimer
@@ -18,13 +19,11 @@ Scope and Disclaimer
 This code is under active research-driven development
 and the API is still changing but is getting closer to a stable release.
 
-.. note::
+For now please consider the following caveats:
 
-    For now please consider the following caveats:
-
-    - We only intend to support a subset of the files shipped with HCP.
-    - Specifically, for now it is not planned to support IO and processing for any outputs of the HCP source space pipelines.
-    - This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
+- We only intend to support a subset of the files shipped with HCP.
+- Specifically, for now it is not planned to support IO and processing for any outputs of the HCP source space pipelines.
+- This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
 
 Installation
 ============
@@ -61,12 +60,12 @@ Dependencies
 
 The following main and additional dependencies are required to use MNE-HCP:
 
-    - MNE-Python master branch
-    - the MNE-Python dependencies, specifically
-        - scipy
-        - numpy
-        - matplotlib
-    - scikit-learn (optional)
+- MNE-Python master branch
+- the MNE-Python dependencies, specifically
+    - scipy
+    - numpy
+    - matplotlib
+- scikit-learn (optional)
 
 Quickstart
 ==========
@@ -83,12 +82,12 @@ command should produce the expected layout:
    $    unzip -o $fname; rm $fname;
    $ done
 
-When files are downloaded using the `Amazon webservice tools <http://s3tools.org/s3cmd>`, e.g. `s3rcmd`,
+When files are downloaded using the `Amazon webservice tools <http://s3tools.org/s3cmd>`_, e.g. `s3rcmd`,
 all should be fine.
 
 The code is organized by different modules.
 The `io` module includes readers for sensor space data at different processing
-stages and annotations for baddata.
+stages and annotations for bad data.
 
 Reader API
 ----------
@@ -163,7 +162,7 @@ File Mapping
 
 MNE-HCP supports a low level file mapping that allows for quick compilations
 of sets of files for a given subject and data context.
-This is done in :func:`hcp.io.file_mapping.get_file_paths`. Think of it as a
+This is done in `hcp.io.file_mapping.get_file_paths`. Think of it as a
 file name synthesizer that takes certain data description parameters as inputs
 and lists all corresponding files.
 
@@ -206,9 +205,9 @@ This is not a bug.
 work as as expected. First of all, the layout file is not recognized. Second,
 the coordinates are not regonized as native ones, eventually rotating and
 distorting the graphical display. To fix this, either a proper layout can be
-computed with :func:`hcp.viz.make_hcp_bti_layout`.
+computed with `hcp.viz.make_hcp_bti_layout`.
 The conversion to MNE can also be performed using
-:func:`hcp.preprocessing.map_ch_coords_to_mne`.
+`hcp.preprocessing.map_ch_coords_to_mne`.
 But note that source localization will be wrong when computed on data in
 Neuromag coordinates. As things are, coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
@@ -219,11 +218,11 @@ Reproducing HCP sensor space outputs
 A couple of steps are necessary to reproduce
 the original sensor space outputs.
 
-1. Reference channels should be regressed out. Check out :func:`hcp.preprocessing.apply_ref_correction`.
+1. Reference channels should be regressed out. Check out `hcp.preprocessing.apply_ref_correction`.
 
 2. The trial info structure gives the correct latencies of the events.
    The latencies in the trigger channel are shifted by around 18 ms.
-   For now we recommend using the events from the function :func:`hcp.io.read_trial_info_hcp`.
+   For now we recommend using the events from the function `hcp.io.read_trial_info_hcp`.
 
 3. The default filters in MNE and FieldTrip are different.
    FieldTrip uses a 4th order butterworth filter. In MNE you might need
@@ -232,7 +231,7 @@ the original sensor space outputs.
    to baseline correction.
 
 4. Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
-   These have to be read and used. Check out :func:`hcp.io.read_annot_hcp` and add bad
+   These have to be read and used. Check out `hcp.io.read_annot_hcp` and add bad
    channel names to `raw.info['bads']` and create and set an `mne.Annotations`
    object as attribute to `raw`, see below.
 
@@ -256,7 +255,7 @@ Convenience functions
 MNE-HCP includes convenience functions that help setting up directory and file layouts
 expected by MNE-Python.
 
-:func:`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
+`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
 
 .. code-block:: bash
     $anatomy_path/$subject/bem/inner_skull.surf
