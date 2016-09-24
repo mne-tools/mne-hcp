@@ -216,9 +216,8 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     info : instance of mne.io.meas_info.Info
         The MNE channel info object.
 
-    Note
-    ----
-    HCP MEG does not deliver only 3 of the 5 task packages from MRI HCP.
+    .. note::
+        HCP MEG does not deliver only 3 of the 5 task packages from MRI HCP.
     """
     raw, config = get_file_paths(
         subject=subject, data_type=data_type, output='raw',
@@ -458,12 +457,8 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
-<<<<<<< HEAD
     """Read precomputed independent components from subject
-=======
-    """Read ICA solutions
 
->>>>>>> 2ec47cae05eaf5479e2caec1ac10d88e83994e12
     Parameters
     ----------
     subject : str, file_map
@@ -603,7 +598,6 @@ def _read_evoked(fname, sensor_mode, info):
     info['sfreq'] = sfreq
 
     out = list()
-    # this look really hacky!
     comment = ('_'.join(fname.split('/')[-1].split('_')[2:])
                   .replace('.mat', '')
                   .replace('_eravg_', '_')
