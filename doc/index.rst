@@ -8,13 +8,14 @@
 MNE-HCP
 =======
 
-Python tools for processing HCP data using MNE-Python
+Python tools for processing `Human Connectome Project  <http://www.humanconnectome.org>`_ MEG data
+using `MNE-Python <http://martinos.org/mne/>`_
 
 Scope and Disclaimer
 --------------------
 
-This code is under active research-driven development
-and the API is still changing but is getting closer to a stable release.
+This code is under active research-driven development. The API is still changing,
+but is getting closer to a stable release.
 
 .. note::
 
@@ -134,8 +135,8 @@ Functionality to make the HCP datasets compatible with MNE
 
 MNE HCP comes with convenience functions such as `hcp.make_mne_anatomy`. This one will create an
 MNE friendly anatomy directories and extracts the head model and
-coregistration MEG to MRI coregistration. (Yes, it maps to MRI, not to the
-helmet -- a peculiarity of the HCP data.)
+coregistration MEG to MRI coregistration.
+(Yes, it maps to MRI, not to the helmet -- a peculiarity of the HCP data.)
 It can be used as follows:
 
 .. code-block:: python
@@ -171,9 +172,9 @@ Example usage:
    >>> import hcp
    >>> files = hcp.io.file_mapping.get_file_paths(
    >>>     subject='123455', data_type='task_motor', output='raw',
-   >>>     hcp_path='/media/crazy_disk/HCP')
-   ['/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
-    '/media/crazy_disk/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
+   >>>     hcp_path='/media/storage/HCP')
+   ['/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
+    '/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
 
 Why we are not globbing files? Because the HCP-MEG data are fixed, all file
 patterns are known and access via Amazon web services easier if the files
@@ -206,7 +207,7 @@ distorting the graphical display. To fix this, either a proper layout can be
 computed with :func:`hcp.viz.make_hcp_bti_layout`.
 Or the conversion to MNE can also be
 performed using :func:`hcp.preprocessing.map_ch_coords_to_mne`.
-But note that source localization will be wrong when computerd on data in
+But note that source localization will be wrong when computed on data in
 Neuromag coordinates. As things are, coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
 
@@ -219,18 +220,18 @@ A couple of steps are necessary to reproduce the original sensor space outputs.
 
 2. The trial info structure gives the correct latencies of the events
    The latencies in the trigger channel are shifted by around 18 ms.
-   For now we'd recommend using the events from the :func:`hcp.io.read_trial_info_hcp`.
+   For now we'd recommend using the events from the function :func:`hcp.io.read_trial_info_hcp`.
 
 3. The default filters in MNE and FieldTrip are different.
-   FieldTrip uses 4th order butterworth filter. In MNE you might need
-   to adjust the `*_trans_bandwidth` parameter to avoid numerical error.
-   In the HCP outputs evoked responses were filtered between 0.5 and 30Hz prior
+   FieldTrip uses a 4th order butterworth filter. In MNE you might need
+   to adjust the `*_trans_bandwidth` parameter to avoid numerical errors.
+   In the HCP outputs, evoked responses were filtered between 0.5 and 30Hz prior
    to baseline correction.
 
 4. Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
-   These have to be read and used. Checkout `hcp.io.read_annot_hcp` and add bad
-   channel neame to `raw.info['bads']` and create and set an mne.Annotations
-   object as atribute to raw, see below.
+   These have to be read and used. Check out `hcp.io.read_annot_hcp` and add bad
+   channel names to `raw.info['bads']` and create and set an `mne.Annotations`
+   object as attribute to `raw`, see below.
 
     .. code-block:: python
 
@@ -249,7 +250,7 @@ A couple of steps are necessary to reproduce the original sensor space outputs.
 Convenience functions
 ---------------------
 
-NNE-HCP ships convenience functions that help set up directory and file layouts
+NNE-HCP includes convenience functions that help setting up directory and file layouts
 expected by MNE-Python.
 
 :func:`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
@@ -270,7 +271,7 @@ Python Indexing
 
 MNE-HCP corrects on reading the indices it finds for data segments, events, or
 components. The indices it reads from the files will already be mapped to
-Python convention by subtracting 1.
+Python conventions by subtracting 1.
 
 Contributions
 -------------
