@@ -243,29 +243,9 @@ def make_forward_stack(anatomy_path,
         #  'dev_ctf_t' is not identity
         assert np.sum(info[trans]['trans'] - np.eye(4)) == 0
 
-    surf = src_params['surface']
-    add_dist = add_source_space_distances
-    spacing = src_params['spacing']
-    src_type = 'subject_on_fsaverage'
-
     fwd = mne.make_forward_solution(
         info, trans=head_mri_t, bem=bem_sol, src=src_subject,
         n_jobs=n_jobs)
-
-    mne.write_forward_solution(
-        op.join(recordings_path, subject, '%s-%s-%s-%s-fwd.fif' % (
-                surf, spacing, add_dist, src_type)),
-        fwd, overwrite=True)
-
-    mne.write_source_spaces(
-        op.join(recordings_path, subject, '%s-%s-%s-%s-src.fif' % (
-                surf, spacing, add_dist, src_type)),
-        src_subject)
-
-    fname_bem = op.join(
-        anatomy_path, subject, 'bem', '%s-%i-bem.fif' % (
-            subject, bem_sol['solution'].shape[0]))
-    mne.write_bem_solution(fname_bem, bem_sol)
 
     return dict(fwd=fwd, src_subject=src_subject,
                 src_fsaverage=src_fsaverage,
