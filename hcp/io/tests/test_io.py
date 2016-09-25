@@ -45,7 +45,7 @@ def test_read_annot():
 
 
 def _basic_raw_checks(raw):
-    """ helper for testing raw files """
+    """helper for testing raw files """
     picks = mne.pick_types(raw.info, meg=True, ref_meg=False)
     assert_equal(len(picks), 248)
     ch_names = [raw.ch_names[pp] for pp in picks]
@@ -155,7 +155,7 @@ def _check_bounds(array, bounds):
 
 
 def test_read_evoked():
-    """ test reading evokeds """
+    """test reading evokeds """
     for data_type in tconf.task_types:
         all_annots = list()
         for run_index in tconf.run_inds[:2]:

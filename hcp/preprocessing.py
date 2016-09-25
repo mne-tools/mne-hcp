@@ -33,7 +33,7 @@ def set_eog_ecg_channels(raw):
 
 
 def apply_ica_hcp(raw, ica_mat, exclude):
-    """ Apply the HCP ICA.
+    """Apply the HCP ICA.
 
     .. note::
        Operates in place.
@@ -103,7 +103,7 @@ def apply_ref_correction(raw, decim_fit=100):
 
 
 def map_ch_coords_to_mne(inst):
-    """ Transform sensors to MNE coordinates
+    """Transform sensors to MNE coordinates
 
     .. note::
         operates in place
@@ -131,7 +131,7 @@ def map_ch_coords_to_mne(inst):
 
 def interpolate_missing(inst, subject, data_type, hcp_path,
                         run_index=0, mode='fast'):
-    """ Interpolate all MEG channels that are missing
+    """Interpolate all MEG channels that are missing
 
     .. warning::
        This function may require some memory.

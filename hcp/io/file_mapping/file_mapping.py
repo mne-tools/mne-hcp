@@ -1,6 +1,6 @@
 import os.path as op
 
-""" Notes
+"""Notes
 
 For now:
 - source pipeline are not considered

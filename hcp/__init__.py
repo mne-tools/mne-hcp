@@ -6,5 +6,5 @@ from . import io
 from . import viz
 from . import preprocessing
 from . import anatomy
-from .anatomy import make_mne_anatomy, make_forward_stack
+from .anatomy import make_mne_anatomy, compute_forward_stack
 from . import tests

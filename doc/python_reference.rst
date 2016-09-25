@@ -19,7 +19,7 @@ below a module heading are found in the :py:mod:`hcp` namespace.
    :template: function.rst
 
    make_mne_anatomy
-   make_forward_stack
+   compute_forward_stack
 
 
 =================

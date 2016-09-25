@@ -9,7 +9,7 @@ from subprocess import call
 
 
 def _download_testing_data():
-    """ download testing data
+    """download testing data
     .. note::
         requires python 2.7
     """
