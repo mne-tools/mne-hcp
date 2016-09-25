@@ -144,12 +144,12 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
         head_mri_t)
 
 
-def make_forward_stack(anatomy_path,
-                       subject,
-                       recordings_path,
-                       info_from=(('data_type', 'rest'), ('run_index', 0)),
-                       fwd_params=None, src_params=None,
-                       hcp_path=op.curdir, n_jobs=1):
+def compute_forward_stack(anatomy_path,
+                          subject,
+                          recordings_path,
+                          info_from=(('data_type', 'rest'), ('run_index', 0)),
+                          fwd_params=None, src_params=None,
+                          hcp_path=op.curdir, n_jobs=1):
     """
     Convenience function for conducting standard MNE analyses.
 
