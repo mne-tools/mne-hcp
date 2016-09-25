@@ -165,6 +165,9 @@ below a module heading are found in the <code class="xref py py-mod docutils lit
 <tr class="row-odd"><td><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">make_mne_anatomy</span></code></a>(subject,&nbsp;anatomy_path[,&nbsp;...])</td>
 <td>Extract relevant anatomy and create MNE friendly directory layout</td>
 </tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.compute_forward_stack.html#hcp.compute_forward_stack" title="hcp.compute_forward_stack"><code class="xref py py-obj docutils literal"><span class="pre">compute_forward_stack</span></code></a>(anatomy_path,&nbsp;subject,&nbsp;...)</td>
+<td>Convenience function for conducting standard MNE analyses.</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -193,7 +196,7 @@ below a module heading are found in the <code class="xref py py-mod docutils lit
 <td>Read annotations for bad data and ICA.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_ica_hcp.html#hcp.io.read_ica_hcp" title="hcp.io.read_ica_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_ica_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Parameters</td>
+<td>Read precomputed independent components from subject</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_trial_info_hcp.html#hcp.io.read_trial_info_hcp" title="hcp.io.read_trial_info_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_trial_info_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
 <td>Read information about trials</td>
@@ -211,10 +214,10 @@ below a module heading are found in the <code class="xref py py-mod docutils lit
 <td>This is the MNE-HCP file path synthesizer</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_s3_keys_meg.html#hcp.io.file_mapping.get_s3_keys_meg" title="hcp.io.file_mapping.get_s3_keys_meg"><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_meg</span></code></a>(subject,&nbsp;data_types[,&nbsp;...])</td>
-<td>Helper to prepare AWS downloads</td>
+<td>Helper to prepare AWS downloads for MEG data</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_s3_keys_anatomy.html#hcp.io.file_mapping.get_s3_keys_anatomy" title="hcp.io.file_mapping.get_s3_keys_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_anatomy</span></code></a>(subject[,&nbsp;...])</td>
-<td>Helper to prepare AWS downloads</td>
+<td>Helper to prepare AWS downloads for anatomy data</td>
 </tr>
 </tbody>
 </table>
@@ -237,7 +240,7 @@ below a module heading are found in the <code class="xref py py-mod docutils lit
 <tr class="row-odd"><td><a class="reference internal" href="generated/hcp.preprocessing.apply_ref_correction.html#hcp.preprocessing.apply_ref_correction" title="hcp.preprocessing.apply_ref_correction"><code class="xref py py-obj docutils literal"><span class="pre">apply_ref_correction</span></code></a>(raw[,&nbsp;decim_fit])</td>
 <td>Regress out MEG ref channels</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/hcp.preprocessing.map_chs_to_mne.html#hcp.preprocessing.map_chs_to_mne" title="hcp.preprocessing.map_chs_to_mne"><code class="xref py py-obj docutils literal"><span class="pre">map_chs_to_mne</span></code></a>(inst)</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.preprocessing.map_ch_coords_to_mne.html#hcp.preprocessing.map_ch_coords_to_mne" title="hcp.preprocessing.map_ch_coords_to_mne"><code class="xref py py-obj docutils literal"><span class="pre">map_ch_coords_to_mne</span></code></a>(inst)</td>
 <td>Transform sensors to MNE coordinates</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/hcp.preprocessing.interpolate_missing.html#hcp.preprocessing.interpolate_missing" title="hcp.preprocessing.interpolate_missing"><code class="xref py py-obj docutils literal"><span class="pre">interpolate_missing</span></code></a>(inst,&nbsp;subject,&nbsp;...[,&nbsp;...])</td>

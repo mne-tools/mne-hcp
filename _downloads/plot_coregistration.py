@@ -14,7 +14,7 @@ from hcp.viz import plot_coregistration
 
 ##############################################################################
 # we assume our data is inside a designated folder under $HOME
-storage_dir = op.expanduser('~/data/MNE-HCP')
+storage_dir = op.expanduser('~/mne-hcp-data')
 
 ##############################################################################
 # and we assume to have the downloaded data, the MNE/freesurfer style

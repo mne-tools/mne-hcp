@@ -146,16 +146,25 @@
 <dl class="function">
 <dt id="hcp.io.read_ica_hcp">
 <code class="descclassname">hcp.io.</code><code class="descname">read_ica_hcp</code><span class="sig-paren">(</span><em>subject</em>, <em>data_type</em>, <em>run_index=0</em>, <em>hcp_path='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.io.read_ica_hcp" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Read precomputed independent components from subject</p>
+<dl class="docutils">
 <dt>subject</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str, file_map</span><dd>The subject</dd>
+<dt>data_type</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The kind of data to read. The following options are supported:
+&#8216;rest&#8217;
+&#8216;task_motor&#8217;
+&#8216;task_story_math&#8217;
+&#8216;task_working_memory&#8217;</dd>
+<dt>run_index</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>The run index. For the first run, use 0, for the second, use 1.
+Also see HCP documentation for the number of runs for a given data
+type.</dd>
 <dt>hcp_path</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The HCP directory</dd>
-<dt>kind</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>the data type</dd>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The HCP directory, defaults to op.curdir.</dd>
 </dl>
 <dl class="docutils">
-<dt>out</dt>
+<dt>mat</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">numpy structured array</span><dd>The ICA mat struct.</dd>
 </dl>
 </dd></dl>
