@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hcp.compute_forward_stack &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">hcp.compute_forward_stack</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/generated/hcp.compute_forward_stack.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">hcp.compute_forward_stack</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="hcp-compute-forward-stack">
+<h1>hcp.compute_forward_stack<a class="headerlink" href="#hcp-compute-forward-stack" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hcp.compute_forward_stack">
+<code class="descclassname">hcp.</code><code class="descname">compute_forward_stack</code><span class="sig-paren">(</span><em>anatomy_path</em>, <em>subject</em>, <em>recordings_path</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>fwd_params=None</em>, <em>src_params=None</em>, <em>hcp_path='.'</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.compute_forward_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function for conducting standard MNE analyses.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this function computes bem solutions, source spaces and forward models
+optimized for connectivity computation, i.e., the fsaverage space
+is morphed onto the subject&#8217;s space.</p>
+</div>
+<dl class="docutils">
+<dt>subject</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject name.</dd>
+<dt>hcp_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The directory containing the HCP data.</dd>
+<dt>recordings_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path where MEG data and transformations are stored.</dd>
+<dt>anatomy_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The directory containing the extracted HCP subject data.</dd>
+<dt>info_from</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span><dd>The reader info concerning the data from which sensor positions
+should be read.
+Must not be empty room as sensor positions are in head
+coordinates for 4D systems, hence not available in that case.
+Note that differences between the sensor positions across runs
+are smaller than 12 digits, hence negligible.</dd>
+<dt>fwd_params</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span><dd>The forward parameters</dd>
+<dt>src_params</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span><dd><p class="first">The src params. Defaults to:</p>
+<dl class="last docutils">
+<dt>dict(subject=&#8217;fsaverage&#8217;, fname=None, spacing=&#8217;oct6&#8217;, n_jobs=2,</dt>
+<dd>surface=&#8217;white&#8217;, subjects_dir=anatomy_path, add_dist=True)</dd>
+</dl>
+</dd>
+<dt>hcp_path</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The prefix of the path of the HCP data.</dd>
+<dt>n_jobs</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>The number of jobs to use in parallel.</dd>
+</dl>
+<dl class="docutils">
+<dt>out</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd><dl class="first last docutils">
+<dt>A dictionary with the following keys:</dt>
+<dd><dl class="first last docutils">
+<dt>fwd</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.Forward</span><dd>The forward solution.</dd>
+<dt>src_subject</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.SourceSpace</span><dd>The source model on the subject&#8217;s surface</dd>
+<dt>src_fsaverage</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.SourceSpace</span><dd>The source model on fsaverage&#8217;s surface</dd>
+<dt>bem_sol</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd>The BEM.</dd>
+<dt>info</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.io.meas_info.Info</span><dd>The actual measurement info used.</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div style='clear:both'></div></div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

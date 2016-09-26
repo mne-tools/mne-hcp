@@ -1,0 +1,12 @@
+hcp.compute_forward_stack
+=========================
+
+.. currentmodule:: hcp
+
+.. autofunction:: compute_forward_stack
+
+.. include:: hcp.compute_forward_stack.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>
