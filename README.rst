@@ -98,7 +98,7 @@ All data readers have the same API for the first two positional arguments:
 .. code-block:: python
 
    params = dict(
-       subject='1003007',
+       subject='100307',
        data_type='task_motor')  # assuming that data are unpacked here
 
    # all MNE objects have native names and coordinates, some MNE functions might break.
@@ -173,7 +173,7 @@ Example usage:
    >>> import hcp
    >>> files = hcp.io.file_mapping.get_file_paths(
    >>>     subject='123455', data_type='task_motor', output='raw',
-   >>>     hcp_path='/media/crazy_disk/HCP')
+   >>>     hcp_path='/media/storage/HCP')
    ['/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
     '/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/config']
 
