@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Apply reference channel correction &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Apply reference channel correction</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_tutorials/plot_reference_correction.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">Apply reference channel correction</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="apply-reference-channel-correction">
+<span id="sphx-glr-auto-tutorials-plot-reference-correction-py"></span><h1>Apply reference channel correction<a class="headerlink" href="#apply-reference-channel-correction" title="Permalink to this headline">¶</a></h1>
+<p>Apply reference channels and see what happens.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Denis A. Enegemann</span>
+<span class="c1"># License: BSD 3 clause</span>
+
+<span class="c1"># import os</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">welch</span>
+
+<span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">import</span> <span class="nn">hcp</span>
+<span class="kn">from</span> <span class="nn">hcp.preprocessing</span> <span class="kn">import</span> <span class="n">apply_ref_correction</span>
+</pre></div>
+</div>
+<p>We first set parameters</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">),</span> <span class="s1">&#39;mne-hcp-data&#39;</span><span class="p">)</span>
+<span class="n">hcp_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">)</span>
+<span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;105923&#39;</span>
+<span class="n">data_type</span> <span class="o">=</span> <span class="s1">&#39;rest&#39;</span>
+<span class="n">run_index</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Then we define a spectral plotter for convenience</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_psd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">Fs</span><span class="p">,</span> <span class="n">NFFT</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+    <span class="n">freqs</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">welch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">Fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hanning&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">NFFT</span><span class="p">,</span>
+                       <span class="n">noverlap</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">NFFT</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">))</span>
+    <span class="n">freqs</span> <span class="o">=</span> <span class="n">freqs</span><span class="p">[</span><span class="n">freqs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">psd</span> <span class="o">=</span> <span class="n">psd</span><span class="p">[</span><span class="n">freqs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">freqs</span><span class="p">),</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">psd</span><span class="o">.</span><span class="n">ravel</span><span class="p">()),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we read in the data</p>
+<p>Then we plot the power spectrum of the MEG and reference channels,
+apply the reference correction and add the resulting cleaned MEG channels
+to our comparison.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
+                          <span class="n">run_index</span><span class="o">=</span><span class="n">run_index</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+<span class="n">raw</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1"># get meg and ref channels</span>
+<span class="n">meg_picks</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ref_meg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ref_picks</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">ref_meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+
+<span class="c1"># put single channel aside for comparison later</span>
+<span class="n">chan1</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">meg_picks</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># add some plotting parameter</span>
+<span class="n">decim_fit</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># we lean a purely spatial model, we don&#39;t need all samples</span>
+<span class="n">decim_show</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># we can make plotting faster</span>
+<span class="n">n_fft</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">15</span>  <span class="c1"># let&#39;s use long windows to see low frequencies</span>
+
+<span class="c1"># we put aside the time series for later plotting</span>
+<span class="n">x_meg</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">meg_picks</span><span class="p">][</span><span class="mi">0</span><span class="p">][:,</span> <span class="p">::</span><span class="n">decim_show</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x_meg_ref</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">ref_picks</span><span class="p">][</span><span class="mi">0</span><span class="p">][:,</span> <span class="p">::</span><span class="n">decim_show</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Reading</span> <span class="mi">4</span><span class="n">D</span> <span class="n">PDF</span> <span class="n">file</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">mne</span><span class="o">-</span><span class="n">hcp</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">HCP</span><span class="o">/</span><span class="mi">105923</span><span class="o">/</span><span class="n">unprocessed</span><span class="o">/</span><span class="n">MEG</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">Restin</span><span class="o">/</span><span class="mi">4</span><span class="n">D</span><span class="o">/</span><span class="n">c</span><span class="p">,</span><span class="n">rfDC</span><span class="o">...</span>
+<span class="n">Creating</span> <span class="n">Neuromag</span> <span class="n">info</span> <span class="n">structure</span> <span class="o">...</span>
+<span class="o">...</span> <span class="n">Setting</span> <span class="n">channel</span> <span class="n">info</span> <span class="n">structure</span><span class="o">.</span>
+<span class="o">...</span> <span class="n">no</span> <span class="n">headshape</span> <span class="n">file</span> <span class="n">supplied</span><span class="p">,</span> <span class="n">doing</span> <span class="n">nothing</span><span class="o">.</span>
+<span class="n">Currently</span> <span class="n">direct</span> <span class="n">inclusion</span> <span class="n">of</span> <span class="mi">4</span><span class="n">D</span> <span class="n">weight</span> <span class="n">tables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">supported</span><span class="o">.</span> <span class="n">For</span> <span class="n">critical</span> <span class="n">use</span> <span class="n">cases</span> <span class="n">please</span> <span class="n">take</span> <span class="n">into</span> <span class="n">account</span> <span class="n">the</span> <span class="n">MNE</span> <span class="n">command</span> <span class="s2">&quot;mne_create_comp_data&quot;</span> <span class="n">to</span> <span class="n">include</span> <span class="n">weights</span> <span class="k">as</span> <span class="n">printed</span> <span class="n">out</span> <span class="n">by</span> <span class="n">the</span> <span class="mi">4</span><span class="n">D</span> <span class="s2">&quot;print_table&quot;</span> <span class="n">routine</span><span class="o">.</span>
+<span class="n">Current</span> <span class="n">compensation</span> <span class="n">grade</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">Reading</span> <span class="mi">0</span> <span class="o">...</span> <span class="mi">749069</span>  <span class="o">=</span>      <span class="mf">0.000</span> <span class="o">...</span>   <span class="mf">368.182</span> <span class="n">secs</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>Now we apply the ref correction (in place).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">apply_ref_correction</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That was the easiest part! Let&#8217;s now plot everything.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plot_psd</span><span class="p">(</span><span class="n">x_meg</span><span class="p">,</span> <span class="n">Fs</span><span class="o">=</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">],</span> <span class="n">NFFT</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;MEG&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plot_psd</span><span class="p">(</span><span class="n">x_meg_ref</span><span class="p">,</span> <span class="n">Fs</span><span class="o">=</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">],</span> <span class="n">NFFT</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;MEG-REF&#39;</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plot_psd</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">meg_picks</span><span class="p">][</span><span class="mi">0</span><span class="p">][:,</span> <span class="p">::</span><span class="n">decim_show</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Fs</span><span class="o">=</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">],</span>
+         <span class="n">NFFT</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;MEG-corrected&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]),</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">300</span><span class="p">]))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;log10(frequency) [Hz]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Power Spectral Density [dB]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_plot_reference_correction_001.png" class="align-center" src="../_images/sphx_glr_plot_reference_correction_001.png" />
+<p>We can see that the ref correction removes low frequencies which is expected</p>
+<p>By comparing single channel time series we can also see the detrending effect</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">chan1c</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">meg_picks</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ch_name</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">ch_names</span><span class="p">[</span><span class="n">meg_picks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">chan1</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> before&#39;</span> <span class="o">%</span> <span class="n">ch_name</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">chan1c</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> after&#39;</span> <span class="o">%</span> <span class="n">ch_name</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">times</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Magnetometer [fT]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [seconds]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_plot_reference_correction_002.png" class="align-center" src="../_images/sphx_glr_plot_reference_correction_002.png" />
+<p><strong>Total running time of the script:</strong> ( 0 minutes  11.985 seconds)</p>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_reference_correction.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_reference_correction.py</span></code></a></div>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_reference_correction.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_reference_correction.ipynb</span></code></a></div>
+<p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
