@@ -169,7 +169,7 @@ kind_map = {
     'task_story_math': 'StoryM',
     'rest': 'Restin',
     'noise_empty_room': 'Rnoise',
-    'noise_subject': 'subject',
+    'noise_subject': 'Pnoise',
     'meg_anatomy': 'anatomy',
     'freesurfer': 'freesurfer'
 }
