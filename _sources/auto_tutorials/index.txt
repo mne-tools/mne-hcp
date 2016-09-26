@@ -5,6 +5,26 @@ Introductory tutorials to MNE-HCP.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Apply reference channels and see what happens. ">
+
+.. only:: html
+
+    .. figure:: /auto_tutorials/images/thumb/sphx_glr_plot_reference_correction_thumb.png
+
+        :ref:`sphx_glr_auto_tutorials_plot_reference_correction.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_tutorials/plot_reference_correction
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="In this tutorial we compare different ways of arriving at event related fields (ERF) starting f...">
 
 .. only:: html
