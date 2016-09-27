@@ -177,8 +177,6 @@ hcp_evokeds = hcp.io.read_evokeds_hcp(
     subject=subject, data_type=data_type, hcp_path=hcp_path, onset='stim')
 
 for ev in hcp_evokeds:
-    if ev.kind != 'average':
-        continue
     if not ev.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
 

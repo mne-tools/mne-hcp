@@ -12,7 +12,7 @@ from .io import read_info_hcp
 
 
 def make_hcp_bti_layout(info):
-    """ Get Layout of HCP Magnes3600WH data
+    """Get Layout of HCP Magnes3600WH data
 
     Parameters
     ----------
@@ -32,18 +32,18 @@ def make_hcp_bti_layout(info):
         kind='magnesWH3600_hcp')
 
 
-def plot_coregistration(subject, anatomy_path, recordings_path,
+def plot_coregistration(subject, subjects_dir, recordings_path,
                         hcp_path=op.curdir,
                         info_from=(('data_type', 'rest'), ('run_index', 0)),
                         view_init=(('azim', 0), ('elev', 0))):
-    """ A diagnostic plot to show the HCP coregistration
+    """A diagnostic plot to show the HCP coregistration
 
     Parameters
     ----------
 
     subject : str
         The subject
-    anatomy_path : str
+    subjects_dir : str
         The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
     hcp_path : str
         The path where the HCP files can be found. defaults to op.curdir.
@@ -64,7 +64,7 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
         The figure object.
     """
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D  # noqa
+    from mpl_toolkits.mplot3d import Axes3D  #  noqa
 
     if isinstance(info_from, tuple):
         info_from = dict(info_from)
@@ -83,7 +83,7 @@ def plot_coregistration(subject, anatomy_path, recordings_path,
     sens_pnts *= 1e3  # put in mm scale
 
     pnts, tris = read_surface(
-        op.join(anatomy_path, subject, 'bem', 'inner_skull.surf'))
+        op.join(subjects_dir, subject, 'bem', 'inner_skull.surf'))
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
