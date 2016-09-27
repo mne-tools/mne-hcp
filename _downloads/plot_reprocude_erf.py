@@ -27,7 +27,7 @@ mne.set_log_level('WARNING')
 # we assume our data is inside its designated folder under $HOME
 storage_dir = op.expanduser('~')
 hcp_path = op.join(storage_dir, 'mne-hcp-data', 'HCP')
-subject = '100307'
+subject = '105923'
 data_type = 'task_working_memory'
 
 

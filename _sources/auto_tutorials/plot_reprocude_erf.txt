@@ -34,7 +34,7 @@ read the ERF files. Subsequently we will compare these outputs.
     # we assume our data is inside its designated folder under $HOME
     storage_dir = op.expanduser('~')
     hcp_path = op.join(storage_dir, 'mne-hcp-data', 'HCP')
-    subject = '100307'
+    subject = '105923'
     data_type = 'task_working_memory'
 
 
@@ -317,7 +317,7 @@ Time to compare the outputs
 
 
 
-**Total running time of the script:** ( 2 minutes  14.096 seconds)
+**Total running time of the script:** ( 2 minutes  15.707 seconds)
 
 
 

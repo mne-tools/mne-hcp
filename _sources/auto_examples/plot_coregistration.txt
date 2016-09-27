@@ -50,7 +50,7 @@ these can be obtained from :func:`make_mne_anatomy`
 
 
     hcp_params = dict(
-        subject='100307',
+        subject='105923',
         hcp_path=op.join(storage_dir, 'HCP'),
         anatomy_path=op.join(storage_dir, 'subjects'),
         recordings_path=op.join(storage_dir, 'hcp-meg'))
@@ -92,13 +92,13 @@ let's plot two views
 
  Out::
 
-    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/100307/unprocessed/MEG/3-Restin/4D/c,rfDC...
+    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/3-Restin/4D/c,rfDC...
     Creating Neuromag info structure ...
     ... Setting channel info structure.
     ... no headshape file supplied, doing nothing.
     Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command "mne_create_comp_data" to include weights as printed out by the 4D "print_table" routine.
     Triangle file: b'' nvert = 5000 ntri = 9996
-    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/100307/unprocessed/MEG/3-Restin/4D/c,rfDC...
+    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/3-Restin/4D/c,rfDC...
     Creating Neuromag info structure ...
     ... Setting channel info structure.
     ... no headshape file supplied, doing nothing.
@@ -106,7 +106,7 @@ let's plot two views
     Triangle file: b'' nvert = 5000 ntri = 9996
 
 
-**Total running time of the script:** ( 0 minutes  0.401 seconds)
+**Total running time of the script:** ( 0 minutes  0.301 seconds)
 
 
 

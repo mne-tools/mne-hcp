@@ -22,6 +22,26 @@ Short examples on how to do things with MNE hcp.
    :hidden:
 
    /auto_examples/plot_coregistration
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="We'll take a look at the coregistration here. ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_interpolate_missing_channels_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_interpolate_missing_channels.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_interpolate_missing_channels
 .. raw:: html
 
     <div style='clear:both'></div>
