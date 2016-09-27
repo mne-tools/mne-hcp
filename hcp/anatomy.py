@@ -17,17 +17,17 @@ from .io.read import _get_head_model
 from .io import read_info_hcp
 
 
-def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
+def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
                      hcp_path=op.curdir, mode='minimal', outputs=(
                          'label', 'mri', 'surf')):
     """Extract relevant anatomy and create MNE friendly directory layout
 
     The function will create the following outputs by default:
 
-    $anatomy_path/$subject/bem/inner_skull.surf
-    $anatomy_path/$subject/label/*
-    $anatomy_path/$subject/mri/*
-    $anatomy_path/$subject/surf/*
+    $subjects_dir/$subject/bem/inner_skull.surf
+    $subjects_dir/$subject/label/*
+    $subjects_dir/$subject/mri/*
+    $subjects_dir/$subject/surf/*
     $recordings_path/$subject/$subject-head_mri-trans.fif
 
     These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
@@ -37,7 +37,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     ----------
     subject : str
         The subject name.
-    anatomy_path : str
+    subjects_dir : str
         The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
     hcp_path : str
         The path where the HCP files can be found.
@@ -54,10 +54,10 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
         raise ValueError('`mode` must either be "minimal" or "full"')
     if hcp_path == op.curdir:
         hcp_path = op.realpath(hcp_path)
-    if not op.isabs(anatomy_path):
-        anatomy_path = op.realpath(anatomy_path)
+    if not op.isabs(subjects_dir):
+        subjects_dir = op.realpath(subjects_dir)
 
-    this_anatomy_path = op.join(anatomy_path, subject)
+    this_subjects_dir = op.join(subjects_dir, subject)
     if not op.isabs(recordings_path):
         recordings_path = op.realpath(recordings_path)
 
@@ -67,13 +67,13 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
         os.makedirs(this_recordings_path)
 
     for output in outputs:
-        if not op.exists(op.join(this_anatomy_path, output)):
-            os.makedirs(op.join(this_anatomy_path, output))
+        if not op.exists(op.join(this_subjects_dir, output)):
+            os.makedirs(op.join(this_subjects_dir, output))
         if output == 'mri':
             for suboutput in ['orig', 'transforms']:
                 if not op.exists(
-                        op.join(this_anatomy_path, output, suboutput)):
-                    os.makedirs(op.join(this_anatomy_path, output, suboutput))
+                        op.join(this_subjects_dir, output, suboutput)):
+                    os.makedirs(op.join(this_subjects_dir, output, suboutput))
 
         files = get_file_paths(
             subject=subject, data_type='freesurfer', output=output,
@@ -81,7 +81,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
         for source in files:
             match = [match for match in re.finditer(subject, source)][-1]
             split_path = source[:match.span()[1] + 1]
-            target = op.join(this_anatomy_path, source.split(split_path)[-1])
+            target = op.join(this_subjects_dir, source.split(split_path)[-1])
             if not op.isfile(target) and not op.islink(target):
                 os.symlink(source, target)
 
@@ -107,7 +107,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     logger.info('reading RAS freesurfer transform')
     # ceci n'est pas un .mat file ...
 
-    with open(op.join(anatomy_path, c_ras_trans_fname)) as fid:
+    with open(op.join(subjects_dir, c_ras_trans_fname)) as fid:
         ras_trans = np.array([
             r.split() for r in fid.read().split('\n') if r],
             dtype=np.float64)
@@ -124,7 +124,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
     logger.info('coregistring head model to MNE-HCP coordinates')
     pnts = apply_trans(ras_trans_m.dot(hcp_trans['bti2spm']), pnts)
 
-    tri_fname = op.join(this_anatomy_path, 'bem', 'inner_skull.surf')
+    tri_fname = op.join(this_subjects_dir, 'bem', 'inner_skull.surf')
     if not op.exists(op.dirname(tri_fname)):
         os.makedirs(op.dirname(tri_fname))
     write_surface(tri_fname, pnts, faces)
@@ -144,7 +144,7 @@ def make_mne_anatomy(subject, anatomy_path, recordings_path=None,
         head_mri_t)
 
 
-def compute_forward_stack(anatomy_path,
+def compute_forward_stack(subjects_dir,
                           subject,
                           recordings_path,
                           info_from=(('data_type', 'rest'), ('run_index', 0)),
@@ -166,7 +166,7 @@ def compute_forward_stack(anatomy_path,
         The directory containing the HCP data.
     recordings_path : str
         The path where MEG data and transformations are stored.
-    anatomy_path : str
+    subjects_dir : str
         The directory containing the extracted HCP subject data.
     info_from : tuple of tuples | dict
         The reader info concerning the data from which sensor positions
@@ -181,7 +181,7 @@ def compute_forward_stack(anatomy_path,
         The src params. Defaults to:
 
         dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=2,
-             surface='white', subjects_dir=anatomy_path, add_dist=True)
+             surface='white', subjects_dir=subjects_dir, add_dist=True)
     hcp_path : str
         The prefix of the path of the HCP data.
     n_jobs : int
@@ -212,7 +212,7 @@ def compute_forward_stack(anatomy_path,
     src_params = _update_dict_defaults(
         src_params,
         dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=n_jobs,
-             surface='white', subjects_dir=anatomy_path, add_dist=True))
+             surface='white', subjects_dir=subjects_dir, add_dist=True))
 
     add_source_space_distances = False
     if src_params['add_dist']:  # we want the distances on the morphed space
@@ -221,14 +221,14 @@ def compute_forward_stack(anatomy_path,
 
     src_fsaverage = mne.setup_source_space(**src_params)
     src_subject = mne.morph_source_spaces(
-        src_fsaverage, subject, subjects_dir=anatomy_path)
+        src_fsaverage, subject, subjects_dir=subjects_dir)
 
     if add_source_space_distances:  # and here we compute them post hoc.
         src_subject = mne.add_source_space_distances(
             src_subject, n_jobs=n_jobs)
 
     bems = mne.make_bem_model(subject, conductivity=(0.3,),
-                              subjects_dir=anatomy_path,
+                              subjects_dir=subjects_dir,
                               ico=None)  # ico = None for morphed SP.
     bem_sol = mne.make_bem_solution(bems)
     bem_sol['surfs'][0]['coord_frame'] = 5
