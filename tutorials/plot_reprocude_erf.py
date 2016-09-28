@@ -26,9 +26,10 @@ mne.set_log_level('WARNING')
 
 # we assume our data is inside its designated folder under $HOME
 storage_dir = op.expanduser('~')
-hcp_path = op.join(storage_dir, 'mne-hcp-data', 'HCP')
-subject = '105923'
-data_type = 'task_working_memory'
+hcp_params = dict(
+    hcp_path=op.join(storage_dir, 'mne-hcp-data', 'HCP'),
+    subject='105923',
+    data_type='task_working_memory')
 
 
 ##############################################################################
@@ -48,33 +49,11 @@ decim = 4
 event_id = dict(face=1)
 baseline = (-0.5, 0)
 
-# we first collect annotations and events
-all_annotations = list()
+# we first collect events
 trial_infos = list()
-all_bads = list()
 for run_index in [0, 1]:
-
-    annots = io.read_annot_hcp(
-        subject=subject, hcp_path=hcp_path, run_index=run_index,
-        data_type=data_type)
-
-    info = io.read_info_hcp(
-        subject=subject, hcp_path=hcp_path, run_index=run_index,
-        data_type=data_type)
-
-    # construct MNE annotations
-    bad_seg = (annots['segments']['all']) / info['sfreq']
-    annotations = mne.Annotations(
-        bad_seg[:, 0], (bad_seg[:, 1] - bad_seg[:, 0]),
-        description='bad')
-
-    all_annotations.append(annotations)
-    trial_info = io.read_trial_info_hcp(
-        subject=subject, hcp_path=hcp_path, run_index=run_index,
-        data_type=data_type)
-
-    all_bads.append(annots['channels']['all'])
-
+    hcp_params['run_index'] = run_index
+    trial_info = io.read_trial_info_hcp(**hcp_params)
     trial_infos.append(trial_info)
 
 
@@ -97,44 +76,59 @@ for trial_info in trial_infos:
     ].astype(int)
 
     # for some reason in the HCP data the time events may not always be unique
-    unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])[:-1]])[0]
+    unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
     events = events[unique_subset]  # use diff to find first unique events
 
     all_events.append(events)
 
 # now we can go ahead
 evokeds = list()
-for run_index, events, annotations, bads in zip([0, 1], all_events,
-                                                all_annotations, all_bads):
-    raw = io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
-                          run_index=run_index, data_type=data_type)
-    raw.load_data()
+for run_index, events in zip([0, 1], all_events):
 
+    hcp_params['run_index'] = run_index
+
+    raw = io.read_raw_hcp(**hcp_params)
+    raw.load_data()
     # apply ref channel correction and drop ref channels
     preproc.apply_ref_correction(raw)
-    raw.pick_types(meg=True, ref_meg=False)
+
+    annots = io.read_annot_hcp(**hcp_params)
+    # construct MNE annotations
+    bad_seg = (annots['segments']['all']) / raw.info['sfreq']
+    annotations = mne.Annotations(
+        bad_seg[:, 0], (bad_seg[:, 1] - bad_seg[:, 0]),
+        description='bad')
+
     raw.annotations = annotations
-    raw.info['bads'].extend(bads)
+    raw.info['bads'].extend(annots['channels']['all'])
+    raw.pick_types(meg=True, ref_meg=False)
 
     # XXX: MNE complains if l_freq = 0.5 Hz
     raw.filter(0.55, 60, method='iir',
                iir_params=dict(order=4, ftype='butter'), n_jobs=1)
 
+    raw.notch_filter([60, 120, 180, 240], method='iir',
+                     iir_params=dict(order=4, ftype='butter'), n_jobs=1)
+
     # read ICA and remove EOG ECG
-    ica_mat = hcp.io.read_ica_hcp(subject, hcp_path=hcp_path,
-                                  data_type=data_type,
-                                  run_index=run_index)
-    exclude = annots['ica']['ecg_eog_ic']
+    # note that the HCP ICA assumes that bad channels have already been removed
+    ica_mat = hcp.io.read_ica_hcp(**hcp_params)
+
+    # We will select the brain ICs only
+    exclude = [ii for ii in range(annots['ica']['total_ic_number'][0])
+               if ii not in annots['ica']['brain_ic_vs']]
     preproc.apply_ica_hcp(raw, ica_mat=ica_mat, exclude=exclude)
 
     # now we can epoch
     events = np.sort(events, 0)
     epochs = mne.Epochs(raw, events=events[events[:, 2] == 1],
                         event_id=event_id, tmin=tmin, tmax=tmax,
-                        reject=None, decim=decim, baseline=baseline,
+                        reject=None, baseline=baseline, decim=decim,
                         preload=True)
+
     evoked = epochs.average()
-    evoked.interpolate_bads()  # let's interpolate bads for easy averaging
+    # now we need to add back out channels for comparison across runs.
+    evoked = preproc.interpolate_missing(evoked, **hcp_params)
     evokeds.append(evoked)
     del epochs, raw
 
@@ -147,19 +141,21 @@ for run_index, events, annotations, bads in zip([0, 1], all_events,
 evokeds_from_epochs_hcp = list()
 
 for run_index, events in zip([0, 1], all_events):
-    epochs_hcp = io.read_epochs_hcp(
-        subject=subject, hcp_path=hcp_path, data_type=data_type,
-        run_index=run_index)
+    hcp_params['run_index'] = run_index
 
-    epochs_hcp.baseline = baseline
-    evoked = epochs_hcp[events[:, 2] == 1].average()
+    epochs_hcp = io.read_epochs_hcp(**hcp_params)
+    # for some reason in the HCP data the time events may not always be unique
+    unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
+    evoked = epochs_hcp[unique_subset][events[:, 2] == 1].average()
+
     del epochs_hcp
     # These epochs have different channels.
     # We use a designated function to re-apply the channels and interpolate
     # them.
-    evoked = preproc.interpolate_missing(
-        evoked, subject=subject,
-        data_type=data_type, hcp_path=hcp_path)
+
+    evoked.baseline = baseline
+    evoked.apply_baseline()
+    evoked = preproc.interpolate_missing(evoked, **hcp_params)
 
     evokeds_from_epochs_hcp.append(evoked)
 
@@ -173,16 +169,15 @@ for run_index, events in zip([0, 1], all_events):
 # and we want the average, not the standard deviation.
 
 evoked_hcp = None
-hcp_evokeds = hcp.io.read_evokeds_hcp(
-    subject=subject, data_type=data_type, hcp_path=hcp_path, onset='stim')
+del hcp_params['run_index']
+hcp_evokeds = hcp.io.read_evokeds_hcp(onset='stim', **hcp_params)
 
 for ev in hcp_evokeds:
     if not ev.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
 
 # Once more we add and interpolate missing channels
-evoked_hcp = preproc.interpolate_missing(
-    ev, subject=subject, data_type=data_type, hcp_path=hcp_path)
+evoked_hcp = preproc.interpolate_missing(ev, **hcp_params)
 
 
 ##############################################################################
@@ -212,20 +207,22 @@ plt.show()
 plt.figure()
 r1 = np.corrcoef(evoked_from_epochs_hcp.data.ravel(),
                  evoked_hcp.data.ravel())[0][1]
-plt.plot(evoked_from_epochs_hcp.data.ravel() * 1e15,
-         evoked_hcp.data.ravel() * 1e15,
+plt.plot(evoked_from_epochs_hcp.data.ravel()[::10] * 1e15,
+         evoked_hcp.data.ravel()[::10] * 1e15,
          linestyle='None', marker='o', alpha=0.1,
          mec='orange', color='orange')
 plt.annotate("r=%0.3f" % r1, xy=(-300, 250))
 plt.ylabel('evoked from HCP epochs')
 plt.xlabel('evoked from HCP evoked')
+plt.show()
 
 plt.figure()
 r1 = np.corrcoef(evoked.data.ravel(), evoked_hcp.data.ravel())[0][1]
-plt.plot(evoked.data.ravel() * 1e15,
-         evoked_hcp.data.ravel() * 1e15,
+plt.plot(evoked.data.ravel()[::10] * 1e15,
+         evoked_hcp.data.ravel()[::10] * 1e15,
          linestyle='None', marker='o', alpha=0.1,
          mec='orange', color='orange')
 plt.annotate("r=%0.3f" % r1, xy=(-300, 250))
 plt.ylabel('evoked from scratch with MNE-HCP')
 plt.xlabel('evoked from HCP evoked file')
+plt.show()

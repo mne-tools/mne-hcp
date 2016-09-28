@@ -98,7 +98,7 @@ def apply_ref_correction(raw, decim_fit=100):
     Y_pred = estimator.fit(
         raw[ref_picks][0][:, ::decim_fit].T,
         raw[meg_picks][0][:, ::decim_fit].T).predict(
-            raw[ref_picks][0].T)
+        raw[ref_picks][0].T)
     raw._data[meg_picks] -= Y_pred.T
 
 
@@ -216,7 +216,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
 
     if is_raw:
         out = mne.io.RawArray(out_data, info)
-        if inst.annotations != None:
+        if inst.annotations is not None:
             out.annotations = inst.annotations
     elif is_epochs:
         out = mne.EpochsArray(data=np.transpose(out_data, (1, 0, 2)),
