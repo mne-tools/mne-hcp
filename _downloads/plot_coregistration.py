@@ -24,7 +24,7 @@ storage_dir = op.expanduser('~/mne-hcp-data')
 hcp_params = dict(
     subject='105923',
     hcp_path=op.join(storage_dir, 'HCP'),
-    anatomy_path=op.join(storage_dir, 'subjects'),
+    subjects_dir=op.join(storage_dir, 'subjects'),
     recordings_path=op.join(storage_dir, 'hcp-meg'))
 
 ##############################################################################

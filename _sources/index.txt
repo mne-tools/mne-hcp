@@ -146,7 +146,7 @@ It can be used as follows:
    >>> import hcp
    >>> storage_dir = op.expanduser('~/data/MNE-HCP')
    >>> hcp.make_mne_anatomy(
-   >>>     '100307', anatomy_path=storage_dir + '/subjects',
+   >>>     '100307', subjects_dir=storage_dir + '/subjects',
    >>>     hcp_path=storage_dir + '/HCP',
    >>>     recordings_path=storage_dir + '/hcp-meg')
    reading extended structural processing ...
@@ -258,10 +258,10 @@ expected by MNE-Python.
 
 .. code-block:: bash
 
-    $anatomy_path/$subject/bem/inner_skull.surf
-    $anatomy_path/$subject/label/*
-    $anatomy_path/$subject/mri/*
-    $anatomy_path/$subject/surf/*
+    $subjects_dir/$subject/bem/inner_skull.surf
+    $subjects_dir/$subject/label/*
+    $subjects_dir/$subject/mri/*
+    $subjects_dir/$subject/surf/*
     $recordings_path/$subject/$subject-head_mri-trans.fif
 
 These can then be set as $SUBJECTS_DIR and as MEG directory, consistent

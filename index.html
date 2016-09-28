@@ -348,7 +348,7 @@ It can be used as follows:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hcp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/data/MNE-HCP&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hcp</span><span class="o">.</span><span class="n">make_mne_anatomy</span><span class="p">(</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="s1">&#39;100307&#39;</span><span class="p">,</span> <span class="n">anatomy_path</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/subjects&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s1">&#39;100307&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/subjects&#39;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">hcp_path</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/HCP&#39;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">recordings_path</span><span class="o">=</span><span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/hcp-meg&#39;</span><span class="p">)</span>
 <span class="go">reading extended structural processing ...</span>
@@ -449,10 +449,10 @@ from the data. Checkout the ICA slot in the output of
 <p>NNE-HCP includes convenience functions that help setting up directory and file layouts
 expected by MNE-Python.</p>
 <p><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-func docutils literal"><span class="pre">hcp.make_mne_anatomy()</span></code></a> will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$anatomy_path</span>/<span class="nv">$subject</span>/bem/inner_skull.surf
-<span class="nv">$anatomy_path</span>/<span class="nv">$subject</span>/label/*
-<span class="nv">$anatomy_path</span>/<span class="nv">$subject</span>/mri/*
-<span class="nv">$anatomy_path</span>/<span class="nv">$subject</span>/surf/*
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/bem/inner_skull.surf
+<span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/label/*
+<span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/mri/*
+<span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/surf/*
 <span class="nv">$recordings_path</span>/<span class="nv">$subject</span>/<span class="nv">$subject</span>-head_mri-trans.fif
 </pre></div>
 </div>

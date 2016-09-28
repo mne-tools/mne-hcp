@@ -145,7 +145,7 @@
 <h1>hcp.io.read_evokeds_hcp<a class="headerlink" href="#hcp-io-read-evokeds-hcp" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="hcp.io.read_evokeds_hcp">
-<code class="descclassname">hcp.io.</code><code class="descname">read_evokeds_hcp</code><span class="sig-paren">(</span><em>subject</em>, <em>data_type</em>, <em>onset='stim'</em>, <em>sensor_mode='mag'</em>, <em>hcp_path='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.io.read_evokeds_hcp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">hcp.io.</code><code class="descname">read_evokeds_hcp</code><span class="sig-paren">(</span><em>subject</em>, <em>data_type</em>, <em>onset='stim'</em>, <em>sensor_mode='mag'</em>, <em>hcp_path='.'</em>, <em>kind='average'</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.io.read_evokeds_hcp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read HCP processed data</p>
 <dl class="docutils">
 <dt>subject</dt>
@@ -157,14 +157,15 @@
 &#8216;task_story_math&#8217;
 &#8216;task_working_memory&#8217;</dd>
 <dt>onset</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;stim&#8217;, &#8216;resp&#8217;}</span><dd>The event onset. Only considered for epochs and evoked outputs
-The mapping is generous, everything that is not a response is a
-stimulus, in the sense of internal or external events.</dd>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;stim&#8217;, &#8216;resp&#8217;}</span><dd>The event onset. The mapping is generous, everything that is not a
+response is a stimulus, in the sense of internal or external events.</dd>
 <dt>sensor_mode</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;mag&#8217;, &#8216;planar&#8217;}</span><dd>The sensor projection. Defaults to &#8216;mag&#8217;. Only relevant for
 evoked output.</dd>
 <dt>hcp_path</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The HCP directory, defaults to op.curdir.</dd>
+<dt>kind</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;average&#8217;, &#8216;standard_error&#8217;}</span><dd>The averaging mode. Defaults to &#8216;average&#8217;.</dd>
 </dl>
 <dl class="docutils">
 <dt>epochs</dt>

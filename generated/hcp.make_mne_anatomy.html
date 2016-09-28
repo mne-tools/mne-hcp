@@ -145,20 +145,20 @@
 <h1>hcp.make_mne_anatomy<a class="headerlink" href="#hcp-make-mne-anatomy" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="hcp.make_mne_anatomy">
-<code class="descclassname">hcp.</code><code class="descname">make_mne_anatomy</code><span class="sig-paren">(</span><em>subject</em>, <em>anatomy_path</em>, <em>recordings_path=None</em>, <em>hcp_path='.'</em>, <em>mode='minimal'</em>, <em>outputs=('label'</em>, <em>'mri'</em>, <em>'surf')</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.make_mne_anatomy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">hcp.</code><code class="descname">make_mne_anatomy</code><span class="sig-paren">(</span><em>subject</em>, <em>subjects_dir</em>, <em>recordings_path=None</em>, <em>hcp_path='.'</em>, <em>mode='minimal'</em>, <em>outputs=('label'</em>, <em>'mri'</em>, <em>'surf')</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.make_mne_anatomy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract relevant anatomy and create MNE friendly directory layout</p>
 <p>The function will create the following outputs by default:</p>
-<p>$anatomy_path/$subject/bem/inner_skull.surf
-$anatomy_path/$subject/label/*
-$anatomy_path/$subject/mri/*
-$anatomy_path/$subject/surf/*
+<p>$subjects_dir/$subject/bem/inner_skull.surf
+$subjects_dir/$subject/label/*
+$subjects_dir/$subject/mri/*
+$subjects_dir/$subject/surf/*
 $recordings_path/$subject/$subject-head_mri-trans.fif</p>
 <p>These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
 with MNE examples.</p>
 <dl class="docutils">
 <dt>subject</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject name.</dd>
-<dt>anatomy_path</dt>
+<dt>subjects_dir</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)</dd>
 <dt>hcp_path</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path where the HCP files can be found.</dd>

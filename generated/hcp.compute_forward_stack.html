@@ -145,7 +145,7 @@
 <h1>hcp.compute_forward_stack<a class="headerlink" href="#hcp-compute-forward-stack" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="hcp.compute_forward_stack">
-<code class="descclassname">hcp.</code><code class="descname">compute_forward_stack</code><span class="sig-paren">(</span><em>anatomy_path</em>, <em>subject</em>, <em>recordings_path</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>fwd_params=None</em>, <em>src_params=None</em>, <em>hcp_path='.'</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.compute_forward_stack" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">hcp.</code><code class="descname">compute_forward_stack</code><span class="sig-paren">(</span><em>subjects_dir</em>, <em>subject</em>, <em>recordings_path</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>fwd_params=None</em>, <em>src_params=None</em>, <em>hcp_path='.'</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.compute_forward_stack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convenience function for conducting standard MNE analyses.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -160,7 +160,7 @@ is morphed onto the subject&#8217;s space.</p>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The directory containing the HCP data.</dd>
 <dt>recordings_path</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path where MEG data and transformations are stored.</dd>
-<dt>anatomy_path</dt>
+<dt>subjects_dir</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The directory containing the extracted HCP subject data.</dd>
 <dt>info_from</dt>
  <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span><dd>The reader info concerning the data from which sensor positions
@@ -175,7 +175,7 @@ are smaller than 12 digits, hence negligible.</dd>
  <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span><dd><p class="first">The src params. Defaults to:</p>
 <dl class="last docutils">
 <dt>dict(subject=&#8217;fsaverage&#8217;, fname=None, spacing=&#8217;oct6&#8217;, n_jobs=2,</dt>
-<dd>surface=&#8217;white&#8217;, subjects_dir=anatomy_path, add_dist=True)</dd>
+<dd>surface=&#8217;white&#8217;, subjects_dir=subjects_dir, add_dist=True)</dd>
 </dl>
 </dd>
 <dt>hcp_path</dt>
