@@ -163,10 +163,11 @@ def test_read_evoked():
                 data_type=data_type, run_index=run_index, **hcp_params)
             all_annots.append(annots)
 
-        evokeds = hcp.io.read_evokeds_hcp(data_type=data_type, **hcp_params)
+        evokeds = hcp.io.read_evokeds_hcp(data_type=data_type,
+                                          kind='average', **hcp_params)
 
         n_average = sum(ee.kind == 'average' for ee in evokeds)
-        assert_equal(n_average, len(evokeds) - n_average)
+        assert_equal(n_average, len(evokeds))
 
         n_chans = 248
         if data_type == 'task_motor':

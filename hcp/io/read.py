@@ -250,10 +250,9 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         'task_story_math'
         'task_working_memory'
     onset : {'stim', 'resp', 'sentence', 'block'}
-        The event onset. Only considered for epochs and evoked outputs
-        The mapping is generous, everything that is not a response is a
-        stimulus, in the sense of internal or external events. sentence and
-        block are specific to task_story_math.
+        The event onset. The mapping is generous, everything that is not a
+        response is a stimulus, in the sense of internal or external events.
+        `sentence` and `block` are specific to task_story_math.
     run_index : int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
@@ -546,7 +545,7 @@ def _parse_annotations_ica(ica_strings):
 
 
 def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
-                     hcp_path=op.curdir):
+                     hcp_path=op.curdir, kind='average'):
     """Read HCP processed data
 
     Parameters
@@ -560,15 +559,15 @@ def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
         'task_story_math'
         'task_working_memory'
     onset : {'stim', 'resp'}
-        The event onset. Only considered for epochs and evoked outputs
-        The mapping is generous, everything that is not a response is a
-        stimulus, in the sense of internal or external events.
+        The event onset. The mapping is generous, everything that is not a
+        response is a stimulus, in the sense of internal or external events.
     sensor_mode : {'mag', 'planar'}
         The sensor projection. Defaults to 'mag'. Only relevant for
         evoked output.
     hcp_path : str
         The HCP directory, defaults to op.curdir.
-
+    kind : {'average', 'standard_error'}
+        The averaging mode. Defaults to 'average'.
     Returns
     -------
     epochs : instance of mne.Epochs
@@ -582,11 +581,11 @@ def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
     for fname in get_file_paths(
             subject=subject, data_type=data_type, onset=onset,
             output='evoked', sensor_mode=sensor_mode, hcp_path=hcp_path):
-        evoked_files.extend(_read_evoked(fname, sensor_mode, info))
+        evoked_files.extend(_read_evoked(fname, sensor_mode, info, kind))
     return evoked_files
 
 
-def _read_evoked(fname, sensor_mode, info):
+def _read_evoked(fname, sensor_mode, info, kind):
     """helper to read evokeds"""
     data = scio.loadmat(fname, squeeze_me=True)['data']
     ch_names = [ch for ch in data['label'].tolist()]
@@ -606,9 +605,11 @@ def _read_evoked(fname, sensor_mode, info):
     nave = np.unique(data['dof'].tolist())
     assert len(nave) == 1
     nave = nave[0]
-    for key, kind in (('var', 'standard_error'), ('avg', 'average')):
+    for key, this_kind in (('var', 'standard_error'), ('avg', 'average')):
+        if this_kind != kind:
+            continue
         evoked = EvokedArray(
             data=data[key].tolist(), info=info, tmin=min(times),
-            kind=kind, comment=comment, nave=nave)
+            kind=this_kind, comment=comment, nave=nave)
         out.append(evoked)
     return out

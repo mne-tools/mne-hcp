@@ -30,7 +30,7 @@ hcp_params = dict(hcp_path=op.join(storage_dir, 'mne-hcp-data', 'HCP'),
 ##############################################################################
 # we take the some evoked and create an interpolated copy
 
-evoked = io.read_evokeds_hcp(**hcp_params)[1]
+evoked = io.read_evokeds_hcp(**hcp_params)[0]
 
 # The HCP pipelines don't interpolate missing channels
 print('%i channels out of 248 expected' % len(evoked.ch_names))
