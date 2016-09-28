@@ -217,7 +217,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
     if is_raw:
         out = mne.io.RawArray(out_data, info)
         if raw.annotations != None:
-            out.annotations = raw.annotations
+            out.annotations = inst.annotations
     elif is_epochs:
         out = mne.EpochsArray(data=np.transpose(out_data, (1, 0, 2)),
                               info=info, events=inst.events,
