@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="plot-the-head-model-inside-mri-to-check-anatomical-alignment">
 <span id="sphx-glr-auto-examples-plot-bem-py"></span><h1>Plot the head model inside MRI to check anatomical alignment<a class="headerlink" href="#plot-the-head-model-inside-mri-to-check-anatomical-alignment" title="Permalink to this headline">¶</a></h1>
@@ -162,21 +162,21 @@ Here, inspect the head model that is used to compute the BEM solution.</p>
 </div>
 <p>We assume that all directory structures are set up.
 Checkout <a class="reference internal" href="../generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-func docutils literal"><span class="pre">hcp.make_mne_anatomy()</span></code></a> to achieve this necessary step.
-See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anatomy"><span class="std std-ref">Extract essential anatomy information</span></a>.</p>
+See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anatomy"><span>Extract essential anatomy information</span></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">plot_bem</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_bem_0011.png" class="align-center" src="../_images/sphx_glr_plot_bem_0011.png" />
+<img alt="../_images/sphx_glr_plot_bem_001.png" class="align-center" src="../_images/sphx_glr_plot_bem_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Using</span> <span class="n">surface</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">mne</span><span class="o">-</span><span class="n">hcp</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">hcp</span><span class="o">-</span><span class="n">subjects</span><span class="o">/</span><span class="mi">105923</span><span class="o">/</span><span class="n">bem</span><span class="o">/</span><span class="n">inner_skull</span><span class="o">.</span><span class="n">surf</span>
-<span class="n">Triangle</span> <span class="n">file</span><span class="p">:</span> <span class="n">b</span><span class="s1">&#39;&#39;</span> <span class="n">nvert</span> <span class="o">=</span> <span class="mi">5000</span> <span class="n">ntri</span> <span class="o">=</span> <span class="mi">9996</span>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>Using surface: /Users/dengemann/mne-hcp-data/hcp-subjects/105923/bem/inner_skull.surf
+Triangle file:  nvert = 5000 ntri = 9996
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.943 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  1.662 seconds)</p>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_bem1.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_bem.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_bem.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_bem.py</span></code></a></div>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_bem1.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_bem.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_bem.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_bem.ipynb</span></code></a></div>
 <p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
 </div>
 
@@ -193,7 +193,7 @@ See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anat
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

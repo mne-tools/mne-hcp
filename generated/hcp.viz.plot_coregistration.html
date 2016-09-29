@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="hcp-viz-plot-coregistration">
 <h1>hcp.viz.plot_coregistration<a class="headerlink" href="#hcp-viz-plot-coregistration" title="Permalink to this headline">¶</a></h1>
@@ -148,26 +148,26 @@
 <code class="descclassname">hcp.viz.</code><code class="descname">plot_coregistration</code><span class="sig-paren">(</span><em>subject</em>, <em>subjects_dir</em>, <em>recordings_path</em>, <em>hcp_path='.'</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>view_init=(('azim'</em>, <em>0)</em>, <em>('elev'</em>, <em>0))</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.viz.plot_coregistration" title="Permalink to this definition">¶</a></dt>
 <dd><p>A diagnostic plot to show the HCP coregistration</p>
 <dl class="docutils">
-<dt>subject</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject</dd>
-<dt>subjects_dir</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)</dd>
-<dt>hcp_path</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path where the HCP files can be found. defaults to op.curdir.</dd>
-<dt>info_from</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span><dd>The reader info concerning the data from which sensor positions
+<dt>subject <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The subject</dd>
+<dt>subjects_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)</dd>
+<dt>hcp_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The path where the HCP files can be found. defaults to op.curdir.</dd>
+<dt>info_from <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span></dt>
+<dd>The reader info concerning the data from which sensor positions
 should be read.
 Must not be empty room as sensor positions are in head
 coordinates for 4D systems, hence not available in that case.
 Note that differences between the sensor positions across runs
 are smaller than 12 digits, hence negligible.</dd>
-<dt>view_init</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span><dd>The initival view, defaults to azimuth and elevation of 0,
+<dt>view_init <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span></dt>
+<dd>The initival view, defaults to azimuth and elevation of 0,
 a simple lateral view</dd>
 </dl>
 <dl class="docutils">
-<dt>fig</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.figure.Figure</span><dd>The figure object.</dd>
+<dt>fig <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.figure.Figure</span></dt>
+<dd>The figure object.</dd>
 </dl>
 </dd></dl>
 
@@ -186,7 +186,7 @@ a simple lateral view</dd>
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

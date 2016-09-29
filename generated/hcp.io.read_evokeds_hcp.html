@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="hcp-io-read-evokeds-hcp">
 <h1>hcp.io.read_evokeds_hcp<a class="headerlink" href="#hcp-io-read-evokeds-hcp" title="Permalink to this headline">¶</a></h1>
@@ -148,28 +148,28 @@
 <code class="descclassname">hcp.io.</code><code class="descname">read_evokeds_hcp</code><span class="sig-paren">(</span><em>subject</em>, <em>data_type</em>, <em>onset='stim'</em>, <em>sensor_mode='mag'</em>, <em>hcp_path='.'</em>, <em>kind='average'</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.io.read_evokeds_hcp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read HCP processed data</p>
 <dl class="docutils">
-<dt>subject</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str, file_map</span><dd>The subject</dd>
-<dt>data_type</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The kind of data to read. The following options are supported:
+<dt>subject <span class="classifier-delimiter">:</span> <span class="classifier">str, file_map</span></dt>
+<dd>The subject</dd>
+<dt>data_type <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The kind of data to read. The following options are supported:
 &#8216;rest&#8217;
 &#8216;task_motor&#8217;
 &#8216;task_story_math&#8217;
 &#8216;task_working_memory&#8217;</dd>
-<dt>onset</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;stim&#8217;, &#8216;resp&#8217;}</span><dd>The event onset. The mapping is generous, everything that is not a
+<dt>onset <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;stim&#8217;, &#8216;resp&#8217;}</span></dt>
+<dd>The event onset. The mapping is generous, everything that is not a
 response is a stimulus, in the sense of internal or external events.</dd>
-<dt>sensor_mode</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;mag&#8217;, &#8216;planar&#8217;}</span><dd>The sensor projection. Defaults to &#8216;mag&#8217;. Only relevant for
+<dt>sensor_mode <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;mag&#8217;, &#8216;planar&#8217;}</span></dt>
+<dd>The sensor projection. Defaults to &#8216;mag&#8217;. Only relevant for
 evoked output.</dd>
-<dt>hcp_path</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The HCP directory, defaults to op.curdir.</dd>
-<dt>kind</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;average&#8217;, &#8216;standard_error&#8217;}</span><dd>The averaging mode. Defaults to &#8216;average&#8217;.</dd>
+<dt>hcp_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The HCP directory, defaults to op.curdir.</dd>
+<dt>kind <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;average&#8217;, &#8216;standard_error&#8217;}</span></dt>
+<dd>The averaging mode. Defaults to &#8216;average&#8217;.</dd>
 </dl>
 <dl class="docutils">
-<dt>epochs</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.Epochs</span><dd>The MNE epochs. Note, these are pseudo-epochs in the case of
+<dt>epochs <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.Epochs</span></dt>
+<dd>The MNE epochs. Note, these are pseudo-epochs in the case of
 onset == &#8216;rest&#8217;.</dd>
 </dl>
 </dd></dl>
@@ -189,7 +189,7 @@ onset == &#8216;rest&#8217;.</dd>
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

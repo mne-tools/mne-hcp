@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="#" />
 
@@ -189,7 +189,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <p><a class="reference external" href="https://travis-ci.org/mne-tools/mne-hcp"><img alt="Travis" src="https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master" /></a></p>
 <div class="section" id="mne-hcp">
@@ -238,27 +238,27 @@ but is getting closer to a stable release.</p>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>We recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda Python distribution</a>, which comes with the necessary dependencies. Alternatively, to install <code class="docutils literal"><span class="pre">mne-hcp</span></code>, you first need to install its dependencies:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install numpy matplotlib scipy scikit-learn mne joblib pandas
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ pip install numpy matplotlib scipy scikit-learn mne joblib pandas
 </pre></div>
 </div>
 <p>Then clone the repository:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone http://github.com/mne-tools/mne-hcp
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git clone http://github.com/mne-tools/mne-hcp
 </pre></div>
 </div>
 <p>and finally run <cite>setup.py</cite> to install the package:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mne-hcp/
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd mne-hcp/
 $ python setup.py install
 </pre></div>
 </div>
 <p>If you do not have admin privileges on the computer, use the <code class="docutils literal"><span class="pre">--user</span></code> flag
 with <cite>setup.py</cite>.</p>
 <p>Alternatively, for a devoloper install based on symbolic links (which simplifies keeping up with code changes), do:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd mne-hcp/
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd mne-hcp/
 $ python setup.py develop
 </pre></div>
 </div>
 <p>To check if everything worked fine, you can do:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ python -c &#39;import hcp&#39;
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ python -c &#39;import hcp&#39;
 </pre></div>
 </div>
 <p>and it should not give any error messages.</p>
@@ -292,8 +292,8 @@ as they are unpacked by a zip, subject wise.
 When data were downloaded via the Aspera connect client, the following
 command should produce the expected layout:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="k">for</span> fname in <span class="k">$(</span>ls *zip<span class="k">)</span><span class="p">;</span> <span class="k">do</span>
-$    <span class="nb">echo</span> unpacking <span class="nv">$fname</span><span class="p">;</span>
-$    unzip -o <span class="nv">$fname</span><span class="p">;</span> rm <span class="nv">$fname</span><span class="p">;</span>
+$    <span class="nb">echo</span> unpacking <span class="nv">$f</span>name<span class="p">;</span>
+$    unzip -o <span class="nv">$f</span>name<span class="p">;</span> rm <span class="nv">$f</span>name<span class="p">;</span>
 $ <span class="k">done</span>
 </pre></div>
 </div>
@@ -456,11 +456,11 @@ from the data. Checkout the ICA slot in the output of
 <p>NNE-HCP includes convenience functions that help setting up directory and file layouts
 expected by MNE-Python.</p>
 <p><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-func docutils literal"><span class="pre">hcp.make_mne_anatomy()</span></code></a> will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/bem/inner_skull.surf
-<span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/label/*
-<span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/mri/*
-<span class="nv">$subjects_dir</span>/<span class="nv">$subject</span>/surf/*
-<span class="nv">$recordings_path</span>/<span class="nv">$subject</span>/<span class="nv">$subject</span>-head_mri-trans.fif
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$subjects_dir/$subject/bem/inner_skull.surf
+$subjects_dir/$subject/label/*
+$subjects_dir/$subject/mri/*
+$subjects_dir/$subject/surf/*
+$recordings_path/$subject/$subject-head_mri-trans.fif
 </pre></div>
 </div>
 <p>These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
@@ -503,7 +503,7 @@ HCP data to the MNE world.</p>
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

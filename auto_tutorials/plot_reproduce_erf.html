@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="computing-erfs-from-hcp">
 <span id="sphx-glr-auto-tutorials-plot-reproduce-erf-py"></span><h1>Computing ERFs from HCP<a class="headerlink" href="#computing-erfs-from-hcp" title="Permalink to this headline">¶</a></h1>
@@ -266,19 +266,19 @@ correction and decimation (downsampling)</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;1. Run Number&#39;</span> <span class="s1">&#39;2. Block Number within run&#39;</span>
- <span class="s1">&#39;3. Nan.  ( This column has been reserved to contain the image ID number which is not encoded in the trigger values. This is not yet implemented.)&#39;</span>
- <span class="s1">&#39;4. imgType : 1- Face, 2- Tools  0- Fixation&#39;</span>
- <span class="s1">&#39;5. memoryType :  1: 0-Back   2: 2-Back&#39;</span>
- <span class="s1">&#39;6. targetType : 1- target, 2- nontarget,  3: lure &#39;</span>
- <span class="s1">&#39;7. Trial trigger onset Sample &#39;</span> <span class="s1">&#39;8. Trial trigger offset Sample&#39;</span>
- <span class="s1">&#39;9. Sequence of image in the block&#39;</span>
- <span class="s1">&#39;10. isPressed :  0- user did not press any response button, 1- user pressed a response button&#39;</span><span class="p">]</span>
-<span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">}</span>
-<span class="n">The</span> <span class="n">default</span> <span class="n">output</span> <span class="nb">type</span> <span class="ow">is</span> <span class="s2">&quot;ba&quot;</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;sos&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">The</span> <span class="n">default</span> <span class="n">output</span> <span class="nb">type</span> <span class="ow">is</span> <span class="s2">&quot;ba&quot;</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;sos&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">The</span> <span class="n">default</span> <span class="n">output</span> <span class="nb">type</span> <span class="ow">is</span> <span class="s2">&quot;ba&quot;</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;sos&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">The</span> <span class="n">default</span> <span class="n">output</span> <span class="nb">type</span> <span class="ow">is</span> <span class="s2">&quot;ba&quot;</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;sos&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>[u&#39;1. Run Number&#39; u&#39;2. Block Number within run&#39;
+ u&#39;3. Nan.  ( This column has been reserved to contain the image ID number which is not encoded in the trigger values. This is not yet implemented.)&#39;
+ u&#39;4. imgType : 1- Face, 2- Tools  0- Fixation&#39;
+ u&#39;5. memoryType :  1: 0-Back   2: 2-Back&#39;
+ u&#39;6. targetType : 1- target, 2- nontarget,  3: lure &#39;
+ u&#39;7. Trial trigger onset Sample &#39; u&#39;8. Trial trigger offset Sample&#39;
+ u&#39;9. Sequence of image in the block&#39;
+ u&#39;10. isPressed :  0- user did not press any response button, 1- user pressed a response button&#39;]
+set([0.0, 1.0, 2.0])
+The default output type is &quot;ba&quot; in 0.13 but will change to &quot;sos&quot; in 0.14
+The default output type is &quot;ba&quot; in 0.13 but will change to &quot;sos&quot; in 0.14
+The default output type is &quot;ba&quot; in 0.13 but will change to &quot;sos&quot; in 0.14
+The default output type is &quot;ba&quot; in 0.13 but will change to &quot;sos&quot; in 0.14
 </pre></div>
 </div>
 <p>Now we can compute the same ERF based on the preprocessed epochs</p>
@@ -376,11 +376,11 @@ and we want the average, not the standard deviation.</p>
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_reproduce_erf_003.png"><img alt="../_images/sphx_glr_plot_reproduce_erf_003.png" src="../_images/sphx_glr_plot_reproduce_erf_003.png" style="width: 376.0px; height: 282.0px;" /></a>
 </li>
 </ul>
-<p><strong>Total running time of the script:</strong> ( 2 minutes  24.631 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 2 minutes  29.669 seconds)</p>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_reproduce_erf.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_reproduce_erf.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_reproduce_erf.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_reproduce_erf.py</span></code></a></div>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_reproduce_erf.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_reproduce_erf.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_reproduce_erf.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_reproduce_erf.ipynb</span></code></a></div>
 <p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
 </div>
 
@@ -397,7 +397,7 @@ and we want the average, not the standard deviation.</p>
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="hcp-compute-forward-stack">
 <h1>hcp.compute_forward_stack<a class="headerlink" href="#hcp-compute-forward-stack" title="Permalink to this headline">¶</a></h1>
@@ -154,50 +154,50 @@ optimized for connectivity computation, i.e., the fsaverage space
 is morphed onto the subject&#8217;s space.</p>
 </div>
 <dl class="docutils">
-<dt>subject</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject name.</dd>
-<dt>hcp_path</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The directory containing the HCP data.</dd>
-<dt>recordings_path</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The path where MEG data and transformations are stored.</dd>
-<dt>subjects_dir</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The directory containing the extracted HCP subject data.</dd>
-<dt>info_from</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span><dd>The reader info concerning the data from which sensor positions
+<dt>subject <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The subject name.</dd>
+<dt>hcp_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The directory containing the HCP data.</dd>
+<dt>recordings_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The path where MEG data and transformations are stored.</dd>
+<dt>subjects_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The directory containing the extracted HCP subject data.</dd>
+<dt>info_from <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span></dt>
+<dd>The reader info concerning the data from which sensor positions
 should be read.
 Must not be empty room as sensor positions are in head
 coordinates for 4D systems, hence not available in that case.
 Note that differences between the sensor positions across runs
 are smaller than 12 digits, hence negligible.</dd>
-<dt>fwd_params</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span><dd>The forward parameters</dd>
-<dt>src_params</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span><dd><p class="first">The src params. Defaults to:</p>
+<dt>fwd_params <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span></dt>
+<dd>The forward parameters</dd>
+<dt>src_params <span class="classifier-delimiter">:</span> <span class="classifier">None | dict</span></dt>
+<dd><p class="first">The src params. Defaults to:</p>
 <dl class="last docutils">
 <dt>dict(subject=&#8217;fsaverage&#8217;, fname=None, spacing=&#8217;oct6&#8217;, n_jobs=2,</dt>
 <dd>surface=&#8217;white&#8217;, subjects_dir=subjects_dir, add_dist=True)</dd>
 </dl>
 </dd>
-<dt>hcp_path</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The prefix of the path of the HCP data.</dd>
-<dt>n_jobs</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>The number of jobs to use in parallel.</dd>
+<dt>hcp_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The prefix of the path of the HCP data.</dd>
+<dt>n_jobs <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The number of jobs to use in parallel.</dd>
 </dl>
 <dl class="docutils">
-<dt>out</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd><dl class="first last docutils">
+<dt>out <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
 <dt>A dictionary with the following keys:</dt>
 <dd><dl class="first last docutils">
-<dt>fwd</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.Forward</span><dd>The forward solution.</dd>
-<dt>src_subject</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.SourceSpace</span><dd>The source model on the subject&#8217;s surface</dd>
-<dt>src_fsaverage</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.SourceSpace</span><dd>The source model on fsaverage&#8217;s surface</dd>
-<dt>bem_sol</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd>The BEM.</dd>
-<dt>info</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.io.meas_info.Info</span><dd>The actual measurement info used.</dd>
+<dt>fwd <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.Forward</span></dt>
+<dd>The forward solution.</dd>
+<dt>src_subject <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.SourceSpace</span></dt>
+<dd>The source model on the subject&#8217;s surface</dd>
+<dt>src_fsaverage <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.SourceSpace</span></dt>
+<dd>The source model on fsaverage&#8217;s surface</dd>
+<dt>bem_sol <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>The BEM.</dd>
+<dt>info <span class="classifier-delimiter">:</span> <span class="classifier">instance of mne.io.meas_info.Info</span></dt>
+<dd>The actual measurement info used.</dd>
 </dl>
 </dd>
 </dl>
@@ -220,7 +220,7 @@ are smaller than 12 digits, hence negligible.</dd>
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

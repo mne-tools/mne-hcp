@@ -22,6 +22,7 @@ subjects_dir = storage_dir + '/hcp-subjects'
 
 ###############################################################################
 # We assume that all directory structures are set up.
-# Checkout `:func:hcp.make_mne_anatomy` to achieve this necessary step
+# Checkout :func:`hcp.make_mne_anatomy` to achieve this necessary step.
+# See also :ref:`tut_make_anatomy`.
 
 plot_bem(subject=subject, subjects_dir=subjects_dir)

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="hcp-io-file-mapping-get-s3-keys-anatomy">
 <h1>hcp.io.file_mapping.get_s3_keys_anatomy<a class="headerlink" href="#hcp-io-file-mapping-get-s3-keys-anatomy" title="Permalink to this headline">¶</a></h1>
@@ -155,22 +155,22 @@ It compiles a list of related files.</p>
 It only facilitates downloading by compiling the content.</p>
 </div>
 <dl class="docutils">
-<dt>subject</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The subject, a 6 digit code.</dd>
-<dt>freesurfer_outputs</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str | list | tuple</span><dd>The Freesurfer outputs to be downloaded. Defaults to
+<dt>subject <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The subject, a 6 digit code.</dd>
+<dt>freesurfer_outputs <span class="classifier-delimiter">:</span> <span class="classifier">str | list | tuple</span></dt>
+<dd>The Freesurfer outputs to be downloaded. Defaults to
 <cite>(&#8216;label&#8217;, &#8216;mri&#8217;, &#8216;surf&#8217;)</cite>.</dd>
-<dt>meg_anatomy_outputs</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str | list | tuple</span><dd>The MEG anatomy contents to download. Defaults to
+<dt>meg_anatomy_outputs <span class="classifier-delimiter">:</span> <span class="classifier">str | list | tuple</span></dt>
+<dd>The MEG anatomy contents to download. Defaults to
 <cite>(&#8216;head_model&#8217;, &#8216;transforms&#8217;)</cite>.</dd>
-<dt>mode</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;minimal&#8217;, &#8216;full&#8217;}</span><dd>Either all files or the most useful ones. Defaults to &#8216;minimal&#8217;.</dd>
-<dt>hcp_path_bucket</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>The S3 bucket path. Will be prepended to each file path.</dd>
+<dt>mode <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;minimal&#8217;, &#8216;full&#8217;}</span></dt>
+<dd>Either all files or the most useful ones. Defaults to &#8216;minimal&#8217;.</dd>
+<dt>hcp_path_bucket <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The S3 bucket path. Will be prepended to each file path.</dd>
 </dl>
 <dl class="docutils">
-<dt>aws_keys</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">list of str</span><dd>The AWS S3 keys to be downloaded.</dd>
+<dt>aws_keys <span class="classifier-delimiter">:</span> <span class="classifier">list of str</span></dt>
+<dd>The AWS S3 keys to be downloaded.</dd>
 </dl>
 </dd></dl>
 
@@ -189,7 +189,7 @@ It only facilitates downloading by compiling the content.</p>
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

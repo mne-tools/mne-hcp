@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
 
@@ -139,7 +139,7 @@
 </form>
         </div>
       </div>
-    <div class="col-md-12 content">
+    <div class="col-md-12">
       
   <div class="section" id="read-and-plot-coregistration">
 <span id="sphx-glr-auto-examples-plot-coregistration-py"></span><h1>Read and plot coregistration<a class="headerlink" href="#read-and-plot-coregistration" title="Permalink to this headline">¶</a></h1>
@@ -159,7 +159,7 @@
 <p>and we assume to have the downloaded data, the MNE/freesurfer style
 anatomy directory, and the MNE style MEG directory.
 these can be obtained from <code class="xref py py-func docutils literal"><span class="pre">make_mne_anatomy()</span></code>.
-See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anatomy"><span class="std std-ref">Extract essential anatomy information</span></a>.</p>
+See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anatomy"><span>Extract essential anatomy information</span></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hcp_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span>
     <span class="n">hcp_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">),</span>
@@ -180,25 +180,25 @@ See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anat
 </li>
 </ul>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Reading</span> <span class="mi">4</span><span class="n">D</span> <span class="n">PDF</span> <span class="n">file</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">mne</span><span class="o">-</span><span class="n">hcp</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">HCP</span><span class="o">/</span><span class="mi">105923</span><span class="o">/</span><span class="n">unprocessed</span><span class="o">/</span><span class="n">MEG</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">Restin</span><span class="o">/</span><span class="mi">4</span><span class="n">D</span><span class="o">/</span><span class="n">c</span><span class="p">,</span><span class="n">rfDC</span><span class="o">...</span>
-<span class="n">Creating</span> <span class="n">Neuromag</span> <span class="n">info</span> <span class="n">structure</span> <span class="o">...</span>
-<span class="o">...</span> <span class="n">Setting</span> <span class="n">channel</span> <span class="n">info</span> <span class="n">structure</span><span class="o">.</span>
-<span class="o">...</span> <span class="n">no</span> <span class="n">headshape</span> <span class="n">file</span> <span class="n">supplied</span><span class="p">,</span> <span class="n">doing</span> <span class="n">nothing</span><span class="o">.</span>
-<span class="n">Currently</span> <span class="n">direct</span> <span class="n">inclusion</span> <span class="n">of</span> <span class="mi">4</span><span class="n">D</span> <span class="n">weight</span> <span class="n">tables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">supported</span><span class="o">.</span> <span class="n">For</span> <span class="n">critical</span> <span class="n">use</span> <span class="n">cases</span> <span class="n">please</span> <span class="n">take</span> <span class="n">into</span> <span class="n">account</span> <span class="n">the</span> <span class="n">MNE</span> <span class="n">command</span> <span class="s2">&quot;mne_create_comp_data&quot;</span> <span class="n">to</span> <span class="n">include</span> <span class="n">weights</span> <span class="k">as</span> <span class="n">printed</span> <span class="n">out</span> <span class="n">by</span> <span class="n">the</span> <span class="mi">4</span><span class="n">D</span> <span class="s2">&quot;print_table&quot;</span> <span class="n">routine</span><span class="o">.</span>
-<span class="n">Triangle</span> <span class="n">file</span><span class="p">:</span> <span class="n">b</span><span class="s1">&#39;&#39;</span> <span class="n">nvert</span> <span class="o">=</span> <span class="mi">5000</span> <span class="n">ntri</span> <span class="o">=</span> <span class="mi">9996</span>
-<span class="n">Reading</span> <span class="mi">4</span><span class="n">D</span> <span class="n">PDF</span> <span class="n">file</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">mne</span><span class="o">-</span><span class="n">hcp</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">HCP</span><span class="o">/</span><span class="mi">105923</span><span class="o">/</span><span class="n">unprocessed</span><span class="o">/</span><span class="n">MEG</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">Restin</span><span class="o">/</span><span class="mi">4</span><span class="n">D</span><span class="o">/</span><span class="n">c</span><span class="p">,</span><span class="n">rfDC</span><span class="o">...</span>
-<span class="n">Creating</span> <span class="n">Neuromag</span> <span class="n">info</span> <span class="n">structure</span> <span class="o">...</span>
-<span class="o">...</span> <span class="n">Setting</span> <span class="n">channel</span> <span class="n">info</span> <span class="n">structure</span><span class="o">.</span>
-<span class="o">...</span> <span class="n">no</span> <span class="n">headshape</span> <span class="n">file</span> <span class="n">supplied</span><span class="p">,</span> <span class="n">doing</span> <span class="n">nothing</span><span class="o">.</span>
-<span class="n">Currently</span> <span class="n">direct</span> <span class="n">inclusion</span> <span class="n">of</span> <span class="mi">4</span><span class="n">D</span> <span class="n">weight</span> <span class="n">tables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">supported</span><span class="o">.</span> <span class="n">For</span> <span class="n">critical</span> <span class="n">use</span> <span class="n">cases</span> <span class="n">please</span> <span class="n">take</span> <span class="n">into</span> <span class="n">account</span> <span class="n">the</span> <span class="n">MNE</span> <span class="n">command</span> <span class="s2">&quot;mne_create_comp_data&quot;</span> <span class="n">to</span> <span class="n">include</span> <span class="n">weights</span> <span class="k">as</span> <span class="n">printed</span> <span class="n">out</span> <span class="n">by</span> <span class="n">the</span> <span class="mi">4</span><span class="n">D</span> <span class="s2">&quot;print_table&quot;</span> <span class="n">routine</span><span class="o">.</span>
-<span class="n">Triangle</span> <span class="n">file</span><span class="p">:</span> <span class="n">b</span><span class="s1">&#39;&#39;</span> <span class="n">nvert</span> <span class="o">=</span> <span class="mi">5000</span> <span class="n">ntri</span> <span class="o">=</span> <span class="mi">9996</span>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/3-Restin/4D/c,rfDC...
+Creating Neuromag info structure ...
+... Setting channel info structure.
+... no headshape file supplied, doing nothing.
+Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command &quot;mne_create_comp_data&quot; to include weights as printed out by the 4D &quot;print_table&quot; routine.
+Triangle file:  nvert = 5000 ntri = 9996
+Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/3-Restin/4D/c,rfDC...
+Creating Neuromag info structure ...
+... Setting channel info structure.
+... no headshape file supplied, doing nothing.
+Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command &quot;mne_create_comp_data&quot; to include weights as printed out by the 4D &quot;print_table&quot; routine.
+Triangle file:  nvert = 5000 ntri = 9996
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.514 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.606 seconds)</p>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_coregistration.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_coregistration.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_coregistration.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_coregistration.py</span></code></a></div>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_coregistration.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_coregistration.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_coregistration.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_coregistration.ipynb</span></code></a></div>
 <p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
 </div>
 
@@ -215,7 +215,7 @@ See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anat
     </p>
     <p>
         &copy; Copyright 2016, Denis A. Engemann.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
     </p>
   </div>
 </footer>

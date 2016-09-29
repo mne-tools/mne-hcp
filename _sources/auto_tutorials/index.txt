@@ -5,6 +5,26 @@ Introductory tutorials to MNE-HCP.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="===================== Compute forward model =====================">
+
+.. only:: html
+
+    .. figure:: /auto_tutorials/images/thumb/sphx_glr_plot_compute_forward_thumb.png
+
+        :ref:`sphx_glr_auto_tutorials_plot_compute_forward.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_tutorials/plot_compute_forward
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Apply reference channels and see what happens. ">
 
 .. only:: html

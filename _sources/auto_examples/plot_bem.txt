@@ -56,10 +56,10 @@ See also :ref:`tut_make_anatomy`.
  Out::
 
     Using surface: /Users/dengemann/mne-hcp-data/hcp-subjects/105923/bem/inner_skull.surf
-    Triangle file: b'' nvert = 5000 ntri = 9996
+    Triangle file:  nvert = 5000 ntri = 9996
 
 
-**Total running time of the script:** ( 0 minutes  0.943 seconds)
+**Total running time of the script:** ( 0 minutes  1.662 seconds)
 
 
 
