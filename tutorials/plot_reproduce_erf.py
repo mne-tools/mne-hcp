@@ -103,12 +103,11 @@ for run_index, events in zip([0, 1], all_events):
     raw.info['bads'].extend(annots['channels']['all'])
     raw.pick_types(meg=True, ref_meg=False)
 
-    # XXX: MNE complains if l_freq = 0.5 Hz
-    raw.filter(0.55, 60, method='iir',
+    # Note: MNE complains on Python 2.7
+    raw.filter(0.50, None, method='iir',
                iir_params=dict(order=4, ftype='butter'), n_jobs=1)
-
-    raw.notch_filter([60, 120, 180, 240], method='iir',
-                     iir_params=dict(order=4, ftype='butter'), n_jobs=1)
+    raw.filter(None, 60, method='iir',
+               iir_params=dict(order=4, ftype='butter'), n_jobs=1)
 
     # read ICA and remove EOG ECG
     # note that the HCP ICA assumes that bad channels have already been removed
