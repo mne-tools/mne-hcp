@@ -29,9 +29,9 @@ Introductory tutorials to MNE-HCP.
 
 .. only:: html
 
-    .. figure:: /auto_tutorials/images/thumb/sphx_glr_plot_reprocude_erf_thumb.png
+    .. figure:: /auto_tutorials/images/thumb/sphx_glr_plot_reproduce_erf_thumb.png
 
-        :ref:`sphx_glr_auto_tutorials_plot_reprocude_erf.py`
+        :ref:`sphx_glr_auto_tutorials_plot_reproduce_erf.py`
 
 .. raw:: html
 
@@ -41,7 +41,7 @@ Introductory tutorials to MNE-HCP.
 .. toctree::
    :hidden:
 
-   /auto_tutorials/plot_reprocude_erf
+   /auto_tutorials/plot_reproduce_erf
 .. raw:: html
 
     <div style='clear:both'></div>

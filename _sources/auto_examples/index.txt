@@ -5,6 +5,26 @@ Short examples on how to do things with MNE hcp.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="MNE-HCP facilitates source level analysis by supporting linkage between MRT/anatomy files and t...">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_bem_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_bem.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_bem
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="We'll take a look at the coregistration here. ">
 
 .. only:: html
@@ -22,6 +42,26 @@ Short examples on how to do things with MNE hcp.
    :hidden:
 
    /auto_examples/plot_coregistration
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="===================================== Extract essential anatomy information ===================...">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_make_mne_anatomy_thumb.png
+
+        :ref:`sphx_glr_auto_examples_make_mne_anatomy.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/make_mne_anatomy
 
 .. raw:: html
 

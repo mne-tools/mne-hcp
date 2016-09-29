@@ -19,7 +19,8 @@ storage_dir = op.expanduser('~/mne-hcp-data')
 ##############################################################################
 # and we assume to have the downloaded data, the MNE/freesurfer style
 # anatomy directory, and the MNE style MEG directory.
-# these can be obtained from :func:`make_mne_anatomy`
+# these can be obtained from :func:`make_mne_anatomy`.
+# See also :ref:`tut_make_anatomy`.
 
 hcp_params = dict(
     subject='105923',

@@ -92,6 +92,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">MNE-HCP</a><ul>
+<li><a class="reference internal" href="#fast-interface-to-meg-data">Fast interface to MEG data</a></li>
 <li><a class="reference internal" href="#scope-and-disclaimer">Scope and Disclaimer</a></li>
 </ul>
 </li>
@@ -100,7 +101,6 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
-<li><a class="reference internal" href="#reader-api">Reader API</a></li>
 <li><a class="reference internal" href="#types-of-data">Types of Data</a></li>
 <li><a class="reference internal" href="#functionality-to-make-the-hcp-datasets-compatible-with-mne">Functionality to make the HCP datasets compatible with MNE</a></li>
 <li><a class="reference internal" href="#file-mapping">File Mapping</a></li>
@@ -153,6 +153,7 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><ul>
 <li><a class="reference internal" href="#">MNE-HCP</a><ul>
+<li><a class="reference internal" href="#fast-interface-to-meg-data">Fast interface to MEG data</a></li>
 <li><a class="reference internal" href="#scope-and-disclaimer">Scope and Disclaimer</a></li>
 </ul>
 </li>
@@ -161,7 +162,6 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
-<li><a class="reference internal" href="#reader-api">Reader API</a></li>
 <li><a class="reference internal" href="#types-of-data">Types of Data</a></li>
 <li><a class="reference internal" href="#functionality-to-make-the-hcp-datasets-compatible-with-mne">Functionality to make the HCP datasets compatible with MNE</a></li>
 <li><a class="reference internal" href="#file-mapping">File Mapping</a></li>
@@ -194,8 +194,32 @@
   <p><a class="reference external" href="https://travis-ci.org/mne-tools/mne-hcp"><img alt="Travis" src="https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master" /></a></p>
 <div class="section" id="mne-hcp">
 <h1>MNE-HCP<a class="headerlink" href="#mne-hcp" title="Permalink to this headline">¶</a></h1>
-<p>Python tools for processing <a class="reference external" href="http://www.humanconnectome.org">Human Connectome Project</a> MEG data
-using <a class="reference external" href="http://martinos.org/mne/">MNE-Python</a></p>
+<p>We provide Python tools for seamless integration of MEG data from the <a class="reference external" href="http://www.humanconnectome.org">Human Connectome Project</a> into the Python ecosystem.
+In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Raw HCP data are translated into actionable MNE objects that we know and love. MNE-HCP abstracts away difficulties due to diverging coordinate systems, distributed information, and file format conventions. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices.
+By building on the <a class="reference external" href="http://martinos.org/mne/">MNE software package</a> package, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.</p>
+<div class="section" id="fast-interface-to-meg-data">
+<h2>Fast interface to MEG data<a class="headerlink" href="#fast-interface-to-meg-data" title="Permalink to this headline">¶</a></h2>
+<p>Allow us to give you a flavor by a few example queries of MEG HCP data from subject 1003007:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Get all entries from the MEG data header</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_info_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get continuous MEG time series</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get segmented MEG time series</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_epochs_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get all MEG time series averaged across events</span>
+<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_evokeds_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get details on contamination and noise sources</span>
+<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get precomputed independent components that compose the signal time series</span>
+<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_ica_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="scope-and-disclaimer">
 <h2>Scope and Disclaimer<a class="headerlink" href="#scope-and-disclaimer" title="Permalink to this headline">¶</a></h2>
 <p>This code is under active research-driven development. The API is still changing,
@@ -278,23 +302,6 @@ all should be fine.</p>
 <p>The code is organized by different modules.
 The <cite>io</cite> module includes readers for sensor space data at different processing
 stages and annotations for bad data.</p>
-<div class="section" id="reader-api">
-<h2>Reader API<a class="headerlink" href="#reader-api" title="Permalink to this headline">¶</a></h2>
-<p>All data readers have the same API for the first two positional arguments:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span>
-    <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>  <span class="c1"># assuming that data are unpacked here</span>
-
-<span class="c1"># all MNE objects have native names and coordinates, some MNE functions might break.</span>
-<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_info_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># MNE object</span>
-<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># ...</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_epochs_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># ...</span>
-<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_evokeds_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># ...</span>
-<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># dict</span>
-<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_ica_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span> <span class="c1"># ...</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="types-of-data">
 <h2>Types of Data<a class="headerlink" href="#types-of-data" title="Permalink to this headline">¶</a></h2>
 <p>MNE-HCP uses custom names for values that are more MNE-pythonic, the following
