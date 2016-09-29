@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Compute forward model &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Compute forward model</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_tutorials/plot_compute_forward.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">Compute forward model</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12">
+      
+  <div class="section" id="compute-forward-model">
+<span id="tut-forward"></span><span id="sphx-glr-auto-tutorials-plot-compute-forward-py"></span><h1>Compute forward model<a class="headerlink" href="#compute-forward-model" title="Permalink to this headline">¶</a></h1>
+<p>Here we&#8217;ll first compute a source space, then the bem model
+and finally the forward solution.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Denis A. Enegemann</span>
+<span class="c1"># License: BSD 3 clause</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+<span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">from</span> <span class="nn">hcp</span> <span class="kn">import</span> <span class="n">io</span>
+</pre></div>
+</div>
+<p>we assume our data is inside a designated folder under $HOME</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/mne-hcp-data&#39;</span><span class="p">)</span>
+<span class="n">hcp_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">)</span>
+<span class="n">recordings_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;hcp-meg&#39;</span><span class="p">)</span>
+<span class="n">subjects_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;hcp-subjects&#39;</span><span class="p">)</span>
+<span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;105923&#39;</span>  <span class="c1"># our test subject</span>
+</pre></div>
+</div>
+<p>and we assume to have the downloaded data, the MNE/freesurfer style
+anatomy directory, and the MNE style MEG directory.
+these can be obtained from <code class="xref py py-func docutils literal"><span class="pre">make_mne_anatomy()</span></code>.
+See also <a class="reference internal" href="../auto_examples/make_mne_anatomy.html#tut-make-anatomy"><span>Extract essential anatomy information</span></a>.</p>
+<p>first we read the coregistration.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">head_mri_t</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_trans</span><span class="p">(</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">recordings_path</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s1">&#39;{}-head_mri-trans.fif&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">subject</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Now we can setup our source model.
+Note that spacing has to be set to &#8216;all&#8217; since no common MNE resampling
+scheme has been employed in the HCP pipelines.
+Since this will take very long time to compute and at this point no other
+decimation scheme is available inside MNE, we will compute the source
+space on fsaverage, the freesurfer average brain, and morph it onto
+the subject&#8217;s native space. With <cite>oct6</cite> we have ~8000 dipole locations.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">src_fsaverage</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">setup_source_space</span><span class="p">(</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">add_dist</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="o">=</span><span class="s1">&#39;oct6&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># now we morph it onto the subject.</span>
+
+<span class="n">src_subject</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">morph_source_spaces</span><span class="p">(</span>
+    <span class="n">src_fsaverage</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For the same reason <cite>ico</cite> has to be set to <cite>None</cite> when computing the bem.
+The headshape is not computed with MNE and has a none standard configuration.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">bems</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_bem_model</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">conductivity</span><span class="o">=</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,),</span>
+                          <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
+                          <span class="n">ico</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>  <span class="c1"># ico = None for morphed SP.</span>
+<span class="n">bem_sol</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_bem_solution</span><span class="p">(</span><span class="n">bems</span><span class="p">)</span>
+<span class="n">bem_sol</span><span class="p">[</span><span class="s1">&#39;surfs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;coord_frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>Now we can read the channels that we want to map to the cortical locations.
+Then we can compute the forward solution.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">info</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_info_hcp</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
+                        <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;rest&#39;</span><span class="p">,</span> <span class="n">run_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">picks</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ref_meg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_info</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">picks</span><span class="p">)</span>
+
+<span class="n">fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_forward_solution</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">trans</span><span class="o">=</span><span class="n">head_mri_t</span><span class="p">,</span> <span class="n">bem</span><span class="o">=</span><span class="n">bem_sol</span><span class="p">,</span>
+                                <span class="n">src</span><span class="o">=</span><span class="n">src_subject</span><span class="p">)</span>
+<span class="n">mag_map</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">sensitivity_map</span><span class="p">(</span>
+    <span class="n">fwd</span><span class="p">,</span> <span class="n">projs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ch_type</span><span class="o">=</span><span class="s1">&#39;mag&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fixed&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">[],</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>we display sensitivity map on the original surface with little smoothing
+and admire the expected curvature-driven sensitivity pattern.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mag_map</span> <span class="o">=</span> <span class="n">mag_map</span><span class="o">.</span><span class="n">to_original_src</span><span class="p">(</span><span class="n">src_fsaverage</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">)</span>
+<span class="n">mag_map</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
+             <span class="n">clim</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="n">lims</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">99</span><span class="p">]),</span>
+             <span class="n">smoothing_steps</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_plot_compute_forward_001.png" class="align-center" src="../_images/sphx_glr_plot_compute_forward_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>Updating smoothing matrix, be patient..
+Smoothing matrix creation, step 1
+Smoothing matrix creation, step 2
+colormap: fmin=1.99e-02 fmid=4.15e-01 fmax=9.01e-01 transparent=1
+</pre></div>
+</div>
+<p><strong>Total running time of the script:</strong> ( 1 minutes  8.112 seconds)</p>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_compute_forward.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_compute_forward.py</span></code></a></div>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_compute_forward.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_compute_forward.ipynb</span></code></a></div>
+<p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
