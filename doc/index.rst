@@ -9,7 +9,7 @@ MNE-HCP
 =======
 
 We provide Python tools for seamless integration of MEG data from the `Human Connectome Project  <http://www.humanconnectome.org>`_ into the Python ecosystem.
-In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices. 
+In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Raw HCP data are translated into actionable MNE objects that we know and love. MNE-HCP abstracts away difficulties due to diverging coordinate systems, distributed information, and file format conventions. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices. 
 By building on the `MNE software package <http://martinos.org/mne/>`_ package, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.
 
 Fast interface to MEG data
@@ -36,15 +36,6 @@ Allow us to give you a flavor by a few example queries of MEG HCP data from subj
 
   # Get precomputed independent components that compose the signal time series
   ica_mat = hcp.io.read_ica_hcp('1003007', 'task_motor')
-
-Downloading HCP MEG data
-------------------------
-Oh, so you first want to download the full data in a simple way? MEG-HCP can help you also with that:
-
-.. code-block:: python
-
-   # Dumps all data to disk (check space left :-)
-   hcp.io.download_subject('all')
 
 Scope and Disclaimer
 --------------------
