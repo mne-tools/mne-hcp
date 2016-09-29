@@ -11,8 +11,6 @@ read the ERF files. Subsequently we will compare these outputs.
 # Author: Denis A. Enegemann
 # License: BSD 3 clause
 
-from __future__ import division, absolute_import, print_function
-
 import os.path as op
 
 import numpy as np
