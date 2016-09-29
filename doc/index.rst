@@ -8,12 +8,46 @@
 MNE-HCP
 =======
 
-Python tools for processing `Human Connectome Project  <http://www.humanconnectome.org>`_ MEG data
-using `MNE-Python <http://martinos.org/mne/>`_
+We provide Python tools for seamless integration of MEG data from the `Human Connectome Project  <http://www.humanconnectome.org>`_ into the Python ecosystem.
+In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices. 
+By building on the `MNE software package <http://martinos.org/mne/>`_ package, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.
+
+Fast interface to MEG data
+--------------------------
+Allow us to give you a flavor by a few example queries of MEG HCP data from subject 1003007:
+
+
+.. code-block:: python
+
+  # Get all entries from the MEG data header
+  info = hcp.io.read_info_hcp('1003007', 'task_motor')
+
+  # Get continuous MEG time series
+  raw = hcp.io.read_raw_hcp('1003007', 'task_motor')
+
+  # Get segmented MEG time series
+  epochs = hcp.io.read_epochs_hcp('1003007', 'task_motor')
+
+  # Get all MEG time series averaged across events
+  list_of_evoked = hcp.io.read_evokeds_hcp('1003007', 'task_motor')
+
+  # Get details on contamination and noise sources
+  annotations_dict = hcp.io.read_annot_hcp('1003007', 'task_motor')
+
+  # Get precomputed independent components that compose the signal time series
+  ica_mat = hcp.io.read_ica_hcp('1003007', 'task_motor')
+
+Downloading HCP MEG data
+------------------------
+Oh, so you first want to download the full data in a simple way? MEG-HCP can help you also with that:
+
+.. code-block:: python
+
+   # Dumps all data to disk (check space left :-)
+   hcp.io.download_subject('all')
 
 Scope and Disclaimer
 --------------------
-
 This code is under active research-driven development. The API is still changing,
 but is getting closer to a stable release.
 
@@ -89,25 +123,6 @@ The code is organized by different modules.
 The `io` module includes readers for sensor space data at different processing
 stages and annotations for bad data.
 
-Reader API
-----------
-
-All data readers have the same API for the first two positional arguments:
-
-
-.. code-block:: python
-
-   params = dict(
-       subject='1003007',
-       data_type='task_motor')  # assuming that data are unpacked here
-
-   # all MNE objects have native names and coordinates, some MNE functions might break.
-   info = hcp.io.read_info_hcp(**params)  # MNE object
-   raw = hcp.io.read_raw_hcp(**params)  # ...
-   epochs = hcp.io.read_epochs_hcp(**params) # ...
-   list_of_evoked = hcp.io.read_evokeds_hcp(**params) # ...
-   annotations_dict = hcp.io.read_annot_hcp(**params) # dict
-   ica_mat = hcp.io.read_ica_hcp(**params) # ...
 
 Types of Data
 -------------
