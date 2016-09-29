@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Plot the head model inside MRI to check anatomical alignment &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="index.html">Examples</a></li>
+                <li><a href="../auto_tutorials/index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Plot the head model inside MRI to check anatomical alignment</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_examples/plot_bem.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">Plot the head model inside MRI to check anatomical alignment</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12 content">
+      
+  <div class="section" id="plot-the-head-model-inside-mri-to-check-anatomical-alignment">
+<span id="sphx-glr-auto-examples-plot-bem-py"></span><h1>Plot the head model inside MRI to check anatomical alignment<a class="headerlink" href="#plot-the-head-model-inside-mri-to-check-anatomical-alignment" title="Permalink to this headline">¶</a></h1>
+<p>MNE-HCP facilitates source level analysis by supporting linkage between
+MRT/anatomy files and the MEG data.
+Here, inspect the head model that is used to compute the BEM solution.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Jona Sassenhagen</span>
+<span class="c1">#         Denis A. Engemann</span>
+<span class="c1"># License: BSD 3 clause</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+
+<span class="kn">from</span> <span class="nn">mne.viz</span> <span class="kn">import</span> <span class="n">plot_bem</span>
+<span class="c1"># from mne.bem import make_watershed_bem</span>
+
+<span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/mne-hcp-data&#39;</span><span class="p">)</span>
+<span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;105923&#39;</span>
+<span class="n">subjects_dir</span> <span class="o">=</span> <span class="n">storage_dir</span> <span class="o">+</span> <span class="s1">&#39;/hcp-subjects&#39;</span>
+</pre></div>
+</div>
+<p>We assume that all directory structures are set up.
+Checkout <a class="reference internal" href="../generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-func docutils literal"><span class="pre">hcp.make_mne_anatomy()</span></code></a> to achieve this necessary step.
+See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anatomy"><span class="std std-ref">Extract essential anatomy information</span></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">plot_bem</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_plot_bem_0011.png" class="align-center" src="../_images/sphx_glr_plot_bem_0011.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Using</span> <span class="n">surface</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dengemann</span><span class="o">/</span><span class="n">mne</span><span class="o">-</span><span class="n">hcp</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">hcp</span><span class="o">-</span><span class="n">subjects</span><span class="o">/</span><span class="mi">105923</span><span class="o">/</span><span class="n">bem</span><span class="o">/</span><span class="n">inner_skull</span><span class="o">.</span><span class="n">surf</span>
+<span class="n">Triangle</span> <span class="n">file</span><span class="p">:</span> <span class="n">b</span><span class="s1">&#39;&#39;</span> <span class="n">nvert</span> <span class="o">=</span> <span class="mi">5000</span> <span class="n">ntri</span> <span class="o">=</span> <span class="mi">9996</span>
+</pre></div>
+</div>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.943 seconds)</p>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_bem1.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_bem.py</span></code></a></div>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_bem1.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_bem.ipynb</span></code></a></div>
+<p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
