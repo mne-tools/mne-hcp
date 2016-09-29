@@ -316,6 +316,14 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
+try:
+    from mayavi import mlab
+    find_mayavi_figures = True
+    # Do not pop up any mayavi windows while running the
+    # examples. These are very annoying since they steal the focus.
+    # mlab.options.offscreen = True  XXX bug with mayavi
+except Exception:
+    find_mayavi_figures = False
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
@@ -326,4 +334,6 @@ intersphinx_mapping = {
 sphinx_gallery_conf = {
     'examples_dirs': ['../examples', '../tutorials'],
     'gallery_dirs': ['auto_examples', 'auto_tutorials'],
+    'find_mayavi_figures': find_mayavi_figures,
+    'mod_example_dir': 'generated',
 }

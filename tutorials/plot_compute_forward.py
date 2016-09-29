@@ -1,5 +1,6 @@
 """
-.. _tut_forward
+.. _tut_forward:
+
 =====================
 Compute forward model
 =====================
@@ -82,6 +83,7 @@ mag_map = mne.sensitivity_map(
 # we display sensitivity map on the original surface with little smoothing
 # and admire the expected curvature-driven sensitivity pattern.
 
+mag_map = mag_map.to_original_src(src_fsaverage, subjects_dir=subjects_dir)
 mag_map.plot(subject='fsaverage', subjects_dir=subjects_dir,
              clim=dict(kind='percent', lims=[0, 50, 99]),
              smoothing_steps=2)
