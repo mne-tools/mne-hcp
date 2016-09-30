@@ -310,8 +310,8 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     # as from the data['trialinfo'] arbitrary events can be constructed.
     # and it is task specific.
     this_info = _hcp_pick_info(info, ch_names)
-    epochs = EpochsArray(data=data, info=this_info, events=events, tmin=0)
-    epochs.times = times
+    epochs = EpochsArray(data=data, info=this_info, events=events,
+                         tmin=times.min())
     return epochs
 
 
