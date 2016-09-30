@@ -43,7 +43,7 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
         The path where the HCP files can be found.
     mode : {'minimal', 'full'}
         If 'minimal', only the directory structure is created. If 'full' the
-        freesurfer outputs shipped withm HCP (see `outputs`) are symbolically
+        freesurfer outputs shipped with HCP (see `outputs`) are symbolically
         linked.
     outputs : {'label', 'mri', 'stats', 'surf', 'touch'}
         The outputs of the freesrufer pipeline shipped by HCP. Defaults to
@@ -82,7 +82,8 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
             match = [match for match in re.finditer(subject, source)][-1]
             split_path = source[:match.span()[1] + 1]
             target = op.join(this_subjects_dir, source.split(split_path)[-1])
-            if not op.isfile(target) and not op.islink(target):
+            if (not op.isfile(target) and not op.islink(target) and
+                    op.exists(source)):  # don't link if it's not there.
                 os.symlink(source, target)
 
     logger.info('reading extended structural processing ...')

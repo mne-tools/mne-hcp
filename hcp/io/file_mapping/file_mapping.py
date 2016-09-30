@@ -104,7 +104,12 @@ file_modes = {
             'lh.inflated',
             'rh.inflated',
             'lh.sphere.reg',
-            'rh.sphere.reg']},
+            'rh.sphere.reg',
+            'lh.sphere',
+            'rh.sphere',
+            'lh.curve',
+            'rh.curve',
+        ]},
 }
 
 evoked_map = {
