@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-r"""
+"""
+.. _tut_reproduce_erf:
+
+=======================
 Computing ERFs from HCP
 =======================
 

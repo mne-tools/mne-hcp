@@ -25,6 +25,46 @@ Introductory tutorials to MNE-HCP.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="======================================================= Run temporal searchlight decoding on ev...">
+
+.. only:: html
+
+    .. figure:: /auto_tutorials/images/thumb/sphx_glr_plot_temporal_searchlight_decoding_thumb.png
+
+        :ref:`sphx_glr_auto_tutorials_plot_temporal_searchlight_decoding.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_tutorials/plot_temporal_searchlight_decoding
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="======================================== Compute inverse solution for evoked data =============...">
+
+.. only:: html
+
+    .. figure:: /auto_tutorials/images/thumb/sphx_glr_plot_compute_evoked_inverse_solution_thumb.png
+
+        :ref:`sphx_glr_auto_tutorials_plot_compute_evoked_inverse_solution.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_tutorials/plot_compute_evoked_inverse_solution
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Apply reference channels and see what happens. ">
 
 .. only:: html
@@ -45,7 +85,7 @@ Introductory tutorials to MNE-HCP.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="In this tutorial we compare different ways of arriving at event related fields (ERF) starting f...">
+    <div class="sphx-glr-thumbcontainer" tooltip="======================= Computing ERFs from HCP =======================">
 
 .. only:: html
 

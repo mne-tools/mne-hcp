@@ -45,6 +45,26 @@ Short examples on how to do things with MNE hcp.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="===================== Visualize evoked data =====================">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_evoked_data_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_evoked_data.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_evoked_data
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="===================================== Extract essential anatomy information ===================...">
 
 .. only:: html

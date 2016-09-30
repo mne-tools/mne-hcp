@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Read and plot coregistration &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    <title>Visualize evoked data &mdash; MNE-HCP 0.1.dev6 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -91,7 +91,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Read and plot coregistration</a></li>
+<li><a class="reference internal" href="#">Visualize evoked data</a></li>
 </ul>
 </ul>
 </li>
@@ -103,7 +103,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/auto_examples/plot_coregistration.txt"
+  <a href="../_sources/auto_examples/plot_evoked_data.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -127,7 +127,7 @@
   <div class="row">
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><ul>
-<li><a class="reference internal" href="#">Read and plot coregistration</a></li>
+<li><a class="reference internal" href="#">Visualize evoked data</a></li>
 </ul>
 
 <form action="../search.html" method="get">
@@ -141,64 +141,66 @@
       </div>
     <div class="col-md-12">
       
-  <div class="section" id="read-and-plot-coregistration">
-<span id="sphx-glr-auto-examples-plot-coregistration-py"></span><h1>Read and plot coregistration<a class="headerlink" href="#read-and-plot-coregistration" title="Permalink to this headline">¶</a></h1>
-<p>We&#8217;ll take a look at the coregistration here.</p>
+  <div class="section" id="visualize-evoked-data">
+<span id="tut-plot-evoked"></span><span id="sphx-glr-auto-examples-plot-evoked-data-py"></span><h1>Visualize evoked data<a class="headerlink" href="#visualize-evoked-data" title="Permalink to this headline">¶</a></h1>
+<p>Here we&#8217;ll generate some attention for pecularities of visualizing the
+HCP evoked outputs using MNE plotting functions.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Denis A. Enegemann</span>
 <span class="c1"># License: BSD 3 clause</span>
 
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
-
-<span class="kn">from</span> <span class="nn">hcp.viz</span> <span class="kn">import</span> <span class="n">plot_coregistration</span>
+<span class="kn">from</span> <span class="nn">hcp</span> <span class="kn">import</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">hcp</span> <span class="kn">import</span> <span class="n">preprocessing</span> <span class="k">as</span> <span class="n">preproc</span>
 </pre></div>
 </div>
 <p>we assume our data is inside a designated folder under $HOME</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/mne-hcp-data&#39;</span><span class="p">)</span>
+<span class="n">hcp_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">)</span>
+<span class="n">recordings_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;hcp-meg&#39;</span><span class="p">)</span>
+<span class="n">subjects_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;hcp-subjects&#39;</span><span class="p">)</span>
+<span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;105923&#39;</span>  <span class="c1"># our test subject</span>
+<span class="n">data_type</span> <span class="o">=</span> <span class="s1">&#39;task_working_memory&#39;</span>
+<span class="n">run_index</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 </div>
-<p>and we assume to have the downloaded data, the MNE/freesurfer style
-anatomy directory, and the MNE style MEG directory.
-these can be obtained from <code class="xref py py-func docutils literal"><span class="pre">make_mne_anatomy()</span></code>.
-See also <a class="reference internal" href="make_mne_anatomy.html#tut-make-anatomy"><span>Extract essential anatomy information</span></a>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hcp_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span>
-    <span class="n">hcp_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">),</span>
-    <span class="n">subjects_dir</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;subjects&#39;</span><span class="p">),</span>
-    <span class="n">recordings_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;hcp-meg&#39;</span><span class="p">))</span>
+<p>Let&#8217;s get the eovked data.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hcp_evokeds</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_evokeds_hcp</span><span class="p">(</span><span class="n">onset</span><span class="o">=</span><span class="s1">&#39;stim&#39;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
+                                  <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">evoked</span> <span class="ow">in</span> <span class="n">hcp_evokeds</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">evoked</span><span class="o">.</span><span class="n">comment</span> <span class="o">==</span> <span class="s1">&#39;Wrkmem_LM-TIM-face_BT-diff_MODE-mag&#39;</span><span class="p">:</span>
+        <span class="k">continue</span>
 </pre></div>
 </div>
-<p>let&#8217;s plot two views</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">azim</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">):</span>
-    <span class="n">plot_coregistration</span><span class="p">(</span>
-        <span class="n">view_init</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39;azim&#39;</span><span class="p">,</span> <span class="n">azim</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;elev&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="sphx-glr-horizontal">
-<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_coregistration_001.png"><img alt="../_images/sphx_glr_plot_coregistration_001.png" src="../_images/sphx_glr_plot_coregistration_001.png" style="width: 376.0px; height: 282.0px;" /></a>
-</li>
-<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_coregistration_002.png"><img alt="../_images/sphx_glr_plot_coregistration_002.png" src="../_images/sphx_glr_plot_coregistration_002.png" style="width: 376.0px; height: 282.0px;" /></a>
-</li>
-</ul>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/3-Restin/4D/c,rfDC...
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/6-Wrkmem/4D/c,rfDC...
 Creating Neuromag info structure ...
 ... Setting channel info structure.
 ... no headshape file supplied, doing nothing.
 Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command &quot;mne_create_comp_data&quot; to include weights as printed out by the 4D &quot;print_table&quot; routine.
-Triangle file:  nvert = 5000 ntri = 9996
-Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/3-Restin/4D/c,rfDC...
-Creating Neuromag info structure ...
-... Setting channel info structure.
-... no headshape file supplied, doing nothing.
-Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command &quot;mne_create_comp_data&quot; to include weights as printed out by the 4D &quot;print_table&quot; routine.
-Triangle file:  nvert = 5000 ntri = 9996
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.452 seconds)</p>
+<p>In order to plot topographic patterns we need to transform the sensor
+positions to MNE coordinates one a copy of the data.
+We&#8217;re not using this these transformed data for any source analyses.
+These take place in native BTI/4D coordinates.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">evoked_viz</span> <span class="o">=</span> <span class="n">evoked</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">preproc</span><span class="o">.</span><span class="n">map_ch_coords_to_mne</span><span class="p">(</span><span class="n">evoked_viz</span><span class="p">)</span>
+<span class="n">evoked_viz</span><span class="o">.</span><span class="n">plot_joint</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_plot_evoked_data_001.png" class="align-center" src="../_images/sphx_glr_plot_evoked_data_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>Could not find layout for all the channels. Generating custom layout from channel positions.
+Failed to locate mag channel positions from layout. Inferring channel positions from data.
+</pre></div>
+</div>
+<p>for subsequent analyses we would use <cite>evoked</cite> not <cite>evoked_viz</cite>.
+See also <a class="reference internal" href="../auto_tutorials/plot_compute_evoked_inverse_solution.html#tut-compute-inverse-erf"><span>Compute inverse solution for evoked data</span></a> to see how the story continues.</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  4.395 seconds)</p>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_coregistration.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_coregistration.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_evoked_data.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_evoked_data.py</span></code></a></div>
 <div class="sphx-glr-download container">
-<a class="reference download internal" href="../_downloads/plot_coregistration.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_coregistration.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_evoked_data.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_evoked_data.ipynb</span></code></a></div>
 <p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
 </div>
 

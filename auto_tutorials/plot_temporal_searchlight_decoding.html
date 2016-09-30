@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Run temporal searchlight decoding on event related data &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.dev6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+
+
+
+  </head>
+  <body role="document">
+
+
+
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          MNE-HCP</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="index.html">Tutorials</a></li>
+                <li><a href="../python_reference.html">API</a></li>
+                <li><a href="https://github.com/mne-tools/mne-hcp">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Run temporal searchlight decoding on event related data</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/auto_tutorials/plot_temporal_searchlight_decoding.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><ul>
+<li><a class="reference internal" href="#">Run temporal searchlight decoding on event related data</a></li>
+</ul>
+
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-12">
+      
+  <div class="section" id="run-temporal-searchlight-decoding-on-event-related-data">
+<span id="tut-searchlight-decoding"></span><span id="sphx-glr-auto-tutorials-plot-temporal-searchlight-decoding-py"></span><h1>Run temporal searchlight decoding on event related data<a class="headerlink" href="#run-temporal-searchlight-decoding-on-event-related-data" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial we show how to run a temporal window decoding
+on event related data. We&#8217;ll try to decode tools VS faces in the
+working memory data.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Denis A. Enegemann</span>
+<span class="c1"># License: BSD 3 clause</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">from</span> <span class="nn">hcp</span> <span class="kn">import</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">hcp</span> <span class="kn">import</span> <span class="n">preprocessing</span> <span class="k">as</span> <span class="n">preproc</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelBinarizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">mne.decoding</span> <span class="kn">import</span> <span class="n">GeneralizationAcrossTime</span>
+
+<span class="n">mne</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+
+<span class="c1"># we assume our data is inside its designated folder under $HOME</span>
+<span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+<span class="n">hcp_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">hcp_path</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storage_dir</span><span class="p">,</span> <span class="s1">&#39;mne-hcp-data&#39;</span><span class="p">,</span> <span class="s1">&#39;HCP&#39;</span><span class="p">),</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span>
+    <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;task_working_memory&#39;</span><span class="p">)</span>
+
+<span class="c1"># these values are looked up from the HCP manual</span>
+<span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span>
+<span class="n">decim</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>We know from studying either the manual or the trial info about the mapping
+of events.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">event_id</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tool</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>we first collect epochs across runs and essentially adopt the code
+shown in <a class="reference internal" href="plot_reproduce_erf.html#tut-reproduce-erf"><span>Computing ERFs from HCP</span></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">run_index</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+    <span class="n">hcp_params</span><span class="p">[</span><span class="s1">&#39;run_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_index</span>
+    <span class="n">trial_info</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_trial_info_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+
+    <span class="n">events</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span>
+        <span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">][:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># time sample</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">])),</span>
+        <span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">]</span>  <span class="c1"># event codes</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># for some reason in the HCP data the time events may not always be unique</span>
+    <span class="n">unique_subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">]</span>  <span class="c1"># use diff to find first unique events</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">event_id</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_epochs_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span><span class="o">.</span><span class="n">decimate</span><span class="p">(</span><span class="n">decim</span><span class="p">)</span>
+    <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">epochs_hcp</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">][</span><span class="n">subset</span><span class="p">]</span>
+    <span class="n">epochs_hcp</span><span class="o">.</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">subset</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">epochs_hcp</span><span class="o">.</span><span class="n">event_id</span> <span class="o">=</span> <span class="n">event_id</span>
+    <span class="n">epochs_hcp</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">epochs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">preproc</span><span class="o">.</span><span class="n">interpolate_missing</span><span class="p">(</span><span class="n">epochs_hcp</span><span class="p">,</span> <span class="o">**</span><span class="n">hcp_params</span><span class="p">))</span>
+
+<span class="n">epochs</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">concatenate_epochs</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">epochs_hcp</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>The measurement information indicates a low-pass frequency of 1017.26 Hz. The decim=3 parameter will result in a sampling frequency of 169.543 Hz, which can cause aliasing artifacts.
+The measurement information indicates a low-pass frequency of 1017.26 Hz. The decim=3 parameter will result in a sampling frequency of 169.543 Hz, which can cause aliasing artifacts.
+</pre></div>
+</div>
+<p>Now we can proceed as shown in the MNE-Python decoding tutorials</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">LabelBinarizer</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">epochs</span><span class="o">.</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># do a stratified cross-validation</span>
+
+<span class="n">gat</span> <span class="o">=</span> <span class="n">GeneralizationAcrossTime</span><span class="p">(</span><span class="n">predict_mode</span><span class="o">=</span><span class="s1">&#39;cross-validation&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">roc_auc_score</span><span class="p">)</span>
+<span class="c1"># fit and score</span>
+<span class="n">gat</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">gat</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Ploting the temporal connectome and the evolution of discriminability.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">gat</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">gat</span><span class="o">.</span><span class="n">plot_diagonal</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_temporal_searchlight_decoding_001.png"><img alt="../_images/sphx_glr_plot_temporal_searchlight_decoding_001.png" src="../_images/sphx_glr_plot_temporal_searchlight_decoding_001.png" style="width: 376.0px; height: 282.0px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_temporal_searchlight_decoding_002.png"><img alt="../_images/sphx_glr_plot_temporal_searchlight_decoding_002.png" src="../_images/sphx_glr_plot_temporal_searchlight_decoding_002.png" style="width: 376.0px; height: 282.0px;" /></a>
+</li>
+</ul>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  51.658 seconds)</p>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_temporal_searchlight_decoding.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_temporal_searchlight_decoding.py</span></code></a></div>
+<div class="sphx-glr-download container">
+<a class="reference download internal" href="../_downloads/plot_temporal_searchlight_decoding.ipynb"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_temporal_searchlight_decoding.ipynb</span></code></a></div>
+<p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+    
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2016, Denis A. Engemann.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

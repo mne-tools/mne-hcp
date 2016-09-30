@@ -106,7 +106,7 @@ Let's visualize what has changed!
     set(['A248', 'A2', 'A244', 'A247', 'A246'])
 
 
-**Total running time of the script:** ( 0 minutes  5.791 seconds)
+**Total running time of the script:** ( 0 minutes  4.069 seconds)
 
 
 
