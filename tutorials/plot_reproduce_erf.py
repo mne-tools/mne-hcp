@@ -2,6 +2,7 @@
 """
 .. _tut_reproduce_erf:
 
+=======================
 Computing ERFs from HCP
 =======================
 

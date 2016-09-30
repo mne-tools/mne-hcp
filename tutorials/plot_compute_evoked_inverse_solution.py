@@ -3,7 +3,7 @@
 
 ========================================
 Compute inverse solution for evoked data
-=======================================
+========================================
 
 Here we'll use our knowledge from the other examples and tutorials
 to compute an inverse solution and apply it on event related fields.
@@ -69,6 +69,7 @@ raw_noise.filter(0.50, None, method='iir',
 raw_noise.filter(None, 60, method='iir',
                  iir_params=dict(order=4, ftype='butter'), n_jobs=1)
 
+##############################################################################
 # Note that using the empty room noise covariance will inflate the SNR of the
 # evkoked and renders comparisons  to `baseline` rather uninformative.
 noise_cov = mne.compute_raw_covariance(raw_noise, method='empirical')

@@ -34,7 +34,7 @@ hcp_evokeds = io.read_evokeds_hcp(onset='stim', subject=subject,
 for evoked in hcp_evokeds:
     if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
-
+##############################################################################
 # In order to plot topographic patterns we need to transform the sensor
 # positions to MNE coordinates one a copy of the data.
 # We're not using this these transformed data for any source analyses.
@@ -44,5 +44,6 @@ evoked_viz = evoked.copy()
 preproc.map_ch_coords_to_mne(evoked_viz)
 evoked_viz.plot_joint()
 
+##############################################################################
 # for subsequent analyses we would use `evoked` not `evoked_viz`.
 # See also :ref:`tut_compute_inverse_erf` to see how the story continues.
