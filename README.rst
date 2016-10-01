@@ -1,3 +1,5 @@
+.. -*- mode: rst -*-
+
 |Travis|_ |Zenodo|_ |Codecov|_
 
 .. |Travis| image:: https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master
