@@ -17,7 +17,7 @@ import os.path as op
 
 import numpy as np
 import mne
-from hcp import io
+import hcp
 from hcp import preprocessing as preproc
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import roc_auc_score
