@@ -51,8 +51,8 @@ def plot_psd(X, label, Fs, NFFT, color=None):
 # to our comparison.
 
 
-raw = hcp.io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
-                          run_index=run_index, data_type=data_type)
+raw = hcp.read_raw(subject=subject, hcp_path=hcp_path,
+                   run_index=run_index, data_type=data_type)
 raw.load_data()
 
 # get meg and ref channels

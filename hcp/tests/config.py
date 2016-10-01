@@ -71,7 +71,7 @@ s3_keys += get_s3_keys_anatomy(
 ##############################################################################
 # variable used in different tests
 
-hcp_path = op.join(op.expanduser('~'), 'mne-hcp-data', 'HCP')
+hcp_path = op.expanduser('~/mne-hcp-data/HCP')
 
 bti_chans = {'A' + str(i) for i in range(1, 249, 1)}
 

@@ -13,7 +13,7 @@ import hcp
 from mne.utils import _TempDir
 from hcp.tests import config as tconf
 from hcp.tests.config import expensive_test
-
+from hcp.io.read import _hcp_pick_info
 
 hcp_params = dict(hcp_path=tconf.hcp_path,
                   subject=tconf.test_subject)
@@ -22,8 +22,8 @@ hcp_params = dict(hcp_path=tconf.hcp_path,
 def test_read_annot():
     """testing annotations"""
     for run_index in tconf.run_inds:
-        annots = hcp.io.read_annot_hcp(data_type='rest', run_index=run_index,
-                                       **hcp_params)
+        annots = hcp.read_annot(data_type='rest', run_index=run_index,
+                                **hcp_params)
         # channels
         assert_equal(list(sorted(annots['channels'])),
                      ['all', 'ica', 'manual',  'neigh_corr',
@@ -59,8 +59,8 @@ def _basic_raw_checks(raw):
 def test_read_raw_rest():
     """Test reading raw for resting state"""
     for run_index in tconf.run_inds[:tconf.max_runs]:
-        raw = hcp.io.read_raw_hcp(data_type='rest', run_index=run_index,
-                                  **hcp_params)
+        raw = hcp.read_raw(data_type='rest', run_index=run_index,
+                           **hcp_params)
         _basic_raw_checks(raw=raw)
 
 
@@ -71,10 +71,10 @@ def test_read_raw_task():
         for data_type in tconf.task_types:
             if run_index == 2:
                 assert_raises(
-                    ValueError, hcp.io.read_raw_hcp,
+                    ValueError, hcp.read_raw,
                     data_type=data_type, run_index=run_index, **hcp_params)
                 continue
-            raw = hcp.io.read_raw_hcp(
+            raw = hcp.read_raw(
                 data_type=data_type, run_index=run_index, **hcp_params)
             _basic_raw_checks(raw=raw)
 
@@ -86,10 +86,10 @@ def test_read_raw_noise():
         for data_type in tconf.noise_types:
             if run_index == 1:
                 assert_raises(
-                    ValueError, hcp.io.read_raw_hcp,
+                    ValueError, hcp.read_raw,
                     data_type=data_type, run_index=run_index, **hcp_params)
                 continue
-            raw = hcp.io.read_raw_hcp(
+            raw = hcp.read_raw(
                 data_type=data_type, run_index=run_index, **hcp_params)
             _basic_raw_checks(raw=raw)
 
@@ -122,10 +122,10 @@ def _epochs_basic_checks(epochs, annots, data_type):
 def test_read_epochs_rest():
     """Test reading epochs for resting state"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
-        annots = hcp.io.read_annot_hcp(
+        annots = hcp.read_annot(
             data_type='rest', run_index=run_index, **hcp_params)
 
-        epochs = hcp.io.read_epochs_hcp(
+        epochs = hcp.read_epochs(
             data_type='rest', run_index=run_index, **hcp_params)
 
         _epochs_basic_checks(epochs, annots, data_type='rest')
@@ -135,10 +135,10 @@ def test_read_epochs_task():
     """Test reading epochs for task"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
         for data_type in tconf.task_types:
-            annots = hcp.io.read_annot_hcp(
+            annots = hcp.read_annot(
                 data_type=data_type, run_index=run_index, **hcp_params)
 
-            epochs = hcp.io.read_epochs_hcp(
+            epochs = hcp.read_epochs(
                 data_type=data_type, run_index=run_index, **hcp_params)
 
             _epochs_basic_checks(epochs, annots, data_type)
@@ -159,12 +159,12 @@ def test_read_evoked():
     for data_type in tconf.task_types:
         all_annots = list()
         for run_index in tconf.run_inds[:2]:
-            annots = hcp.io.read_annot_hcp(
+            annots = hcp.read_annot(
                 data_type=data_type, run_index=run_index, **hcp_params)
             all_annots.append(annots)
 
-        evokeds = hcp.io.read_evokeds_hcp(data_type=data_type,
-                                          kind='average', **hcp_params)
+        evokeds = hcp.read_evokeds(data_type=data_type,
+                                   kind='average', **hcp_params)
 
         n_average = sum(ee.kind == 'average' for ee in evokeds)
         assert_equal(n_average, len(evokeds))
@@ -187,7 +187,7 @@ def test_read_info():
     for data_type in tconf.task_types:
         for run_index in tconf.run_inds[:tconf.max_runs][:2]:
             # with pdf file
-            info = hcp.io.read_info_hcp(
+            info = hcp.read_info(
                 data_type=data_type, run_index=run_index, **hcp_params)
             assert_equal(
                 {k for k in info['ch_names'] if k.startswith('A')},
@@ -205,7 +205,7 @@ def test_read_info():
                 os.makedirs(op.join(tempdir, op.dirname(pp)))
                 shutil.copy(op.join(tconf.hcp_path, pp), op.join(tempdir, pp))
 
-            info2 = hcp.io.read_info_hcp(
+            info2 = hcp.read_info(
                 subject=tconf.test_subject, data_type=data_type,
                 hcp_path=tempdir,
                 run_index=run_index)
@@ -216,7 +216,7 @@ def test_read_info():
             common_chs = [ch for ch in info2['ch_names'] if
                           ch in info['ch_names']]
             assert_equal(len(common_chs), len(info['chs']))
-            info2 = hcp.io.read._hcp_pick_info(info2, common_chs)
+            info2 = _hcp_pick_info(info2, common_chs)
             assert_equal(info['ch_names'], info2['ch_names'])
             for ch1, ch2 in zip(info['chs'], info2['chs']):
                 assert_array_equal(ch1['loc'], ch2['loc'])
@@ -226,7 +226,7 @@ def test_read_trial_info():
     """Test trial info basics"""
     for data_type in tconf.task_types:
         for run_index in tconf.run_inds[:tconf.max_runs][:2]:
-            trial_info = hcp.io.read_trial_info_hcp(
+            trial_info = hcp.read_trial_info(
                 data_type=data_type, run_index=run_index, **hcp_params)
             assert_true('stim' in trial_info)
             assert_true('resp' in trial_info)

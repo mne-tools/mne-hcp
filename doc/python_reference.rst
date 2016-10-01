@@ -5,7 +5,7 @@ Python API Reference
 ====================
 
 This is the functions reference of MNE-HCP. Functions are
-grouped thematically by analysis stage. Functions  that are not
+grouped thematically by analysis purpose. Functions  that are not
 below a module heading are found in the :py:mod:`hcp` namespace.
 
 .. contents::
@@ -18,37 +18,26 @@ below a module heading are found in the :py:mod:`hcp` namespace.
    :toctree: generated/
    :template: function.rst
 
+   read_raw
+   read_epochs
+   read_evokeds
+   read_info
+   read_annot
+   read_ica
+   read_trial_info
+
    make_mne_anatomy
    compute_forward_stack
 
+==================================
+Handling HCP files for downloading
+==================================
 
-=================
-Reading HCP files 
-=================
-
-:py:mod:`hcp.io`:
-
-.. currentmodule:: hcp.io
+.. currentmodule:: file_mapping
 
 .. autosummary::
-   :toctree: generated/
-   :template: function.rst
-
-   read_raw_hcp
-   read_epochs_hcp
-   read_evokeds_hcp
-   read_info_hcp
-   read_annot_hcp
-   read_ica_hcp
-   read_trial_info_hcp
-  
-:py:mod:`hcp.io.file_mapping`:
-
-.. currentmodule:: hcp.io.file_mapping
-
-.. autosummary::
-   :toctree: generated/
-   :template: function.rst
+  :toctree: generated/
+  :template: function.rst
 
    get_file_paths
    get_s3_keys_meg
@@ -65,7 +54,7 @@ Manipulating data and sensors
 .. autosummary::
    :toctree: generated/
    :template: function.rst
- 
+
    set_eog_ecg_channels
    apply_ica_hcp
    apply_ref_correction

@@ -14,7 +14,6 @@ to compute an inverse solution and apply it on event related fields.
 import os.path as op
 import mne
 import hcp
-from hcp import io
 from hcp import preprocessing as preproc
 
 ##############################################################################
@@ -31,8 +30,8 @@ run_index = 0
 # We're reading the evoked data.
 # These are the same as in :ref:`tut_plot_evoked`
 
-hcp_evokeds = hcp.io.read_evokeds_hcp(onset='stim', subject=subject,
-                                      data_type=data_type, hcp_path=hcp_path)
+hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
+                                   data_type=data_type, hcp_path=hcp_path)
 for evoked in hcp_evokeds:
     if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
@@ -56,8 +55,8 @@ fwd = src_outputs['fwd']
 # the same filtering as was used for the computations of the ERF in the first
 # place. See also :ref:`tut_reproduce_erf`.
 
-raw_noise = io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
-                            data_type='noise_empty_room')
+raw_noise = hcp.read_raw(subject=subject, hcp_path=hcp_path,
+                         data_type='noise_empty_room')
 raw_noise.load_data()
 
 # apply ref channel correction and drop ref channels

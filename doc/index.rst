@@ -9,7 +9,7 @@ MNE-HCP
 =======
 
 We provide Python tools for seamless integration of MEG data from the `Human Connectome Project  <http://www.humanconnectome.org>`_ into the Python ecosystem.
-In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Raw HCP data are translated into actionable MNE objects that we know and love. MNE-HCP abstracts away difficulties due to diverging coordinate systems, distributed information, and file format conventions. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices. 
+In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Raw HCP data are translated into actionable MNE objects that we know and love. MNE-HCP abstracts away difficulties due to diverging coordinate systems, distributed information, and file format conventions. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices.
 By building on the `MNE software package <http://martinos.org/mne/>`_, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.
 
 Fast interface to MEG data
@@ -20,22 +20,22 @@ Allow us to give you a flavor by a few example queries of MEG HCP data from subj
 .. code-block:: python
 
   # Get all entries from the MEG data header
-  info = hcp.io.read_info_hcp('1003007', 'task_motor')
+  info = hcp.read_info('1003007', 'task_motor')
 
   # Get continuous MEG time series
-  raw = hcp.io.read_raw_hcp('1003007', 'task_motor')
+  raw = hcp.read_raw('1003007', 'task_motor')
 
   # Get segmented MEG time series
-  epochs = hcp.io.read_epochs_hcp('1003007', 'task_motor')
+  epochs = hcp.read_epochs('1003007', 'task_motor')
 
   # Get all MEG time series averaged across events
-  list_of_evoked = hcp.io.read_evokeds_hcp('1003007', 'task_motor')
+  list_of_evoked = hcp.read_evokeds('1003007', 'task_motor')
 
   # Get details on contamination and noise sources
-  annotations_dict = hcp.io.read_annot_hcp('1003007', 'task_motor')
+  annotations_dict = hcp.read_annot('1003007', 'task_motor')
 
   # Get precomputed independent components that compose the signal time series
-  ica_mat = hcp.io.read_ica_hcp('1003007', 'task_motor')
+  ica_mat = hcp.read_ica('1003007', 'task_motor')
 
 Scope and Disclaimer
 --------------------
@@ -175,9 +175,9 @@ and lists all corresponding files.
 Example usage:
 
 .. code-block:: python
-    
+
    >>> import hcp
-   >>> files = hcp.io.file_mapping.get_file_paths(
+   >>> files = hcp.file_mapping.et_file_paths(
    >>>     subject='123455', data_type='task_motor', output='raw',
    >>>     hcp_path='/media/storage/HCP')
    ['/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
@@ -227,7 +227,7 @@ A couple of steps are necessary to reproduce the original sensor space outputs.
 
 2. The trial info structure gives the correct latencies of the events
    The latencies in the trigger channel are shifted by around 18 ms.
-   For now we'd recommend using the events from the function :func:`hcp.io.read_trial_info_hcp`.
+   For now we'd recommend using the events from the function :func:`hcp.read_trial_info`.
 
 3. The default filters in MNE and FieldTrip are different.
    FieldTrip uses a 4th order butterworth filter. In MNE you might need
@@ -236,14 +236,14 @@ A couple of steps are necessary to reproduce the original sensor space outputs.
    to baseline correction.
 
 4. Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
-   These have to be read and used. Check out `hcp.io.read_annot_hcp` and add bad
+   These have to be read and used. Check out `hcp.read_annot` and add bad
    channel names to `raw.info['bads']` and create and set an `mne.Annotations`
    object as attribute to `raw`, see below.
 
     .. code-block:: python
 
-        annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
-                                       run_index=run_index)
+        annots = hcp.read_annot(subject, data_type, hcp_path=hcp_path,
+                                run_index=run_index)
         bad_segments = annots['segments']['all'] / raw.info['sfreq']
         raw.annotations = mne.Annotations(
             bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
@@ -251,7 +251,7 @@ A couple of steps are necessary to reproduce the original sensor space outputs.
 
 5. ICA components related to eye blinks and heart beats need to be removed
    from the data. Checkout the ICA slot in the output of
-   `hcp.io.read_annot_hcp` to get the HCP ICA components.
+   `hcp.read_annot` to get the HCP ICA components.
 
 
 Convenience functions
@@ -288,10 +288,10 @@ Contributions
 Acknowledgements
 ================
 
-This project is supported by the AWS Cloud Credits for Research program and
+This project is supported by the Amazon Webservices Research grant issued to Denis A. Engemann and
 by the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.
 
 I acknowledge support by Alex Gramfort, Mainak Jas, Jona Sassenhagen, Giorgos Michalareas,
 Eric Larson, Danilo Bzdok, and Jan-Mathijs Schoffelen for discussions,
 inputs and help with finding the best way to map
-HCP data to the MNE world. 
+HCP data to the MNE world.

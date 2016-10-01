@@ -10,7 +10,7 @@ from mne.io.bti.bti import (
 from mne.transforms import Transform
 from mne.utils import logger
 
-from .io import read_info_hcp
+from .io import read_info
 from .io.read import _hcp_pick_info
 
 
@@ -167,7 +167,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
         Raw, Epochs, Evoked but with missing channels interpolated.
     """
     try:
-        info = read_info_hcp(
+        info = read_info(
             subject=subject, data_type=data_type, hcp_path=hcp_path,
             run_index=run_index if run_index is None else run_index)
     except (ValueError, IOError):

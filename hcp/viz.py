@@ -8,7 +8,7 @@ from mne import read_trans, read_surface
 from mne.transforms import apply_trans
 from mne.viz.topomap import _find_topomap_coords
 
-from .io import read_info_hcp
+from .io import read_info
 
 
 def make_hcp_bti_layout(info):
@@ -75,7 +75,7 @@ def plot_coregistration(subject, subjects_dir, recordings_path,
         op.join(recordings_path, subject,
                 '{}-head_mri-trans.fif'.format(subject)))
 
-    info = read_info_hcp(subject=subject, hcp_path=hcp_path, **info_from)
+    info = read_info(subject=subject, hcp_path=hcp_path, **info_from)
 
     info = pick_info(info, _pick_data_channels(info, with_ref_meg=False))
     sens_pnts = np.array([c['loc'][:3] for c in info['chs']])

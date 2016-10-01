@@ -1,8 +1,4 @@
-
 |Travis|_ |Zenodo|_ |Codecov|_
-
-.. |Travis| image:: https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master
-.. _Travis: https://travis-ci.org/mne-tools/mne-hcp
 
 .. |Zenodo| image:: https://zenodo.org/badge/53261823.svg
 .. _Zenodo: https://zenodo.org/badge/latestdoi/53261823
@@ -10,25 +6,51 @@
 .. |Codecov| image:: http://codecov.io/github/mne-tools/mne-hcp/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/mne-tools/mne-hcp?branch=master
 
+=======
 MNE-HCP
 =======
 
-Python tools for processing `Human Connectome Project  <http://www.humanconnectome.org>`_ MEG data
-using `MNE-Python <http://martinos.org/mne/>`_.  
+We provide Python tools for seamless integration of MEG data from the `Human Connectome Project  <http://www.humanconnectome.org>`_ into the Python ecosystem.
+In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Raw HCP data are translated into actionable MNE objects that we know and love. MNE-HCP abstracts away difficulties due to diverging coordinate systems, distributed information, and file format conventions. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices.
+By building on the `MNE software package <http://martinos.org/mne/>`_ package, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.
 
-Visit the `MNE-HCP homepage <http://mne-tools.github.io/mne-hcp>`_ for full user documentation.
+Fast interface to MEG data
+--------------------------
+Allow us to give you a flavor by a few example queries of MEG HCP data from subject 1003007:
+
+
+.. code-block:: python
+
+  # Get all entries from the MEG data header
+  info = hcp.read_info('1003007', 'task_motor')
+
+  # Get continuous MEG time series
+  raw = hcp.read_raw('1003007', 'task_motor')
+
+  # Get segmented MEG time series
+  epochs = hcp.read_epochs('1003007', 'task_motor')
+
+  # Get all MEG time series averaged across events
+  list_of_evoked = hcp.read_evokeds('1003007', 'task_motor')
+
+  # Get details on contamination and noise sources
+  annotations_dict = hcp.read_annot('1003007', 'task_motor')
+
+  # Get precomputed independent components that compose the signal time series
+  ica_mat = hcp.read_ica('1003007', 'task_motor')
 
 Scope and Disclaimer
 --------------------
+This code is under active research-driven development. The API is still changing,
+but is getting closer to a stable release.
 
-This code is under active research-driven development
-and the API is still changing but is getting closer to a stable release.
+.. note::
 
-For now please consider the following caveats:
+    For now please consider the following caveats:
 
-- We only intend to support a subset of the files shipped with HCP.
-- Specifically, for now it is not planned to support IO and processing for any outputs of the HCP source space pipelines.
-- This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
+    - We only intend to support a subset of the files shipped with HCP.
+    - Specifically, for now it is not planned to support io and processing for any outputs of the HCP source space pipelines.
+    - This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
 
 Installation
 ============
@@ -49,7 +71,7 @@ and finally run `setup.py` to install the package::
 If you do not have admin privileges on the computer, use the ``--user`` flag
 with `setup.py`.
 
-Alternatively, for a developer install based on symbolic links (which simplifies keeping up with code changes), do::
+Alternatively, for a devoloper install based on symbolic links (which simplifies keeping up with code changes), do::
 
 	$ cd mne-hcp/
 	$ python setup.py develop
@@ -65,12 +87,12 @@ Dependencies
 
 The following main and additional dependencies are required to use MNE-HCP:
 
-- MNE-Python master branch
-- the MNE-Python dependencies, specifically
-    - scipy
-    - numpy
-    - matplotlib
-- scikit-learn (optional)
+    - MNE-Python master branch
+    - the MNE-Python dependencies, specifically
+        - scipy
+        - numpy
+        - matplotlib
+    - scikit-learn (optional)
 
 Quickstart
 ==========
@@ -94,25 +116,6 @@ The code is organized by different modules.
 The `io` module includes readers for sensor space data at different processing
 stages and annotations for bad data.
 
-Reader API
-----------
-
-All data readers have the same API for the first two positional arguments:
-
-
-.. code-block:: python
-
-   params = dict(
-       subject='100307',
-       data_type='task_motor')  # assuming that data are unpacked here
-
-   # all MNE objects have native names and coordinates, some MNE functions might break.
-   info = hcp.io.read_info_hcp(**params)  # MNE object
-   raw = hcp.io.read_raw_hcp(**params)  # ...
-   epochs = hcp.io.read_epochs_hcp(**params) # ...
-   list_of_evoked = hcp.io.read_evokeds_hcp(**params) # ...
-   annotations_dict = hcp.io.read_annot_hcp(**params) # dict
-   ica_mat = hcp.io.read_ica_hcp(**params) # ...
 
 Types of Data
 -------------
@@ -140,7 +143,7 @@ Functionality to make the HCP datasets compatible with MNE
 ----------------------------------------------------------
 
 MNE HCP comes with convenience functions such as `hcp.make_mne_anatomy`. This one will create an
-MNE friendly anatomy directory and extracts the head model and
+MNE friendly anatomy directories and extracts the head model and
 coregistration MEG to MRI coregistration.
 (Yes, it maps to MRI, not to the helmet -- a peculiarity of the HCP data.)
 It can be used as follows:
@@ -166,8 +169,8 @@ File Mapping
 ------------
 
 MNE-HCP supports a low level file mapping that allows for quick compilations
-of sets of files for a given subject and data context.
-This is done in `hcp.io.file_mapping.get_file_paths`. Think of it as a
+of sets of files for a given subejct and data context.
+This is done in :func:`hcp.io.file_mapping.get_file_paths`, think of it as a
 file name synthesizer that takes certain data description parameters as inputs
 and lists all corresponding files.
 
@@ -176,7 +179,7 @@ Example usage:
 .. code-block:: python
 
    >>> import hcp
-   >>> files = hcp.io.file_mapping.get_file_paths(
+   >>> files = hcp.get_file_paths(
    >>>     subject='123455', data_type='task_motor', output='raw',
    >>>     hcp_path='/media/storage/HCP')
    ['/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC',
@@ -210,9 +213,9 @@ This is not a bug.
 work as as expected. First of all, the layout file is not recognized. Second,
 the coordinates are not regonized as native ones, eventually rotating and
 distorting the graphical display. To fix this, either a proper layout can be
-computed with `hcp.viz.make_hcp_bti_layout`.
-The conversion to MNE can also be performed using
-`hcp.preprocessing.map_ch_coords_to_mne`.
+computed with :func:`hcp.viz.make_hcp_bti_layout`.
+Or the conversion to MNE can also be
+performed using :func:`hcp.preprocessing.map_ch_coords_to_mne`.
 But note that source localization will be wrong when computed on data in
 Neuromag coordinates. As things are, coordinates have to be kept in the native
 space to be aligned with the HCP outputs.
@@ -220,14 +223,13 @@ space to be aligned with the HCP outputs.
 Reproducing HCP sensor space outputs
 ------------------------------------
 
-A couple of steps are necessary to reproduce
-the original sensor space outputs.
+A couple of steps are necessary to reproduce the original sensor space outputs.
 
-1. Reference channels should be regressed out. Check out `hcp.preprocessing.apply_ref_correction`.
+1. Reference channels should be regressed out. Checkout :func:`hcp.preprocessing.apply_ref_correction`.
 
-2. The trial info structure gives the correct latencies of the events.
+2. The trial info structure gives the correct latencies of the events
    The latencies in the trigger channel are shifted by around 18 ms.
-   For now we recommend using the events from the function `hcp.io.read_trial_info_hcp`.
+   For now we'd recommend using the events from the function :func:`hcp.read_trial_info`.
 
 3. The default filters in MNE and FieldTrip are different.
    FieldTrip uses a 4th order butterworth filter. In MNE you might need
@@ -236,14 +238,14 @@ the original sensor space outputs.
    to baseline correction.
 
 4. Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
-   These have to be read and used. Check out `hcp.io.read_annot_hcp` and add bad
+   These have to be read and used. Check out `hcp.read_annot` and add bad
    channel names to `raw.info['bads']` and create and set an `mne.Annotations`
    object as attribute to `raw`, see below.
 
     .. code-block:: python
 
-        annots = hcp.io.read_annot_hcp(subject, data_type, hcp_path=hcp_path,
-                                       run_index=run_index)
+        annots = hcp.read_annot(subject, data_type, hcp_path=hcp_path,
+                                run_index=run_index)
         bad_segments = annots['segments']['all'] / raw.info['sfreq']
         raw.annotations = mne.Annotations(
             bad_segments[:, 0], (bad_segments[:, 1] - bad_segments[:, 0]),
@@ -251,16 +253,16 @@ the original sensor space outputs.
 
 5. ICA components related to eye blinks and heart beats need to be removed
    from the data. Checkout the ICA slot in the output of
-   `hcp.io.read_annot_hcp` to get the HCP ICA components.
+   `hcp.read_annot` to get the HCP ICA components.
 
 
 Convenience functions
 ---------------------
 
-MNE-HCP includes convenience functions that help setting up directory and file layouts
+NNE-HCP includes convenience functions that help setting up directory and file layouts
 expected by MNE-Python.
 
-`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
+:func:`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
 
 .. code-block:: bash
 

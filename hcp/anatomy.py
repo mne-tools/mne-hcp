@@ -14,7 +14,7 @@ from mne.utils import logger
 from .io.file_mapping import get_file_paths
 from .io.read import _read_trans_hcp
 from .io.read import _get_head_model
-from .io import read_info_hcp
+from .io import read_info
 
 
 def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
@@ -234,7 +234,7 @@ def compute_forward_stack(subjects_dir,
     bem_sol = mne.make_bem_solution(bems)
     bem_sol['surfs'][0]['coord_frame'] = 5
 
-    info = read_info_hcp(subject=subject, hcp_path=hcp_path, **info_from)
+    info = read_info(subject=subject, hcp_path=hcp_path, **info_from)
     picks = _pick_data_channels(info, with_ref_meg=False)
     info = pick_info(info, picks)
 

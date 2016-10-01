@@ -154,7 +154,7 @@ def _check_infos_trans(infos):
         np.testing.assert_array_almost_equal(ct1, ct2, 12)
 
 
-def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir):
     """Read HCP raw data
 
     Parameters
@@ -189,7 +189,7 @@ def read_raw_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     return raw
 
 
-def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+def read_info(subject, data_type, run_index=0, hcp_path=op.curdir):
     """Read info from unprocessed data
 
     Parameters
@@ -235,7 +235,7 @@ def read_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     return meg_info
 
 
-def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
+def read_epochs(subject, data_type, onset='TIM', run_index=0,
                     hcp_path=op.curdir, return_fixations_motor=False):
     """Read HCP processed data
 
@@ -268,7 +268,7 @@ def read_epochs_hcp(subject, data_type, onset='TIM', run_index=0,
         The MNE epochs. Note, these are pseudo-epochs in the case of
         onset == 'rest'.
     """
-    info = read_info_hcp(subject=subject, data_type=data_type,
+    info = read_info(subject=subject, data_type=data_type,
                          run_index=run_index, hcp_path=hcp_path)
 
     epochs_mat_fname = get_file_paths(
@@ -322,7 +322,7 @@ def _hcp_pick_info(info, ch_names):
         copy=True)
 
 
-def read_trial_info_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+def read_trial_info(subject, data_type, run_index=0, hcp_path=op.curdir):
     """Read information about trials
 
     Parameters
@@ -402,7 +402,7 @@ def _parse_annotations_segments(segment_strings):
     return out
 
 
-def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+def read_annot(subject, data_type, run_index=0, hcp_path=op.curdir):
     """Read annotations for bad data and ICA.
 
     Parameters
@@ -455,7 +455,7 @@ def read_annot_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
     return out
 
 
-def read_ica_hcp(subject, data_type, run_index=0, hcp_path=op.curdir):
+def read_ica(subject, data_type, run_index=0, hcp_path=op.curdir):
     """Read precomputed independent components from subject
 
     Parameters
@@ -544,7 +544,7 @@ def _parse_annotations_ica(ica_strings):
     return out
 
 
-def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
+def read_evokeds(subject, data_type, onset='stim', sensor_mode='mag',
                      hcp_path=op.curdir, kind='average'):
     """Read HCP processed data
 
@@ -574,7 +574,7 @@ def read_evokeds_hcp(subject, data_type, onset='stim', sensor_mode='mag',
         The MNE epochs. Note, these are pseudo-epochs in the case of
         onset == 'rest'.
     """
-    info = read_info_hcp(subject=subject, data_type=data_type,
+    info = read_info(subject=subject, data_type=data_type,
                          hcp_path=hcp_path, run_index=0)
 
     evoked_files = list()

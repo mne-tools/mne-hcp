@@ -12,7 +12,7 @@ HCP evoked outputs using MNE plotting functions.
 # License: BSD 3 clause
 
 import os.path as op
-from hcp import io
+import hcp
 from hcp import preprocessing as preproc
 
 ##############################################################################
@@ -29,8 +29,8 @@ run_index = 0
 ##############################################################################
 # Let's get the eovked data.
 
-hcp_evokeds = io.read_evokeds_hcp(onset='stim', subject=subject,
-                                  data_type=data_type, hcp_path=hcp_path)
+hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
+                               data_type=data_type, hcp_path=hcp_path)
 for evoked in hcp_evokeds:
     if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
