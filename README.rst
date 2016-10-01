@@ -1,9 +1,11 @@
 
-|Travis|_
+|Travis|_ |Zenodo|_
 
 .. |Travis| image:: https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master
 .. _Travis: https://travis-ci.org/mne-tools/mne-hcp
 
+.. |Zenodo| image:: https://zenodo.org/badge/53261823.svg
+.. _Zenodo: https://zenodo.org/badge/latestdoi/53261823
 
 MNE-HCP
 =======
