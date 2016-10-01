@@ -1,0 +1,12 @@
+hcp.read_ica
+============
+
+.. currentmodule:: hcp
+
+.. autofunction:: read_ica
+
+.. include:: hcp.read_ica.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

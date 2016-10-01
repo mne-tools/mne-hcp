@@ -1,0 +1,12 @@
+hcp.read_annot
+==============
+
+.. currentmodule:: hcp
+
+.. autofunction:: read_annot
+
+.. include:: hcp.read_annot.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

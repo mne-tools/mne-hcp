@@ -17,7 +17,7 @@ import os.path as op
 
 import numpy as np
 import mne
-from hcp import io
+import hcp
 from hcp import preprocessing as preproc
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import roc_auc_score
@@ -49,7 +49,7 @@ event_id = dict(face=1, tool=2)
 epochs = list()
 for run_index in [0, 1]:
     hcp_params['run_index'] = run_index
-    trial_info = io.read_trial_info_hcp(**hcp_params)
+    trial_info = hcp.read_trial_info(**hcp_params)
 
     events = np.c_[
         trial_info['stim']['codes'][:, 6] - 1,  # time sample
@@ -61,7 +61,7 @@ for run_index in [0, 1]:
     unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
     events = events[unique_subset]  # use diff to find first unique events
     subset = np.in1d(events[:, 2], event_id.values())
-    epochs_hcp = io.read_epochs_hcp(**hcp_params).decimate(decim)
+    epochs_hcp = hcp.read_epochs(**hcp_params).decimate(decim)
     epochs_hcp = epochs_hcp[unique_subset][subset]
     epochs_hcp.events[:, 2] = events[subset, 2]
     epochs_hcp.event_id = event_id

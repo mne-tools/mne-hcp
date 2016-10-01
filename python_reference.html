@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Python API Reference &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    <title>Python API Reference &mdash; MNE-HCP 0.1.dev12 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.dev6',
+        VERSION:     '0.1.dev12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -31,7 +31,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="index.html" />
+    <link rel="top" title="MNE-HCP 0.1.dev12 documentation" href="index.html" />
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
@@ -59,7 +59,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           MNE-HCP</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -92,9 +92,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Python API Reference</a></li>
-<li><a class="reference internal" href="#reading-hcp-files">Reading HCP files</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#handling-hcp-files-for-downloading">Handling HCP files for downloading</a></li>
 <li><a class="reference internal" href="#manipulating-data-and-sensors">Manipulating data and sensors</a></li>
 <li><a class="reference internal" href="#visualizing-data">Visualizing data</a></li>
 </ul>
@@ -133,9 +131,7 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><ul>
 <li><a class="reference internal" href="#">Python API Reference</a></li>
-<li><a class="reference internal" href="#reading-hcp-files">Reading HCP files</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#handling-hcp-files-for-downloading">Handling HCP files for downloading</a></li>
 <li><a class="reference internal" href="#manipulating-data-and-sensors">Manipulating data and sensors</a></li>
 <li><a class="reference internal" href="#visualizing-data">Visualizing data</a></li>
 </ul>
@@ -154,7 +150,7 @@
   <div class="section" id="python-api-reference">
 <span id="api-reference"></span><h1>Python API Reference<a class="headerlink" href="#python-api-reference" title="Permalink to this headline">¶</a></h1>
 <p>This is the functions reference of MNE-HCP. Functions are
-grouped thematically by analysis stage. Functions  that are not
+grouped thematically by analysis purpose. Functions  that are not
 below a module heading are found in the <code class="xref py py-mod docutils literal"><span class="pre">hcp</span></code> namespace.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -162,62 +158,52 @@ below a module heading are found in the <code class="xref py py-mod docutils lit
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">make_mne_anatomy</span></code></a>(subject,&nbsp;subjects_dir[,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.read_raw.html#hcp.read_raw" title="hcp.read_raw"><code class="xref py py-obj docutils literal"><span class="pre">read_raw</span></code></a>(subject,&nbsp;data_type[,&nbsp;run_index,&nbsp;...])</td>
+<td>Read HCP raw data</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.read_epochs.html#hcp.read_epochs" title="hcp.read_epochs"><code class="xref py py-obj docutils literal"><span class="pre">read_epochs</span></code></a>(subject,&nbsp;data_type[,&nbsp;onset,&nbsp;...])</td>
+<td>Read HCP processed data</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.read_evokeds.html#hcp.read_evokeds" title="hcp.read_evokeds"><code class="xref py py-obj docutils literal"><span class="pre">read_evokeds</span></code></a>(subject,&nbsp;data_type[,&nbsp;onset,&nbsp;...])</td>
+<td>Read HCP processed data</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.read_info.html#hcp.read_info" title="hcp.read_info"><code class="xref py py-obj docutils literal"><span class="pre">read_info</span></code></a>(subject,&nbsp;data_type[,&nbsp;run_index,&nbsp;...])</td>
+<td>Read info from unprocessed data</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.read_annot.html#hcp.read_annot" title="hcp.read_annot"><code class="xref py py-obj docutils literal"><span class="pre">read_annot</span></code></a>(subject,&nbsp;data_type[,&nbsp;run_index,&nbsp;...])</td>
+<td>Read annotations for bad data and ICA.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.read_ica.html#hcp.read_ica" title="hcp.read_ica"><code class="xref py py-obj docutils literal"><span class="pre">read_ica</span></code></a>(subject,&nbsp;data_type[,&nbsp;run_index,&nbsp;...])</td>
+<td>Read precomputed independent components from subject</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.read_trial_info.html#hcp.read_trial_info" title="hcp.read_trial_info"><code class="xref py py-obj docutils literal"><span class="pre">read_trial_info</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
+<td>Read information about trials</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/hcp.make_mne_anatomy.html#hcp.make_mne_anatomy" title="hcp.make_mne_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">make_mne_anatomy</span></code></a>(subject,&nbsp;subjects_dir[,&nbsp;...])</td>
 <td>Extract relevant anatomy and create MNE friendly directory layout</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/hcp.compute_forward_stack.html#hcp.compute_forward_stack" title="hcp.compute_forward_stack"><code class="xref py py-obj docutils literal"><span class="pre">compute_forward_stack</span></code></a>(subjects_dir,&nbsp;subject,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.compute_forward_stack.html#hcp.compute_forward_stack" title="hcp.compute_forward_stack"><code class="xref py py-obj docutils literal"><span class="pre">compute_forward_stack</span></code></a>(subjects_dir,&nbsp;subject,&nbsp;...)</td>
 <td>Convenience function for conducting standard MNE analyses.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="reading-hcp-files">
-<h1>Reading HCP files<a class="headerlink" href="#reading-hcp-files" title="Permalink to this headline">¶</a></h1>
-<p><code class="xref py py-mod docutils literal"><span class="pre">hcp.io</span></code>:</p>
+<div class="section" id="handling-hcp-files-for-downloading">
+<h1>Handling HCP files for downloading<a class="headerlink" href="#handling-hcp-files-for-downloading" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_raw_hcp.html#hcp.io.read_raw_hcp" title="hcp.io.read_raw_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_raw_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Read HCP raw data</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_file_paths</span></code></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_epochs_hcp.html#hcp.io.read_epochs_hcp" title="hcp.io.read_epochs_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_epochs_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;onset,&nbsp;...])</td>
-<td>Read HCP processed data</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_meg</span></code></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_evokeds_hcp.html#hcp.io.read_evokeds_hcp" title="hcp.io.read_evokeds_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_evokeds_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Read HCP processed data</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_info_hcp.html#hcp.io.read_info_hcp" title="hcp.io.read_info_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_info_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Read info from unprocessed data</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_annot_hcp.html#hcp.io.read_annot_hcp" title="hcp.io.read_annot_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_annot_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Read annotations for bad data and ICA.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.read_ica_hcp.html#hcp.io.read_ica_hcp" title="hcp.io.read_ica_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_ica_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Read precomputed independent components from subject</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.read_trial_info_hcp.html#hcp.io.read_trial_info_hcp" title="hcp.io.read_trial_info_hcp"><code class="xref py py-obj docutils literal"><span class="pre">read_trial_info_hcp</span></code></a>(subject,&nbsp;data_type[,&nbsp;...])</td>
-<td>Read information about trials</td>
-</tr>
-</tbody>
-</table>
-<p><code class="xref py py-mod docutils literal"><span class="pre">hcp.io.file_mapping</span></code>:</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_file_paths.html#hcp.io.file_mapping.get_file_paths" title="hcp.io.file_mapping.get_file_paths"><code class="xref py py-obj docutils literal"><span class="pre">get_file_paths</span></code></a>(subject,&nbsp;data_type,&nbsp;output[,&nbsp;...])</td>
-<td>This is the MNE-HCP file path synthesizer</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_s3_keys_meg.html#hcp.io.file_mapping.get_s3_keys_meg" title="hcp.io.file_mapping.get_s3_keys_meg"><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_meg</span></code></a>(subject,&nbsp;data_types[,&nbsp;...])</td>
-<td>Helper to prepare AWS downloads for MEG data</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/hcp.io.file_mapping.get_s3_keys_anatomy.html#hcp.io.file_mapping.get_s3_keys_anatomy" title="hcp.io.file_mapping.get_s3_keys_anatomy"><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_anatomy</span></code></a>(subject[,&nbsp;...])</td>
-<td>Helper to prepare AWS downloads for anatomy data</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_s3_keys_anatomy</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>

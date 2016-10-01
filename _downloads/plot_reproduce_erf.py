@@ -20,7 +20,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mne
 import hcp
-from hcp import io
 import hcp.preprocessing as preproc
 
 mne.set_log_level('WARNING')
@@ -54,7 +53,7 @@ baseline = (-0.5, 0)
 trial_infos = list()
 for run_index in [0, 1]:
     hcp_params['run_index'] = run_index
-    trial_info = io.read_trial_info_hcp(**hcp_params)
+    trial_info = hcp.read_trial_info(**hcp_params)
     trial_infos.append(trial_info)
 
 
@@ -88,12 +87,12 @@ for run_index, events in zip([0, 1], all_events):
 
     hcp_params['run_index'] = run_index
 
-    raw = io.read_raw_hcp(**hcp_params)
+    raw = hcp.read_raw(**hcp_params)
     raw.load_data()
     # apply ref channel correction and drop ref channels
     preproc.apply_ref_correction(raw)
 
-    annots = io.read_annot_hcp(**hcp_params)
+    annots = hcp.read_annot(**hcp_params)
     # construct MNE annotations
     bad_seg = (annots['segments']['all']) / raw.info['sfreq']
     annotations = mne.Annotations(
@@ -112,7 +111,7 @@ for run_index, events in zip([0, 1], all_events):
 
     # read ICA and remove EOG ECG
     # note that the HCP ICA assumes that bad channels have already been removed
-    ica_mat = hcp.io.read_ica_hcp(**hcp_params)
+    ica_mat = hcp.read_ica(**hcp_params)
 
     # We will select the brain ICs only
     exclude = [ii for ii in range(annots['ica']['total_ic_number'][0])
@@ -143,7 +142,7 @@ evokeds_from_epochs_hcp = list()
 for run_index, events in zip([0, 1], all_events):
     hcp_params['run_index'] = run_index
 
-    epochs_hcp = io.read_epochs_hcp(**hcp_params)
+    epochs_hcp = hcp.read_epochs(**hcp_params)
     # for some reason in the HCP data the time events may not always be unique
     unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
     evoked = epochs_hcp[unique_subset][events[:, 2] == 1].average()
@@ -170,7 +169,7 @@ for run_index, events in zip([0, 1], all_events):
 
 evoked_hcp = None
 del hcp_params['run_index']
-hcp_evokeds = hcp.io.read_evokeds_hcp(onset='stim', **hcp_params)
+hcp_evokeds = hcp.read_evokeds(onset='stim', **hcp_params)
 
 for ev in hcp_evokeds:
     if not ev.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':

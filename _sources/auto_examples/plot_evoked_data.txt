@@ -20,7 +20,7 @@ HCP evoked outputs using MNE plotting functions.
     # License: BSD 3 clause
 
     import os.path as op
-    from hcp import io
+    import hcp
     from hcp import preprocessing as preproc
 
 
@@ -57,8 +57,8 @@ Let's get the eovked data.
 .. code-block:: python
 
 
-    hcp_evokeds = io.read_evokeds_hcp(onset='stim', subject=subject,
-                                      data_type=data_type, hcp_path=hcp_path)
+    hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
+                                   data_type=data_type, hcp_path=hcp_path)
     for evoked in hcp_evokeds:
         if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
             continue
@@ -110,7 +110,7 @@ for subsequent analyses we would use `evoked` not `evoked_viz`.
 See also :ref:`tut_compute_inverse_erf` to see how the story continues.
 
 
-**Total running time of the script:** ( 0 minutes  4.395 seconds)
+**Total running time of the script:** ( 0 minutes  3.984 seconds)
 
 
 

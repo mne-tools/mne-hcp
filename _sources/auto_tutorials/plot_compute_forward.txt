@@ -21,7 +21,7 @@ and finally the forward solution.
 
     import os.path as op
     import mne
-    from hcp import io
+    import hcp
 
 
 
@@ -126,8 +126,8 @@ Then we can compute the forward solution.
 .. code-block:: python
 
 
-    info = io.read_info_hcp(subject=subject, hcp_path=hcp_path,
-                            data_type='rest', run_index=0)
+    info = hcp.read_info(subject=subject, hcp_path=hcp_path, data_type='rest',
+                         run_index=0)
 
     picks = mne.pick_types(info, meg=True, ref_meg=False)
     info = mne.pick_info(info, picks)
@@ -172,7 +172,7 @@ and admire the expected curvature-driven sensitivity pattern.
     colormap: fmin=1.99e-02 fmid=4.15e-01 fmax=9.01e-01 transparent=1
 
 
-**Total running time of the script:** ( 1 minutes  2.387 seconds)
+**Total running time of the script:** ( 1 minutes  3.026 seconds)
 
 
 

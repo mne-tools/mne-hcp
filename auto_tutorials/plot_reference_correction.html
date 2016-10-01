@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Apply reference channel correction &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    <title>Apply reference channel correction &mdash; MNE-HCP 0.1.dev12 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.dev6',
+        VERSION:     '0.1.dev12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -31,7 +31,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+    <link rel="top" title="MNE-HCP 0.1.dev12 documentation" href="../index.html" />
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
@@ -59,7 +59,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           MNE-HCP</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -182,8 +182,8 @@
 <p>Then we plot the power spectrum of the MEG and reference channels,
 apply the reference correction and add the resulting cleaned MEG channels
 to our comparison.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
-                          <span class="n">run_index</span><span class="o">=</span><span class="n">run_index</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_raw</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
+                   <span class="n">run_index</span><span class="o">=</span><span class="n">run_index</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
 <span class="n">raw</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
 
 <span class="c1"># get meg and ref channels</span>
@@ -245,7 +245,7 @@ to our comparison.</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_reference_correction_002.png" class="align-center" src="../_images/sphx_glr_plot_reference_correction_002.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  11.734 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  12.296 seconds)</p>
 <div class="sphx-glr-download container">
 <a class="reference download internal" href="../_downloads/plot_reference_correction.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_reference_correction.py</span></code></a></div>
 <div class="sphx-glr-download container">

@@ -13,7 +13,7 @@ and finally the forward solution.
 
 import os.path as op
 import mne
-from hcp import io
+import hcp
 
 ##############################################################################
 # we assume our data is inside a designated folder under $HOME
@@ -68,8 +68,8 @@ bem_sol['surfs'][0]['coord_frame'] = 5
 # Now we can read the channels that we want to map to the cortical locations.
 # Then we can compute the forward solution.
 
-info = io.read_info_hcp(subject=subject, hcp_path=hcp_path,
-                        data_type='rest', run_index=0)
+info = hcp.read_info(subject=subject, hcp_path=hcp_path, data_type='rest',
+                     run_index=0)
 
 picks = mne.pick_types(info, meg=True, ref_meg=False)
 info = mne.pick_info(info, picks)

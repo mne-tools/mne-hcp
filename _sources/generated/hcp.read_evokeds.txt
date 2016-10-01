@@ -1,0 +1,12 @@
+hcp.read_evokeds
+================
+
+.. currentmodule:: hcp
+
+.. autofunction:: read_evokeds
+
+.. include:: hcp.read_evokeds.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

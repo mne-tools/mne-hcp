@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Computing ERFs from HCP &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    <title>Computing ERFs from HCP &mdash; MNE-HCP 0.1.dev12 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.dev6',
+        VERSION:     '0.1.dev12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -31,7 +31,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="../index.html" />
+    <link rel="top" title="MNE-HCP 0.1.dev12 documentation" href="../index.html" />
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
@@ -59,7 +59,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           MNE-HCP</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -156,7 +156,6 @@ read the ERF files. Subsequently we will compare these outputs.</p>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">mne</span>
 <span class="kn">import</span> <span class="nn">hcp</span>
-<span class="kn">from</span> <span class="nn">hcp</span> <span class="kn">import</span> <span class="n">io</span>
 <span class="kn">import</span> <span class="nn">hcp.preprocessing</span> <span class="kn">as</span> <span class="nn">preproc</span>
 
 <span class="n">mne</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
@@ -186,7 +185,7 @@ correction and decimation (downsampling)</p>
 <span class="n">trial_infos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">run_index</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
     <span class="n">hcp_params</span><span class="p">[</span><span class="s1">&#39;run_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_index</span>
-    <span class="n">trial_info</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_trial_info_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+    <span class="n">trial_info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_trial_info</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
     <span class="n">trial_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
 
 
@@ -220,12 +219,12 @@ correction and decimation (downsampling)</p>
 
     <span class="n">hcp_params</span><span class="p">[</span><span class="s1">&#39;run_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_index</span>
 
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_raw</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
     <span class="n">raw</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
     <span class="c1"># apply ref channel correction and drop ref channels</span>
     <span class="n">preproc</span><span class="o">.</span><span class="n">apply_ref_correction</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
 
-    <span class="n">annots</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+    <span class="n">annots</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_annot</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
     <span class="c1"># construct MNE annotations</span>
     <span class="n">bad_seg</span> <span class="o">=</span> <span class="p">(</span><span class="n">annots</span><span class="p">[</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">]</span>
     <span class="n">annotations</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">Annotations</span><span class="p">(</span>
@@ -244,7 +243,7 @@ correction and decimation (downsampling)</p>
 
     <span class="c1"># read ICA and remove EOG ECG</span>
     <span class="c1"># note that the HCP ICA assumes that bad channels have already been removed</span>
-    <span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_ica_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+    <span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_ica</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
 
     <span class="c1"># We will select the brain ICs only</span>
     <span class="n">exclude</span> <span class="o">=</span> <span class="p">[</span><span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">annots</span><span class="p">[</span><span class="s1">&#39;ica&#39;</span><span class="p">][</span><span class="s1">&#39;total_ic_number&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
@@ -289,7 +288,7 @@ Things are pythonized and simplified however, so</p>
 <span class="k">for</span> <span class="n">run_index</span><span class="p">,</span> <span class="n">events</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">all_events</span><span class="p">):</span>
     <span class="n">hcp_params</span><span class="p">[</span><span class="s1">&#39;run_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_index</span>
 
-    <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_epochs_hcp</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+    <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
     <span class="c1"># for some reason in the HCP data the time events may not always be unique</span>
     <span class="n">unique_subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">evoked</span> <span class="o">=</span> <span class="n">epochs_hcp</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">][</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">average</span><span class="p">()</span>
@@ -313,7 +312,7 @@ search our condition of interest. Here we&#8217;re looking at the image as onset
 and we want the average, not the standard deviation.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">evoked_hcp</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="k">del</span> <span class="n">hcp_params</span><span class="p">[</span><span class="s1">&#39;run_index&#39;</span><span class="p">]</span>
-<span class="n">hcp_evokeds</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_evokeds_hcp</span><span class="p">(</span><span class="n">onset</span><span class="o">=</span><span class="s1">&#39;stim&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
+<span class="n">hcp_evokeds</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_evokeds</span><span class="p">(</span><span class="n">onset</span><span class="o">=</span><span class="s1">&#39;stim&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">hcp_evokeds</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ev</span><span class="o">.</span><span class="n">comment</span> <span class="o">==</span> <span class="s1">&#39;Wrkmem_LM-TIM-face_BT-diff_MODE-mag&#39;</span><span class="p">:</span>
@@ -376,7 +375,7 @@ and we want the average, not the standard deviation.</p>
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_reproduce_erf_003.png"><img alt="../_images/sphx_glr_plot_reproduce_erf_003.png" src="../_images/sphx_glr_plot_reproduce_erf_003.png" style="width: 376.0px; height: 282.0px;" /></a>
 </li>
 </ul>
-<p><strong>Total running time of the script:</strong> ( 2 minutes  11.857 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 2 minutes  18.894 seconds)</p>
 <div class="sphx-glr-download container">
 <a class="reference download internal" href="../_downloads/plot_reproduce_erf.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_reproduce_erf.py</span></code></a></div>
 <div class="sphx-glr-download container">

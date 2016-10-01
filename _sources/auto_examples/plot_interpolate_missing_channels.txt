@@ -20,7 +20,7 @@ We'll take a look at the coregistration here.
 
     import mne
 
-    from hcp import io
+    import hcp
     from hcp import preprocessing as preproc
 
     mne.set_log_level('WARNING')
@@ -58,7 +58,7 @@ we take the some evoked and create an interpolated copy
 .. code-block:: python
 
 
-    evoked = io.read_evokeds_hcp(**hcp_params)[0]
+    evoked = hcp.read_evokeds(**hcp_params)[0]
 
     # The HCP pipelines don't interpolate missing channels
     print('%i channels out of 248 expected' % len(evoked.ch_names))
@@ -106,7 +106,7 @@ Let's visualize what has changed!
     set(['A248', 'A2', 'A244', 'A247', 'A246'])
 
 
-**Total running time of the script:** ( 0 minutes  4.069 seconds)
+**Total running time of the script:** ( 0 minutes  4.099 seconds)
 
 
 

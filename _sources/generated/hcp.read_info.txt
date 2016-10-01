@@ -1,0 +1,12 @@
+hcp.read_info
+=============
+
+.. currentmodule:: hcp
+
+.. autofunction:: read_info
+
+.. include:: hcp.read_info.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

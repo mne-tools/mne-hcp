@@ -89,8 +89,8 @@ to our comparison.
 
 
 
-    raw = hcp.io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
-                              run_index=run_index, data_type=data_type)
+    raw = hcp.read_raw(subject=subject, hcp_path=hcp_path,
+                       run_index=run_index, data_type=data_type)
     raw.load_data()
 
     # get meg and ref channels
@@ -195,7 +195,7 @@ By comparing single channel time series we can also see the detrending effect
 
 
 
-**Total running time of the script:** ( 0 minutes  11.734 seconds)
+**Total running time of the script:** ( 0 minutes  12.296 seconds)
 
 
 

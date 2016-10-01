@@ -1,0 +1,12 @@
+hcp.read_epochs
+===============
+
+.. currentmodule:: hcp
+
+.. autofunction:: read_epochs
+
+.. include:: hcp.read_epochs.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>MNE-HCP &mdash; MNE-HCP 0.1.dev6 documentation</title>
+    <title>MNE-HCP &mdash; MNE-HCP 0.1.dev12 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.dev6',
+        VERSION:     '0.1.dev12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -31,7 +31,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="MNE-HCP 0.1.dev6 documentation" href="#" />
+    <link rel="top" title="MNE-HCP 0.1.dev12 documentation" href="#" />
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
@@ -59,7 +59,7 @@
         </button>
         <a class="navbar-brand" href="#">
           MNE-HCP</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.dev6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -196,27 +196,27 @@
 <h1>MNE-HCP<a class="headerlink" href="#mne-hcp" title="Permalink to this headline">¶</a></h1>
 <p>We provide Python tools for seamless integration of MEG data from the <a class="reference external" href="http://www.humanconnectome.org">Human Connectome Project</a> into the Python ecosystem.
 In only a few lines of code, complex data retrieval requests can be readily executed on the resources from this neuroimaging reference dataset. Raw HCP data are translated into actionable MNE objects that we know and love. MNE-HCP abstracts away difficulties due to diverging coordinate systems, distributed information, and file format conventions. Providing a simple and consistent access to HCP MEG data will facilitate emergence of standardized data analysis practices.
-By building on the <a class="reference external" href="http://martinos.org/mne/">MNE software package</a> package, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.</p>
+By building on the <a class="reference external" href="http://martinos.org/mne/">MNE software package</a>, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.</p>
 <div class="section" id="fast-interface-to-meg-data">
 <h2>Fast interface to MEG data<a class="headerlink" href="#fast-interface-to-meg-data" title="Permalink to this headline">¶</a></h2>
 <p>Allow us to give you a flavor by a few example queries of MEG HCP data from subject 1003007:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Get all entries from the MEG data header</span>
-<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_info_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_info</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get continuous MEG time series</span>
-<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_raw</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get segmented MEG time series</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_epochs_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get all MEG time series averaged across events</span>
-<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_evokeds_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_evokeds</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get details on contamination and noise sources</span>
-<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_annot</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get precomputed independent components that compose the signal time series</span>
-<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_ica_hcp</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_ica</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -371,12 +371,12 @@ It can be used as follows:</p>
 <h2>File Mapping<a class="headerlink" href="#file-mapping" title="Permalink to this headline">¶</a></h2>
 <p>MNE-HCP supports a low level file mapping that allows for quick compilations
 of sets of files for a given subejct and data context.
-This is done in <a class="reference internal" href="generated/hcp.io.file_mapping.get_file_paths.html#hcp.io.file_mapping.get_file_paths" title="hcp.io.file_mapping.get_file_paths"><code class="xref py py-func docutils literal"><span class="pre">hcp.io.file_mapping.get_file_paths()</span></code></a>, think of it as a
+This is done in <code class="xref py py-func docutils literal"><span class="pre">hcp.io.file_mapping.get_file_paths()</span></code>, think of it as a
 file name synthesizer that takes certain data description parameters as inputs
 and lists all corresponding files.</p>
 <p>Example usage:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hcp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">files</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">file_mapping</span><span class="o">.</span><span class="n">get_file_paths</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">files</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">file_mapping</span><span class="o">.</span><span class="n">et_file_paths</span><span class="p">(</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;123455&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;task_motor&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;raw&#39;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">hcp_path</span><span class="o">=</span><span class="s1">&#39;/media/storage/HCP&#39;</span><span class="p">)</span>
 <span class="go">[&#39;/media/storage/HCP/123455/unprocessed/MEG/10-Motor/4D/c,rfDC&#39;,</span>
@@ -422,7 +422,7 @@ space to be aligned with the HCP outputs.</p>
 </li>
 <li><p class="first">The trial info structure gives the correct latencies of the events
 The latencies in the trigger channel are shifted by around 18 ms.
-For now we&#8217;d recommend using the events from the function <a class="reference internal" href="generated/hcp.io.read_trial_info_hcp.html#hcp.io.read_trial_info_hcp" title="hcp.io.read_trial_info_hcp"><code class="xref py py-func docutils literal"><span class="pre">hcp.io.read_trial_info_hcp()</span></code></a>.</p>
+For now we&#8217;d recommend using the events from the function <a class="reference internal" href="generated/hcp.read_trial_info.html#hcp.read_trial_info" title="hcp.read_trial_info"><code class="xref py py-func docutils literal"><span class="pre">hcp.read_trial_info()</span></code></a>.</p>
 </li>
 <li><p class="first">The default filters in MNE and FieldTrip are different.
 FieldTrip uses a 4th order butterworth filter. In MNE you might need
@@ -431,12 +431,12 @@ In the HCP outputs, evoked responses were filtered between 0.5 and 30Hz prior
 to baseline correction.</p>
 </li>
 <li><p class="first">Annotations need to be loaded and registered. The HCP consortium ships annotations of bad segments and bad channels.
-These have to be read and used. Check out <cite>hcp.io.read_annot_hcp</cite> and add bad
+These have to be read and used. Check out <cite>hcp.read_annot</cite> and add bad
 channel names to <cite>raw.info[&#8216;bads&#8217;]</cite> and create and set an <cite>mne.Annotations</cite>
 object as attribute to <cite>raw</cite>, see below.</p>
 <blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">annots</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_annot_hcp</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
-                               <span class="n">run_index</span><span class="o">=</span><span class="n">run_index</span><span class="p">)</span>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">annots</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_annot</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span>
+                        <span class="n">run_index</span><span class="o">=</span><span class="n">run_index</span><span class="p">)</span>
 <span class="n">bad_segments</span> <span class="o">=</span> <span class="n">annots</span><span class="p">[</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">]</span>
 <span class="n">raw</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">Annotations</span><span class="p">(</span>
     <span class="n">bad_segments</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bad_segments</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span>
@@ -447,7 +447,7 @@ object as attribute to <cite>raw</cite>, see below.</p>
 </li>
 <li><p class="first">ICA components related to eye blinks and heart beats need to be removed
 from the data. Checkout the ICA slot in the output of
-<cite>hcp.io.read_annot_hcp</cite> to get the HCP ICA components.</p>
+<cite>hcp.read_annot</cite> to get the HCP ICA components.</p>
 </li>
 </ol>
 </div>
@@ -482,7 +482,7 @@ Python conventions by subtracting 1.</p>
 </div>
 <div class="section" id="acknowledgements">
 <h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
-<p>This project is supported by the AWS Cloud Credits for Research program and
+<p>This project is supported by the Amazon Webservices Research grant issued to Denis A. Engemann and
 by the ERC starting grant ERC StG 263584 issued to Virginie van Wassenhove.</p>
 <p>I acknowledge support by Alex Gramfort, Mainak Jas, Jona Sassenhagen, Giorgos Michalareas,
 Eric Larson, Danilo Bzdok, and Jan-Mathijs Schoffelen for discussions,

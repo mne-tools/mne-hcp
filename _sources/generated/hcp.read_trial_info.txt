@@ -1,0 +1,12 @@
+hcp.read_trial_info
+===================
+
+.. currentmodule:: hcp
+
+.. autofunction:: read_trial_info
+
+.. include:: hcp.read_trial_info.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>

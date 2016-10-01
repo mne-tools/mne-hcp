@@ -22,7 +22,6 @@ to compute an inverse solution and apply it on event related fields.
     import os.path as op
     import mne
     import hcp
-    from hcp import io
     from hcp import preprocessing as preproc
 
 
@@ -59,8 +58,8 @@ These are the same as in :ref:`tut_plot_evoked`
 .. code-block:: python
 
 
-    hcp_evokeds = hcp.io.read_evokeds_hcp(onset='stim', subject=subject,
-                                          data_type=data_type, hcp_path=hcp_path)
+    hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
+                                       data_type=data_type, hcp_path=hcp_path)
     for evoked in hcp_evokeds:
         if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
             continue
@@ -69,15 +68,6 @@ These are the same as in :ref:`tut_plot_evoked`
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out::
-
-    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/6-Wrkmem/4D/c,rfDC...
-    Creating Neuromag info structure ...
-    ... Setting channel info structure.
-    ... no headshape file supplied, doing nothing.
-    Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command "mne_create_comp_data" to include weights as printed out by the 4D "print_table" routine.
 
 
 We'll now use a convenience function to get our forward and source models
@@ -102,117 +92,6 @@ instead of computing them by hand.
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out::
-
-    Setting up the source space with the following parameters:
-
-    SUBJECTS_DIR = /Users/dengemann/mne-hcp-data/hcp-subjects
-    Subject      = fsaverage
-    Surface      = white
-    Octahedron subdivision grade 6
-
-    >>> 1. Creating the source space...
-
-    Doing the octahedral vertex picking...
-    Loading /Users/dengemann/mne-hcp-data/hcp-subjects/fsaverage/surf/lh.white...
-    Triangle file: created by nicks on Tue Aug 14 13:43:20 2007 nvert = 163842 ntri = 327680
-        Warning: zero size triangle # 3
-        Warning: zero size triangle # 4
-        Triangle neighbors and vertex normals...
-    Loading geometry from /Users/dengemann/mne-hcp-data/hcp-subjects/fsaverage/surf/lh.sphere...
-    Triangle file: created by greve on Thu Jun  8 19:17:51 2006 nvert = 163842 ntri = 327680
-    Mapping lh fsaverage -> oct (6) ...
-    Setting up the triangulation for the decimated surface...
-    loaded lh.white 4098/163842 selected to source space (oct = 6)
-
-    Loading /Users/dengemann/mne-hcp-data/hcp-subjects/fsaverage/surf/rh.white...
-    Triangle file: created by nicks on Tue Aug 14 14:10:55 2007 nvert = 163842 ntri = 327680
-        Warning: zero size triangle # 3
-        Warning: zero size triangle # 4
-        Triangle neighbors and vertex normals...
-    Loading geometry from /Users/dengemann/mne-hcp-data/hcp-subjects/fsaverage/surf/rh.sphere...
-    Triangle file: created by greve on Thu Jun  8 19:17:51 2006 nvert = 163842 ntri = 327680
-    Mapping rh fsaverage -> oct (6) ...
-    Setting up the triangulation for the decimated surface...
-    loaded rh.white 4098/163842 selected to source space (oct = 6)
-
-    You are now one step closer to computing the gain matrix
-    Reading destination surface /Users/dengemann/mne-hcp-data/hcp-subjects/105923/surf/lh.white
-        Triangle neighbors and vertex normals...
-    Mapping lh fsaverage -> 105923 (nearest neighbor)...
-    Triangle file: created by greve on Thu Jun  8 19:17:51 2006 nvert = 163842 ntri = 327680
-    Triangle file: created by HCPpipeline on Tue Aug 19 21:54:25 2014 nvert = 146591 ntri = 293178
-    [done]
-
-    Reading destination surface /Users/dengemann/mne-hcp-data/hcp-subjects/105923/surf/rh.white
-        Triangle neighbors and vertex normals...
-    Mapping rh fsaverage -> 105923 (nearest neighbor)...
-    Triangle file: created by greve on Thu Jun  8 19:17:51 2006 nvert = 163842 ntri = 327680
-    Triangle file: created by HCPpipeline on Tue Aug 19 23:08:04 2014 nvert = 146287 ntri = 292570
-    [done]
-
-    Creating the BEM geometry...
-    inner skull CM is   0.77  -4.49 -13.14 mm
-    Surfaces passed the basic topology checks.
-    Complete.
-
-    Approximation method : Linear collocation
-
-    Homogeneous model surface loaded.
-    Computing the linear collocation solution...
-        Matrix coefficients...
-            inner_skull (5000) -> inner_skull (5000) ...
-        Inverting the coefficient matrix...
-    Solution ready.
-    BEM geometry computations complete.
-    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/6-Wrkmem/4D/c,rfDC...
-    Creating Neuromag info structure ...
-    ... Setting channel info structure.
-    ... no headshape file supplied, doing nothing.
-    Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command "mne_create_comp_data" to include weights as printed out by the 4D "print_table" routine.
-    Source space                 : <SourceSpaces: [<surface (lh), n_vertices=146591, n_used=4098, coordinate_frame=MRI (surface RAS)>, <surface (rh), n_vertices=146287, n_used=4098, coordinate_frame=MRI (surface RAS)>]>
-    MRI -> head transform source : dict
-    Measurement data             : instance of Info
-    BEM model                    : dict
-    Accurate field computations
-    Do computations in head coordinates
-    Free source orientations
-    Destination for the solution : None
-
-    Read 2 source spaces a total of 8196 active source locations
-
-    Coordinate transformation: MRI (surface RAS) -> head
-         0.012385  1.002568 -0.069429       1.92 mm
-        -0.999752  0.013791  0.007142      -0.38 mm
-         0.006757  0.074407  0.989380      50.97 mm
-         0.000000  0.000000  0.000000       1.00
-
-    Read 248 MEG channels from info
-    72 coil definitions read
-    Coordinate transformation: MEG device -> head
-         1.000000  0.000000  0.000000       0.00 mm
-         0.000000  1.000000  0.000000       0.00 mm
-         0.000000  0.000000  1.000000       0.00 mm
-         0.000000  0.000000  0.000000       1.00
-    MEG coil definitions created in head coordinates.
-    Source spaces are now in head coordinates.
-
-    Employing the head->MRI coordinate transform with the BEM model.
-    BEM model dict is now set up
-
-    Source spaces are in head coordinates.
-    Checking that the sources are inside the bounding surface (will take a few...)
-    Thank you for waiting.
-
-    Setting up compensation data...
-        No compensation set. Nothing more to do.
-
-    Composing the field computation matrix...
-    Computing MEG at 8196 source locations (free orientations)...
-
-    Finished.
 
 
 Now we can compute the noise covariance. For this purpose we will apply
@@ -224,8 +103,8 @@ place. See also :ref:`tut_reproduce_erf`.
 .. code-block:: python
 
 
-    raw_noise = io.read_raw_hcp(subject=subject, hcp_path=hcp_path,
-                                data_type='noise_empty_room')
+    raw_noise = hcp.read_raw(subject=subject, hcp_path=hcp_path,
+                             data_type='noise_empty_room')
     raw_noise.load_data()
 
     # apply ref channel correction and drop ref channels
@@ -245,16 +124,7 @@ place. See also :ref:`tut_reproduce_erf`.
 
  Out::
 
-    Reading 4D PDF file /Users/dengemann/mne-hcp-data/HCP/105923/unprocessed/MEG/1-Rnoise/4D/c,rfDC...
-    Creating Neuromag info structure ...
-    ... Setting channel info structure.
-    ... no headshape file supplied, doing nothing.
-    Currently direct inclusion of 4D weight tables is not supported. For critical use cases please take into account the MNE command "mne_create_comp_data" to include weights as printed out by the 4D "print_table" routine.
-    Current compensation grade : 0
-    Reading 0 ... 610353  =      0.000 ...   300.000 secs...
-    High-pass filtering at 0.5 Hz
     The default output type is "ba" in 0.13 but will change to "sos" in 0.14
-    Low-pass filtering at 60 Hz
     The default output type is "ba" in 0.13 but will change to "sos" in 0.14
 
 
@@ -272,13 +142,6 @@ evkoked and renders comparisons  to `baseline` rather uninformative.
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out::
-
-    Using up to 1500 segments
-    Number of samples used : 610500
-    [done]
 
 
 Now we assemble the inverse operator, project the data and show the results
@@ -312,41 +175,6 @@ on the `fsaverage` surface, the freesurfer average brain.
 
  Out::
 
-    Converting to surface-based source orientations...
-    [done]
-    Computing inverse operator with 243 channels.
-    estimated rank (mag): 243
-    Setting small MEG eigenvalues to zero.
-    Not doing PCA for MEG.
-    Total rank is 243
-    Creating the depth weighting matrix...
-        243 magnetometer or axial gradiometer channels
-        limit = 8103/8196 = 10.002513
-        scale = 7.85921e-11 exp = 0.8
-    Computing inverse operator with 243 channels.
-    Creating the source covariance matrix
-    Applying loose dipole orientations. Loose value of 0.2.
-    Whitening the forward solution.
-    Adjusting source covariance matrix.
-    Computing SVD of whitened and weighted lead field matrix.
-        largest singular value = 6.60413
-        scaling factor to adjust the trace = 3.34114e+20
-    Preparing the inverse operator for use...
-        Scaled noise and source covariance from nave = 1 to nave = 160
-        Created the regularized inverter
-        The projection vectors do not apply to these channels.
-        Created the whitener using a full noise covariance matrix (0 small eigenvalues omitted)
-    Picked 243 channels from the data
-    Computing inverse...
-    (eigenleads need to be weighted)...
-    combining the current components...
-    [done]
-    Mapping lh fsaverage -> 105923 (nearest neighbor)...
-    Triangle file: created by greve on Thu Jun  8 19:17:51 2006 nvert = 163842 ntri = 327680
-    Triangle file: created by HCPpipeline on Tue Aug 19 21:54:25 2014 nvert = 146591 ntri = 293178
-    Mapping rh fsaverage -> 105923 (nearest neighbor)...
-    Triangle file: created by greve on Thu Jun  8 19:17:51 2006 nvert = 163842 ntri = 327680
-    Triangle file: created by HCPpipeline on Tue Aug 19 23:08:04 2014 nvert = 146287 ntri = 292570
     Updating smoothing matrix, be patient..
     Smoothing matrix creation, step 1
     Smoothing matrix creation, step 2
@@ -373,7 +201,7 @@ on the `fsaverage` surface, the freesurfer average brain.
     colormap: fmin=2.35e-11 fmid=2.79e-11 fmax=9.14e-11 transparent=1
 
 
-**Total running time of the script:** ( 1 minutes  30.234 seconds)
+**Total running time of the script:** ( 1 minutes  26.894 seconds)
 
 
 
