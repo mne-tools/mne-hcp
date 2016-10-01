@@ -17,4 +17,4 @@ from .io import read_trial_info
 
 from .io import file_mapping
 
-__version__ = '0.1.dev8'
+__version__ = '0.1.dev9'
