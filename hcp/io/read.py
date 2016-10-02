@@ -113,11 +113,12 @@ def _read_bti_info(raw_fid, config):
     return info
 
 
-def _read_raw_bti(raw_fid, config_fid, convert):
+def _read_raw_bti(raw_fid, config_fid, convert, verbose=None):
     """Convert and raw file from HCP input"""
     raw = read_raw_bti(  # no convrt + no rename for HCP compatibility
         raw_fid, config_fid, convert=convert, head_shape_fname=None,
-        sort_by_ch_name=False, rename_channels=False, preload=False)
+        sort_by_ch_name=False, rename_channels=False, preload=False,
+        verbose=verbose)
 
     return raw
 
@@ -154,7 +155,8 @@ def _check_infos_trans(infos):
         np.testing.assert_array_almost_equal(ct1, ct2, 12)
 
 
-def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir):
+def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir,
+             verbose=None):
     """Read HCP raw data
 
     Parameters
@@ -175,6 +177,8 @@ def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir):
         type.
     hcp_path : str
         The HCP directory, defaults to op.curdir.
+    verbose : bool, str, int, or None
+        If not None, override default verbose level (see mne.verbose).
 
     Returns
     -------
@@ -185,7 +189,7 @@ def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir):
         subject=subject, data_type=data_type, output='raw',
         run_index=run_index, hcp_path=hcp_path)
 
-    raw = _read_raw_bti(pdf, config, convert=False)
+    raw = _read_raw_bti(pdf, config, convert=False, verbose=verbose)
     return raw
 
 

@@ -36,7 +36,7 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     """Apply the HCP ICA.
 
     .. note::
-       Operates in place.
+       Operates in place and data must be loaded.
 
     Parameters
     ----------
@@ -47,6 +47,8 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     exclude : array-like
         the components to be excluded.
     """
+    if not raw.preload:
+        raise RuntimeError('raw data must be loaded, use raw.load_data()')
     ch_names = ica_mat['topolabel'].tolist().tolist()
     picks = mne.pick_channels(raw.info['ch_names'], include=ch_names)
     assert ch_names == [raw.ch_names[p] for p in picks]
