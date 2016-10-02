@@ -332,7 +332,7 @@ def get_file_paths(subject, data_type, output, run_index=0,
                 files.append(
                     op.join(path, output, pa.format(subject=subject)))
         else:
-            raise ValueError('I never heard of `data_type` "%s".' % output)
+            raise ValueError('I never heard of `output` "%s".' % output)
 
     elif processing == 'unprocessed':
         if output == 'trial_info':
