@@ -93,24 +93,6 @@ preprocessed = {
     }
 }
 
-file_modes = {
-    'freesurfer':
-        {'minimal': [
-            'c_ras.mat',
-            '001.mgz',
-            'T1.mgz',
-            'lh.white',
-            'rh.white',
-            'lh.inflated',
-            'rh.inflated',
-            'lh.sphere.reg',
-            'rh.sphere.reg',
-            'lh.sphere',
-            'rh.sphere',
-            'lh.curve',
-            'rh.curve',
-        ]},
-}
 
 evoked_map = {
     'modes': {'planar': 'MODE-planar', 'mag': 'MODE-mag'},
@@ -215,7 +197,7 @@ def _map_diff_mode(condition, data_type):
 
 
 def get_file_paths(subject, data_type, output, run_index=0,
-                   onset='stim', mode='full',
+                   onset='stim',
                    sensor_mode='mag', hcp_path='.'):
     """This is the MNE-HCP file path synthesizer
 
@@ -247,9 +229,6 @@ def get_file_paths(subject, data_type, output, run_index=0,
         The mapping is generous, everything that is not a response is a
         stimulus, in the sense of internal or external events. sentence and
         block are specific to task_story_math.
-    mode : {'full', 'minimal'}
-        Return minimum files or all of them. Only relevant for freesurfer
-        and anatomy
     sensor_mode : {'mag', 'planar'}
         The sensor projection. Defaults to 'mag'. Only relevant for
         evoked output.
@@ -350,9 +329,6 @@ def get_file_paths(subject, data_type, output, run_index=0,
         elif data_type == 'freesurfer':
             path = file_map['path'].format(subject=subject)
             for pa in my_pattern:
-                if mode == 'minimal':
-                    if pa not in file_modes['freesurfer']['minimal']:
-                        continue
                 files.append(
                     op.join(path, output, pa.format(subject=subject)))
         else:

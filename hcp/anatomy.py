@@ -18,8 +18,7 @@ from .io import read_info
 
 
 def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
-                     hcp_path=op.curdir, mode='minimal', outputs=(
-                         'label', 'mri', 'surf')):
+                     hcp_path=op.curdir, outputs=('label', 'mri', 'surf')):
     """Extract relevant anatomy and create MNE friendly directory layout
 
     The function will create the following outputs by default:
@@ -41,10 +40,6 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
         The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
     hcp_path : str
         The path where the HCP files can be found.
-    mode : {'minimal', 'full'}
-        If 'minimal', only the directory structure is created. If 'full' the
-        freesurfer outputs shipped with HCP (see `outputs`) are symbolically
-        linked.
     outputs : {'label', 'mri', 'stats', 'surf', 'touch'}
         The outputs of the freesrufer pipeline shipped by HCP. Defaults to
         ('mri', 'surf'), the minimum needed to extract MNE-friendly anatomy
@@ -77,7 +72,7 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
 
         files = get_file_paths(
             subject=subject, data_type='freesurfer', output=output,
-            mode=mode, hcp_path=hcp_path)
+            hcp_path=hcp_path)
         for source in files:
             match = [match for match in re.finditer(subject, source)][-1]
             split_path = source[:match.span()[1] + 1]

@@ -65,8 +65,7 @@ s3_keys += get_s3_keys_meg(
     outputs=[dd for dd in hcp_outputs if dd not in ('raw', 'epochs')],
     run_inds=run_inds)
 
-s3_keys += get_s3_keys_anatomy(
-    subject, hcp_path_bucket=hcp_prefix, mode='minimal')
+s3_keys += get_s3_keys_anatomy(subject, hcp_path_bucket=hcp_prefix)
 
 ##############################################################################
 # variable used in different tests

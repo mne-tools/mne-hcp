@@ -5,7 +5,6 @@ def get_s3_keys_anatomy(
         subject,
         freesurfer_outputs=('label', 'mri', 'surf'),
         meg_anatomy_outputs=('head_model', 'transforms'),
-        mode='minimal',
         hcp_path_bucket='HCP_900'):
     """Helper to prepare AWS downloads for anatomy data
 
@@ -26,8 +25,6 @@ def get_s3_keys_anatomy(
     meg_anatomy_outputs : str | list | tuple
         The MEG anatomy contents to download. Defaults to
         `('head_model', 'transforms')`.
-    mode : {'minimal', 'full'}
-        Either all files or the most useful ones. Defaults to 'minimal'.
     hcp_path_bucket : str
         The S3 bucket path. Will be prepended to each file path.
 
@@ -41,7 +38,6 @@ def get_s3_keys_anatomy(
         aws_keys.extend(
             get_file_paths(subject=subject, data_type='freesurfer',
                            output=output,
-                           mode=mode,
                            hcp_path=hcp_path_bucket))
     for output in meg_anatomy_outputs:
         aws_keys.extend(
