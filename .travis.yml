@@ -34,7 +34,7 @@ before_install:
 install:
 - conda create -n testenv --yes pip python=$PYTHON
 - source activate testenv
-- ENSURE_PACKAGES="numpy$NUMPY scipy$SCIPY matplotlib$MPL libpng$LIBPNG"
+- ENSURE_PACKAGES="numpy$NUMPY scipy$SCIPY matplotlib$MPL libpng$LIBPNG scikit-learn$SKLEARN"
 - conda install --yes --quiet $ENSURE_PACKAGES nose coverage
 - if [ "${PYTHON}" == "3.5" ]; then
     conda install --yes --quiet $ENSURE_PACKAGES ipython;

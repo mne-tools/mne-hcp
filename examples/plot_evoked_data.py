@@ -27,7 +27,7 @@ run_index = 0
 
 
 ##############################################################################
-# Let's get the eovked data.
+# Let's get the evoked data.
 
 hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
                                data_type=data_type, hcp_path=hcp_path)
