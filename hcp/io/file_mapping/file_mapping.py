@@ -261,16 +261,23 @@ def get_file_paths(subject, data_type, output, run_index=0,
         run_label = my_runs[run_index]
     else:
         run_label = None
+    if (data_type in ('noise_subject',
+                      'noise_empty_room') and output in
+            ('epochs', 'evoked', 'ica', 'annot')):
+        raise ValueError('You requested preprocessed data of type "%s" '
+                         'and output "%s". HCP does not provide these data' %
+                         (data_type, output))
+    if (data_type in ('rest', 'noise_subject', 'noise_empty_room') and
+            output in ('trial_info', 'evoked')):
+        raise ValueError('%s not defined for %s' % (output, data_type))
+
     files = list()
     pipeline = pipeline_map.get(output, output)
     processing = 'preprocessed'
     if output == 'raw':
         processing = 'unprocessed'
-    if processing == 'preprocessed':
-        if (data_type in ('rest', 'noise_subject', 'noise_empty_room') and
-                output in ('trial_info', 'evoked')):
-            raise ValueError('%s not defined for %s' % (output, data_type))
 
+    if processing == 'preprocessed':
         file_map = preprocessed[(data_type if data_type in (
                                  'meg_anatomy', 'freesurfer') else 'meg')]
         path = file_map['path'].format(
@@ -284,7 +291,10 @@ def get_file_paths(subject, data_type, output, run_index=0,
         else:
             pattern_key = output
 
-        my_pattern = file_map['patterns'][pattern_key]
+        my_pattern = file_map['patterns'].get(pattern_key, None)
+        if my_pattern is None:
+            raise ValueError('What is output "%s"? I don\'t know about this.' %
+                             output)
 
         if output in ('bads', 'ica'):
             files.extend(
@@ -294,10 +304,6 @@ def get_file_paths(subject, data_type, output, run_index=0,
                  for p in my_pattern])
 
         elif output == 'epochs':
-            if 'noise' in data_type:
-                raise ValueError('You want preprocessed data of type "%s". '
-                                 'But the HCP does not ship those. Sorry.' %
-                                 data_type)
             my_pattern = my_pattern[0]
             formats = dict(
                 subject=subject, run=run_label, kind=kind_map[data_type],
@@ -335,8 +341,6 @@ def get_file_paths(subject, data_type, output, run_index=0,
             raise ValueError('I never heard of `output` "%s".' % output)
 
     elif processing == 'unprocessed':
-        if output == 'trial_info':
-            raise ValueError('`trial_info` only exists for preprocessed data')
         path = unprocessed['path'].format(
             subject=subject, kind=kind_map[data_type], pipeline=pipeline,
             run=run_label)
