@@ -20,28 +20,28 @@ By building on the `MNE software package <http://martinos.org/mne/>`_, MNE-HCP n
 
 Fast interface to MEG data
 --------------------------
-Allow us to give you a flavor by a few example queries of MEG HCP data from subject 1003007:
+Allow us to give you a flavor by a few example queries of MEG HCP data from subject 105923:
 
 
 .. code-block:: python
 
   # Get all entries from the MEG data header
-  info = hcp.read_info('1003007', 'task_motor')
+  info = hcp.read_info('105923', 'task_motor')
 
   # Get continuous MEG time series
-  raw = hcp.read_raw('1003007', 'task_motor')
+  raw = hcp.read_raw('105923', 'task_motor')
 
   # Get segmented MEG time series
-  epochs = hcp.read_epochs('1003007', 'task_motor')
+  epochs = hcp.read_epochs('105923', 'task_motor')
 
   # Get all MEG time series averaged across events
-  list_of_evoked = hcp.read_evokeds('1003007', 'task_motor')
+  list_of_evoked = hcp.read_evokeds('105923', 'task_motor')
 
   # Get details on contamination and noise sources
-  annotations_dict = hcp.read_annot('1003007', 'task_motor')
+  annotations_dict = hcp.read_annot('105923', 'task_motor')
 
   # Get precomputed independent components that compose the signal time series
-  ica_mat = hcp.read_ica('1003007', 'task_motor')
+  ica_mat = hcp.read_ica('105923', 'task_motor')
 
 Scope and Disclaimer
 --------------------
