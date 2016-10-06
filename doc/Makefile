@@ -88,9 +88,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 		  ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/autoreject.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/mne-hcp.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/autoreject.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/mne-hcp.qhc"
 
 .PHONY: latex
 latex:
@@ -133,19 +133,19 @@ coverage:
 		  "results in $(BUILDDIR)/coverage/python.txt."
 
 install:
-	rm -rf _build/doctrees _build/autoreject.github.io
-	# first clone the autoreject/autoreject.github.io repo because it may ask
+	rm -rf _build/doctrees _build/mne-hcp.github.io
+	# first clone the gh-pages branch because it may ask
 	# for password and we don't want to delay this long build in
 	# the middle of it
 	# --no-checkout just fetches the root folder without content
 	# --depth 1 is a speed optimization since we don't need the
 	# history prior to the last commit
-	git clone --no-checkout --depth 1 https://github.com/autoreject/autoreject.github.io.git _build/autoreject.github.io
-	touch _build/autoreject.github.io/.nojekyll
+	git clone -b gh-pages --no-checkout --depth 1 https://github.com/mne-tools/mne-hcp.git _build/mne-hcp.github.io
+	touch _build/mne-hcp.github.io/.nojekyll
 	make html
 	cd _build/ && \
-	cp -r html/* autoreject.github.io && \
-	cd autoreject.github.io && \
+	cp -r html/* mne-hcp.github.io && \
+	cd mne-hcp.github.io && \
 	git add * && \
 	git add .nojekyll && \
 	git commit -a -m 'Make install' && \

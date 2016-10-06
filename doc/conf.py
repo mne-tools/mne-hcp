@@ -336,4 +336,9 @@ sphinx_gallery_conf = {
     'gallery_dirs': ['auto_examples', 'auto_tutorials'],
     'find_mayavi_figures': find_mayavi_figures,
     'mod_example_dir': 'generated',
+    'reference_url': {
+        'mne': 'http://martinos.org/mne/stable',
+        'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
+        'scipy': 'http://docs.scipy.org/doc/scipy-0.17.0/reference',
+        'mayavi': 'http://docs.enthought.com/mayavi/mayavi'}
 }
