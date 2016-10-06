@@ -64,7 +64,6 @@ def test_read_raw_rest():
         _basic_raw_checks(raw=raw)
 
 
-@expensive_test
 def test_read_raw_task():
     """Test reading raw for tasks"""
     for run_index in tconf.run_inds[:tconf.max_runs]:
@@ -79,7 +78,6 @@ def test_read_raw_task():
             _basic_raw_checks(raw=raw)
 
 
-@expensive_test
 def test_read_raw_noise():
     """Test reading raw for empty room noise"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
@@ -131,6 +129,7 @@ def test_read_epochs_rest():
         _epochs_basic_checks(epochs, annots, data_type='rest')
 
 
+@expensive_test  # ~50 sec
 def test_read_epochs_task():
     """Test reading epochs for task"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
