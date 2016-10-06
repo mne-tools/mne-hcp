@@ -1,8 +1,8 @@
 # Author: Denis A. Engemann <denis.engemann@gmail.com>
 # License: BSD (3-clause)
 
-import os.path as op
 import itertools as itt
+import os.path as op
 import re
 
 import numpy as np

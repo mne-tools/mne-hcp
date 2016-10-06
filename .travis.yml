@@ -30,6 +30,15 @@ before_install:
 - find $HOME/mne-hcp-data/HCP/105923 -name "*" > output.txt
 - cat output.txt | wc -l
 - cat output.txt
+# get fsaverage
+- pushd ~
+- wget --quiet http://faculty.washington.edu/larsoner/fsaverage_min.zip
+- mkdir subjects
+- cd subjects
+- unzip ../fsaverage_min.zip
+- cd ..
+- export SUBJECTS_DIR="${PWD}/subjects"
+- popd
 
 install:
 - conda create -n testenv --yes pip python=$PYTHON
@@ -46,7 +55,7 @@ install:
       pip install pysurfer;
     fi;
   fi;
-- pip install -q codecov nose-timer mne
+- pip install -q codecov nose-timer mne nibabel
 - NP_VERSION=`python -c 'import numpy; print(numpy.__version__)'`
 - if [ -n "$NUMPY" ] && [ "${NUMPY:(-3)}" != "${NP_VERSION::3}" ]; then echo "Incorrect
   numpy version $NP_VERSION"; exit 1; fi;

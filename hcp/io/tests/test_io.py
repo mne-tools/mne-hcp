@@ -20,7 +20,7 @@ hcp_params = dict(hcp_path=tconf.hcp_path,
 
 
 def test_read_annot():
-    """testing annotations"""
+    """Test reading annotations."""
     for run_index in tconf.run_inds:
         annots = hcp.read_annot(data_type='rest', run_index=run_index,
                                 **hcp_params)
@@ -45,7 +45,7 @@ def test_read_annot():
 
 
 def _basic_raw_checks(raw):
-    """helper for testing raw files """
+    """Helper for testing raw files """
     picks = mne.pick_types(raw.info, meg=True, ref_meg=False)
     assert_equal(len(picks), 248)
     ch_names = [raw.ch_names[pp] for pp in picks]
@@ -79,6 +79,7 @@ def test_read_raw_task():
             _basic_raw_checks(raw=raw)
 
 
+@expensive_test  # files too large
 def test_read_raw_noise():
     """Test reading raw for empty room noise"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
@@ -150,7 +151,7 @@ def _check_bounds(array, bounds):
 
 
 def test_read_evoked():
-    """test reading evokeds """
+    """Test reading evokeds."""
     for data_type in tconf.task_types:
         all_annots = list()
         for run_index in tconf.run_inds[:2]:
@@ -177,7 +178,7 @@ def test_read_evoked():
 
 
 def test_read_info():
-    """test reading info"""
+    """Test reading info."""
     tempdir = _TempDir()
     for data_type in tconf.task_types:
         for run_index in tconf.run_inds[:tconf.max_runs][:2]:
@@ -218,7 +219,7 @@ def test_read_info():
 
 
 def test_read_trial_info():
-    """Test trial info basics"""
+    """Test reading trial info basics."""
     for data_type in tconf.task_types:
         for run_index in tconf.run_inds[:tconf.max_runs][:2]:
             trial_info = hcp.read_trial_info(

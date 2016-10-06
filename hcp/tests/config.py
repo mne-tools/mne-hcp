@@ -94,7 +94,6 @@ def _download_testing_data():
 # variable used in different tests
 
 hcp_path = op.expanduser('~/mne-hcp-data/HCP')
-subjects_dir = op.expanduser('~/mne-hcp-data/subjects')
 
 bti_chans = {'A' + str(i) for i in range(1, 249, 1)}
 
