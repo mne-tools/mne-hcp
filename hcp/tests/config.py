@@ -3,6 +3,8 @@
 
 import os
 import os.path as op
+from subprocess import call
+
 from ..io.file_mapping import get_s3_keys_anatomy, get_s3_keys_meg
 
 
@@ -67,10 +69,32 @@ s3_keys += get_s3_keys_meg(
 
 s3_keys += get_s3_keys_anatomy(subject, hcp_path_bucket=hcp_prefix)
 
+
+##############################################################################
+# Downloading data
+
+def _download_testing_data():
+    """Download testing data.
+
+    .. note:: requires python 2.7
+    """
+    for s3key in s3_keys:
+        new_path = op.dirname(s3key).split(hcp_prefix)[-1][1:]
+        new_path = op.join(hcp_path, new_path)
+        fname = op.basename(s3key)
+        new_file = op.join(new_path, fname)
+        if not op.exists(new_path):
+            os.makedirs(new_path)
+        if not op.exists(new_file):
+            print('downloading:\n\tfrom %s\n\tto %s' % (s3key, new_path))
+            call(['s3cmd', 'get', s3key, new_path], shell=False)
+            assert op.exists(new_file)
+
 ##############################################################################
 # variable used in different tests
 
 hcp_path = op.expanduser('~/mne-hcp-data/HCP')
+subjects_dir = op.expanduser('~/mne-hcp-data/subjects')
 
 bti_chans = {'A' + str(i) for i in range(1, 249, 1)}
 

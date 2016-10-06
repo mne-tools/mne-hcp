@@ -32,21 +32,19 @@ def make_hcp_bti_layout(info):
         kind='magnesWH3600_hcp')
 
 
-def plot_coregistration(subject, subjects_dir, recordings_path,
-                        hcp_path=op.curdir,
+def plot_coregistration(subject, subjects_dir, hcp_path,
                         info_from=(('data_type', 'rest'), ('run_index', 0)),
                         view_init=(('azim', 0), ('elev', 0))):
     """A diagnostic plot to show the HCP coregistration
 
     Parameters
     ----------
-
     subject : str
         The subject
     subjects_dir : str
         The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
     hcp_path : str
-        The path where the HCP files can be found. defaults to op.curdir.
+        The path where the HCP files can be found.
     info_from : tuple of tuples | dict
         The reader info concerning the data from which sensor positions
         should be read.
@@ -72,7 +70,7 @@ def plot_coregistration(subject, subjects_dir, recordings_path,
         view_init = dict(view_init)
 
     head_mri_t = read_trans(
-        op.join(recordings_path, subject,
+        op.join(subjects_dir, subject,
                 '{}-head_mri-trans.fif'.format(subject)))
 
     info = read_info(subject=subject, hcp_path=hcp_path, **info_from)

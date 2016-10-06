@@ -64,6 +64,7 @@ def test_read_raw_rest():
         _basic_raw_checks(raw=raw)
 
 
+@expensive_test  # files too large
 def test_read_raw_task():
     """Test reading raw for tasks"""
     for run_index in tconf.run_inds[:tconf.max_runs]:
@@ -129,7 +130,6 @@ def test_read_epochs_rest():
         _epochs_basic_checks(epochs, annots, data_type='rest')
 
 
-@expensive_test  # ~50 sec
 def test_read_epochs_task():
     """Test reading epochs for task"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
@@ -145,12 +145,8 @@ def test_read_epochs_task():
 
 def _check_bounds(array, bounds):
     """helper for bounds checking"""
-    is_in = True
-    if not np.allclose(np.min(array), min(bounds), atol=0.01):
-        is_in = False
-    elif not np.allclose(np.max(array), max(bounds), atol=0.01):
-        is_in = False
-    return is_in
+    return (np.allclose(np.min(array), min(bounds), atol=0.01) and
+            np.allclose(np.max(array), max(bounds), atol=0.01))
 
 
 def test_read_evoked():
