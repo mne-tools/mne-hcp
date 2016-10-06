@@ -1,6 +1,8 @@
 import os
 import os.path as op
 import re
+import shutil
+import sys
 
 import numpy as np
 from scipy import linalg
@@ -12,9 +14,7 @@ from mne.transforms import Transform, apply_trans
 from mne.utils import logger
 
 from .io.file_mapping import get_file_paths
-from .io.read import _read_trans_hcp
-from .io.read import _get_head_model
-from .io import read_info
+from .io.read import _read_trans_hcp, _get_head_model, read_info
 
 
 def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
@@ -45,8 +45,6 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
         ('mri', 'surf'), the minimum needed to extract MNE-friendly anatomy
         files and data.
     """
-    if mode not in ('full', 'minimal'):
-        raise ValueError('`mode` must either be "minimal" or "full"')
     if hcp_path == op.curdir:
         hcp_path = op.realpath(hcp_path)
     if not op.isabs(subjects_dir):
@@ -79,7 +77,10 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
             target = op.join(this_subjects_dir, source.split(split_path)[-1])
             if (not op.isfile(target) and not op.islink(target) and
                     op.exists(source)):  # don't link if it's not there.
-                os.symlink(source, target)
+                if sys.platform != 'win32':
+                    os.symlink(source, target)
+                else:
+                    shutil.copyfile(source, target)
 
     logger.info('reading extended structural processing ...')
 
@@ -135,17 +136,17 @@ def make_mne_anatomy(subject, subjects_dir, recordings_path=None,
     bti2spm[:3, 3] *= 1e-3
     head_mri_t = Transform(  # we're lying here for a good purpose
         'head', 'mri', np.dot(ras_trans_m, bti2spm))  # it should be 'ctf_head'
-    write_trans(
-        op.join(this_recordings_path, '%s-head_mri-trans.fif') % subject,
-        head_mri_t)
+    write_trans(op.join(this_recordings_path,
+                        '%s-head_mri-trans.fif' % subject), head_mri_t)
 
 
+@mne.utils.verbose
 def compute_forward_stack(subjects_dir,
                           subject,
                           recordings_path,
                           info_from=(('data_type', 'rest'), ('run_index', 0)),
                           fwd_params=None, src_params=None,
-                          hcp_path=op.curdir, n_jobs=1):
+                          hcp_path=op.curdir, n_jobs=1, verbose=None):
     """
     Convenience function for conducting standard MNE analyses.
 
@@ -182,6 +183,8 @@ def compute_forward_stack(subjects_dir,
         The prefix of the path of the HCP data.
     n_jobs : int
         The number of jobs to use in parallel.
+    verbose : bool, str, int, or None
+        If not None, override default verbose level (see mne.verbose)
 
     Returns
     -------
