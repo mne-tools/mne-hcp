@@ -32,7 +32,7 @@ This function is your friend prior to running any source analysis.
 
     import os.path as op
     import hcp
-    storage_dir = op.expanduser('~/data/MNE-HCP')
+    storage_dir = op.expanduser('~/mne-hcp-data')
 
     # This is where the data are after downloading from HCP
     hcp_path = storage_dir + '/HCP'

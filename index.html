@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -191,7 +197,7 @@
       </div>
     <div class="col-md-12">
       
-  <p><a class="reference external" href="https://travis-ci.org/mne-tools/mne-hcp"><img alt="Travis" src="https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master" /></a></p>
+  <p><a class="reference external" href="https://travis-ci.org/mne-tools/mne-hcp"><img alt="Travis" src="https://api.travis-ci.org/mne-tools/mne-hcp.png?branch=master" /></a> <a class="reference external" href="https://zenodo.org/badge/latestdoi/53261823"><img alt="Zenodo" src="https://zenodo.org/badge/53261823.svg" /></a> <a class="reference external" href="http://codecov.io/github/mne-tools/mne-hcp?branch=master"><img alt="Codecov" src="http://codecov.io/github/mne-tools/mne-hcp/coverage.svg?branch=master" /></a></p>
 <div class="section" id="mne-hcp">
 <h1>MNE-HCP<a class="headerlink" href="#mne-hcp" title="Permalink to this headline">¶</a></h1>
 <p>We provide Python tools for seamless integration of MEG data from the <a class="reference external" href="http://www.humanconnectome.org">Human Connectome Project</a> into the Python ecosystem.
@@ -199,24 +205,24 @@ In only a few lines of code, complex data retrieval requests can be readily exec
 By building on the <a class="reference external" href="http://martinos.org/mne/">MNE software package</a>, MNE-HCP naturally supplements a fast growing stack of Python data science toolkits.</p>
 <div class="section" id="fast-interface-to-meg-data">
 <h2>Fast interface to MEG data<a class="headerlink" href="#fast-interface-to-meg-data" title="Permalink to this headline">¶</a></h2>
-<p>Allow us to give you a flavor by a few example queries of MEG HCP data from subject 1003007:</p>
+<p>Allow us to give you a flavor by a few example queries of MEG HCP data from subject 105923:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Get all entries from the MEG data header</span>
-<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_info</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_info</span><span class="p">(</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get continuous MEG time series</span>
-<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_raw</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_raw</span><span class="p">(</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get segmented MEG time series</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get all MEG time series averaged across events</span>
-<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_evokeds</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">list_of_evoked</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_evokeds</span><span class="p">(</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get details on contamination and noise sources</span>
-<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_annot</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">annotations_dict</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_annot</span><span class="p">(</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 
 <span class="c1"># Get precomputed independent components that compose the signal time series</span>
-<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_ica</span><span class="p">(</span><span class="s1">&#39;1003007&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
+<span class="n">ica_mat</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_ica</span><span class="p">(</span><span class="s1">&#39;105923&#39;</span><span class="p">,</span> <span class="s1">&#39;task_motor&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

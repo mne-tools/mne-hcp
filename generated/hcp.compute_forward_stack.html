@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -145,7 +151,7 @@
 <h1>hcp.compute_forward_stack<a class="headerlink" href="#hcp-compute-forward-stack" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="hcp.compute_forward_stack">
-<code class="descclassname">hcp.</code><code class="descname">compute_forward_stack</code><span class="sig-paren">(</span><em>subjects_dir</em>, <em>subject</em>, <em>recordings_path</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>fwd_params=None</em>, <em>src_params=None</em>, <em>hcp_path='.'</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.compute_forward_stack" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">hcp.</code><code class="descname">compute_forward_stack</code><span class="sig-paren">(</span><em>subjects_dir</em>, <em>subject</em>, <em>recordings_path</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>fwd_params=None</em>, <em>src_params=None</em>, <em>hcp_path='.'</em>, <em>n_jobs=1</em>, <em>verbose=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.compute_forward_stack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convenience function for conducting standard MNE analyses.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -182,6 +188,8 @@ are smaller than 12 digits, hence negligible.</dd>
 <dd>The prefix of the path of the HCP data.</dd>
 <dt>n_jobs <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd>The number of jobs to use in parallel.</dd>
+<dt>verbose <span class="classifier-delimiter">:</span> <span class="classifier">bool, str, int, or None</span></dt>
+<dd>If not None, override default verbose level (see mne.verbose)</dd>
 </dl>
 <dl class="docutils">
 <dt>out <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>

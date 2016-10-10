@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -145,7 +151,7 @@
 <h1>hcp.make_mne_anatomy<a class="headerlink" href="#hcp-make-mne-anatomy" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="hcp.make_mne_anatomy">
-<code class="descclassname">hcp.</code><code class="descname">make_mne_anatomy</code><span class="sig-paren">(</span><em>subject</em>, <em>subjects_dir</em>, <em>recordings_path=None</em>, <em>hcp_path='.'</em>, <em>mode='minimal'</em>, <em>outputs=('label'</em>, <em>'mri'</em>, <em>'surf')</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.make_mne_anatomy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">hcp.</code><code class="descname">make_mne_anatomy</code><span class="sig-paren">(</span><em>subject</em>, <em>subjects_dir</em>, <em>recordings_path=None</em>, <em>hcp_path='.'</em>, <em>outputs=('label'</em>, <em>'mri'</em>, <em>'surf')</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.make_mne_anatomy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract relevant anatomy and create MNE friendly directory layout</p>
 <p>The function will create the following outputs by default:</p>
 <p>$subjects_dir/$subject/bem/inner_skull.surf
@@ -162,10 +168,6 @@ with MNE examples.</p>
 <dd>The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)</dd>
 <dt>hcp_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>The path where the HCP files can be found.</dd>
-<dt>mode <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;minimal&#8217;, &#8216;full&#8217;}</span></dt>
-<dd>If &#8216;minimal&#8217;, only the directory structure is created. If &#8216;full&#8217; the
-freesurfer outputs shipped with HCP (see <cite>outputs</cite>) are symbolically
-linked.</dd>
 <dt>outputs <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;label&#8217;, &#8216;mri&#8217;, &#8216;stats&#8217;, &#8216;surf&#8217;, &#8216;touch&#8217;}</span></dt>
 <dd>The outputs of the freesrufer pipeline shipped by HCP. Defaults to
 (&#8216;mri&#8217;, &#8216;surf&#8217;), the minimum needed to extract MNE-friendly anatomy

@@ -201,7 +201,7 @@ on the `fsaverage` surface, the freesurfer average brain.
     colormap: fmin=2.35e-11 fmid=2.79e-11 fmax=9.14e-11 transparent=1
 
 
-**Total running time of the script:** ( 1 minutes  26.894 seconds)
+**Total running time of the script:** ( 1 minutes  33.565 seconds)
 
 
 

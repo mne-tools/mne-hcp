@@ -160,7 +160,7 @@ Ploting the temporal connectome and the evolution of discriminability.
 
 
 
-**Total running time of the script:** ( 0 minutes  48.248 seconds)
+**Total running time of the script:** ( 0 minutes  54.662 seconds)
 
 
 

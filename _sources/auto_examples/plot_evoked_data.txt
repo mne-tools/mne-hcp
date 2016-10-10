@@ -50,7 +50,7 @@ we assume our data is inside a designated folder under $HOME
 
 
 
-Let's get the eovked data.
+Let's get the evoked data.
 
 
 
@@ -110,7 +110,7 @@ for subsequent analyses we would use `evoked` not `evoked_viz`.
 See also :ref:`tut_compute_inverse_erf` to see how the story continues.
 
 
-**Total running time of the script:** ( 0 minutes  3.984 seconds)
+**Total running time of the script:** ( 0 minutes  4.500 seconds)
 
 
 

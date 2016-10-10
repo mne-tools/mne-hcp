@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -145,7 +151,7 @@
 <h1>hcp.viz.plot_coregistration<a class="headerlink" href="#hcp-viz-plot-coregistration" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="hcp.viz.plot_coregistration">
-<code class="descclassname">hcp.viz.</code><code class="descname">plot_coregistration</code><span class="sig-paren">(</span><em>subject</em>, <em>subjects_dir</em>, <em>recordings_path</em>, <em>hcp_path='.'</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>view_init=(('azim'</em>, <em>0)</em>, <em>('elev'</em>, <em>0))</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.viz.plot_coregistration" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">hcp.viz.</code><code class="descname">plot_coregistration</code><span class="sig-paren">(</span><em>subject</em>, <em>subjects_dir</em>, <em>hcp_path</em>, <em>recordings_path</em>, <em>info_from=(('data_type'</em>, <em>'rest')</em>, <em>('run_index'</em>, <em>0))</em>, <em>view_init=(('azim'</em>, <em>0)</em>, <em>('elev'</em>, <em>0))</em><span class="sig-paren">)</span><a class="headerlink" href="#hcp.viz.plot_coregistration" title="Permalink to this definition">¶</a></dt>
 <dd><p>A diagnostic plot to show the HCP coregistration</p>
 <dl class="docutils">
 <dt>subject <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
@@ -153,7 +159,9 @@
 <dt>subjects_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)</dd>
 <dt>hcp_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The path where the HCP files can be found. defaults to op.curdir.</dd>
+<dd>The path where the HCP files can be found.</dd>
+<dt>recordings_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The path to converted data (including the head&lt;-&gt;device transform).</dd>
 <dt>info_from <span class="classifier-delimiter">:</span> <span class="classifier">tuple of tuples | dict</span></dt>
 <dd>The reader info concerning the data from which sensor positions
 should be read.

@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -158,7 +164,7 @@ read the ERF files. Subsequently we will compare these outputs.</p>
 <span class="kn">import</span> <span class="nn">hcp</span>
 <span class="kn">import</span> <span class="nn">hcp.preprocessing</span> <span class="kn">as</span> <span class="nn">preproc</span>
 
-<span class="n">mne</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<a href="http://martinos.org/mne/stable/generated/mne.set_log_level.html#mne.set_log_level"><span class="n">mne</span><span class="o">.</span><span class="n">set_log_level</span></a><span class="p">(</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
 
 <span class="c1"># we assume our data is inside its designated folder under $HOME</span>
 <span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
@@ -201,14 +207,14 @@ correction and decimation (downsampling)</p>
 
 <span class="n">all_events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">trial_info</span> <span class="ow">in</span> <span class="n">trial_infos</span><span class="p">:</span>
-    <span class="n">events</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span>
+    <span class="n">events</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.c_.html#numpy.c_"><span class="n">np</span><span class="o">.</span><span class="n">c_</span></a><span class="p">[</span>
         <span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">][:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># time sample</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">])),</span>
+        <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.zeros.html#numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">])),</span>
         <span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">]</span>  <span class="c1"># event codes</span>
     <span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="c1"># for some reason in the HCP data the time events may not always be unique</span>
-    <span class="n">unique_subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">unique_subset</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.nonzero.html#numpy.nonzero"><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.r_.html#numpy.r_"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.diff.html#numpy.diff"><span class="n">np</span><span class="o">.</span><span class="n">diff</span></a><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">events</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">]</span>  <span class="c1"># use diff to find first unique events</span>
 
     <span class="n">all_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
@@ -227,7 +233,7 @@ correction and decimation (downsampling)</p>
     <span class="n">annots</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_annot</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
     <span class="c1"># construct MNE annotations</span>
     <span class="n">bad_seg</span> <span class="o">=</span> <span class="p">(</span><span class="n">annots</span><span class="p">[</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">]</span>
-    <span class="n">annotations</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">Annotations</span><span class="p">(</span>
+    <span class="n">annotations</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.Annotations.html#mne.Annotations"><span class="n">mne</span><span class="o">.</span><span class="n">Annotations</span></a><span class="p">(</span>
         <span class="n">bad_seg</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">bad_seg</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bad_seg</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;bad&#39;</span><span class="p">)</span>
 
@@ -251,8 +257,8 @@ correction and decimation (downsampling)</p>
     <span class="n">preproc</span><span class="o">.</span><span class="n">apply_ica_hcp</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">ica_mat</span><span class="o">=</span><span class="n">ica_mat</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">)</span>
 
     <span class="c1"># now we can epoch</span>
-    <span class="n">events</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">epochs</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">Epochs</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">[</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">events</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.sort.html#numpy.sort"><span class="n">np</span><span class="o">.</span><span class="n">sort</span></a><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">epochs</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.Epochs.html#mne.Epochs"><span class="n">mne</span><span class="o">.</span><span class="n">Epochs</span></a><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">[</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span>
                         <span class="n">event_id</span><span class="o">=</span><span class="n">event_id</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span>
                         <span class="n">reject</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="n">baseline</span><span class="p">,</span> <span class="n">decim</span><span class="o">=</span><span class="n">decim</span><span class="p">,</span>
                         <span class="n">preload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -290,7 +296,7 @@ Things are pythonized and simplified however, so</p>
 
     <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
     <span class="c1"># for some reason in the HCP data the time events may not always be unique</span>
-    <span class="n">unique_subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">unique_subset</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.nonzero.html#numpy.nonzero"><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.r_.html#numpy.r_"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.diff.html#numpy.diff"><span class="n">np</span><span class="o">.</span><span class="n">diff</span></a><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">evoked</span> <span class="o">=</span> <span class="n">epochs_hcp</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">][</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">average</span><span class="p">()</span>
 
     <span class="k">del</span> <span class="n">epochs_hcp</span>
@@ -344,7 +350,7 @@ and we want the average, not the standard deviation.</p>
 <span class="c1"># now some correlations</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">r1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">evoked_from_epochs_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
+<span class="n">r1</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.corrcoef.html#numpy.corrcoef"><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span></a><span class="p">(</span><span class="n">evoked_from_epochs_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
                  <span class="n">evoked_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evoked_from_epochs_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[::</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e15</span><span class="p">,</span>
          <span class="n">evoked_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[::</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e15</span><span class="p">,</span>
@@ -356,7 +362,7 @@ and we want the average, not the standard deviation.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">r1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">evoked</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">evoked_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">r1</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.corrcoef.html#numpy.corrcoef"><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span></a><span class="p">(</span><span class="n">evoked</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">evoked_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evoked</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[::</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e15</span><span class="p">,</span>
          <span class="n">evoked_hcp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[::</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e15</span><span class="p">,</span>
          <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
@@ -375,7 +381,7 @@ and we want the average, not the standard deviation.</p>
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_reproduce_erf_003.png"><img alt="../_images/sphx_glr_plot_reproduce_erf_003.png" src="../_images/sphx_glr_plot_reproduce_erf_003.png" style="width: 376.0px; height: 282.0px;" /></a>
 </li>
 </ul>
-<p><strong>Total running time of the script:</strong> ( 2 minutes  18.894 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 2 minutes  38.477 seconds)</p>
 <div class="sphx-glr-download container">
 <a class="reference download internal" href="../_downloads/plot_reproduce_erf.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_reproduce_erf.py</span></code></a></div>
 <div class="sphx-glr-download container">

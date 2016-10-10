@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -166,7 +172,7 @@ anatomy directory, and the MNE style MEG directory.
 these can be obtained from <code class="xref py py-func docutils literal"><span class="pre">make_mne_anatomy()</span></code>.
 See also <a class="reference internal" href="../auto_examples/make_mne_anatomy.html#tut-make-anatomy"><span>Extract essential anatomy information</span></a>.</p>
 <p>first we read the coregistration.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">head_mri_t</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_trans</span><span class="p">(</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">head_mri_t</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.read_trans.html#mne.read_trans"><span class="n">mne</span><span class="o">.</span><span class="n">read_trans</span></a><span class="p">(</span>
     <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">recordings_path</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s1">&#39;{}-head_mri-trans.fif&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">subject</span><span class="p">)))</span>
 </pre></div>
@@ -178,22 +184,22 @@ Since this will take very long time to compute and at this point no other
 decimation scheme is available inside MNE, we will compute the source
 space on fsaverage, the freesurfer average brain, and morph it onto
 the subject&#8217;s native space. With <cite>oct6</cite> we have ~8000 dipole locations.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">src_fsaverage</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">setup_source_space</span><span class="p">(</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">src_fsaverage</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.setup_source_space.html#mne.setup_source_space"><span class="n">mne</span><span class="o">.</span><span class="n">setup_source_space</span></a><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">add_dist</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">spacing</span><span class="o">=</span><span class="s1">&#39;oct6&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># now we morph it onto the subject.</span>
 
-<span class="n">src_subject</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">morph_source_spaces</span><span class="p">(</span>
+<span class="n">src_subject</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.morph_source_spaces.html#mne.morph_source_spaces"><span class="n">mne</span><span class="o">.</span><span class="n">morph_source_spaces</span></a><span class="p">(</span>
     <span class="n">src_fsaverage</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For the same reason <cite>ico</cite> has to be set to <cite>None</cite> when computing the bem.
 The headshape is not computed with MNE and has a none standard configuration.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">bems</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_bem_model</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">conductivity</span><span class="o">=</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,),</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">bems</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.make_bem_model.html#mne.make_bem_model"><span class="n">mne</span><span class="o">.</span><span class="n">make_bem_model</span></a><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">conductivity</span><span class="o">=</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,),</span>
                           <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
                           <span class="n">ico</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>  <span class="c1"># ico = None for morphed SP.</span>
-<span class="n">bem_sol</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_bem_solution</span><span class="p">(</span><span class="n">bems</span><span class="p">)</span>
+<span class="n">bem_sol</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.make_bem_solution.html#mne.make_bem_solution"><span class="n">mne</span><span class="o">.</span><span class="n">make_bem_solution</span></a><span class="p">(</span><span class="n">bems</span><span class="p">)</span>
 <span class="n">bem_sol</span><span class="p">[</span><span class="s1">&#39;surfs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;coord_frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
@@ -202,12 +208,12 @@ Then we can compute the forward solution.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_info</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">hcp_path</span><span class="o">=</span><span class="n">hcp_path</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;rest&#39;</span><span class="p">,</span>
                      <span class="n">run_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">picks</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ref_meg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">info</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">pick_info</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">picks</span><span class="p">)</span>
+<span class="n">picks</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.pick_types.html#mne.pick_types"><span class="n">mne</span><span class="o">.</span><span class="n">pick_types</span></a><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ref_meg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">info</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.pick_info.html#mne.pick_info"><span class="n">mne</span><span class="o">.</span><span class="n">pick_info</span></a><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">picks</span><span class="p">)</span>
 
 <span class="n">fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_forward_solution</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">trans</span><span class="o">=</span><span class="n">head_mri_t</span><span class="p">,</span> <span class="n">bem</span><span class="o">=</span><span class="n">bem_sol</span><span class="p">,</span>
                                 <span class="n">src</span><span class="o">=</span><span class="n">src_subject</span><span class="p">)</span>
-<span class="n">mag_map</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">sensitivity_map</span><span class="p">(</span>
+<span class="n">mag_map</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.sensitivity_map.html#mne.sensitivity_map"><span class="n">mne</span><span class="o">.</span><span class="n">sensitivity_map</span></a><span class="p">(</span>
     <span class="n">fwd</span><span class="p">,</span> <span class="n">projs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ch_type</span><span class="o">=</span><span class="s1">&#39;mag&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fixed&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">[],</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -227,7 +233,7 @@ Smoothing matrix creation, step 2
 colormap: fmin=1.99e-02 fmid=4.15e-01 fmax=9.01e-01 transparent=1
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 1 minutes  3.026 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 1 minutes  9.762 seconds)</p>
 <div class="sphx-glr-download container">
 <a class="reference download internal" href="../_downloads/plot_compute_forward.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_compute_forward.py</span></code></a></div>
 <div class="sphx-glr-download container">

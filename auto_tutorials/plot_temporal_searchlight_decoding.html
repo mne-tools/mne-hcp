@@ -35,6 +35,12 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
+<!-- Github "fork me" ribbon -->
+<!-- <a href="https://github.com/mne-tools/mne-hcp"><img style="position: absolute; top: 50px; right: 0; border: 0;"
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a> -->
+
 
 
 
@@ -158,9 +164,9 @@ working memory data.</p>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelBinarizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
-<span class="kn">from</span> <span class="nn">mne.decoding</span> <span class="kn">import</span> <span class="n">GeneralizationAcrossTime</span>
+<span class="kn">from</span> <span class="nn">mne.decoding</span> <span class="kn">import</span> <a href="http://martinos.org/mne/stable/generated/mne.decoding.GeneralizationAcrossTime.html#mne.decoding.GeneralizationAcrossTime"><span class="n">GeneralizationAcrossTime</span></a>
 
-<span class="n">mne</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<a href="http://martinos.org/mne/stable/generated/mne.set_log_level.html#mne.set_log_level"><span class="n">mne</span><span class="o">.</span><span class="n">set_log_level</span></a><span class="p">(</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
 
 <span class="c1"># we assume our data is inside its designated folder under $HOME</span>
 <span class="n">storage_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
@@ -186,16 +192,16 @@ shown in <a class="reference internal" href="plot_reproduce_erf.html#tut-reprodu
     <span class="n">hcp_params</span><span class="p">[</span><span class="s1">&#39;run_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_index</span>
     <span class="n">trial_info</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_trial_info</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span>
 
-    <span class="n">events</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span>
+    <span class="n">events</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.c_.html#numpy.c_"><span class="n">np</span><span class="o">.</span><span class="n">c_</span></a><span class="p">[</span>
         <span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">][:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># time sample</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">])),</span>
+        <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.zeros.html#numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">])),</span>
         <span class="n">trial_info</span><span class="p">[</span><span class="s1">&#39;stim&#39;</span><span class="p">][</span><span class="s1">&#39;codes&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">]</span>  <span class="c1"># event codes</span>
     <span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="c1"># for some reason in the HCP data the time events may not always be unique</span>
-    <span class="n">unique_subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">unique_subset</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.nonzero.html#numpy.nonzero"><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.r_.html#numpy.r_"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.diff.html#numpy.diff"><span class="n">np</span><span class="o">.</span><span class="n">diff</span></a><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">events</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">]</span>  <span class="c1"># use diff to find first unique events</span>
-    <span class="n">subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">event_id</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">subset</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.9.1/reference/generated/numpy.in1d.html#numpy.in1d"><span class="n">np</span><span class="o">.</span><span class="n">in1d</span></a><span class="p">(</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">event_id</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">hcp</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="o">**</span><span class="n">hcp_params</span><span class="p">)</span><span class="o">.</span><span class="n">decimate</span><span class="p">(</span><span class="n">decim</span><span class="p">)</span>
     <span class="n">epochs_hcp</span> <span class="o">=</span> <span class="n">epochs_hcp</span><span class="p">[</span><span class="n">unique_subset</span><span class="p">][</span><span class="n">subset</span><span class="p">]</span>
     <span class="n">epochs_hcp</span><span class="o">.</span><span class="n">events</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">subset</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
@@ -217,7 +223,7 @@ The measurement information indicates a low-pass frequency of 1017.26 Hz. The de
 
 <span class="n">cv</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># do a stratified cross-validation</span>
 
-<span class="n">gat</span> <span class="o">=</span> <span class="n">GeneralizationAcrossTime</span><span class="p">(</span><span class="n">predict_mode</span><span class="o">=</span><span class="s1">&#39;cross-validation&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="n">gat</span> <span class="o">=</span> <a href="http://martinos.org/mne/stable/generated/mne.decoding.GeneralizationAcrossTime.html#mne.decoding.GeneralizationAcrossTime"><span class="n">GeneralizationAcrossTime</span></a><span class="p">(</span><span class="n">predict_mode</span><span class="o">=</span><span class="s1">&#39;cross-validation&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">roc_auc_score</span><span class="p">)</span>
 <span class="c1"># fit and score</span>
 <span class="n">gat</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
@@ -235,7 +241,7 @@ The measurement information indicates a low-pass frequency of 1017.26 Hz. The de
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_temporal_searchlight_decoding_002.png"><img alt="../_images/sphx_glr_plot_temporal_searchlight_decoding_002.png" src="../_images/sphx_glr_plot_temporal_searchlight_decoding_002.png" style="width: 376.0px; height: 282.0px;" /></a>
 </li>
 </ul>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  48.248 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  54.662 seconds)</p>
 <div class="sphx-glr-download container">
 <a class="reference download internal" href="../_downloads/plot_temporal_searchlight_decoding.py"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_temporal_searchlight_decoding.py</span></code></a></div>
 <div class="sphx-glr-download container">

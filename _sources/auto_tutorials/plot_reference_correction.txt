@@ -195,7 +195,7 @@ By comparing single channel time series we can also see the detrending effect
 
 
 
-**Total running time of the script:** ( 0 minutes  12.296 seconds)
+**Total running time of the script:** ( 0 minutes  16.880 seconds)
 
 
 

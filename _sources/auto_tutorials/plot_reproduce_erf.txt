@@ -313,7 +313,7 @@ Time to compare the outputs
 
 
 
-**Total running time of the script:** ( 2 minutes  18.894 seconds)
+**Total running time of the script:** ( 2 minutes  38.477 seconds)
 
 
 
