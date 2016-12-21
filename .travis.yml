@@ -82,7 +82,7 @@ install:
 - export MNE_HCP_CHEAP=42
 
 script:
-- nosetests -a '!expensive_test' --with-timer --timer-top-n 30 --verbosity=2 $COVERAGE
+- nosetests -a --with-timer --timer-top-n 30 --verbosity=2 $COVERAGE
 - if [ "${DEPS}" == "nodata" ]; then make flake; fi;
 - if [ "${DEPS}" == "nodata" ]; then make codespell-error; fi;
 
