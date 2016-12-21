@@ -295,7 +295,6 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     ch_names = [ch for ch in data['label'].tolist()]
     info['sfreq'] = data['fsample'].tolist()
     times = data['time'].tolist()[0]
-
     # deal with different event lengths
     if return_fixations_motor is not None:
         fixation_mask = data['trialinfo'].tolist()[:, 1] == 6
@@ -316,6 +315,9 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     this_info = _hcp_pick_info(info, ch_names)
     epochs = EpochsArray(data=data, info=this_info, events=events,
                          tmin=times.min())
+    # XXX hack for now due to issue with EpochsArray constructor
+    # cf https://github.com/mne-tools/mne-hcp/issues/9
+    epochs.times = times
     return epochs
 
 

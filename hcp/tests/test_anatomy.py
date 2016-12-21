@@ -8,6 +8,7 @@ import mne
 from hcp.tests import config as tconf
 from hcp import make_mne_anatomy, compute_forward_stack
 from hcp.viz import plot_coregistration
+from hcp.tests.config import expensive_test
 
 matplotlib.use('Agg')
 
@@ -15,6 +16,7 @@ hcp_params = dict(hcp_path=tconf.hcp_path,
                   subject=tconf.test_subject)
 
 
+@expensive_test
 def test_anatomy():
     """Test anatomy functions (slow!)."""
     import matplotlib.pyplot as plt

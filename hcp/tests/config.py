@@ -93,14 +93,15 @@ def _download_testing_data():
 ##############################################################################
 # variable used in different tests
 
-hcp_path = op.expanduser('~/mne-hcp-data/HCP')
+hcp_path = op.expanduser('~/mne-hcp-data/mne-hcp-testing')
 
 bti_chans = {'A' + str(i) for i in range(1, 249, 1)}
 
 test_subject = '105923'
 task_types = ['task_story_math', 'task_working_memory', 'task_motor']
 noise_types = ['noise_empty_room']
-sfreq_preproc = 508.63
+test_decim = 100
+sfreq_preproc = 508.63 / test_decim
 sfreq_raw = 2034.5101
 lowpass_preproc = 150
 highpass_preproc = 1.3

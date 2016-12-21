@@ -12,7 +12,6 @@ import mne
 import hcp
 from mne.utils import _TempDir
 from hcp.tests import config as tconf
-from hcp.tests.config import expensive_test
 from hcp.io.read import _hcp_pick_info
 
 hcp_params = dict(hcp_path=tconf.hcp_path,
@@ -64,7 +63,6 @@ def test_read_raw_rest():
         _basic_raw_checks(raw=raw)
 
 
-@expensive_test  # files too large
 def test_read_raw_task():
     """Test reading raw for tasks"""
     for run_index in tconf.run_inds[:tconf.max_runs]:
@@ -79,7 +77,6 @@ def test_read_raw_task():
             _basic_raw_checks(raw=raw)
 
 
-@expensive_test  # files too large
 def test_read_raw_noise():
     """Test reading raw for empty room noise"""
     for run_index in tconf.run_inds[:tconf.max_runs][:2]:
@@ -100,14 +97,15 @@ def _epochs_basic_checks(epochs, annots, data_type):
         n_good += 4
     assert_equal(len(epochs.ch_names), n_good)
     assert_equal(
-        np.round(epochs.info['sfreq'], 2),
-        tconf.sfreq_preproc)
+        round(epochs.info['sfreq'], 3),
+        round(tconf.sfreq_preproc, 3))
     assert_array_equal(
         np.unique(epochs.events[:, 2]),
         np.array([99], dtype=np.int))
     assert_true(
         _check_bounds(epochs.times,
-                      tconf.epochs_bounds[data_type])
+                      tconf.epochs_bounds[data_type],
+                      atol=1. / epochs.info['sfreq'])  # decim tolerance
     )
 
     # XXX these seem not to be reliably set. checkout later.
@@ -144,10 +142,10 @@ def test_read_epochs_task():
             _epochs_basic_checks(epochs, annots, data_type)
 
 
-def _check_bounds(array, bounds):
+def _check_bounds(array, bounds, atol=0.01):
     """helper for bounds checking"""
-    return (np.allclose(np.min(array), min(bounds), atol=0.01) and
-            np.allclose(np.max(array), max(bounds), atol=0.01))
+    return (np.allclose(np.min(array), min(bounds), atol=atol) and
+            np.allclose(np.max(array), max(bounds), atol=atol))
 
 
 def test_read_evoked():

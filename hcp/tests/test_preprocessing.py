@@ -53,7 +53,11 @@ def test_apply_ica():
 def test_apply_ref_correction():
     """Test reference correction."""
     raw = hcp.read_raw(data_type='rest', run_index=0, **hcp_params)
-    raw.crop(0, 10).load_data()
+    # raw.crop(0, 10).load_data()
+    raw.load_data()
+    # XXX terrible hack to have more samples.
+    # The test files are too short.
+    raw.append(raw.copy())
     meg_picks = mne.pick_types(raw.info, meg=True, ref_meg=False)
     orig = raw[meg_picks[0]][0][0]
     apply_ref_correction(raw)
