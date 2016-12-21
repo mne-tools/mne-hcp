@@ -30,7 +30,7 @@ before_install:
 - (cd $HOME/mne-hcp-data/ && tar -xvzf mne-hcp-testing.tar.gz)
 - find $HOME/mne-hcp-data/mne-hcp-testing/105923 -name "*" > output.txt
 - cat output.txt | wc -l
-- cat output.txt
+- head output.txt
 # get fsaverage
 - pushd ~
 - wget --quiet http://faculty.washington.edu/larsoner/fsaverage_min.zip
