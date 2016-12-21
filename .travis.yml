@@ -81,7 +81,7 @@ install:
 - export MNE_HCP_N_RUNS=1
 
 script:
-- nosetest --with-timer --timer-top-n 30 --verbosity=2 $COVERAGE
+- nosetests --with-timer --timer-top-n 30 --verbosity=2 $COVERAGE
 - if [ "${DEPS}" == "nodata" ]; then make flake; fi;
 - if [ "${DEPS}" == "nodata" ]; then make codespell-error; fi;
 
