@@ -24,10 +24,11 @@ before_install:
 - conda install scipy --yes --quiet
 - pip install -q s3cmd mne
 - python setup.py develop
-- export MNE_HCP_N_RUNS=1
-- export MNE_HCP_CHEAP=42
-- python -c "import hcp; hcp.tests._download_testing_data()"
-- find $HOME/mne-hcp-data/HCP/105923 -name "*" > output.txt
+- export MNE_HCP_N_RUNS=3
+- mkdir $HOME/mne-hcp-data
+- s3cmd get s3://mne-hcp-testing-data/mne-hcp-testing.tar.gz $HOME/mne-hcp-data/
+- (cd $HOME/mne-hcp-data/ && -xvf mne-hcp-testing.tar.gz)
+- find $HOME/mne-hcp-data/mne-hcp-testing/105923 -name "*" > output.txt
 - cat output.txt | wc -l
 - cat output.txt
 # get fsaverage
