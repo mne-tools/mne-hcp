@@ -79,7 +79,6 @@ install:
   else cd ${SRC_DIR};
     COVERAGE=--with-coverage; fi;
 - export MNE_HCP_N_RUNS=1
-- export MNE_HCP_CHEAP=42
 
 script:
 - nosetest --with-timer --timer-top-n 30 --verbosity=2 $COVERAGE

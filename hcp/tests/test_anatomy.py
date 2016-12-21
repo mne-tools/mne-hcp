@@ -35,7 +35,8 @@ def test_anatomy():
                     op.join(subjects_dir, 'fsaverage'))
     compute_forward_stack(
         subjects_dir=subjects_dir, recordings_path=recordings_path,
-        src_params=dict(add_dist=False), verbose=True, **hcp_params)
+        src_params=dict(add_dist=False, spacing='oct1'),
+        verbose=True, **hcp_params)
     # let's do our viz tests, too
     plot_coregistration(subjects_dir=subjects_dir,
                         recordings_path=recordings_path, **hcp_params)
