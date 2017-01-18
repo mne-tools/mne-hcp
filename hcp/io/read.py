@@ -239,7 +239,7 @@ def read_info(subject, data_type, run_index=0, hcp_path=op.curdir):
     return meg_info
 
 
-def read_epochs(subject, data_type, onset='TIM', run_index=0,
+def read_epochs(subject, data_type, onset='stim', run_index=0,
                     hcp_path=op.curdir, return_fixations_motor=False):
     """Read HCP processed data
 
@@ -277,7 +277,9 @@ def read_epochs(subject, data_type, onset='TIM', run_index=0,
 
     epochs_mat_fname = get_file_paths(
         subject=subject, data_type=data_type, output='epochs',
+        onset=onset,
         run_index=run_index, hcp_path=hcp_path)[0]
+
     if data_type != 'task_motor':
         return_fixations_motor = None
     epochs = _read_epochs(epochs_mat_fname=epochs_mat_fname, info=info,
