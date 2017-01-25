@@ -177,13 +177,21 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
             'could not find config to complete info.'
             'reading only channel positions without '
             'transforms.')
+
     # figure out which channels are missing
-    bti_channel_names_ = ['A%i' % ii for ii in range(1, 249, 1)]
-    bti_channel_names = [ch for ch in info['ch_names']
-                         if ch in bti_channel_names_]
-    fake_channels_to_add = sorted(
-        list(set(bti_channel_names) - set(inst.ch_names)))
-    n_channels = 248
+    bti_meg_channel_names = ['A%i' % ii for ii in range(1, 249, 1)]
+    bti_meg_channel_missing_names = [
+        ch for ch in bti_meg_channel_names if ch not in inst.ch_names]
+
+    # infer other channels
+    picks_other = mne.pick_types(inst.info, meg=False, ref_meg=True)
+    other_chans = [inst.ch_names[po] for po in picks_other]
+
+    # compute new n channels
+    n_channels = len(inst.ch_names)
+    n_channels += len(bti_meg_channel_missing_names)
+    n_channels += len(other_chans)
+
     info['sfreq'] = inst.info['sfreq']
     # compute shape of data to be added
     is_raw = isinstance(inst, (mne.io.Raw,
@@ -207,14 +215,18 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
 
     # create new data
     existing_channels_index = [
-        bti_channel_names.index(ch) for ch in inst.ch_names]
+        bti_meg_channel_names.index(ch) for ch in inst.ch_names]
     new_channels_index = [
-        bti_channel_names.index(ch) for ch in fake_channels_to_add]
+        bti_meg_channel_names.index(ch) for ch in
+        bti_meg_channel_missing_names]
 
     out_data = np.empty(shape, dtype=np.float64)
     out_data[existing_channels_index] = data
     out_data[new_channels_index] = 0
-    info = _hcp_pick_info(info, bti_channel_names)
+    
+    info = _hcp_pick_info(
+        info,
+        bti_meg_channel_names + other_chans)
 
     if is_raw:
         out = mne.io.RawArray(out_data, info)
@@ -233,6 +245,6 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
                          'or Evoked')
 
     # set "bad" channels and interpolate.
-    out.info['bads'] = fake_channels_to_add
+    out.info['bads'] = bti_meg_channel_missing_names
     out.interpolate_bads(mode=mode)
     return out

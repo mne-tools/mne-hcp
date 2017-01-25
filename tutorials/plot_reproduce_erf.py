@@ -52,8 +52,7 @@ baseline = (-0.5, 0)
 # we first collect events
 trial_infos = list()
 for run_index in [0, 1]:
-    hcp_params['run_index'] = run_index
-    trial_info = hcp.read_trial_info(**hcp_params)
+    trial_info = hcp.read_trial_info(run_index=run_index, **hcp_params)
     trial_infos.append(trial_info)
 
 
@@ -74,7 +73,7 @@ for trial_info in trial_infos:
         np.zeros(len(trial_info['stim']['codes'])),
         trial_info['stim']['codes'][:, 3]  # event codes
     ].astype(int)
-
+    events = events[np.argsort(events[:, 0])]  # chronological order
     # for some reason in the HCP data the time events may not always be unique
     unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
     events = events[unique_subset]  # use diff to find first unique events
@@ -85,14 +84,12 @@ for trial_info in trial_infos:
 evokeds = list()
 for run_index, events in zip([0, 1], all_events):
 
-    hcp_params['run_index'] = run_index
-
-    raw = hcp.read_raw(**hcp_params)
+    raw = hcp.read_raw(run_index=run_index, **hcp_params)
     raw.load_data()
     # apply ref channel correction and drop ref channels
-    preproc.apply_ref_correction(raw)
+    # preproc.apply_ref_correction(raw)
 
-    annots = hcp.read_annot(**hcp_params)
+    annots = hcp.read_annot(run_index=run_index, **hcp_params)
     # construct MNE annotations
     bad_seg = (annots['segments']['all']) / raw.info['sfreq']
     annotations = mne.Annotations(
@@ -111,7 +108,7 @@ for run_index, events in zip([0, 1], all_events):
 
     # read ICA and remove EOG ECG
     # note that the HCP ICA assumes that bad channels have already been removed
-    ica_mat = hcp.read_ica(**hcp_params)
+    ica_mat = hcp.read_ica(run_index=run_index, **hcp_params)
 
     # We will select the brain ICs only
     exclude = [ii for ii in range(annots['ica']['total_ic_number'][0])
@@ -140,12 +137,20 @@ for run_index, events in zip([0, 1], all_events):
 evokeds_from_epochs_hcp = list()
 
 for run_index, events in zip([0, 1], all_events):
-    hcp_params['run_index'] = run_index
 
-    epochs_hcp = hcp.read_epochs(**hcp_params)
-    # for some reason in the HCP data the time events may not always be unique
     unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
-    evoked = epochs_hcp[unique_subset][events[:, 2] == 1].average()
+    # use diff to find first unique events
+    this_events = events[unique_subset]
+    subset = np.in1d(events[:, 2], event_id.values())
+
+    epochs_hcp = hcp.read_epochs(run_index=run_index, **hcp_params)
+
+    # subset epochs, add events and id
+    epochs_hcp = epochs_hcp[unique_subset][subset]
+    epochs_hcp.events[:, 2] = events[subset, 2]
+    epochs_hcp.event_id = event_id
+
+    evoked = epochs_hcp['face'].average()
 
     del epochs_hcp
     # These epochs have different channels.
@@ -168,7 +173,6 @@ for run_index, events in zip([0, 1], all_events):
 # and we want the average, not the standard deviation.
 
 evoked_hcp = None
-del hcp_params['run_index']
 hcp_evokeds = hcp.read_evokeds(onset='stim', **hcp_params)
 
 for ev in hcp_evokeds:
