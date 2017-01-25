@@ -82,6 +82,15 @@ def test_map_ch_coords_to_mne():
 def test_interpolate_missing():
     """Test interpolation of missing channels."""
     data_type = 'task_working_memory'
+    raw = hcp.read_raw(data_type='task_working_memory', run_index=0,
+                       **hcp_params)
+    raw.load_data()
+    n_chan = len(raw.ch_names)
+    raw.drop_channels(['A1'])
+    assert_equal(len(raw.ch_names), n_chan - 1)
+    raw = interpolate_missing(raw, data_type=data_type, **hcp_params)
+    assert_equal(len(raw.ch_names), n_chan)
+
     evoked = hcp.read_evokeds(data_type=data_type, **hcp_params)[0]
     assert_equal(len(evoked.ch_names), 243)
     evoked_int = interpolate_missing(evoked, data_type=data_type, **hcp_params)

@@ -178,19 +178,37 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
             'reading only channel positions without '
             'transforms.')
 
-    # figure out which channels are missing
+    # full BTI MEG channels
     bti_meg_channel_names = ['A%i' % ii for ii in range(1, 249, 1)]
+    # figure out which channels are missing
     bti_meg_channel_missing_names = [
         ch for ch in bti_meg_channel_names if ch not in inst.ch_names]
 
     # infer other channels
-    picks_other = mne.pick_types(inst.info, meg=False, ref_meg=True)
+    picks_meg = mne.pick_types(inst.info, meg=True, ref_meg=False)
+
+    # some ybcontiguous block in the middle so let's try to pack the
+    # growth zone between the left and right other channels
+    picks_other = [ii for ii in range(len(inst.ch_names)) if ii not in
+                   picks_meg]
     other_chans = [inst.ch_names[po] for po in picks_other]
 
-    # compute new n channels
-    n_channels = len(inst.ch_names)
-    n_channels += len(bti_meg_channel_missing_names)
-    n_channels += len(other_chans)
+    # compute new n channels [ok]
+    n_channels = (len(picks_meg) +
+                  len(bti_meg_channel_missing_names) +
+                  len(other_chans))
+
+    # prepare indexing for adding new data
+    final_names = set(
+        [inst.ch_names[ii] for ii in picks_other] +
+         bti_meg_channel_names
+    )
+    info = _hcp_pick_info(info, final_names)
+    assert len(info['ch_names']) == n_channels
+    existing_channels_index = [ii for ii, ch in enumerate(info['ch_names']) if
+                               ch in inst.ch_names]
+    interpol_channels_index  = [ii for ii, ch in enumerate(info['ch_names']) if
+                                ch not in inst.ch_names]
 
     info['sfreq'] = inst.info['sfreq']
     # compute shape of data to be added
@@ -213,21 +231,9 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
         raise ValueError('instance must be Raw, Epochs '
                          'or Evoked')
 
-    # create new data
-    existing_channels_index = [
-        bti_meg_channel_names.index(ch) for ch in inst.ch_names]
-    new_channels_index = [
-        bti_meg_channel_names.index(ch) for ch in
-        bti_meg_channel_missing_names]
-
     out_data = np.empty(shape, dtype=np.float64)
     out_data[existing_channels_index] = data
-    out_data[new_channels_index] = 0
-    
-    info = _hcp_pick_info(
-        info,
-        bti_meg_channel_names + other_chans)
-
+    out_data[interpol_channels_index] = 0
     if is_raw:
         out = mne.io.RawArray(out_data, info)
         if inst.annotations is not None:
@@ -248,3 +254,5 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
     out.info['bads'] = bti_meg_channel_missing_names
     out.interpolate_bads(mode=mode)
     return out
+
+
