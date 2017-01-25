@@ -12,6 +12,7 @@ from mne.utils import logger
 
 from .io import read_info
 from .io.read import _hcp_pick_info
+from .io.read import _data_labels
 
 
 def set_eog_ecg_channels(raw):
@@ -184,37 +185,35 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
     bti_meg_channel_missing_names = [
         ch for ch in bti_meg_channel_names if ch not in inst.ch_names]
 
-    # infer other channels
+    # get meg picks
     picks_meg = mne.pick_types(inst.info, meg=True, ref_meg=False)
-
-    # some ybcontiguous block in the middle so let's try to pack the
-    # growth zone between the left and right other channels
+    # some non-contiguous block in the middle so let's try to invert
     picks_other = [ii for ii in range(len(inst.ch_names)) if ii not in
                    picks_meg]
     other_chans = [inst.ch_names[po] for po in picks_other]
 
-    # compute new n channels [ok]
+    # compute new n channels
     n_channels = (len(picks_meg) +
                   len(bti_meg_channel_missing_names) +
                   len(other_chans))
 
-    # prepare indexing for adding new data
-    final_names = set(
-        [inst.ch_names[ii] for ii in picks_other] +
-         bti_meg_channel_names
-    )
+    # restrict info to final channels
+    # ! info read from config file is not sorted like inst.info
+    # ! therefore picking order matters, but we don't know it.
+    # ! so far we will rely on the consistent layout for raw files
+    final_names = [ch for ch in _data_labels if ch in bti_meg_channel_names or
+                   ch in other_chans]
     info = _hcp_pick_info(info, final_names)
     assert len(info['ch_names']) == n_channels
     existing_channels_index = [ii for ii, ch in enumerate(info['ch_names']) if
                                ch in inst.ch_names]
-    interpol_channels_index  = [ii for ii, ch in enumerate(info['ch_names']) if
-                                ch not in inst.ch_names]
 
     info['sfreq'] = inst.info['sfreq']
+
     # compute shape of data to be added
     is_raw = isinstance(inst, (mne.io.Raw,
-                        mne.io.RawArray,
-                        mne.io.bti.bti.RawBTi))
+                               mne.io.RawArray,
+                               mne.io.bti.bti.RawBTi))
     is_epochs = isinstance(inst, (mne.Epochs, mne.EpochsArray))
     is_evoked = isinstance(inst, (mne.Evoked, mne.EvokedArray))
     if is_raw:
@@ -230,10 +229,9 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
     else:
         raise ValueError('instance must be Raw, Epochs '
                          'or Evoked')
-
-    out_data = np.empty(shape, dtype=np.float64)
+    out_data = np.empty(shape, dtype=data.dtype)
     out_data[existing_channels_index] = data
-    out_data[interpol_channels_index] = 0
+
     if is_raw:
         out = mne.io.RawArray(out_data, info)
         if inst.annotations is not None:
@@ -254,5 +252,3 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
     out.info['bads'] = bti_meg_channel_missing_names
     out.interpolate_bads(mode=mode)
     return out
-
-

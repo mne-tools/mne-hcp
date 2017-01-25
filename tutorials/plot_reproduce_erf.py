@@ -100,7 +100,7 @@ for run_index, events in zip([0, 1], all_events):
     raw.info['bads'].extend(annots['channels']['all'])
     raw.pick_types(meg=True, ref_meg=False)
 
-    # Note: MNE complains on Python 2.7
+    #  Note: MNE complains on Python 2.7
     raw.filter(0.50, None, method='iir',
                iir_params=dict(order=4, ftype='butter'), n_jobs=1)
     raw.filter(None, 60, method='iir',
@@ -111,8 +111,7 @@ for run_index, events in zip([0, 1], all_events):
     ica_mat = hcp.read_ica(run_index=run_index, **hcp_params)
 
     # We will select the brain ICs only
-    exclude = [ii for ii in range(annots['ica']['total_ic_number'][0])
-               if ii not in annots['ica']['brain_ic_vs']]
+    exclude = annots['ica']['ecg_eog_ic']
     preproc.apply_ica_hcp(raw, ica_mat=ica_mat, exclude=exclude)
 
     # now we can epoch
