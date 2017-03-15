@@ -214,7 +214,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path,
     is_raw = isinstance(inst, (mne.io.Raw,
                                mne.io.RawArray,
                                mne.io.bti.bti.RawBTi))
-    is_epochs = isinstance(inst, (mne.Epochs, mne.EpochsArray))
+    is_epochs = isinstance(inst, mne.BaseEpochs)
     is_evoked = isinstance(inst, (mne.Evoked, mne.EvokedArray))
     if is_raw:
         shape = (n_channels,
