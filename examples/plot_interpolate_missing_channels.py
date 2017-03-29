@@ -5,7 +5,7 @@ Interpolate channel that are missing in an HCP output file
 
 We'll take a look at the coregistration here.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op

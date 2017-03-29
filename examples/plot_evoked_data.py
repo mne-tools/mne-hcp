@@ -8,7 +8,7 @@ Visualize evoked data
 Here we'll generate some attention for pecularities of visualizing the
 HCP evoked outputs using MNE plotting functions.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op

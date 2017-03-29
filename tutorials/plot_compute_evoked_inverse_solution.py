@@ -8,7 +8,7 @@ Compute inverse solution for evoked data
 Here we'll use our knowledge from the other examples and tutorials
 to compute an inverse solution and apply it on event related fields.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op

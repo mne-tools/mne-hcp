@@ -11,7 +11,7 @@ fields (ERF) starting from different HCP outputs. We will first reprocess
 the HCP dat from scratch, then read the preprocessed epochs, finally
 read the ERF files. Subsequently we will compare these outputs.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op

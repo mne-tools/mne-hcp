@@ -5,7 +5,7 @@ Apply reference channel correction
 
 Apply reference channels and see what happens.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 # import os
