@@ -10,7 +10,7 @@ In this tutorial we show how to run a temporal window decoding
 on event related data. We'll try to decode tools VS faces in the
 working memory data.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op

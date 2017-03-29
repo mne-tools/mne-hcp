@@ -8,7 +8,7 @@ Compute forward model
 Here we'll first compute a source space, then the bem model
 and finally the forward solution.
 """
-# Author: Denis A. Enegemann
+# Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op
