@@ -210,7 +210,7 @@ def compute_forward_stack(subjects_dir,
 
     src_params = _update_dict_defaults(
         src_params,
-        dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=n_jobs,
+        dict(subject='fsaverage', spacing='oct6', n_jobs=n_jobs,
              surface='white', subjects_dir=subjects_dir, add_dist=True))
 
     add_source_space_distances = False
