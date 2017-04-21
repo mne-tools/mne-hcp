@@ -44,6 +44,7 @@ src_outputs = hcp.anatomy.compute_forward_stack(
     subject=subject, subjects_dir=subjects_dir,
     hcp_path=hcp_path, recordings_path=recordings_path,
     # Speed up computations here by setting `add_dist` to False.
+    # Setting `add_dist` to True will slightly improve forward soln. accuracy
     src_params=dict(add_dist=False),
     info_from=dict(data_type=data_type, run_index=run_index))
 
