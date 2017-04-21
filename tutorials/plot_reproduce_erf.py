@@ -114,8 +114,10 @@ for run_index, events in zip([0, 1], all_events):
     exclude = annots['ica']['ecg_eog_ic']
     preproc.apply_ica_hcp(raw, ica_mat=ica_mat, exclude=exclude)
 
+    # Sort events by timestamp
+    events = events[np.argsort(events[:, 0], axis=0)]
+
     # now we can epoch
-    events = np.sort(events, 0)
     epochs = mne.Epochs(raw, events=events[events[:, 2] == 1],
                         event_id=event_id, tmin=tmin, tmax=tmax,
                         reject=None, baseline=baseline, decim=decim,
