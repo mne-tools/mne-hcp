@@ -173,7 +173,7 @@ File Mapping
 ------------
 
 MNE-HCP supports a low level file mapping that allows for quick compilations
-of sets of files for a given subejct and data context.
+of sets of files for a given subject and data context.
 This is done in :func:`hcp.io.file_mapping.get_file_paths`, think of it as a
 file name synthesizer that takes certain data description parameters as inputs
 and lists all corresponding files.
@@ -196,7 +196,7 @@ to be accessed are known in advance.
 Gotchas
 =======
 
-Native coordinates and resulting plotting and processing peculartities
+Native coordinates and resulting plotting and processing peculiarities
 ----------------------------------------------------------------------
 
 The HCP for MEG provides coregistration information for native BTI/4D
@@ -215,7 +215,7 @@ This is not a bug.
 
 2. All channel names and positions are native. Topographic plotting might not
 work as as expected. First of all, the layout file is not recognized. Second,
-the coordinates are not regonized as native ones, eventually rotating and
+the coordinates are not recognized as native ones, eventually rotating and
 distorting the graphical display. To fix this, either a proper layout can be
 computed with :func:`hcp.viz.make_hcp_bti_layout`.
 Or the conversion to MNE can also be
@@ -266,7 +266,7 @@ Convenience functions
 NNE-HCP includes convenience functions that help setting up directory and file layouts
 expected by MNE-Python.
 
-:func:`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using sympbolic links:
+:func:`hcp.make_mne_anatomy` will produce an MNE and Freesurfer compatible directory layout and will create the following outputs by default, mostly using symbolic links:
 
 .. code-block:: bash
 

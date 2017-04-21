@@ -6,7 +6,7 @@
 Run temporal searchlight decoding on event related data
 =======================================================
 
-In this tutorial we show how to run a temporal window decoding
+In this tutorial, we show how to run a temporal window decoding
 on event related data. We'll try to decode tools VS faces in the
 working memory data.
 """
@@ -38,12 +38,12 @@ tmin, tmax = -1.5, 2.5
 decim = 3
 
 ##############################################################################
-# We know from studying either the manual or the trial info about the mapping
-# of events.
+# We can obtain the following event IDs by looking at either the HCP manual or
+# the trial info.
 event_id = dict(face=1, tool=2)
 
 ##############################################################################
-# we first collect epochs across runs and essentially adopt the code
+# We first collect epochs across runs and essentially adopt the code
 # shown in :ref:`tut_reproduce_erf`.
 
 epochs = list()

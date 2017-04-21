@@ -5,8 +5,8 @@
 Compute inverse solution for evoked data
 ========================================
 
-Here we'll use our knowledge from the other examples and tutorials
-to compute an inverse solution and apply it on event related fields.
+Here, we'll use our knowledge from the other examples and tutorials
+to compute an inverse solution and apply it to event related fields.
 """
 # Author: Denis A. Engemann
 # License: BSD 3 clause
@@ -17,7 +17,7 @@ import hcp
 from hcp import preprocessing as preproc
 
 ##############################################################################
-# we assume our data is inside a designated folder under $HOME
+# We assume our data is inside a designated folder under $HOME
 storage_dir = op.expanduser('~/mne-hcp-data')
 hcp_path = op.join(storage_dir, 'HCP')
 recordings_path = op.join(storage_dir, 'hcp-meg')
@@ -27,11 +27,11 @@ data_type = 'task_working_memory'
 run_index = 0
 
 ##############################################################################
-# We're reading the evoked data.
+# First, read the evoked data.
 # These are the same as in :ref:`tut_plot_evoked`
 
 hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
-                                   data_type=data_type, hcp_path=hcp_path)
+                               data_type=data_type, hcp_path=hcp_path)
 for evoked in hcp_evokeds:
     if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
@@ -43,15 +43,14 @@ for evoked in hcp_evokeds:
 src_outputs = hcp.anatomy.compute_forward_stack(
     subject=subject, subjects_dir=subjects_dir,
     hcp_path=hcp_path, recordings_path=recordings_path,
-    # speed up computations here. Setting `add_dist` to True may improve the
-    # accuracy.
+    # Speed up computations here by setting `add_dist` to False.
     src_params=dict(add_dist=False),
     info_from=dict(data_type=data_type, run_index=run_index))
 
 fwd = src_outputs['fwd']
 
 ##############################################################################
-# Now we can compute the noise covariance. For this purpose we will apply
+# Now, we can compute the noise covariance. For this purpose, we will apply
 # the same filtering as was used for the computations of the ERF in the first
 # place. See also :ref:`tut_reproduce_erf`.
 
@@ -70,13 +69,13 @@ raw_noise.filter(None, 60, method='iir',
 
 ##############################################################################
 # Note that using the empty room noise covariance will inflate the SNR of the
-# evkoked and renders comparisons  to `baseline` rather uninformative.
+# evoked and renders comparisons  to `baseline` rather uninformative.
 noise_cov = mne.compute_raw_covariance(raw_noise, method='empirical')
 
 
 ##############################################################################
-# Now we assemble the inverse operator, project the data and show the results
-# on the `fsaverage` surface, the freesurfer average brain.
+# Now we assemble the inverse operator, project the data, and show the results
+# on the `fsaverage` surface (i.e., the freesurfer average brain).
 
 inv_op = mne.minimum_norm.make_inverse_operator(
     evoked.info, fwd, noise_cov=noise_cov)
