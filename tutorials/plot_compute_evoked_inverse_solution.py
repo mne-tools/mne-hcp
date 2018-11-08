@@ -31,7 +31,7 @@ run_index = 0
 # These are the same as in :ref:`tut_plot_evoked`
 
 hcp_evokeds = hcp.read_evokeds(onset='stim', subject=subject,
-                                   data_type=data_type, hcp_path=hcp_path)
+                               data_type=data_type, hcp_path=hcp_path)
 for evoked in hcp_evokeds:
     if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
