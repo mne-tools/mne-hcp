@@ -1,0 +1,192 @@
+name: test_suite
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+  create:
+    branches: [master]
+    tags: ['**']
+  schedule:
+    - cron: "0 4 * * *"
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - uses: actions/cache@v2
+      with:
+        path: ${{ env.pythonLocation }}
+        key: style-0-${{ env.pythonLocation }}-${{ hashFiles('setup.cfg') }}-${{ hashFiles('test_requirements.txt') }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pydocstyle flake8 check-manifest
+    - name: Display versions and environment information
+      run: |
+        python --version
+        which python
+    - name: Run style & documentation tests
+      run: make pep
+
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.7", "3.10"]  # Oldest and newest supported versions
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ env.pythonLocation }}
+        key: build-0-${{ env.pythonLocation }}-${{ hashFiles('setup.cfg') }}-${{ hashFiles('test_requirements.txt') }}
+
+    - name: Update pip, wheel, and setuptools
+      run: python -m pip install --upgrade pip wheel setuptools
+
+    - name: Build sdist
+      run: python setup.py sdist
+    - name: Install sdist
+      run: pip install ./dist/mne-hcp-*
+    - name: Clean up working directory
+      run: rm -rf ./*
+    - name: Try importing mne_hcp
+      run: python -c 'import hcp; print(hcp.__version__)'
+    - name: Remove sdist install
+      run: pip uninstall -y mne-hcp
+
+    - uses: actions/checkout@v2
+    - name: Build wheel
+      run: python setup.py bdist_wheel
+    - name: Install wheel
+      run: pip install ./dist/mne_hcp-*.whl
+    - name: Clean up working directory
+      run: rm -rf ./*
+    - name: Try importing mne_hcp
+      run: python -c 'import hcp; print(hcp.__version__)'
+    - name: Try cli mne_hcp
+      run: mne_hcp --version
+    - name: Remove wheel install
+      run: pip uninstall -y mne-hcp
+
+    - uses: actions/checkout@v2
+    - name: Test extras install
+      run: |
+        pip install .[full]
+        python -c 'import hcp; print(hcp.__version__)'
+
+  test:
+    timeout-minutes: 60
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04, ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.7", "3.10"]  # Oldest and newest supported versions
+        mne-version: [mne-stable]
+
+        include:
+          # Only test devel versions with Python 3.10
+          - os: ubuntu-latest
+            python-version: "3.10"
+            mne-version: mne-main
+
+    env:
+      TZ: Europe/Berlin
+      FORCE_COLOR: true
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Restore cache
+      # Restoring cache on Ubuntu 20.04 seems buggy
+      # only do it on other operating systems
+      # https://stackoverflow.com/q/61875869/5201771
+      if: "matrix.os != 'ubuntu-latest'"
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.pythonLocation }}
+        key: test-0-${{ env.pythonLocation }}-${{ hashFiles('setup.cfg') }}-${{ hashFiles('test_requirements.txt') }}
+
+    - name: Install Python dependencies using pip
+      run: |
+        python -m pip install --upgrade pip wheel
+        pip install -r test_requirements.txt
+
+    - name: Install MNE (stable)
+      if: "matrix.mne-version == 'mne-stable'"
+      run: |
+        git clone --depth 1 https://github.com/mne-tools/mne-python.git -b maint/0.24
+        pip install -e ./mne-python
+
+    - name: Install MNE (main)
+      if: "matrix.mne-version == 'mne-main'"
+      run: |
+        git clone --depth 1 https://github.com/mne-tools/mne-python.git -b main
+        pip install -e ./mne-python
+
+    - name: Display versions and environment information
+      run: |
+        echo $TZ
+        date
+        echo "python"; python --version
+        which python
+        mne sys_info
+
+    - name: Install mne-hcp
+      run: pip install -e .
+
+    - name: Download test data
+      run: |
+        s3cmd get s3://mne-hcp-testing-data/mne-hcp-testing.tar.gz $HOME/mne-hcp-data/
+        (cd $HOME/mne-hcp-data/ && tar -xvzf mne-hcp-testing.tar.gz)
+        find $HOME/mne-hcp-data/mne-hcp-testing/105923 -name "*" > output.txt
+        cat output.txt | wc -l
+        head output.txt
+
+    - name: Get Freesurfer minimal verion
+      run: |
+        pushd ~
+        wget --quiet http://faculty.washington.edu/larsoner/fsaverage_min.zip
+        mkdir subjects
+        cd subjects
+        unzip ../fsaverage_min.zip
+        cd ..
+        export SUBJECTS_DIR="${PWD}/subjects"
+        popd
+
+    - name: Run pytest
+      run: make test
+      shell: bash
+
+    - name: Upload coverage stats to codecov
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10' }}
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./coverage.xml
