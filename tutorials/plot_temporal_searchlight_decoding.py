@@ -21,8 +21,8 @@ import hcp
 from hcp import preprocessing as preproc
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import roc_auc_score
-from sklearn.cross_validation import StratifiedKFold
-from mne.decoding import GeneralizationAcrossTime
+from sklearn.model_selection import StratifiedKFold
+from mne.decoding import GeneralizingEstimator
 
 mne.set_log_level('WARNING')
 
@@ -78,8 +78,8 @@ y = LabelBinarizer().fit_transform(epochs.events[:, 2]).ravel()
 
 cv = StratifiedKFold(y=y)  # do a stratified cross-validation
 
-gat = GeneralizationAcrossTime(predict_mode='cross-validation', n_jobs=1,
-                               cv=cv, scorer=roc_auc_score)
+gat = GeneralizingEstimator(predict_mode='cross-validation', n_jobs=1,
+                            cv=cv, scorer=roc_auc_score)
 # fit and score
 gat.fit(epochs, y=y)
 gat.score(epochs)

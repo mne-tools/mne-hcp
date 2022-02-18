@@ -43,5 +43,3 @@ def test_anatomy():
     plt.close('all')
     mne.viz.plot_bem(subject=tconf.test_subject, subjects_dir=subjects_dir)
     plt.close('all')
-
-mne.utils.run_tests_if_main()

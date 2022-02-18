@@ -30,7 +30,7 @@ test:
 	@echo "Running tests"
 	@python -m pytest . \
 	--doctest-modules \
-	--cov=mne_hcp mne_hcp/tests/ mne_hcp/commands/tests/ \
+	--cov=mne_hcp hcp/tests/ \
 	--cov-report=xml \
 	--cov-config=setup.cfg \
 	--verbose \

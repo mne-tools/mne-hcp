@@ -95,5 +95,3 @@ def test_interpolate_missing():
     assert_equal(len(evoked.ch_names), 243)
     evoked_int = interpolate_missing(evoked, data_type=data_type, **hcp_params)
     assert_equal(len(evoked_int.ch_names), 248)
-
-mne.utils.run_tests_if_main()
