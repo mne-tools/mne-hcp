@@ -6,10 +6,11 @@
 Computing ERFs from HCP
 =======================
 
-In this tutorial we compare different ways of arriving at event related
-fields (ERF) starting from different HCP outputs. We will first reprocess
-the HCP dat from scratch, then read the preprocessed epochs, finally
-read the ERF files. Subsequently we will compare these outputs.
+In this tutorial, we compare different ways of arriving at the exact same event
+related fields (ERFs) but starting from different points on the HCP output
+pipeline. We will first reprocess the HCP dat from scratch, then read the
+preprocessed epochs, and finally read the fully processed ERF files.
+Subsequently, we will compare these outputs.
 """
 # Author: Denis A. Engemann
 # License: BSD 3 clause
@@ -36,14 +37,16 @@ hcp_params = dict(
 # We first reprocess the data from scratch
 #
 # That is, almost from scratch. We're relying on the ICA solutions and
-# data annotations.
+# data annotations from the preprocessed data.
 #
 # In order to arrive at the final ERF we need to pool over two runs.
-# for each run we need to read the raw data, all annotations, apply
+# For each run we need to read the raw data and all annotations, apply
 # the reference sensor compensation, the ICA, bandpass filter, baseline
-# correction and decimation (downsampling)
+# correction and decimation (downsampling).
 
-# these values are looked up from the HCP manual
+# These values were looked up from the HCP manual online.
+# See pg. 133 of the HCP_S500+MEG2 Release Reference Manual:
+# http://www.humanconnectome.org/documentation/S500/HCP_S500+MEG2_Release_Reference_Manual.pdf
 tmin, tmax = -1.5, 2.5
 decim = 4
 event_id = dict(face=1)
@@ -56,15 +59,15 @@ for run_index in [0, 1]:
     trial_infos.append(trial_info)
 
 
-# trial_info is a dict
-# it contains a 'comments' vector that maps on the columns of 'codes'
-# 'codes is a matrix with its length corresponding to the number of trials
+# trial_info is a dict that contains a 'comments' vector that maps on the
+# columns of 'codes'
+# 'codes' is a matrix with its length corresponding to the number of trials
 print(trial_info['stim']['comments'][:10])  # which column?
 print(set(trial_info['stim']['codes'][:, 3]))  # check values
 
-# so according to this we need to use the column 7 (index 6)
-# for the time sample and column 4 (index 3) to get the image types
-# with this information we can construct our event vectors
+# So according to this, we need to use the column 7 (index 6)
+# for the time sample, and column 4 (index 3) to get the image types.
+# With this information, we can construct our event vectors.
 
 all_events = list()
 for trial_info in trial_infos:
@@ -80,7 +83,7 @@ for trial_info in trial_infos:
 
     all_events.append(events)
 
-# now we can go ahead
+# Now we can go ahead and process the raw data.
 evokeds = list()
 for run_index, events in zip([0, 1], all_events):
 
@@ -106,7 +109,7 @@ for run_index, events in zip([0, 1], all_events):
     raw.filter(None, 60, method='iir',
                iir_params=dict(order=4, ftype='butter'), n_jobs=1)
 
-    # read ICA and remove EOG ECG
+    # read ICA and remove EOG/ECG artifacts
     # note that the HCP ICA assumes that bad channels have already been removed
     ica_mat = hcp.read_ica(run_index=run_index, **hcp_params)
 
@@ -114,8 +117,10 @@ for run_index, events in zip([0, 1], all_events):
     exclude = annots['ica']['ecg_eog_ic']
     preproc.apply_ica_hcp(raw, ica_mat=ica_mat, exclude=exclude)
 
+    # Sort events by timestamp
+    events = events[np.argsort(events[:, 0], axis=0)]
+
     # now we can epoch
-    events = np.sort(events, 0)
     epochs = mne.Epochs(raw, events=events[events[:, 2] == 1],
                         event_id=event_id, tmin=tmin, tmax=tmax,
                         reject=None, baseline=baseline, decim=decim,
@@ -128,7 +133,8 @@ for run_index, events in zip([0, 1], all_events):
     del epochs, raw
 
 ##############################################################################
-# Now we can compute the same ERF based on the preprocessed epochs
+# Now we can compute the same ERF based on the epochs preprocessed by the HCP
+# folks.
 #
 # These are obtained from the 'tmegpreproc' pipeline.
 # Things are pythonized and simplified however, so
@@ -164,12 +170,12 @@ for run_index, events in zip([0, 1], all_events):
 
 
 ##############################################################################
-# Finally we can read the actual official ERF file
+# Finally, we can read the (completely processed) official ERF file
 #
 # These are obtained from the 'eravg' pipelines.
 # We read the matlab file, MNE-HCP is doing some conversions, and then we
 # search our condition of interest. Here we're looking at the image as onset.
-# and we want the average, not the standard deviation.
+# We want the average, not the standard deviation.
 
 evoked_hcp = None
 hcp_evokeds = hcp.read_evokeds(onset='stim', **hcp_params)
