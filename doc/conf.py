@@ -73,14 +73,15 @@ html_theme = "bootstrap"
 html_title = project
 html_show_sourcelink = False
 html_theme_options = {
-    'navbar_sidebarrel': False,
-    'navbar_links': [
-        ("Examples", "auto_examples/index"),
-        ("Tutorials", "auto_tutorials/index"),
+    "navbar_pagenav": False,
+    "navbar_sidebarrel": False,
+    "navbar_links": [
+        ("Examples", "generated/examples/index"),
+        ("Tutorials", "generated/tutorials/index"),
         ("API", "python_reference"),
         ("GitHub", "https://github.com/mne-tools/mne-hcp", True)
     ],
-    'bootswatch_theme': "cosmo"
+    "bootswatch_theme": "cosmo"
 }
 
 # -- autosummary -----------------------------------------------------------------------
