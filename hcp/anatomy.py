@@ -41,7 +41,9 @@ def make_mne_anatomy(
     subject : str
         The subject name.
     subjects_dir : str
-        The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
+        The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created).
+    recordings_path : str
+        The path to the recordings where the transformation files are written.
     hcp_path : str
         The path where the HCP files can be found.
     outputs : ``'label'`` | ``'mri'`` | ``'stats'`` | ``'surf'`` | ``'touch'``

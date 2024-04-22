@@ -78,7 +78,7 @@ def get_s3_keys_meg(
     ----------
     subject : str
         The subject, a 6 digit code.
-    data_type : str | tuple of str | list of str
+    data_types : str | tuple of str | list of str
         The acquisition context of the data. The following ones are supported:
 
         * ``'rest'``
@@ -97,17 +97,17 @@ def get_s3_keys_meg(
         * ``'trial_info'``
         * ``'freesurfer'``
         * ``'meg_anatomy'``
-    onsets : ``'stim'`` | ``'resp'`` | ``'sentence'`` | ``'block'`` | list | tuple
-        The event onsets. Only considered for epochs and evoked outputs
-        The mapping is generous, everything that is not a response is a
-        stimulus, in the sense of internal or external events. sentence and
-        block are specific to task_story_math. Can be a collection of those.
     run_inds : int | list of int | tuple of int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
         type.
     hcp_path_bucket : str
         The S3 bucket path. Will be prepended to each file path.
+    onsets : ``'stim'`` | ``'resp'`` | ``'sentence'`` | ``'block'`` | list | tuple
+        The event onsets. Only considered for epochs and evoked outputs
+        The mapping is generous, everything that is not a response is a
+        stimulus, in the sense of internal or external events. sentence and
+        block are specific to task_story_math. Can be a collection of those.
 
     Returns
     -------

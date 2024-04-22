@@ -47,9 +47,9 @@ def plot_coregistration(
     Parameters
     ----------
     subject : str
-        The subject
+        The subject.
     subjects_dir : str
-        The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
+        The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created).
     hcp_path : str
         The path where the HCP files can be found.
     recordings_path : str
@@ -63,7 +63,7 @@ def plot_coregistration(
         are smaller than 12 digits, hence negligible.
     view_init : tuple of tuples | dict
         The initival view, defaults to azimuth and elevation of 0,
-        a simple lateral view
+        a simple lateral view.
 
     Returns
     -------

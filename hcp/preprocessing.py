@@ -39,16 +39,17 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     """Apply the HCP ICA.
 
     .. note::
+
        Operates in place and data must be loaded.
 
     Parameters
     ----------
     raw : instance of Raw
-        the hcp raw data.
-    ica_mat : numpy structured array
+        The hcp raw data.
+    ica_mat : array
         The hcp ICA solution
     exclude : array-like
-        the components to be excluded.
+        The components to be excluded.
     """
     if not raw.preload:
         raise RuntimeError("raw data must be loaded, use raw.load_data()")
