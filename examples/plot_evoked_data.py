@@ -47,5 +47,5 @@ preproc.map_ch_coords_to_mne(evoked_viz)
 evoked_viz.plot_joint()
 
 # %%
-# For subsequent analyses we would use `evoked` not `evoked_viz`.
+# For subsequent analyses we would use ``evoked`` not ``evoked_viz``.
 # See also :ref:`tut_compute_inverse_erf` to see how the story continues.

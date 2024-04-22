@@ -302,7 +302,7 @@ def read_epochs(
     onset : ``'stim'`` | ``'resp'`` | ``'sentence'`` | ``'block'``
         The event onset. The mapping is generous, everything that is not a
         response is a stimulus, in the sense of internal or external events.
-        `sentence` and `block` are specific to task_story_math.
+        ``sentence`` and ``block`` are specific to ``task_story_math``.
     run_index : int
         The run index. For the first run, use ``0``, for the second, use ``1``.
         Also see HCP documentation for the number of runs for a given data

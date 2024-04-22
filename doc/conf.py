@@ -136,8 +136,6 @@ numpydoc_xref_ignore = {
     "MNE",
     "containers",
     "file_map",
-    "sentence",
-    "block",
 }
 
 # validation
