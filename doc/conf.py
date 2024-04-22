@@ -119,6 +119,7 @@ numpydoc_xref_aliases = {
     "Epochs": "mne.Epochs",
     "Evoked": "mne.Evoked",
     "Forward": "mne.Forward",
+    "Layout": "mne.channels.Layout",
     "Info": "mne.Info",
     "Projection": "mne.Projection",
     "Raw": "mne.io.Raw",

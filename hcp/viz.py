@@ -11,16 +11,16 @@ from .io import read_info
 
 
 def make_hcp_bti_layout(info):
-    """Get Layout of HCP Magnes3600WH data
+    """Get Layout of HCP Magnes3600WH data.
 
     Parameters
     ----------
-    info : mne.io.meas_info.Info
+    info : Info
         The measurement info.
 
     Returns
     -------
-    lout : mne.channels.Layout
+    lout : Layout
         The layout that can be used for plotting.
     """
     picks = list(range(248))
@@ -42,7 +42,7 @@ def plot_coregistration(
     info_from=(("data_type", "rest"), ("run_index", 0)),
     view_init=(("azim", 0), ("elev", 0)),
 ):
-    """A diagnostic plot to show the HCP coregistration
+    """Plot diagnostic to show the HCP coregistration.
 
     Parameters
     ----------
@@ -67,7 +67,7 @@ def plot_coregistration(
 
     Returns
     -------
-    fig : matplotlib.figure.Figure
+    fig : Figure
         The figure object.
     """
     import matplotlib.pyplot as plt
@@ -79,7 +79,7 @@ def plot_coregistration(
         view_init = dict(view_init)
 
     head_mri_t = read_trans(
-        op.join(recordings_path, subject, "{}-head_mri-trans.fif".format(subject))
+        op.join(recordings_path, subject, f"{subject}-head_mri-trans.fif")
     )
 
     info = read_info(subject=subject, hcp_path=hcp_path, **info_from)

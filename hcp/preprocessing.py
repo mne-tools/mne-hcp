@@ -68,7 +68,7 @@ def apply_ica_hcp(raw, ica_mat, exclude):
 
 
 def apply_ref_correction(raw, decim_fit=100):
-    """Regress out MEG ref channels.
+    """Regresses out MEG ref channels.
 
     Computes linear models from MEG reference channels
     on each sensors, predicts the MEG data and subtracts
@@ -161,12 +161,12 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
         * ``'task_working_memory'``
         * ``'noise_empty_room'``
         * ``'noise_subject'``
+    hcp_path : str
+        The HCP directory, defaults to op.curdir.
     run_index : int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
         type.
-    hcp_path : str
-        The HCP directory, defaults to op.curdir.
     mode : str
         Either ``'accurate'`` or ``'fast'``, determines the quality of the
         Legendre polynomial expansion used for interpolation of MEG

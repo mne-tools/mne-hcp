@@ -7,7 +7,7 @@ def get_s3_keys_anatomy(
     meg_anatomy_outputs=("head_model", "transforms"),
     hcp_path_bucket="HCP_900",
 ):
-    """Helper to prepare AWS downloads for anatomy data
+    """Helper to prepare AWS downloads for anatomy data.
 
     A helper function useful for working with Amazon EC2 and S3.
     It compiles a list of related files.
@@ -22,10 +22,10 @@ def get_s3_keys_anatomy(
         The subject, a 6 digit code.
     freesurfer_outputs : str | list | tuple
         The Freesurfer outputs to be downloaded. Defaults to
-        `('label', 'mri', 'surf')`.
+        ``('label', 'mri', 'surf')``.
     meg_anatomy_outputs : str | list | tuple
         The MEG anatomy contents to download. Defaults to
-        `('head_model', 'transforms')`.
+        ``('head_model', 'transforms')``.
     hcp_path_bucket : str
         The S3 bucket path. Will be prepended to each file path.
 
@@ -64,12 +64,13 @@ def get_s3_keys_meg(
     hcp_path_bucket="HCP_900",
     onsets="stim",
 ):
-    """Helper to prepare AWS downloads for MEG data
+    """Helper to prepare AWS downloads for MEG data.
 
     A helper function useful for working with Amazon EC2 and S3.
     It compiles a list of related files.
 
     .. note::
+
         This function does not download anything.
         It only facilitates downloading by compiling the content.
 
@@ -79,22 +80,24 @@ def get_s3_keys_meg(
         The subject, a 6 digit code.
     data_type : str | tuple of str | list of str
         The acquisition context of the data. The following ones are supported:
-        'rest'
-        'noise'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
+
+        * ``'rest'``
+        * ``'noise'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
     outputs : str | tuple of str | list of str
         The kind of output. The following ones are supported:
-        'raw'
-        'epochs'
-        'evoked'
-        'ica'
-        'annotations'
-        'trial_info'
-        'freesurfer'
-        'meg_anatomy'
-    onsets : {'stim', 'resp', 'sentence', 'block'} | list | tuple
+
+        * ``'raw'``
+        * ``'epochs'``
+        * ``'evoked'``
+        * ``'ica'``
+        * ``'annotations'``
+        * ``'trial_info'``
+        * ``'freesurfer'``
+        * ``'meg_anatomy'``
+    onsets : ``'stim'`` | ``'resp'`` | ``'sentence'`` | ``'block'`` | list | tuple
         The event onsets. Only considered for epochs and evoked outputs
         The mapping is generous, everything that is not a response is a
         stimulus, in the sense of internal or external events. sentence and
