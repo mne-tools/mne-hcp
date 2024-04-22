@@ -171,7 +171,7 @@ run_map = {
 
 
 def _map_onset(onset, data_type, output):
-    """Helper to resolve stim and resp according to context"""
+    """Helper to resolve stim and resp according to context."""
     out = onset
     if data_type == "task_working_memory":
         out = {"stim": "TIM", "resp": "TRESP"}[onset]
@@ -187,7 +187,7 @@ def _map_onset(onset, data_type, output):
 
 
 def _map_diff_mode(condition, data_type):
-    """Helper to resolve diff mode according to context"""
+    """Helper to resolve diff mode according to context."""
     diff_mode = "[BT-diff]"
     if "versus" in condition:
         diff_mode = "[OP-diff]_[BT-diff]"

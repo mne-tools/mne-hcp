@@ -84,6 +84,6 @@ del epochs_hcp
 # gat.score(epochs)
 
 ##############################################################################
-# Ploting the temporal connectome and the evolution of discriminability.
+# Plotting the temporal connectome and the evolution of discriminability.
 # gat.plot()
 # gat.plot_diagonal()

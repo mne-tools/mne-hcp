@@ -7,7 +7,7 @@ Extract essential anatomy information
 
 The HCP anatomy data needed for MNE based source analysis
 Live in different places and subfolders.
-MNE-HCP has a convenience function that exctracts the required
+MNE-HCP has a convenience function that extracts the required
 files and information and creates a "subjects_dir" as known from
 MNE and freesurfer.
 

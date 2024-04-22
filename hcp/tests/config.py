@@ -50,13 +50,13 @@ epochs_bounds = {
 
 
 def nottest(f):
-    """Decorator to mark a function as not a test"""
+    """Decorator to mark a function as not a test."""
     f.__test__ = False
     return f
 
 
 @nottest
 def expensive_test(f):
-    """Decorator for expensive testing"""
+    """Decorator for expensive testing."""
     f.expensive_test = True
     return f

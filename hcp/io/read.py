@@ -74,14 +74,14 @@ _time_lock_mapping = dict(
 
 
 def _parse_trans(string):
-    """helper to parse transforms"""
+    """Helper to parse transforms."""
     return np.array(
         string.replace("\n", "").strip("[] ").split(" "), dtype=float
     ).reshape(4, 4)
 
 
 def _parse_hcp_trans(fid, transforms, convert_to_meter):
-    """ "another helper"""
+    """Another helper."""
     contents = fid.read()
     for trans in contents.split(";"):
         if "filename" in trans or trans == "\n":
@@ -96,7 +96,8 @@ def _parse_hcp_trans(fid, transforms, convert_to_meter):
 
 
 def _read_trans_hcp(fname, convert_to_meter):
-    """Read + parse transforms
+    """Read and parse transforms.
+
     subject_MEG_anatomy_transform.txt
     """
     transforms = dict()
@@ -106,7 +107,7 @@ def _read_trans_hcp(fname, convert_to_meter):
 
 
 def _read_landmarks_hcp(fname):
-    """XXX parse landmarks currently not used"""
+    """XXX parse landmarks currently not used."""
     out = dict()
     with open(fname) as fid:
         for line in fid:
@@ -124,7 +125,7 @@ def _read_landmarks_hcp(fname):
 
 
 def _get_head_model(head_model_fname):
-    """helper to parse head model from matfile"""
+    """Helper to parse head model from matfile."""
     head_mat = scio.loadmat(head_model_fname, squeeze_me=False)
     pnts = head_mat["headmodel"]["bnd"][0][0][0][0][0]
     faces = head_mat["headmodel"]["bnd"][0][0][0][0][1]
@@ -133,7 +134,7 @@ def _get_head_model(head_model_fname):
 
 
 def _read_bti_info(raw_fid, config):
-    """helper to only access bti info from pdf file"""
+    """Helper to only access bti info from pdf file."""
     info, bti_info = _get_bti_info(
         pdf_fname=raw_fid,
         config_fname=config,
@@ -150,7 +151,7 @@ def _read_bti_info(raw_fid, config):
 
 
 def _check_raw_config_runs(raws, configs):
-    """XXX this goes to tests later, currently not used"""
+    """XXX this goes to tests later, currently not used."""
     for raw, config in zip(raws, configs):
         assert op.split(raw)[0] == op.split(config)[0]
     run_str = set([configs[0].split("/")[-3]])
@@ -159,7 +160,7 @@ def _check_raw_config_runs(raws, configs):
 
 
 def _check_infos_trans(infos):
-    """XXX this goes to tests later, currently not used"""
+    """XXX this goes to tests later, currently not used."""
     chan_max_idx = np.argmax([c["nchan"] for c in infos])
     chan_template = infos[chan_max_idx]["ch_names"]
     channels = [c["ch_names"] for c in infos]
@@ -344,7 +345,7 @@ def read_epochs(
 
 
 def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
-    """read the epochs from matfile"""
+    """Read the epochs from matfile."""
     data = scio.loadmat(epochs_mat_fname, squeeze_me=True)["data"]
     ch_names = [ch for ch in data["label"].tolist()]
     info["sfreq"] = data["fsample"].tolist()
@@ -404,7 +405,6 @@ def read_trial_info(subject, data_type, run_index=0, hcp_path=op.curdir):
     trial_info : dict
         The trial info including event labels, indices and times.
     """
-
     trial_info_mat_fname = get_file_paths(
         subject=subject,
         data_type=data_type,
@@ -418,7 +418,7 @@ def read_trial_info(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def _read_trial_info(trial_info_mat_fname):
-    """helper to read trial info"""
+    """Helper to read trial info."""
     # XXX FIXME index -1
     data = scio.loadmat(trial_info_mat_fname, squeeze_me=True)["trlInfo"]
     out = dict()
@@ -434,7 +434,7 @@ def _read_trial_info(trial_info_mat_fname):
 
 
 def _check_sorting_runs(candidates, id_char):
-    """helper to ensure correct run-parsing and mapping"""
+    """Helper to ensure correct run-parsing and mapping."""
     run_idx = [f.find(id_char) for f in candidates]
     for config, idx in zip(candidates, run_idx):
         assert config[idx - 1].isdigit()
@@ -563,7 +563,7 @@ def read_ica(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def _parse_annotations_bad_channels(bads_strings):
-    """Read bad channel definitions from text file"""
+    """Read bad channel definitions from text file."""
     for char in "}]":
         bads_strings = bads_strings.replace(char + ";", "splitme")
     split = bads_strings.split("splitme")

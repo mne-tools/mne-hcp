@@ -157,7 +157,7 @@ def compute_forward_stack(
     n_jobs=1,
     verbose=None,
 ):
-    """Convenience function for conducting standard MNE analyses.
+    """Conduct standard MNE analyses.
 
     .. note::
 
@@ -276,7 +276,7 @@ def compute_forward_stack(
 
 
 def _update_dict_defaults(values, defaults):
-    """Helper to handle dict updates"""
+    """Helper to handle dict updates."""
     out = {k: v for k, v in defaults.items()}
     if isinstance(values, dict):
         out.update(values)

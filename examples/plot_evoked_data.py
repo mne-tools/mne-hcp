@@ -5,7 +5,7 @@
 Visualize evoked data
 =====================
 
-Here we'll generate some attention for pecularities of visualizing the
+Here we'll generate some attention for peculiarities of visualizing the
 HCP evoked outputs using MNE plotting functions.
 """
 # Author: Denis A. Engemann

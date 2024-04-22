@@ -20,7 +20,6 @@ author = "Denis A. Engemann"
 copyright = f"{date.today().year}, {author}"
 release = hcp.__version__
 package = hcp.__name__
-gh_url = "https://github.com/mscheltienne/template-python"
 
 # -- general configuration -------------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
