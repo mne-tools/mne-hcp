@@ -1,20 +1,17 @@
 # Author: Denis A. Engemann <denis.engemann@gmail.com>
 # License: BSD (3-clause)
 
-from . import viz
-from . import preprocessing
-from . import anatomy
-from .anatomy import make_mne_anatomy, compute_forward_stack
-from . import tests
+from . import anatomy, preprocessing, tests, viz
+from .anatomy import compute_forward_stack, make_mne_anatomy
+from .io import (
+    file_mapping,
+    read_annot,
+    read_epochs,
+    read_evokeds,
+    read_ica,
+    read_info,
+    read_raw,
+    read_trial_info,
+)
 
-from .io import read_raw
-from .io import read_epochs
-from .io import read_evokeds
-from .io import read_info
-from .io import read_annot
-from .io import read_ica
-from .io import read_trial_info
-
-from .io import file_mapping
-
-__version__ = '0.1.dev12'
+__version__ = "0.1.dev12"

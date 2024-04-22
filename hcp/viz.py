@@ -1,12 +1,11 @@
 import os.path as op
 
-import numpy as np
-
 import mne
-from mne.io.pick import _pick_data_channels, pick_info
-from mne import read_trans, read_surface
+import numpy as np
+from mne import read_surface, read_trans
+from mne._fiff.pick import _pick_data_channels, pick_info
+from mne.channels.layout import _find_topomap_coords
 from mne.transforms import apply_trans
-from mne.viz.topomap import _find_topomap_coords
 
 from .io import read_info
 
@@ -27,14 +26,22 @@ def make_hcp_bti_layout(info):
     picks = list(range(248))
     pos = _find_topomap_coords(info, picks=picks)
     return mne.channels.layout.Layout(
-        box=(-42.19, 43.52, -41.7, 28.71), pos=pos,
-        names=[info['ch_names'][idx] for idx in picks], ids=picks,
-        kind='magnesWH3600_hcp')
+        box=(-42.19, 43.52, -41.7, 28.71),
+        pos=pos,
+        names=[info["ch_names"][idx] for idx in picks],
+        ids=picks,
+        kind="magnesWH3600_hcp",
+    )
 
 
-def plot_coregistration(subject, subjects_dir, hcp_path, recordings_path,
-                        info_from=(('data_type', 'rest'), ('run_index', 0)),
-                        view_init=(('azim', 0), ('elev', 0))):
+def plot_coregistration(
+    subject,
+    subjects_dir,
+    hcp_path,
+    recordings_path,
+    info_from=(("data_type", "rest"), ("run_index", 0)),
+    view_init=(("azim", 0), ("elev", 0)),
+):
     """A diagnostic plot to show the HCP coregistration
 
     Parameters
@@ -64,7 +71,7 @@ def plot_coregistration(subject, subjects_dir, hcp_path, recordings_path,
         The figure object.
     """
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D  #  noqa
+    from mpl_toolkits.mplot3d import Axes3D  # noqa
 
     if isinstance(info_from, tuple):
         info_from = dict(info_from)
@@ -72,23 +79,22 @@ def plot_coregistration(subject, subjects_dir, hcp_path, recordings_path,
         view_init = dict(view_init)
 
     head_mri_t = read_trans(
-        op.join(recordings_path, subject,
-                '{}-head_mri-trans.fif'.format(subject)))
+        op.join(recordings_path, subject, "{}-head_mri-trans.fif".format(subject))
+    )
 
     info = read_info(subject=subject, hcp_path=hcp_path, **info_from)
 
     info = pick_info(info, _pick_data_channels(info, with_ref_meg=False))
-    sens_pnts = np.array([c['loc'][:3] for c in info['chs']])
+    sens_pnts = np.array([c["loc"][:3] for c in info["chs"]])
     sens_pnts = apply_trans(head_mri_t, sens_pnts)
     sens_pnts *= 1e3  # put in mm scale
 
-    pnts, tris = read_surface(
-        op.join(subjects_dir, subject, 'bem', 'inner_skull.surf'))
+    pnts, tris = read_surface(op.join(subjects_dir, subject, "bem", "inner_skull.surf"))
 
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(*sens_pnts.T, color='purple', marker='o')
-    ax.scatter(*pnts.T, color='green', alpha=0.3)
+    ax = fig.add_subplot(111, projection="3d")
+    ax.scatter(*sens_pnts.T, color="purple", marker="o")
+    ax.scatter(*pnts.T, color="green", alpha=0.3)
     ax.view_init(**view_init)
     fig.tight_layout()
     return fig
