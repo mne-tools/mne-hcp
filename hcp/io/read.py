@@ -87,7 +87,7 @@ def _parse_hcp_trans(fid, transforms, convert_to_meter):
         if "filename" in trans or trans == "\n":
             continue
         key, trans = trans.split(" = ")
-        key = key.lstrip("\ntransform.")
+        key = key.removeprefix("\ntransform.")
         transforms[key] = _parse_trans(trans)
         if convert_to_meter:
             transforms[key][:3, 3] *= 1e-3  # mm to m
@@ -218,7 +218,7 @@ def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir, verbose=None):
         run_index=run_index,
         hcp_path=hcp_path,
     )
-    return read_raw_bti(  # no convrt + no rename for HCP compatibility
+    return read_raw_bti(  # no convert + no rename for HCP compatibility
         pdf,
         config,
         convert=False,
@@ -444,7 +444,7 @@ def _check_sorting_runs(candidates, id_char):
 
 
 def _parse_annotations_segments(segment_strings):
-    """Read bad segments defintions from text file."""
+    """Read bad segments definitions from text file."""
     for char in "}]":  # multi line array definitions
         segment_strings = segment_strings.replace(char + ";", "splitme")
     split = segment_strings.split("splitme")

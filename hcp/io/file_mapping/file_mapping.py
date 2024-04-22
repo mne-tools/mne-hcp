@@ -252,7 +252,7 @@ def get_file_paths(
     if data_type not in kind_map:
         raise ValueError(
             f"I never heard of `{data_type}` -- are you sure this is a valid HCP type? "
-            f"I currenlty support:\n{" \n".join([k for k in kind_map if "_" in k])}"
+            f"I currently support:\n{" \n".join([k for k in kind_map if "_" in k])}"
         )
     context = "rmeg" if "rest" in data_type else "tmeg"
     sensor_mode = evoked_map["modes"][sensor_mode]

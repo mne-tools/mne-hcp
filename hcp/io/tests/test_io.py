@@ -231,6 +231,6 @@ def test_read_trial_info():
             assert_true("stim" in trial_info)
             assert_true("resp" in trial_info)
             assert_equal(2, len(trial_info))
-            for key, val in trial_info.items():
+            for val in trial_info.values():
                 assert_array_equal(np.ndim(val["comments"]), 1)
                 assert_array_equal(np.ndim(val["codes"]), 2)
