@@ -368,7 +368,7 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     epochs = EpochsArray(data=data, info=this_info, events=events, tmin=times.min())
     # XXX hack for now due to issue with EpochsArray constructor
     # cf https://github.com/mne-tools/mne-hcp/issues/9
-    epochs.times = times
+    epochs._times = times
     return epochs
 
 
@@ -516,7 +516,7 @@ def read_annot(subject, data_type, run_index=0, hcp_path=op.curdir):
     ]
 
     for subtype, fun, fname in iter_fun:
-        with open(fname, "r") as fid:
+        with open(fname) as fid:
             out[subtype] = fun(fid.read())
 
     return out
