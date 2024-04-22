@@ -68,7 +68,6 @@ full = [
   'mne-hcp[all]',
 ]
 style = [
-  'codespell[toml]>=2.2.4',
   'isort',
   'pydocstyle[toml]',
   'ruff>=0.1.8',
@@ -85,12 +84,6 @@ test = [
 documentation = 'https://mne.tools/mne-hcp/'
 source = 'http://github.com/mne-tools/mne-hcp'
 tracker = 'http://github.com/mne-tools/mne-hcp/issues'
-
-[tool.codespell]
-check-filenames = true
-check-hidden = true
-ignore-words = '.codespellignore'
-skip = 'build,.git,.mypy_cache,.pytest_cache'
 
 [tool.coverage.report]
 exclude_lines = [
