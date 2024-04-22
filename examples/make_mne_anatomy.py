@@ -23,14 +23,14 @@ This function is your friend prior to running any source analysis.
 # License: BSD 3 clause
 
 import os.path as op
-import hcp
-storage_dir = op.expanduser('~/mne-hcp-data')
+
+storage_dir = op.expanduser("~/mne-hcp-data")
 
 # This is where the data are after downloading from HCP
-hcp_path = storage_dir + '/HCP'
+hcp_path = storage_dir + "/HCP"
 
 # this is the new directory to be created
-subjects_dir = storage_dir + '/hcp-subjects'
+subjects_dir = storage_dir + "/hcp-subjects"
 
 # it will make the subfolders 'bem', 'mir', 'surf' and 'label'
 # and populate it with symbolic links if possible and write some files
@@ -38,7 +38,7 @@ subjects_dir = storage_dir + '/hcp-subjects'
 
 # this is where the coregistration matrix is written as
 # `105923-head_mri-transform.fif`
-recordings_path = storage_dir + '/hcp-meg'
+recordings_path = storage_dir + "/hcp-meg"
 
 # comment out to write files on your disk
 # hcp.make_mne_anatomy(
