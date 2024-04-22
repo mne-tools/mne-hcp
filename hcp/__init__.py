@@ -13,5 +13,3 @@ from .io import (
     read_raw,
     read_trial_info,
 )
-
-__version__ = "0.1.dev12"
