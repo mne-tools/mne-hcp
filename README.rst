@@ -91,7 +91,7 @@ Dependencies
 
 The following main and additional dependencies are required to use MNE-HCP:
 
-    - MNE-Python master branch
+    - MNE-Python
     - the MNE-Python dependencies, specifically
         - scipy
         - numpy

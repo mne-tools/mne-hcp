@@ -1,0 +1,157 @@
+[build-system]
+build-backend = 'setuptools.build_meta'
+requires = ['setuptools >= 64.0.0']
+
+[project]
+authors = [
+  {email = 'denis.engemann@gmail.com', name = 'Denis A. Engemann'},
+]
+classifiers = [
+  'License :: OSI Approved :: MIT License',
+  'Natural Language :: English',
+  'Operating System :: MacOS',
+  'Operating System :: Microsoft :: Windows',
+  'Operating System :: Unix',
+  'Programming Language :: Python :: 3 :: Only',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
+  'Programming Language :: Python :: 3.9',
+]
+dependencies = [
+  'matplotlib',
+  'mne',
+  'numpy>=1.21',
+  'scikit-learn',
+  'scipy',
+]
+description = 'MNE HCP project for accessing the human connectome MEG data in Python.'
+keywords = [
+  'python',
+  'mne',
+  'hcp',
+]
+license = {file = 'LICENSE'}
+maintainers = [
+  {email = 'denis.engemann@gmail.com', name = 'Denis A. Engemann'},
+  {email = 'mathieu.scheltienne@fcbg.ch', name = 'Mathieu Scheltienne'},
+]
+name = 'mne-hcp'
+readme = 'README.rst'
+requires-python = '>=3.9'
+version = '0.1.0'
+
+[project.optional-dependencies]
+all = [
+  'mne-hcp[build]',
+  'mne-hcp[style]',
+  'mne-hcp[test]',
+]
+build = [
+  'build',
+  'twine',
+]
+full = [
+  'template[all]',
+]
+style = [
+  'codespell[toml]>=2.2.4',
+  'isort',
+  'pydocstyle[toml]',
+  'ruff>=0.1.8',
+  'toml-sort',
+  'yamllint',
+]
+test = [
+  'pytest-cov',
+  'pytest-timeout',
+  'pytest>=8.0',
+]
+
+[project.urls]
+documentation = 'https://mne.tools/mne-hcp/'
+source = 'http://github.com/mne-tools/mne-hcp'
+tracker = 'http://github.com/mne-tools/mne-hcp/issues'
+
+[tool.codespell]
+check-filenames = true
+check-hidden = true
+ignore-words = '.codespellignore'
+skip = 'build,.git,.mypy_cache,.pytest_cache'
+
+[tool.coverage.report]
+exclude_lines = [
+  'if __name__ == .__main__.:',
+  'if TYPE_CHECKING:',
+  'pragma: no cover',
+]
+precision = 2
+
+[tool.coverage.run]
+branch = true
+cover_pylib = false
+omit = [
+  '**/__init__.py',
+  '**/hcp/_version.py',
+  '**/tests/**',
+]
+
+[tool.isort]
+extend_skip_glob = [
+  'doc/*',
+  'examples/*',
+  'tutorials/*',
+]
+line_length = 88
+multi_line_output = 3
+profile = 'black'
+py_version = 39
+
+[tool.pydocstyle]
+add_ignore = 'D100,D104,D107'
+convention = 'numpy'
+ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot|Slot)'
+match = '^(?!__init__|test_).*\.py'
+match-dir = '^hcp.*'
+
+[tool.pytest.ini_options]
+addopts = '--durations 20 --junit-xml=junit-results.xml --verbose'
+minversion = '8.0'
+
+[tool.ruff]
+extend-exclude = [
+  'doc',
+]
+line-length = 88
+target-version = 'py39'
+
+[tool.ruff.format]
+docstring-code-format = true
+line-ending = "lf"
+
+[tool.ruff.lint]
+ignore = []
+select = ['A', 'B', 'E', 'F', 'UP', 'W']
+
+[tool.ruff.lint.per-file-ignores]
+'*' = [
+  'B904', # 'Within an except clause, raise exceptions with raise ... from ...'
+  'UP007', # 'Use `X | Y` for type annotations', requires python 3.10
+]
+'*.pyi' = ['E501']
+'__init__.py' = ['F401']
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.package-data]
+"hcp.io.file_mapping" = ["data/*.txt"]
+
+[tool.setuptools.packages.find]
+exclude = ['hcp*tests']
+include = ['hcp*']
+
+[tool.tomlsort]
+all = true
+ignore_case = true
+trailing_comma_inline_array = true
