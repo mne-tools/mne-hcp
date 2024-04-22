@@ -53,50 +53,24 @@ but is getting closer to a stable release.
     For now please consider the following caveats:
 
     - We only intend to support a subset of the files shipped with HCP.
-    - Specifically, for now it is not planned to support io and processing for any outputs of the HCP source space pipelines.
-    - This library breaks with some of MNE conventions in order to make the HCP outputs compatible with MNE.
+    - Specifically, for now it is not planned to support io and processing for any
+      outputs of the HCP source space pipelines.
+    - This library breaks with some of MNE conventions in order to make the HCP outputs
+      compatible with MNE.
 
 Installation
 ============
 
-We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_, which comes with the necessary dependencies. Alternatively, to install ``mne-hcp``, you first need to install its dependencies::
+We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_,
+which comes with the necessary dependencies. You can install ``mne-hcp``, from source::
 
-	$ pip install numpy matplotlib scipy scikit-learn mne joblib pandas
-
-Then clone the repository::
-
-	$ git clone http://github.com/mne-tools/mne-hcp
-
-and finally run `setup.py` to install the package::
-
-	$ cd mne-hcp/
-	$ python setup.py install
-
-If you do not have admin privileges on the computer, use the ``--user`` flag
-with `setup.py`.
-
-Alternatively, for a devoloper install based on symbolic links (which simplifies keeping up with code changes), do::
-
-	$ cd mne-hcp/
-	$ python setup.py develop
+	$ pip install git+http://github.com/mne-tools/mne-hcp
 
 To check if everything worked fine, you can do::
 
 	$ python -c 'import hcp'
 
 and it should not give any error messages.
-
-Dependencies
-------------
-
-The following main and additional dependencies are required to use MNE-HCP:
-
-    - MNE-Python
-    - the MNE-Python dependencies, specifically
-        - scipy
-        - numpy
-        - matplotlib
-    - scikit-learn (optional)
 
 Quickstart
 ==========
