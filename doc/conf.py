@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 # -- project information ---------------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "MNE-HCP"
+project = "mne-hcp"
 author = "Denis A. Engemann"
 copyright = f"{date.today().year}, {author}"
 release = hcp.__version__

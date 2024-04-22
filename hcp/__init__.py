@@ -1,7 +1,8 @@
 # Author: Denis A. Engemann <denis.engemann@gmail.com>
 # License: BSD (3-clause)
 
-from . import anatomy, preprocessing, tests, viz
+from . import anatomy, preprocessing, viz
+from ._version import __version__
 from .anatomy import compute_forward_stack, make_mne_anatomy
 from .io import (
     file_mapping,

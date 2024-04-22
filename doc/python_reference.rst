@@ -33,7 +33,7 @@ below a module heading are found in the :py:mod:`hcp` namespace.
 Handling HCP files for downloading
 ==================================
 
-.. currentmodule:: file_mapping
+.. currentmodule:: hcp.io.file_mapping
 
 .. autosummary::
   :toctree: generated/
