@@ -68,16 +68,18 @@ def apply_ica_hcp(raw, ica_mat, exclude):
 
 
 def apply_ref_correction(raw, decim_fit=100):
-    """Regress out MEG ref channels
+    """Regress out MEG ref channels.
 
     Computes linear models from MEG reference channels
     on each sensors, predicts the MEG data and subtracts
     and computes the residual by subtracting the predictions.
 
     .. note::
+
        Operates in place.
 
     .. note::
+
        Can be memory demanding. To alleviate this problem the model can be fit
        on decimated data. This is legitimate because the linear model does
        not have any representation of time, only the distributions
@@ -88,8 +90,7 @@ def apply_ref_correction(raw, decim_fit=100):
     raw : instance of Raw
         The BTi/4D raw data.
     decim_fit : int
-        The decimation factor used for fitting the model.
-        Defaults to 100.
+        The decimation factor used for fitting the model. Defaults to 100.
     """
     from sklearn.linear_model import LinearRegression
     from sklearn.pipeline import Pipeline
@@ -110,12 +111,14 @@ def apply_ref_correction(raw, decim_fit=100):
 
 
 def map_ch_coords_to_mne(inst):
-    """Transform sensors to MNE coordinates
+    """Transform sensors to MNE coordinates.
 
     .. note::
-        operates in place
+
+        Operates in place.
 
     .. warning::
+
         For several reasons we do not use the MNE coordinates for the inverse
         modeling. This however won't always play nicely with visualization.
 
@@ -137,9 +140,10 @@ def map_ch_coords_to_mne(inst):
 
 
 def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="fast"):
-    """Interpolate all MEG channels that are missing
+    """Interpolate all MEG channels that are missing.
 
     .. warning::
+
        This function may require some memory.
 
     Parameters
@@ -150,12 +154,13 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
         The subject
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
-        'noise_empty_room'
-        'noise_subject'
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
+        * ``'noise_empty_room'``
+        * ``'noise_subject'``
     run_index : int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
@@ -163,7 +168,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
     hcp_path : str
         The HCP directory, defaults to op.curdir.
     mode : str
-        Either `'accurate'` or `'fast'`, determines the quality of the
+        Either ``'accurate'`` or ``'fast'``, determines the quality of the
         Legendre polynomial expansion used for interpolation of MEG
         channels.
 
@@ -179,7 +184,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
             hcp_path=hcp_path,
             run_index=run_index if run_index is None else run_index,
         )
-    except (ValueError, IOError):
+    except (OSError, ValueError):
         raise ValueError(
             "could not find config to complete info."
             "reading only channel positions without "

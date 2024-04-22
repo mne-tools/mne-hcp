@@ -23,7 +23,7 @@ def make_mne_anatomy(
     hcp_path=op.curdir,
     outputs=("label", "mri", "surf"),
 ):
-    """Extract relevant anatomy and create MNE friendly directory layout
+    """Extract relevant anatomy and create MNE friendly directory layout.
 
     The function will create the following outputs by default:
 
@@ -33,7 +33,7 @@ def make_mne_anatomy(
     $subjects_dir/$subject/surf/*
     $recordings_path/$subject/$subject-head_mri-trans.fif
 
-    These can then be set as $SUBJECTS_DIR and as MEG directory, consistent
+    These can then be set as ``$SUBJECTS_DIR`` and as MEG directory, consistent
     with MNE examples.
 
     Parameters
@@ -44,9 +44,9 @@ def make_mne_anatomy(
         The path corresponding to MNE/freesurfer SUBJECTS_DIR (to be created)
     hcp_path : str
         The path where the HCP files can be found.
-    outputs : {'label', 'mri', 'stats', 'surf', 'touch'}
+    outputs : ``'label'`` | ``'mri'`` | ``'stats'`` | ``'surf'`` | ``'touch'``
         The outputs of the freesrufer pipeline shipped by HCP. Defaults to
-        ('mri', 'surf'), the minimum needed to extract MNE-friendly anatomy
+        (``'mri'``, ``'surf'``), the minimum needed to extract MNE-friendly anatomy
         files and data.
     """
     if hcp_path == op.curdir:
@@ -186,8 +186,10 @@ def compute_forward_stack(
     src_params : None | dict
         The src params. Defaults to:
 
-        dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=2,
-             surface='white', subjects_dir=subjects_dir, add_dist=True)
+        .. code-block:: python
+
+            dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=2,
+                 surface='white', subjects_dir=subjects_dir, add_dist=True)
     hcp_path : str
         The prefix of the path of the HCP data.
     n_jobs : int

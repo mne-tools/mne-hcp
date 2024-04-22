@@ -203,9 +203,9 @@ def get_file_paths(
     sensor_mode="mag",
     hcp_path=".",
 ):
-    """This is the MNE-HCP file path synthesizer
+    """MNE-HCP file path synthesizer.
 
-    An easy conceptual mapper from questions to file paths
+    An easy conceptual mapper from questions to file paths.
 
     Parameters
     ----------
@@ -213,35 +213,37 @@ def get_file_paths(
         The subject, a 6 digit code.
     data_type : str
         The acquisition context of the data. The following ones are supported:
-        'rest'
-        'noise'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
+
+        * ``'rest'``
+        * ``'noise'``
+        * ``'task_motor'``
+        * ````'task_story_math'``
+        * 'task_working_memory'``
     output : str
         The kind of output. The following ones are supported:
-        'raw',
-        'epochs'
-        'evoked'
-        'ica'
-        'annotations'
-        'trial_info'
-        'freesurfer'
-        'meg_anatomy'
-    onset : {'stim', 'resp', 'sentence', 'block'}
+
+        * ``'raw'``
+        * ``'epochs'``
+        * ``'evoked'``
+        * ``'ica'``
+        * ``'annotations'``
+        * ``'trial_info'``
+        * ``'freesurfer'``
+        * ``'meg_anatomy'``
+    onset : ``'stim`` | ``'resp'`` | ``'sentence'`` | ``'block'``
         The event onset. Only considered for epochs and evoked outputs
         The mapping is generous, everything that is not a response is a
         stimulus, in the sense of internal or external events. sentence and
         block are specific to task_story_math.
-    sensor_mode : {'mag', 'planar'}
-        The sensor projection. Defaults to 'mag'. Only relevant for
+    sensor_mode : ``'mag'`` | ``'planar'``
+        The sensor projection. Defaults to ``'mag'``. Only relevant for
         evoked output.
     run_index : int
         The run index. For the first run, use 0, for the second, use 1.
         Also see HCP documentation for the number of runs for a given data
         type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
 
     Returns
     -------
@@ -250,9 +252,8 @@ def get_file_paths(
     """
     if data_type not in kind_map:
         raise ValueError(
-            "I never heard of `%s` -- are you sure this is a"
-            " valid HCP type? I currenlty support:\n%s"
-            % (data_type, " \n".join([k for k in kind_map if "_" in k]))
+            f"I never heard of `{data_type}` -- are you sure this is a valid HCP type? "
+            f"I currenlty support:\n{" \n".join([k for k in kind_map if "_" in k])}"
         )
     context = "rmeg" if "rest" in data_type else "tmeg"
     sensor_mode = evoked_map["modes"][sensor_mode]
@@ -274,14 +275,14 @@ def get_file_paths(
         "annot",
     ):
         raise ValueError(
-            'You requested preprocessed data of type "%s" '
-            'and output "%s". HCP does not provide these data' % (data_type, output)
+            f'You requested preprocessed data of type "{data_type}" '
+            f'and output "{output}". HCP does not provide these data'
         )
     if data_type in ("rest", "noise_subject", "noise_empty_room") and output in (
         "trial_info",
         "evoked",
     ):
-        raise ValueError("%s not defined for %s" % (output, data_type))
+        raise ValueError(f"{output} not defined for {data_type}.")
 
     files = list()
     pipeline = pipeline_map.get(output, output)

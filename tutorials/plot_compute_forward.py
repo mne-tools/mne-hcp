@@ -29,24 +29,24 @@ subject = "105923"  # our test subject
 # %%
 # And we assume to have the downloaded data, the MNE/freesurfer style
 # anatomy directory, and the MNE style MEG directory.
-# these can be obtained from :func:`make_mne_anatomy`.
+# these can be obtained from :func:`~hcp.make_mne_anatomy`.
 # See also :ref:`tut_make_anatomy`.
 
 # %%
 # First we read the coregistration.
 
 head_mri_t = mne.read_trans(
-    op.join(recordings_path, subject, "{}-head_mri-trans.fif".format(subject))
+    op.join(recordings_path, subject, f"{subject}-head_mri-trans.fif")
 )
 
 # %%
 # Now we can setup our source model.
-# Note that spacing has to be set to 'all' since no common MNE resampling
+# Note that spacing has to be set to ``'all'`` since no common MNE resampling
 # scheme has been employed in the HCP pipelines.
 # Since this will take very long time to compute and at this point no other
 # decimation scheme is available inside MNE, we will compute the source
 # space on fsaverage, the freesurfer average brain, and morph it onto
-# the subject's native space. With `oct6` we have ~8000 dipole locations.
+# the subject's native space. With ``oct6`` we have ~8000 dipole locations.
 
 src_fsaverage = mne.setup_source_space(
     subject="fsaverage",

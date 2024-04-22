@@ -66,8 +66,6 @@ Manipulating data and sensors
 Visualizing data
 ================
 
-:py:mod:`hcp.viz`:
-
 .. currentmodule:: hcp.viz
 
 .. autosummary::
