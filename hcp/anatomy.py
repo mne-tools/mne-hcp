@@ -199,7 +199,7 @@ def compute_forward_stack(
     -------
     out : dict
         A dictionary with the following keys:
-            fwd : instance of mne.Forward
+            fwd : instance of Forward
                 The forward solution.
             src_subject : instance of mne.SourceSpace
                 The source model on the subject's surface
@@ -214,7 +214,7 @@ def compute_forward_stack(
         info_from = dict(info_from)
 
     head_mri_t = mne.read_trans(
-        op.join(recordings_path, subject, "{}-head_mri-trans.fif".format(subject))
+        op.join(recordings_path, subject, f"{subject}-head_mri-trans.fif")
     )
 
     src_defaults = dict(

@@ -44,12 +44,25 @@ version = '0.2.0.dev0'
 [project.optional-dependencies]
 all = [
   'mne-hcp[build]',
+  'mne-hcp[doc]',
   'mne-hcp[style]',
   'mne-hcp[test]',
 ]
 build = [
   'build',
   'twine',
+]
+doc = [
+  'matplotlib',
+  'memory-profiler',
+  'numpydoc',
+  'sphinx',
+  'sphinx-bootstrap-theme',
+  'sphinx-copybutton',
+  'sphinx-design',
+  'sphinx-gallery',
+  'sphinx-issues',
+  'sphinxcontrib-bibtex',
 ]
 full = [
   'template[all]',
