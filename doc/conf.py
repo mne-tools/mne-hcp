@@ -71,7 +71,7 @@ html_show_sphinx = False
 html_static_path = ["_static"]
 html_theme = "bootstrap"
 html_title = project
-
+html_show_sourcelink = False
 html_theme_options = {
     'navbar_sidebarrel': False,
     'navbar_links': [
@@ -136,6 +136,8 @@ numpydoc_xref_ignore = {
     "MNE",
     "containers",
     "file_map",
+    "sentence",
+    "block",
 }
 
 # validation
@@ -159,6 +161,7 @@ numpydoc_validation_exclude = {  # regex to ignore during docstring check
     r"\.__iter__",
     r"\.__div__",
     r"\.__neg__",
+    r"\.apply_ref_correction"
 }
 
 # -- sphinx-gallery --------------------------------------------------------------------
@@ -175,10 +178,10 @@ sphinx_gallery_conf = {
     "backreferences_dir": "generated/backreferences",
     "compress_images": compress_images,
     "doc_module": (f"{package}",),
-    "examples_dirs": ["../tutorials"],
+    "examples_dirs": ["../tutorials", "../examples"],
     "exclude_implicit_doc": {},  # set
-    "filename_pattern": r"\d{2}_",
-    "gallery_dirs": ["generated/tutorials"],
+    "filename_pattern": r"plot_",
+    "gallery_dirs": ["generated/tutorials", "generated/examples"],
     "line_numbers": False,
     "plot_gallery": "True",  # str, to enable overwrite from CLI without warning
     "reference_url": {f"{package}": None},

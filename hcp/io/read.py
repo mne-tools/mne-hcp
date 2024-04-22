@@ -187,7 +187,7 @@ def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir, verbose=None):
 
     Parameters
     ----------
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:
@@ -203,7 +203,7 @@ def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir, verbose=None):
         Also see HCP documentation for the number of runs for a given data type.
     hcp_path : str
         The HCP directory, defaults to ``op.curdir``.
-    verbose : bool, str, int, or None
+    verbose : bool | str | int | None
         If not None, override default verbose level (see mne.verbose).
 
     Returns
@@ -235,7 +235,7 @@ def read_info(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     Parameters
     ----------
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:
@@ -289,7 +289,7 @@ def read_epochs(
 
     Parameters
     ----------
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:
@@ -472,7 +472,7 @@ def read_annot(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     Parameters
     ----------
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:
@@ -531,7 +531,7 @@ def read_ica(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     Parameters
     ----------
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:
@@ -623,7 +623,7 @@ def read_evokeds(
 
     Parameters
     ----------
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:

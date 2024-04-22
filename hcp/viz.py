@@ -54,14 +54,14 @@ def plot_coregistration(
         The path where the HCP files can be found.
     recordings_path : str
         The path to converted data (including the head<->device transform).
-    info_from : tuple of tuples | dict
+    info_from : tuple of tuple | dict
         The reader info concerning the data from which sensor positions
         should be read.
         Must not be empty room as sensor positions are in head
         coordinates for 4D systems, hence not available in that case.
         Note that differences between the sensor positions across runs
         are smaller than 12 digits, hence negligible.
-    view_init : tuple of tuples | dict
+    view_init : tuple of tuple | dict
         The initival view, defaults to azimuth and elevation of 0,
         a simple lateral view.
 

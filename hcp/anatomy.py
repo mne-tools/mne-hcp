@@ -167,13 +167,13 @@ def compute_forward_stack(
 
     Parameters
     ----------
-    subject : str
-        The subject name.
     subjects_dir : str
         The directory containing the extracted HCP subject data.
+    subject : str
+        The subject name.
     recordings_path : str
         The path where MEG data and transformations are stored.
-    info_from : tuple of tuples | dict
+    info_from : tuple of tuple | dict
         The reader info concerning the data from which sensor positions
         should be read.
         Must not be empty room as sensor positions are in head

@@ -126,7 +126,7 @@ def map_ch_coords_to_mne(inst):
 
     Parameters
     ----------
-    inst :  MNE data containers
+    inst :  Raw | Epochs | Evoked
         Raw, Epochs, Evoked.
     """
     bti_dev_t = Transform("ctf_meg", "meg", _get_bti_dev_t())
@@ -150,9 +150,9 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
 
     Parameters
     ----------
-    inst :  MNE data containers
+    inst : Raw | Epochs | Evoked
         Raw, Epochs, Evoked.
-    subject : str, file_map
+    subject : str | file_map
         The subject.
     data_type : str
         The kind of data to read. The following options are supported:
@@ -176,7 +176,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
 
     Returns
     -------
-    out : MNE data containers
+    out : Raw | Epochs | Evoked
         Raw, Epochs, Evoked but with missing channels interpolated.
     """
     try:

@@ -8,7 +8,7 @@ Python API Reference
 
 This is the functions reference of MNE-HCP. Functions are
 grouped thematically by analysis purpose. Functions  that are not
-below a module heading are found in the :py:mod:`hcp` namespace.
+below a module heading are found in the ``hcp`` namespace.
 
 .. contents::
    :local:

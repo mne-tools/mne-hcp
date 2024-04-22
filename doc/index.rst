@@ -97,7 +97,7 @@ command should produce the expected layout:
    $ done
 
 When files are downloaded using the
-`Amazon webservice tools <http://s3tools.org/s3cmd>`_, e.g. `s3rcmd`, all should be
+`Amazon webservice tools <http://s3tools.org/s3cmd>`_, e.g. ``s3rcmd``, all should be
 fine.
 
 The code is organized by different modules. The ``io`` module includes readers for
