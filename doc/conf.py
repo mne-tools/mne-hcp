@@ -133,6 +133,8 @@ numpydoc_xref_ignore = {
     "instance",
     "of",
     "shape",
+    "MNE",
+    "containers",
 }
 
 # validation

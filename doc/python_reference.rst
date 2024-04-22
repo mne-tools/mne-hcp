@@ -49,8 +49,6 @@ Handling HCP files for downloading
 Manipulating data and sensors
 =============================
 
-:py:mod:`hcp.preprocessing`:
-
 .. currentmodule:: hcp.preprocessing
 
 .. autosummary::

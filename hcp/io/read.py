@@ -254,7 +254,7 @@ def read_info(subject, data_type, run_index=0, hcp_path=op.curdir):
 
     Returns
     -------
-    info : instance of mne.io.meas_info.Info
+    info : instance of Info
         The MNE channel info object.
 
     .. note::

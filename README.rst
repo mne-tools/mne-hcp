@@ -289,9 +289,9 @@ Python conventions by subtracting 1.
 
 Contributions
 -------------
-- currently ``@dengemann`` is pushing frequently to master, if you plan to contribute,
-  open issues and pull requests, or contact ``@dengemann`` directly. Discussions are
-  welcomed.
+Currently ``@dengemann`` is pushing frequently to master, if you plan to contribute,
+open issues and pull requests, or contact ``@dengemann`` directly. Discussions are
+welcomed.
 
 Acknowledgements
 ================
