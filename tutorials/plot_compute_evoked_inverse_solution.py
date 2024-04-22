@@ -49,7 +49,7 @@ src_outputs = hcp.anatomy.compute_forward_stack(
     subjects_dir=subjects_dir,
     hcp_path=hcp_path,
     recordings_path=recordings_path,
-    # speed up computations here. Setting `add_dist` to True may improve the
+    # speed up computations here. Setting ``add_dist`` to True may improve the
     # accuracy.
     src_params=dict(add_dist=False),
     info_from=dict(data_type=data_type, run_index=run_index),
@@ -79,13 +79,13 @@ raw_noise.filter(
 
 # %%
 # Note that using the empty room noise covariance will inflate the SNR of the
-# evkoked and renders comparisons  to `baseline` rather uninformative.
-noise_cov = mne.compute_raw_covariance(raw_noise, method="empirical")
+# evkoked and renders comparisons  to ``baseline`` rather uninformative.
 
+noise_cov = mne.compute_raw_covariance(raw_noise, method="empirical")
 
 # %%
 # Now we assemble the inverse operator, project the data and show the results
-# on the `fsaverage` surface, the freesurfer average brain.
+# on the ``fsaverage`` surface, the freesurfer average brain.
 
 inv_op = mne.minimum_norm.make_inverse_operator(evoked.info, fwd, noise_cov=noise_cov)
 

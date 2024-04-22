@@ -7,6 +7,7 @@ MNE-HCP facilitates source level analysis by supporting linkage between
 MRT/anatomy files and the MEG data.
 Here, inspect the head model that is used to compute the BEM solution.
 """
+
 # Author: Jona Sassenhagen
 #         Denis A. Engemann
 # License: BSD 3 clause

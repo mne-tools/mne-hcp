@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 .. _tut_reproduce_erf:
 
@@ -11,6 +10,7 @@ fields (ERF) starting from different HCP outputs. We will first reprocess
 the HCP dat from scratch, then read the preprocessed epochs, finally
 read the ERF files. Subsequently we will compare these outputs.
 """
+
 # Author: Denis A. Engemann
 # License: BSD 3 clause
 
@@ -100,8 +100,6 @@ for run_index, events in zip([0, 1], all_events):
     raw.annotations = annotations
     raw.info["bads"].extend(annots["channels"]["all"])
     raw.pick_types(meg=True, ref_meg=False)
-
-    #  Note: MNE complains on Python 2.7
     raw.filter(
         0.50, None, method="iir", iir_params=dict(order=4, ftype="butter"), n_jobs=1
     )

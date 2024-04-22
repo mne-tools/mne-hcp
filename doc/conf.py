@@ -135,6 +135,7 @@ numpydoc_xref_ignore = {
     "shape",
     "MNE",
     "containers",
+    "file_map",
 }
 
 # validation

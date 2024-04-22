@@ -5,9 +5,10 @@
 Compute forward model
 =====================
 
-Here we'll first compute a source space, then the bem model
-and finally the forward solution.
+Here we'll first compute a source space, then the bem model and finally the forward
+solution.
 """
+
 # Author: Denis A. Engemann
 # License: BSD 3 clause
 
@@ -18,7 +19,7 @@ import mne
 import hcp
 
 # %%
-# We assume our data is inside a designated folder under $HOME.
+# We assume our data is inside a designated folder under ``$HOME``.
 
 storage_dir = op.expanduser("~/mne-hcp-data")
 hcp_path = op.join(storage_dir, "HCP")
@@ -56,12 +57,12 @@ src_fsaverage = mne.setup_source_space(
     overwrite=True,
 )
 
-# now we morph it onto the subject.
+# Now we morph it onto the subject.
 
 src_subject = mne.morph_source_spaces(src_fsaverage, subject, subjects_dir=subjects_dir)
 
 # %%
-# For the same reason `ico` has to be set to `None` when computing the bem.
+# For the same reason ``ico`` has to be set to ``None`` when computing the bem.
 # The headshape is not computed with MNE and has a none standard configuration.
 
 bems = mne.make_bem_model(

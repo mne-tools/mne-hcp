@@ -183,32 +183,32 @@ def _check_infos_trans(infos):
 
 
 def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir, verbose=None):
-    """Read HCP raw data
+    """Read HCP raw data.
 
     Parameters
     ----------
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
-        'noise_empty_room'
-        'noise_subject'
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
+        * ``'noise_empty_room'``
+        * ``'noise_subject'``
     run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
-        Also see HCP documentation for the number of runs for a given data
-        type.
+        The run index. For the first run, use ``0``, for the second, use ``1``.
+        Also see HCP documentation for the number of runs for a given data type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
     verbose : bool, str, int, or None
         If not None, override default verbose level (see mne.verbose).
 
     Returns
     -------
-    raw : instance of mne.io.Raw
+    raw : instance of Raw
         The MNE raw object.
     """
     pdf, config = get_file_paths(
@@ -231,26 +231,25 @@ def read_raw(subject, data_type, run_index=0, hcp_path=op.curdir, verbose=None):
 
 
 def read_info(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """Read info from unprocessed data
+    """Read info from unprocessed data.
 
     Parameters
     ----------
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
-        'noise_empty_room'
-        'noise_subject'
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
+        * ``'noise_empty_room'``
+        * ``'noise_subject'``
     run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
-        Also see HCP documentation for the number of runs for a given data
-        type.
+        The run index. For the first run, use ``0``, for the second, use ``1``.
+        Also see HCP documentation for the number of runs for a given data type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
 
     Returns
     -------
@@ -258,6 +257,7 @@ def read_info(subject, data_type, run_index=0, hcp_path=op.curdir):
         The MNE channel info object.
 
     .. note::
+
         HCP MEG does not deliver only 3 of the 5 task packages from MRI HCP.
     """
     raw, config = get_file_paths(
@@ -375,7 +375,7 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
 
 
 def _hcp_pick_info(info, ch_names):
-    """helper to subset info"""
+    """Helper to subset info."""
     return pick_info(info, [info["ch_names"].index(ch) for ch in ch_names], copy=True)
 
 
