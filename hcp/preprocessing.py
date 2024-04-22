@@ -18,15 +18,16 @@ from .io.read import _data_labels, _hcp_pick_info
 
 
 def set_eog_ecg_channels(raw):
-    """Set the HCP ECG and EOG channels
+    """Set the HCP ECG and EOG channels.
 
     .. note::
+
        Operates in place.
 
     Parameters
     ----------
     raw : instance of Raw
-        the hcp raw data.
+        The hcp raw data.
     """
     for kind in ["ECG", "VEOG", "HEOG"]:
         set_bipolar_reference(
@@ -47,7 +48,7 @@ def apply_ica_hcp(raw, ica_mat, exclude):
     raw : instance of Raw
         The hcp raw data.
     ica_mat : array
-        The hcp ICA solution
+        The hcp ICA solution.
     exclude : array-like
         The components to be excluded.
     """
@@ -69,7 +70,7 @@ def apply_ica_hcp(raw, ica_mat, exclude):
 
 
 def apply_ref_correction(raw, decim_fit=100):
-    """Regresses out MEG ref channels.
+    """Regress out MEG ref channels.
 
     Computes linear models from MEG reference channels
     on each sensors, predicts the MEG data and subtracts
@@ -152,7 +153,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
     inst :  MNE data containers
         Raw, Epochs, Evoked.
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
 
@@ -175,7 +176,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
 
     Returns
     -------
-    out :   MNE data containers
+    out : MNE data containers
         Raw, Epochs, Evoked but with missing channels interpolated.
     """
     try:

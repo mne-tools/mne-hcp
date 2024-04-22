@@ -152,17 +152,16 @@ def compute_forward_stack(
     subject,
     recordings_path,
     info_from=(("data_type", "rest"), ("run_index", 0)),
-    fwd_params=None,
     src_params=None,
     hcp_path=op.curdir,
     n_jobs=1,
     verbose=None,
 ):
-    """
-    Convenience function for conducting standard MNE analyses.
+    """Convenience function for conducting standard MNE analyses.
 
     .. note::
-       this function computes bem solutions, source spaces and forward models
+
+       This function computes bem solutions, source spaces and forward models
        optimized for connectivity computation, i.e., the fsaverage space
        is morphed onto the subject's space.
 
@@ -170,12 +169,10 @@ def compute_forward_stack(
     ----------
     subject : str
         The subject name.
-    hcp_path : str
-        The directory containing the HCP data.
-    recordings_path : str
-        The path where MEG data and transformations are stored.
     subjects_dir : str
         The directory containing the extracted HCP subject data.
+    recordings_path : str
+        The path where MEG data and transformations are stored.
     info_from : tuple of tuples | dict
         The reader info concerning the data from which sensor positions
         should be read.
@@ -183,8 +180,6 @@ def compute_forward_stack(
         coordinates for 4D systems, hence not available in that case.
         Note that differences between the sensor positions across runs
         are smaller than 12 digits, hence negligible.
-    fwd_params : None | dict
-        The forward parameters
     src_params : None | dict
         The src params. Defaults to:
 
@@ -193,11 +188,11 @@ def compute_forward_stack(
             dict(subject='fsaverage', fname=None, spacing='oct6', n_jobs=2,
                  surface='white', subjects_dir=subjects_dir, add_dist=True)
     hcp_path : str
-        The prefix of the path of the HCP data.
+        The directory containing the HCP data.
     n_jobs : int
         The number of jobs to use in parallel.
-    verbose : bool, str, int, or None
-        If not None, override default verbose level (see mne.verbose)
+    verbose : bool | str | int | None
+        If not None, override default verbose level (see mne.verbose).
 
     Returns
     -------
@@ -205,13 +200,13 @@ def compute_forward_stack(
         A dictionary with the following keys:
             fwd : instance of Forward
                 The forward solution.
-            src_subject : instance of mne.SourceSpace
+            src_subject : instance of SourceSpaces
                 The source model on the subject's surface
-            src_fsaverage : instance of mne.SourceSpace
+            src_fsaverage : instance of SourceSpaces
                 The source model on fsaverage's surface
             bem_sol : dict
                 The BEM.
-            info : instance of mne.io.meas_info.Info
+            info : instance of Info
                 The actual measurement info used.
     """
     if isinstance(info_from, tuple):

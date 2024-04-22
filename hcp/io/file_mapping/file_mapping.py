@@ -230,6 +230,10 @@ def get_file_paths(
         * ``'trial_info'``
         * ``'freesurfer'``
         * ``'meg_anatomy'``
+    run_index : int
+        The run index. For the first run, use 0, for the second, use 1.
+        Also see HCP documentation for the number of runs for a given data
+        type.
     onset : ``'stim`` | ``'resp'`` | ``'sentence'`` | ``'block'``
         The event onset. Only considered for epochs and evoked outputs
         The mapping is generous, everything that is not a response is a
@@ -238,10 +242,6 @@ def get_file_paths(
     sensor_mode : ``'mag'`` | ``'planar'``
         The sensor projection. Defaults to ``'mag'``. Only relevant for
         evoked output.
-    run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
-        Also see HCP documentation for the number of runs for a given data
-        type.
     hcp_path : str
         The HCP directory, defaults to ``op.curdir``.
 

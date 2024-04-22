@@ -123,6 +123,7 @@ numpydoc_xref_aliases = {
     "Info": "mne.Info",
     "Projection": "mne.Projection",
     "Raw": "mne.io.Raw",
+    "SourceSpaces": "mne.SourceSpaces",
     # Python
     "bool": ":class:`python:bool`",
     "Path": "pathlib.Path",

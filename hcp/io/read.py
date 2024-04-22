@@ -285,36 +285,38 @@ def read_epochs(
     hcp_path=op.curdir,
     return_fixations_motor=False,
 ):
-    """Read HCP processed data
+    """Read HCP processed data.
 
     Parameters
     ----------
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
-    onset : {'stim', 'resp', 'sentence', 'block'}
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
+    onset : ``'stim'`` | ``'resp'`` | ``'sentence'`` | ``'block'``
         The event onset. The mapping is generous, everything that is not a
         response is a stimulus, in the sense of internal or external events.
         `sentence` and `block` are specific to task_story_math.
     run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
+        The run index. For the first run, use ``0``, for the second, use ``1``.
         Also see HCP documentation for the number of runs for a given data
         type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
     return_fixations_motor : bool
         Weather to return fixations or regular trials. For motor data only.
         Defaults to False.
+
     Returns
     -------
-    epochs : instance of mne.Epochs
+    epochs : instance of Epochs
         The MNE epochs. Note, these are pseudo-epochs in the case of
-        onset == 'rest'.
+        ``onset == 'rest'``.
     """
     info = read_info(
         subject=subject, data_type=data_type, run_index=run_index, hcp_path=hcp_path
@@ -378,7 +380,7 @@ def _hcp_pick_info(info, ch_names):
 
 
 def read_trial_info(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """Read information about trials
+    """Read information about trials.
 
     Parameters
     ----------
@@ -386,16 +388,17 @@ def read_trial_info(subject, data_type, run_index=0, hcp_path=op.curdir):
         The HCP subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
     run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
-        Also see HCP documentation for the number of runs for a given data
-        type.
+        The run index. For the first run, use ``0``, for the second, use ``1``.
+        Also see HCP documentation for the number of runs for a given data type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
+
     Returns
     -------
     trial_info : dict
@@ -441,7 +444,7 @@ def _check_sorting_runs(candidates, id_char):
 
 
 def _parse_annotations_segments(segment_strings):
-    """Read bad segments defintions from text file"""
+    """Read bad segments defintions from text file."""
     for char in "}]":  # multi line array definitions
         segment_strings = segment_strings.replace(char + ";", "splitme")
     split = segment_strings.split("splitme")
@@ -470,19 +473,20 @@ def read_annot(subject, data_type, run_index=0, hcp_path=op.curdir):
     Parameters
     ----------
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
     run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
+        The run index. For the first run, use ``0``, for the second, use ``1``.
         Also see HCP documentation for the number of runs for a given data
         type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
 
     Returns
     -------
@@ -523,28 +527,28 @@ def read_annot(subject, data_type, run_index=0, hcp_path=op.curdir):
 
 
 def read_ica(subject, data_type, run_index=0, hcp_path=op.curdir):
-    """Read precomputed independent components from subject
+    """Read precomputed independent components from subject.
 
     Parameters
     ----------
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
     run_index : int
-        The run index. For the first run, use 0, for the second, use 1.
-        Also see HCP documentation for the number of runs for a given data
-        type.
+        The run index. For the first run, use ``0``, for the second, use ``1``.
+        Also see HCP documentation for the number of runs for a given data type.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
+        The HCP directory, defaults to ``op.curdir``.
 
     Returns
     -------
-    mat : numpy structured array
+    mat : array
         The ICA mat struct.
     """
     ica_files = get_file_paths(
@@ -555,9 +559,7 @@ def read_ica(subject, data_type, run_index=0, hcp_path=op.curdir):
         hcp_path=hcp_path,
     )
     ica_fname_mat = [k for k in ica_files if k.endswith("icaclass.mat")][0]
-
-    mat = scio.loadmat(ica_fname_mat, squeeze_me=True)["comp_class"]
-    return mat
+    return scio.loadmat(ica_fname_mat, squeeze_me=True)["comp_class"]
 
 
 def _parse_annotations_bad_channels(bads_strings):
@@ -576,7 +578,7 @@ def _parse_annotations_bad_channels(bads_strings):
 
 
 def _parse_annotations_ica(ica_strings):
-    """Read bad channel definitions from text file"""
+    """Read bad channel definitions from text file."""
     # prepare splitting
     for char in "}]":  # multi line array definitions
         ica_strings = ica_strings.replace(char + ";", "splitme")
@@ -617,33 +619,35 @@ def read_evokeds(
     hcp_path=op.curdir,
     kind="average",
 ):
-    """Read HCP processed data
+    """Read HCP processed data.
 
     Parameters
     ----------
     subject : str, file_map
-        The subject
+        The subject.
     data_type : str
         The kind of data to read. The following options are supported:
-        'rest'
-        'task_motor'
-        'task_story_math'
-        'task_working_memory'
-    onset : {'stim', 'resp'}
+
+        * ``'rest'``
+        * ``'task_motor'``
+        * ``'task_story_math'``
+        * ``'task_working_memory'``
+    onset : ``'stim'``, ``'resp'``
         The event onset. The mapping is generous, everything that is not a
         response is a stimulus, in the sense of internal or external events.
-    sensor_mode : {'mag', 'planar'}
-        The sensor projection. Defaults to 'mag'. Only relevant for
+    sensor_mode : ``'mag'`` | ``'planar'``
+        The sensor projection. Defaults to ``'mag'``. Only relevant for
         evoked output.
     hcp_path : str
-        The HCP directory, defaults to op.curdir.
-    kind : {'average', 'standard_error'}
-        The averaging mode. Defaults to 'average'.
+        The HCP directory, defaults to ``op.curdir``.
+    kind : ``'average'`` | ``'standard_error'``
+        The averaging mode. Defaults to ``'average'``.
+
     Returns
     -------
-    epochs : instance of mne.Epochs
+    epochs : instance of Epochs
         The MNE epochs. Note, these are pseudo-epochs in the case of
-        onset == 'rest'.
+        ``onset == 'rest'``.
     """
     info = read_info(
         subject=subject, data_type=data_type, hcp_path=hcp_path, run_index=0
@@ -662,7 +666,7 @@ def read_evokeds(
 
 
 def _read_evoked(fname, sensor_mode, info, kind):
-    """helper to read evokeds"""
+    """Helper to read evokeds."""
     data = scio.loadmat(fname, squeeze_me=True)["data"]
     ch_names = [ch for ch in data["label"].tolist()]
 
