@@ -51,9 +51,11 @@ jobs:
           qt: true
           pyvista: false
       - run: pip install --upgrade pip setuptools
+      # TODO: shouldn't need to install NumPy first or pin it (distutils gone in 2.0), bad build reqs
+      - run: pip install --upgrade "numpy<2" s3cmd mne scikit-learn nose pytest pytest-cov "mne<0.24" nibabel
       # TODO: Relax this pin
       # TODO: Remove nose dependency
-      - run: pip install -ve . s3cmd mne scikit-learn nose pytest pytest-cov "mne<0.24" nibabel
+      - run: pip install -ve .
       - run: openssl aes-256-cbc -K "${{ secrets.encrypted_73bd2a498087_key }}" -iv "${{ secrets.encrypted_73bd2a498087_iv }}" -in .s3cfg.enc -out ~/.s3cfg -d
       - run: python -c "from pathlib import Path; assert (Path('~').expanduser() / '.s3cfg').is_file()"
       - run: mkdir ~/mne-hcp-data
