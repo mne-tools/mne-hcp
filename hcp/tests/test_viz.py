@@ -14,6 +14,6 @@ hcp_params = dict(hcp_path=tconf.hcp_path, subject=tconf.test_subject)
 def test_make_layout():
     """Test making a layout."""
     raw = hcp.read_raw(data_type="rest", **hcp_params).crop(0, 1).load_data()
-    raw.pick_types()
+    raw.pick_types(meg=True)
     lout = make_hcp_bti_layout(raw.info)
     assert_equal(lout.names, raw.info["ch_names"])
