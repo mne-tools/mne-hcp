@@ -64,7 +64,7 @@ jobs:
         with:
           qt: true
           pyvista: false
-      - run: pytest -rfEXs --cov-report= --tb=short --durations 30 -v --cov=mne --cov-report xml hcp
+      - run: pytest -rfEXs --cov-report= --tb=short --durations 30 -v --cov=hcp --cov-report xml hcp
       - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
