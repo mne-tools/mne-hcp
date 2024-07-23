@@ -46,7 +46,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - run: pip install --upgrade pip setuptools
+      # TODO: shouldn't need to install NumPy first or pin it (distutils gone in 2.0), bad build reqs
+      - run: pip install --upgrade "numpy<2" s3cmd mne scikit-learn nose pytest pytest-cov "mne<0.24" nibabel
+      # TODO: Relax this pin
+      # TODO: Remove nose dependency
+      - run: pip install --no-build-isolation -ve .
+      - run: openssl aes-256-cbc -K "${{ secrets.encrypted_73bd2a498087_key }}" -iv "${{ secrets.encrypted_73bd2a498087_iv }}" -in .s3cfg.enc -out ~/.s3cfg -d
+      - run: python -c "from pathlib import Path; assert (Path('~').expanduser() / '.s3cfg').is_file()"
+      - run: mkdir ~/mne-hcp-data
+      - run: s3cmd get s3://mne-hcp-testing-data/mne-hcp-testing.tar.gz ~/mne-hcp-data/
+      - run: cd ~/mne-hcp-data/ && tar -xvzf mne-hcp-testing.tar.gz
+      - run: find ~/mne-hcp-data/mne-hcp-testing/105923 -name "*" > output.txt && cat output.txt | wc -l && head output.txt
+      - run: mkdir -p "${{ env.SUBJECTS_DIR}}" && python -c "import mne; mne.datasets.fetch_fsaverage(subjects_dir='${{ env.SUBJECTS_DIR }}')"
+      # TODO: Move this to the top (toward bottom to speed up testing of steps above)
       - uses: pyvista/setup-headless-display-action@main
         with:
           qt: true
           pyvista: false
+      - run: pytest -rfEXs --cov-report= --tb=short --durations 30 -v --cov=hcp --cov-report xml hcp
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+        if: success()
