@@ -58,7 +58,7 @@ jobs:
       - run: s3cmd get s3://mne-hcp-testing-data/mne-hcp-testing.tar.gz ~/mne-hcp-data/
       - run: cd ~/mne-hcp-data/ && tar -xvzf mne-hcp-testing.tar.gz
       - run: find ~/mne-hcp-data/mne-hcp-testing/105923 -name "*" > output.txt && cat output.txt | wc -l && head output.txt
-      - run: mkdir -p "${{ env.SUBJECTS_DIR}}" && python -c "import mne; mne.datasets.fetch_fsaverage(subjects_dir='${{ env.subjects_dir }}')"
+      - run: mkdir -p "${{ env.SUBJECTS_DIR}}" && python -c "import mne; mne.datasets.fetch_fsaverage(subjects_dir='${{ env.SUBJECTS_DIR }}')"
       # TODO: Move this to the top (toward bottom to speed up testing of steps above)
       - uses: pyvista/setup-headless-display-action@main
         with:
