@@ -5,7 +5,8 @@ import shutil
 import mne
 import numpy as np
 from mne.utils import _TempDir
-from nose.tools import assert_equal, assert_raises, assert_true
+from numpy.testing import assert_equal
+from pytest import raises as assert_raises
 from numpy.testing import assert_array_equal
 
 import hcp
@@ -26,7 +27,7 @@ def test_read_annot():
         )
         for channels in annots["channels"].values():
             for chan in channels:
-                assert_true(chan in tconf.bti_chans)
+                assert chan in tconf.bti_chans
 
         # segments
         assert_equal(
@@ -46,8 +47,8 @@ def test_read_annot():
         )
         for components in annots["ica"].values():
             if len(components) > 0:
-                assert_true(min(components) >= 0)
-                assert_true(max(components) <= 248)
+                assert min(components) >= 0
+                assert max(components) <= 248
 
 
 def _basic_raw_checks(raw):
@@ -55,9 +56,9 @@ def _basic_raw_checks(raw):
     picks = mne.pick_types(raw.info, meg=True, ref_meg=False)
     assert_equal(len(picks), 248)
     ch_names = [raw.ch_names[pp] for pp in picks]
-    assert_true(all(ch.startswith("A") for ch in ch_names))
+    assert all(ch.startswith("A") for ch in ch_names)
     ch_sorted = list(sorted(ch_names))
-    assert_true(ch_sorted != ch_names)
+    assert ch_sorted != ch_names
     assert_equal(np.round(raw.info["sfreq"], 4), tconf.sfreq_raw)
 
 
@@ -109,7 +110,7 @@ def _epochs_basic_checks(epochs, annots, data_type):
     assert_equal(len(epochs.ch_names), n_good)
     assert_equal(round(epochs.info["sfreq"], 3), round(tconf.sfreq_preproc, 3))
     assert_array_equal(np.unique(epochs.events[:, 2]), np.array([99], dtype=np.int))
-    assert_true(
+    assert (
         _check_bounds(
             epochs.times,
             tconf.epochs_bounds[data_type],
@@ -178,7 +179,7 @@ def test_read_evoked():
             n_chans += 4
         n_chans -= len(set(sum([an["channels"]["all"] for an in all_annots], [])))
         assert_equal(n_chans, len(evokeds[0].ch_names))
-        assert_true(_check_bounds(evokeds[0].times, tconf.epochs_bounds[data_type]))
+        assert _check_bounds(evokeds[0].times, tconf.epochs_bounds[data_type])
 
 
 def test_read_info():
@@ -212,7 +213,7 @@ def test_read_info():
                 hcp_path=tempdir,
                 run_index=run_index,
             )
-            assert_true(len(info["chs"]) != len(info2["chs"]))
+            assert len(info["chs"]) != len(info2["chs"])
             common_chs = [ch for ch in info2["ch_names"] if ch in info["ch_names"]]
             assert_equal(len(common_chs), len(info["chs"]))
             info2 = _hcp_pick_info(info2, common_chs)
@@ -228,8 +229,8 @@ def test_read_trial_info():
             trial_info = hcp.read_trial_info(
                 data_type=data_type, run_index=run_index, **hcp_params
             )
-            assert_true("stim" in trial_info)
-            assert_true("resp" in trial_info)
+            assert "stim" in trial_info
+            assert "resp" in trial_info
             assert_equal(2, len(trial_info))
             for val in trial_info.values():
                 assert_array_equal(np.ndim(val["comments"]), 1)

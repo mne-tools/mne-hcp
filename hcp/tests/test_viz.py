@@ -17,6 +17,3 @@ def test_make_layout():
     raw.pick_types()
     lout = make_hcp_bti_layout(raw.info)
     assert_equal(lout.names, raw.info["ch_names"])
-
-
-mne.utils.run_tests_if_main()

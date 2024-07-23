@@ -3,7 +3,6 @@ import shutil
 
 import matplotlib
 import mne
-from nose.tools import assert_true
 
 from hcp import compute_forward_stack, make_mne_anatomy
 from hcp.tests import config as tconf
@@ -27,14 +26,14 @@ def test_anatomy():
     make_mne_anatomy(
         recordings_path=recordings_path, subjects_dir=subjects_dir, **hcp_params
     )
-    assert_true(
+    assert (
         op.isfile(
             op.join(subjects_dir, hcp_params["subject"], "bem", "inner_skull.surf")
         )
     )
     # Now we need fsaverage...
     mne_subjects_dir = mne.get_config("SUBJECTS_DIR")
-    assert_true(mne_subjects_dir is not None)
+    assert mne_subjects_dir is not None
     shutil.copytree(
         op.join(mne_subjects_dir, "fsaverage"), op.join(subjects_dir, "fsaverage")
     )
@@ -52,6 +51,3 @@ def test_anatomy():
     plt.close("all")
     mne.viz.plot_bem(subject=tconf.test_subject, subjects_dir=subjects_dir)
     plt.close("all")
-
-
-mne.utils.run_tests_if_main()

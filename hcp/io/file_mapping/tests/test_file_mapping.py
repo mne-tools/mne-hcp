@@ -1,4 +1,5 @@
-from nose.tools import assert_equal, assert_raises
+from pytest import raises as assert_raises
+from numpy.testing import assert_equal
 
 import hcp.tests.config as tconf
 from hcp.io.file_mapping import get_file_paths

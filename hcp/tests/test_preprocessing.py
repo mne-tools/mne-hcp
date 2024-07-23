@@ -2,7 +2,7 @@ import warnings
 
 import mne
 import numpy as np
-from nose.tools import assert_raises, assert_true
+from pytest import raises as assert_raises
 from numpy.testing import assert_equal
 
 import hcp
@@ -68,7 +68,7 @@ def test_apply_ref_correction():
     orig = raw[meg_picks[0]][0][0]
     apply_ref_correction(raw)
     proc = raw[meg_picks[0]][0][0]
-    assert_true(np.linalg.norm(orig) > np.linalg.norm(proc))
+    assert np.linalg.norm(orig) > np.linalg.norm(proc)
 
 
 def test_map_ch_coords_to_mne():
@@ -81,7 +81,7 @@ def test_map_ch_coords_to_mne():
     old_coord = evoked.info["chs"][0]["loc"]
     map_ch_coords_to_mne(evoked)
     new_coord = evoked.info["chs"][0]["loc"]
-    assert_true((old_coord != new_coord).any())
+    assert (old_coord != new_coord).any()
 
 
 def test_interpolate_missing():
@@ -99,6 +99,3 @@ def test_interpolate_missing():
     assert_equal(len(evoked.ch_names), 243)
     evoked_int = interpolate_missing(evoked, data_type=data_type, **hcp_params)
     assert_equal(len(evoked_int.ch_names), 248)
-
-
-mne.utils.run_tests_if_main()
