@@ -224,13 +224,8 @@ def compute_forward_stack(
         subjects_dir=subjects_dir,
         add_dist=True,
     )
-    if "fname" in mne.fixes._get_args(mne.setup_source_space):
-        # needed for mne-0.14 and below
-        src_defaults.update(dict(fname=None))
-    else:
-        # remove 'fname' argument (if necessary) when using mne-0.15+
-        if "fname" in src_params:
-            del src_params["fname"]
+    if "fname" in src_params:
+        del src_params["fname"]
     src_params = _update_dict_defaults(src_params, src_defaults)
 
     add_source_space_distances = False

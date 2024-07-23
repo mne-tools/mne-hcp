@@ -88,7 +88,18 @@ command should produce the expected layout:
    $ done
 
 When files are downloaded using the `Amazon webservice tools <http://s3tools.org/s3cmd>`_, e.g. `s3rcmd`,
-all should be fine.
+all should be fine. For example, you can use this to get the data for subject 105923,
+register with HCP, get your access and secret keys, and create a ``~/.s3cfg`` with:
+
+.. code-block:: ini
+
+   [default]
+   access_key = <YOUR ACCESS KEY>
+   secret_key = <YOUR SECRET KEY>
+
+Then commands like ``s3cmd sync s3://hcp-openaccess/HCP/105923/`` should list available
+files, and you can use for example ``s3cmd sync`` to get specific folders or files.
+For more ideas, see `the HCP docs <https://wiki.humanconnectome.org/docs/How%20To%20Connect%20to%20Connectome%20Data%20via%20AWS.html>`__.
 
 The code is organized by different modules.
 The `io` module includes readers for sensor space data at different processing

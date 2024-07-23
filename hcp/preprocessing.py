@@ -222,7 +222,8 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
         ii for ii, ch in enumerate(info["ch_names"]) if ch in inst.ch_names
     ]
 
-    info["sfreq"] = inst.info["sfreq"]
+    with info._unlock():
+        info["sfreq"] = inst.info["sfreq"]
 
     # compute shape of data to be added
     is_raw = isinstance(inst, (mne.io.Raw, mne.io.RawArray, mne.io.bti.bti.RawBTi))
@@ -245,7 +246,7 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
     if is_raw:
         out = mne.io.RawArray(out_data, info)
         if inst.annotations is not None:
-            out.annotations = inst.annotations
+            out.set_annotations(inst.annotations)
     elif is_epochs:
         out = mne.EpochsArray(
             data=np.transpose(out_data, (1, 0, 2)),
@@ -268,5 +269,5 @@ def interpolate_missing(inst, subject, data_type, hcp_path, run_index=0, mode="f
 
     # set "bad" channels and interpolate.
     out.info["bads"] = bti_meg_channel_missing_names
-    out.interpolate_bads(mode=mode)
+    out.interpolate_bads(mode=mode, origin=(0., 0., 0.04))
     return out

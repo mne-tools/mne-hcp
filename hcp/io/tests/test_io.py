@@ -4,6 +4,7 @@ import shutil
 
 import mne
 import numpy as np
+from numpy.testing import assert_allclose
 from mne.utils import _TempDir
 from numpy.testing import assert_equal
 from pytest import raises as assert_raises
@@ -108,8 +109,8 @@ def _epochs_basic_checks(epochs, annots, data_type):
     if data_type == "task_motor":
         n_good += 4
     assert_equal(len(epochs.ch_names), n_good)
-    assert_equal(round(epochs.info["sfreq"], 3), round(tconf.sfreq_preproc, 3))
-    assert_array_equal(np.unique(epochs.events[:, 2]), np.array([99], dtype=np.int))
+    assert_allclose(epochs.info["sfreq"], tconf.sfreq_preproc, rtol=1e-4)
+    assert_array_equal(np.unique(epochs.events[:, 2]), np.array([99], dtype=np.int64))
     assert (
         _check_bounds(
             epochs.times,

@@ -348,7 +348,8 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     """Read the epochs from matfile."""
     data = scio.loadmat(epochs_mat_fname, squeeze_me=True)["data"]
     ch_names = [ch for ch in data["label"].tolist()]
-    info["sfreq"] = data["fsample"].tolist()
+    with info._unlock():
+        info["sfreq"] = data["fsample"].tolist()
     times = data["time"].tolist()[0]
     # deal with different event lengths
     if return_fixations_motor is not None:
@@ -361,7 +362,7 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
 
     # warning: data are not chronologically ordered but
     # match the trial info
-    events = np.zeros((len(data), 3), dtype=np.int)
+    events = np.zeros((len(data), 3), dtype=np.int64)
     events[:, 0] = np.arange(len(data))
     events[:, 2] = 99  # all events
     # we leave it to the user to construct his events
@@ -674,7 +675,8 @@ def _read_evoked(fname, sensor_mode, info, kind):
     sfreq = 1.0 / np.diff(times)[0]
 
     info = _hcp_pick_info(info, ch_names)
-    info["sfreq"] = sfreq
+    with info._unlock():
+        info["sfreq"] = sfreq
 
     out = list()
     comment = (
