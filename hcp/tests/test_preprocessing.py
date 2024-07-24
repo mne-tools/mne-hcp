@@ -17,17 +17,15 @@ from hcp.preprocessing import (
 )
 
 
-@pytest.mark.xfail(reason="TODO: Pick counts are wrong, need to update logic!")
 def test_set_eog_ecg_channels(hcp_params):
     """Test setting of EOG and ECG channels."""
     raw = hcp.read_raw(data_type="rest", **hcp_params)
     raw.crop(0, 1).load_data()
-    assert_equal(len(mne.pick_types(raw.info, meg=False, eog=True)), 0)
-    assert_equal(len(mne.pick_types(raw.info, meg=False, ecg=True)), 13)
+    assert_equal(len(mne.pick_types(raw.info, meg=False, eog=True)), 4)
+    assert_equal(len(mne.pick_types(raw.info, meg=False, ecg=True)), 2)
     set_eog_ecg_channels(raw)
-    # XXX Probably shouldn't still have 8 ECG channels!
     assert_equal(len(mne.pick_types(raw.info, meg=False, eog=True)), 2)
-    assert_equal(len(mne.pick_types(raw.info, meg=False, ecg=True)), 8)
+    assert_equal(len(mne.pick_types(raw.info, meg=False, ecg=True)), 1)
 
 
 def test_apply_ica(hcp_params):

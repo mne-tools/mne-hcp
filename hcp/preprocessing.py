@@ -30,8 +30,10 @@ def set_eog_ecg_channels(raw):
         The hcp raw data.
     """
     for kind in ["ECG", "VEOG", "HEOG"]:
+        anode, cathode = f"{kind}-", f"{kind}+"
+        raw.set_channel_types({anode: "eeg", cathode: "eeg"})
         set_bipolar_reference(
-            raw, anode=kind + "-", cathode=kind + "+", ch_name=kind, copy=False
+            raw, anode=anode, cathode=cathode, ch_name=kind, copy=False
         )
     raw.set_channel_types({"ECG": "ecg", "VEOG": "eog", "HEOG": "eog"})
 

@@ -1,4 +1,5 @@
 import os.path as op
+import mne
 
 """Notes
 
@@ -249,6 +250,9 @@ def get_file_paths(
     out : list of str
         The file names.
     """
+    hcp_path = mne.utils._check_fname(
+        hcp_path, overwrite="read", need_dir=True, must_exist=True,
+    )
     if data_type not in kind_map:
         raise ValueError(
             f"I never heard of `{data_type}` -- are you sure this is a valid HCP type? "
@@ -372,4 +376,4 @@ def get_file_paths(
 
     else:
         raise ValueError('`processing` %s should be "unprocessed"' ' or "preprocessed"')
-    return [op.join(hcp_path, pa) for pa in files]
+    return [str(hcp_path / pa) for pa in files]
