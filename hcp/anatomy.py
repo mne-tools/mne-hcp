@@ -9,19 +9,22 @@ import numpy as np
 from mne import write_surface, write_trans
 from mne._fiff.pick import _pick_data_channels, pick_info
 from mne.transforms import Transform, apply_trans
-from mne.utils import logger
+from mne.utils import logger, verbose
 from scipy import linalg
 
 from .io.file_mapping import get_file_paths
 from .io.read import _get_head_model, _read_trans_hcp, read_info
 
 
+@verbose
 def make_mne_anatomy(
     subject,
     subjects_dir,
     recordings_path=None,
     hcp_path=op.curdir,
     outputs=("label", "mri", "surf"),
+    *,
+    verbose=None,
 ):
     """Extract relevant anatomy and create MNE friendly directory layout.
 
@@ -50,6 +53,7 @@ def make_mne_anatomy(
         The outputs of the freesrufer pipeline shipped by HCP. Defaults to
         (``'mri'``, ``'surf'``), the minimum needed to extract MNE-friendly anatomy
         files and data.
+    %(verbose)s
     """
     if hcp_path == op.curdir:
         hcp_path = op.realpath(hcp_path)
@@ -146,7 +150,7 @@ def make_mne_anatomy(
     )
 
 
-@mne.utils.verbose
+@verbose
 def compute_forward_stack(
     subjects_dir,
     subject,
@@ -155,6 +159,7 @@ def compute_forward_stack(
     src_params=None,
     hcp_path=op.curdir,
     n_jobs=1,
+    *,
     verbose=None,
 ):
     """Conduct standard MNE analyses.
@@ -246,6 +251,8 @@ def compute_forward_stack(
     )  # ico = None for morphed SP.
     bem_sol = mne.make_bem_solution(bems)
     bem_sol["surfs"][0]["coord_frame"] = 5
+    # make the forward code happy
+    bem_sol["surfs"][0]["tris"] = bem_sol["surfs"][0]["tris"].astype(np.int64)
 
     info = read_info(subject=subject, hcp_path=hcp_path, **info_from)
     picks = _pick_data_channels(info, with_ref_meg=False)

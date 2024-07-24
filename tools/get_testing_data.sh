@@ -49,5 +49,5 @@ s3cmd sync $REMOTE/MEG/Motort/icaclass ./
 s3cmd sync $REMOTE/MEG/Motort/tmegpreproc ./
 s3cmd sync $REMOTE/MEG/Motort/eravg ./
 cd $LOCAL
-mkdir -p T1w/105923/mri
-s3cmd sync $REMOTE/T1w/105923/mri/c_ras.mat ./T1w/105923/mri/
+mkdir -p T1w/
+s3cmd sync $REMOTE/T1w/105923 ./T1w/

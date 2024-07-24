@@ -15,13 +15,10 @@ from hcp.preprocessing import (
     map_ch_coords_to_mne,
     set_eog_ecg_channels,
 )
-from hcp.tests import config as tconf
-
-hcp_params = dict(hcp_path=tconf.hcp_path, subject=tconf.test_subject)
 
 
 @pytest.mark.xfail(reason="TODO: Pick counts are wrong, need to update logic!")
-def test_set_eog_ecg_channels():
+def test_set_eog_ecg_channels(hcp_params):
     """Test setting of EOG and ECG channels."""
     raw = hcp.read_raw(data_type="rest", **hcp_params)
     raw.crop(0, 1).load_data()
@@ -33,7 +30,7 @@ def test_set_eog_ecg_channels():
     assert_equal(len(mne.pick_types(raw.info, meg=False, ecg=True)), 8)
 
 
-def test_apply_ica():
+def test_apply_ica(hcp_params):
     """Test ICA application."""
     raw = hcp.read_raw(data_type="rest", verbose="error", **hcp_params)
     annots = hcp.read_annot(data_type="rest", **hcp_params)
@@ -59,7 +56,7 @@ def test_apply_ica():
     apply_ica_hcp(raw, ica_mat=ica_mat, exclude=exclude)
 
 
-def test_apply_ref_correction():
+def test_apply_ref_correction(hcp_params):
     """Test reference correction."""
     raw = hcp.read_raw(data_type="rest", run_index=0, **hcp_params)
     # raw.crop(0, 10).load_data()
@@ -74,7 +71,7 @@ def test_apply_ref_correction():
     assert np.linalg.norm(orig) > np.linalg.norm(proc)
 
 
-def test_map_ch_coords_to_mne():
+def test_map_ch_coords_to_mne(hcp_params):
     """Test mapping of channel coords to MNE."""
     data_type = "task_working_memory"
     hcp_evokeds = hcp.read_evokeds(onset="stim", data_type=data_type, **hcp_params)
@@ -87,7 +84,7 @@ def test_map_ch_coords_to_mne():
     assert (old_coord != new_coord).any()
 
 
-def test_interpolate_missing():
+def test_interpolate_missing(hcp_params):
     """Test interpolation of missing channels."""
     data_type = "task_working_memory"
     raw = hcp.read_raw(data_type="task_working_memory", run_index=0, **hcp_params)

@@ -370,9 +370,6 @@ def _read_epochs(epochs_mat_fname, info, return_fixations_motor):
     # and it is task specific.
     this_info = _hcp_pick_info(info, ch_names)
     epochs = EpochsArray(data=data, info=this_info, events=events, tmin=times.min())
-    # XXX hack for now due to issue with EpochsArray constructor
-    # cf https://github.com/mne-tools/mne-hcp/issues/9
-    epochs._times = times
     return epochs
 
 
