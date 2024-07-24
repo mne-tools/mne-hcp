@@ -1,3 +1,5 @@
+:orphan:
+
 .. _api_reference:
 
 ====================
@@ -6,7 +8,7 @@ Python API Reference
 
 This is the functions reference of MNE-HCP. Functions are
 grouped thematically by analysis purpose. Functions  that are not
-below a module heading are found in the :py:mod:`hcp` namespace.
+below a module heading are found in the ``hcp`` namespace.
 
 .. contents::
    :local:
@@ -33,7 +35,7 @@ below a module heading are found in the :py:mod:`hcp` namespace.
 Handling HCP files for downloading
 ==================================
 
-.. currentmodule:: file_mapping
+.. currentmodule:: hcp.io.file_mapping
 
 .. autosummary::
   :toctree: generated/
@@ -46,8 +48,6 @@ Handling HCP files for downloading
 =============================
 Manipulating data and sensors
 =============================
-
-:py:mod:`hcp.preprocessing`:
 
 .. currentmodule:: hcp.preprocessing
 
@@ -65,8 +65,6 @@ Manipulating data and sensors
 ================
 Visualizing data
 ================
-
-:py:mod:`hcp.viz`:
 
 .. currentmodule:: hcp.viz
 

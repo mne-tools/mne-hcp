@@ -7,6 +7,7 @@ MNE-HCP facilitates source level analysis by supporting linkage between
 MRT/anatomy files and the MEG data.
 Here, inspect the head model that is used to compute the BEM solution.
 """
+
 # Author: Jona Sassenhagen
 #         Denis A. Engemann
 # License: BSD 3 clause
@@ -14,11 +15,12 @@ Here, inspect the head model that is used to compute the BEM solution.
 import os.path as op
 
 from mne.viz import plot_bem
+
 # from mne.bem import make_watershed_bem
 
-storage_dir = op.expanduser('~/mne-hcp-data')
-subject = '105923'
-subjects_dir = storage_dir + '/hcp-subjects'
+storage_dir = op.expanduser("~/mne-hcp-data")
+subject = "105923"
+subjects_dir = storage_dir + "/hcp-subjects"
 
 ###############################################################################
 # We assume that all directory structures are set up.

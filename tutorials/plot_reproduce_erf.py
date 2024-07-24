@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 .. _tut_reproduce_erf:
 
@@ -11,29 +10,32 @@ fields (ERF) starting from different HCP outputs. We will first reprocess
 the HCP dat from scratch, then read the preprocessed epochs, finally
 read the ERF files. Subsequently we will compare these outputs.
 """
+
 # Author: Denis A. Engemann
 # License: BSD 3 clause
 
 import os.path as op
 
-import numpy as np
 import matplotlib.pyplot as plt
 import mne
+import numpy as np
+
 import hcp
 import hcp.preprocessing as preproc
 
-mne.set_log_level('WARNING')
+mne.set_log_level("WARNING")
 
 # we assume our data is inside its designated folder under $HOME
-storage_dir = op.expanduser('~')
+storage_dir = op.expanduser("~")
 hcp_params = dict(
-    hcp_path=op.join(storage_dir, 'mne-hcp-data', 'HCP'),
-    subject='105923',
-    data_type='task_working_memory')
+    hcp_path=op.join(storage_dir, "mne-hcp-data", "HCP"),
+    subject="105923",
+    data_type="task_working_memory",
+)
 
 
-##############################################################################
-# We first reprocess the data from scratch
+# %%
+# We first reprocess the data from scratch.
 #
 # That is, almost from scratch. We're relying on the ICA solutions and
 # data annotations.
@@ -59,8 +61,8 @@ for run_index in [0, 1]:
 # trial_info is a dict
 # it contains a 'comments' vector that maps on the columns of 'codes'
 # 'codes is a matrix with its length corresponding to the number of trials
-print(trial_info['stim']['comments'][:10])  # which column?
-print(set(trial_info['stim']['codes'][:, 3]))  # check values
+print(trial_info["stim"]["comments"][:10])  # which column?
+print(set(trial_info["stim"]["codes"][:, 3]))  # check values
 
 # so according to this we need to use the column 7 (index 6)
 # for the time sample and column 4 (index 3) to get the image types
@@ -69,9 +71,9 @@ print(set(trial_info['stim']['codes'][:, 3]))  # check values
 all_events = list()
 for trial_info in trial_infos:
     events = np.c_[
-        trial_info['stim']['codes'][:, 6] - 1,  # time sample
-        np.zeros(len(trial_info['stim']['codes'])),
-        trial_info['stim']['codes'][:, 3]  # event codes
+        trial_info["stim"]["codes"][:, 6] - 1,  # time sample
+        np.zeros(len(trial_info["stim"]["codes"])),
+        trial_info["stim"]["codes"][:, 3],  # event codes
     ].astype(int)
     events = events[np.argsort(events[:, 0])]  # chronological order
     # for some reason in the HCP data the time events may not always be unique
@@ -83,7 +85,6 @@ for trial_info in trial_infos:
 # now we can go ahead
 evokeds = list()
 for run_index, events in zip([0, 1], all_events):
-
     raw = hcp.read_raw(run_index=run_index, **hcp_params)
     raw.load_data()
     # apply ref channel correction and drop ref channels
@@ -91,35 +92,42 @@ for run_index, events in zip([0, 1], all_events):
 
     annots = hcp.read_annot(run_index=run_index, **hcp_params)
     # construct MNE annotations
-    bad_seg = (annots['segments']['all']) / raw.info['sfreq']
+    bad_seg = (annots["segments"]["all"]) / raw.info["sfreq"]
     annotations = mne.Annotations(
-        bad_seg[:, 0], (bad_seg[:, 1] - bad_seg[:, 0]),
-        description='bad')
+        bad_seg[:, 0], (bad_seg[:, 1] - bad_seg[:, 0]), description="bad"
+    )
 
     raw.annotations = annotations
-    raw.info['bads'].extend(annots['channels']['all'])
+    raw.info["bads"].extend(annots["channels"]["all"])
     raw.pick_types(meg=True, ref_meg=False)
-
-    #  Note: MNE complains on Python 2.7
-    raw.filter(0.50, None, method='iir',
-               iir_params=dict(order=4, ftype='butter'), n_jobs=1)
-    raw.filter(None, 60, method='iir',
-               iir_params=dict(order=4, ftype='butter'), n_jobs=1)
+    raw.filter(
+        0.50, None, method="iir", iir_params=dict(order=4, ftype="butter"), n_jobs=1
+    )
+    raw.filter(
+        None, 60, method="iir", iir_params=dict(order=4, ftype="butter"), n_jobs=1
+    )
 
     # read ICA and remove EOG ECG
     # note that the HCP ICA assumes that bad channels have already been removed
     ica_mat = hcp.read_ica(run_index=run_index, **hcp_params)
 
     # We will select the brain ICs only
-    exclude = annots['ica']['ecg_eog_ic']
+    exclude = annots["ica"]["ecg_eog_ic"]
     preproc.apply_ica_hcp(raw, ica_mat=ica_mat, exclude=exclude)
 
     # now we can epoch
     events = np.sort(events, 0)
-    epochs = mne.Epochs(raw, events=events[events[:, 2] == 1],
-                        event_id=event_id, tmin=tmin, tmax=tmax,
-                        reject=None, baseline=baseline, decim=decim,
-                        preload=True)
+    epochs = mne.Epochs(
+        raw,
+        events=events[events[:, 2] == 1],
+        event_id=event_id,
+        tmin=tmin,
+        tmax=tmax,
+        reject=None,
+        baseline=baseline,
+        decim=decim,
+        preload=True,
+    )
 
     evoked = epochs.average()
     # now we need to add back out channels for comparison across runs.
@@ -127,8 +135,8 @@ for run_index, events in zip([0, 1], all_events):
     evokeds.append(evoked)
     del epochs, raw
 
-##############################################################################
-# Now we can compute the same ERF based on the preprocessed epochs
+# %%
+# Now we can compute the same ERF based on the preprocessed epochs.
 #
 # These are obtained from the 'tmegpreproc' pipeline.
 # Things are pythonized and simplified however, so
@@ -136,7 +144,6 @@ for run_index, events in zip([0, 1], all_events):
 evokeds_from_epochs_hcp = list()
 
 for run_index, events in zip([0, 1], all_events):
-
     unique_subset = np.nonzero(np.r_[1, np.diff(events[:, 0])])[0]
     # use diff to find first unique events
     this_events = events[unique_subset]
@@ -149,7 +156,7 @@ for run_index, events in zip([0, 1], all_events):
     epochs_hcp.events[:, 2] = events[subset, 2]
     epochs_hcp.event_id = event_id
 
-    evoked = epochs_hcp['face'].average()
+    evoked = epochs_hcp["face"].average()
 
     del epochs_hcp
     # These epochs have different channels.
@@ -163,8 +170,8 @@ for run_index, events in zip([0, 1], all_events):
     evokeds_from_epochs_hcp.append(evoked)
 
 
-##############################################################################
-# Finally we can read the actual official ERF file
+# %%
+# Finally we can read the actual official ERF file.
 #
 # These are obtained from the 'eravg' pipelines.
 # We read the matlab file, MNE-HCP is doing some conversions, and then we
@@ -172,34 +179,32 @@ for run_index, events in zip([0, 1], all_events):
 # and we want the average, not the standard deviation.
 
 evoked_hcp = None
-hcp_evokeds = hcp.read_evokeds(onset='stim', **hcp_params)
+hcp_evokeds = hcp.read_evokeds(onset="stim", **hcp_params)
 
 for ev in hcp_evokeds:
-    if not ev.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
+    if not ev.comment == "Wrkmem_LM-TIM-face_BT-diff_MODE-mag":
         continue
 
 # Once more we add and interpolate missing channels
 evoked_hcp = preproc.interpolate_missing(ev, **hcp_params)
 
 
-##############################################################################
-# Time to compare the outputs
-#
+# %%
+# Time to compare the outputs.
 
-evoked = mne.combine_evoked(evokeds, weights='equal')
-evoked_from_epochs_hcp = mne.combine_evoked(
-    evokeds_from_epochs_hcp, weights='equal')
+evoked = mne.combine_evoked(evokeds, weights="equal")
+evoked_from_epochs_hcp = mne.combine_evoked(evokeds_from_epochs_hcp, weights="equal")
 
 fig1, axes = plt.subplots(3, 1, figsize=(12, 8))
 
 evoked.plot(axes=axes[0], show=False)
-axes[0].set_title('MNE-HCP')
+axes[0].set_title("MNE-HCP")
 
 evoked_from_epochs_hcp.plot(axes=axes[1], show=False)
-axes[1].set_title('HCP epochs')
+axes[1].set_title("HCP epochs")
 
 evoked_hcp.plot(axes=axes[2], show=False)
-axes[2].set_title('HCP evoked')
+axes[2].set_title("HCP evoked")
 fig1.canvas.draw()
 
 plt.show()
@@ -207,24 +212,33 @@ plt.show()
 # now some correlations
 
 plt.figure()
-r1 = np.corrcoef(evoked_from_epochs_hcp.data.ravel(),
-                 evoked_hcp.data.ravel())[0][1]
-plt.plot(evoked_from_epochs_hcp.data.ravel()[::10] * 1e15,
-         evoked_hcp.data.ravel()[::10] * 1e15,
-         linestyle='None', marker='o', alpha=0.1,
-         mec='orange', color='orange')
+r1 = np.corrcoef(evoked_from_epochs_hcp.data.ravel(), evoked_hcp.data.ravel())[0][1]
+plt.plot(
+    evoked_from_epochs_hcp.data.ravel()[::10] * 1e15,
+    evoked_hcp.data.ravel()[::10] * 1e15,
+    linestyle="None",
+    marker="o",
+    alpha=0.1,
+    mec="orange",
+    color="orange",
+)
 plt.annotate("r=%0.3f" % r1, xy=(-300, 250))
-plt.ylabel('evoked from HCP epochs')
-plt.xlabel('evoked from HCP evoked')
+plt.ylabel("evoked from HCP epochs")
+plt.xlabel("evoked from HCP evoked")
 plt.show()
 
 plt.figure()
 r1 = np.corrcoef(evoked.data.ravel(), evoked_hcp.data.ravel())[0][1]
-plt.plot(evoked.data.ravel()[::10] * 1e15,
-         evoked_hcp.data.ravel()[::10] * 1e15,
-         linestyle='None', marker='o', alpha=0.1,
-         mec='orange', color='orange')
+plt.plot(
+    evoked.data.ravel()[::10] * 1e15,
+    evoked_hcp.data.ravel()[::10] * 1e15,
+    linestyle="None",
+    marker="o",
+    alpha=0.1,
+    mec="orange",
+    color="orange",
+)
 plt.annotate("r=%0.3f" % r1, xy=(-300, 250))
-plt.ylabel('evoked from scratch with MNE-HCP')
-plt.xlabel('evoked from HCP evoked file')
+plt.ylabel("evoked from scratch with MNE-HCP")
+plt.xlabel("evoked from HCP evoked file")
 plt.show()
