@@ -1,4 +1,4 @@
-import os.path as op
+from pathlib import Path
 import mne
 
 """Notes
@@ -134,7 +134,7 @@ evoked_map = {
 }
 
 
-freesurfer_files = op.join(op.dirname(__file__), "data", "%s.txt")
+freesurfer_files = str(Path(__file__).parent / "data" / "%s.txt")
 for kind, patterns in preprocessed["freesurfer"]["patterns"].items():
     with open(freesurfer_files % kind) as fid:
         patterns.extend([k.rstrip("\n") for k in fid.readlines()])
@@ -250,9 +250,12 @@ def get_file_paths(
     out : list of str
         The file names.
     """
-    hcp_path = mne.utils._check_fname(
-        hcp_path, overwrite="read", need_dir=True, must_exist=True,
-    )
+    if isinstance(hcp_path, str) and hcp_path == "":  # don't prefix anything
+        hcp_path = Path()
+    else:
+        hcp_path = mne.utils._check_fname(
+            hcp_path, overwrite="read", need_dir=True, must_exist=True,
+        )
     if data_type not in kind_map:
         raise ValueError(
             f"I never heard of `{data_type}` -- are you sure this is a valid HCP type? "
@@ -297,11 +300,11 @@ def get_file_paths(
         file_map = preprocessed[
             (data_type if data_type in ("meg_anatomy", "freesurfer") else "meg")
         ]
-        path = file_map["path"].format(
+        path = Path(file_map["path"].format(
             subject=subject,
             pipeline=(context + "preproc" if output == "epochs" else pipeline),
             kind=kind_map[data_type],
-        )
+        ))
 
         if output == "epochs":
             pattern_key = (output, context)
@@ -315,11 +318,9 @@ def get_file_paths(
         if output in ("bads", "ica"):
             files.extend(
                 [
-                    op.join(
-                        path,
-                        p.format(
-                            subject=subject, run=run_label, kind=kind_map[data_type]
-                        ),
+                    path
+                    / p.format(
+                        subject=subject, run=run_label, kind=kind_map[data_type]
                     )
                     for p in my_pattern
                 ]
@@ -336,7 +337,7 @@ def get_file_paths(
             if context != "rest":
                 formats.update(onset=my_onset)
             this_file = my_pattern.format(**formats)
-            files.append(op.join(path, this_file))
+            files.append(path / this_file)
 
         elif output == "evoked":
             # XXX add evoked template checks
@@ -350,29 +351,34 @@ def get_file_paths(
                     diff_modes=_map_diff_mode(condition, data_type),
                     sensor_mode=sensor_mode,
                 )
-                files.append(op.join(path, this_file))
+                files.append(path / this_file)
         elif output == "trial_info":
             this_file = my_pattern[0].format(
                 subject=subject, run=run_label, kind=kind_map[data_type]
             )
-            files.append(op.join(path, this_file))
+            files.append(path / this_file)
         elif data_type == "meg_anatomy":
-            path = file_map["path"].format(subject=subject)
+            path = Path(file_map["path"].format(subject=subject))
             files.extend(
-                [op.join(path, pa.format(subject=subject)) for pa in my_pattern]
+                [path / pa.format(subject=subject) for pa in my_pattern]
             )
         elif data_type == "freesurfer":
-            path = file_map["path"].format(subject=subject)
+            path = Path(file_map["path"].format(subject=subject))
             for pa in my_pattern:
-                files.append(op.join(path, output, pa.format(subject=subject)))
+                files.append(path / output / pa.format(subject=subject))
         else:
             raise ValueError('I never heard of `output` "%s".' % output)
 
     elif processing == "unprocessed":
-        path = unprocessed["path"].format(
-            subject=subject, kind=kind_map[data_type], pipeline=pipeline, run=run_label
+        path = Path(
+            unprocessed["path"].format(
+                subject=subject,
+                kind=kind_map[data_type],
+                pipeline=pipeline,
+                run=run_label,
+            )
         )
-        files.extend([op.join(path, p) for p in unprocessed["patterns"]])
+        files.extend([path / p for p in unprocessed["patterns"]])
 
     else:
         raise ValueError('`processing` %s should be "unprocessed"' ' or "preprocessed"')

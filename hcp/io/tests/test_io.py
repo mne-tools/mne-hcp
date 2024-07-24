@@ -16,7 +16,7 @@ from hcp.io.read import _hcp_pick_info
 
 
 run_inds=[0, 1, 2]
-max_runs = int(os.getenv("MNE_HCP_N_RUNS", 3))
+max_runs = 3  # from the test dataset creation step
 bti_chans = {"A" + str(i) for i in range(1, 249, 1)}
 task_types = pytest.mark.parametrize("data_type", ["task_story_math", "task_working_memory", "task_motor"])
 run_indices = pytest.mark.parametrize("run_index", run_inds[: max_runs])

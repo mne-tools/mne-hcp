@@ -1,6 +1,7 @@
 # Author: Denis A. Engemann <denis.engemann@gmail.com>
 # License: BSD (3-clause)
 
+import mne
 import pytest
 from pathlib import Path
 
@@ -38,7 +39,9 @@ def mpl_close():
 @pytest.fixture()
 def hcp_params():
     """The MNE-HCP hcp params."""
-    return dict(
-        hcp_path=Path("~/mne-hcp-data/mne-hcp-testing").expanduser().resolve(strict=True),
-        subject="105923",
+    # Point to the folder that has 105923 in it
+    hcp_path = Path(
+        mne.get_config("MNE_HCP_TESTING_PATH", "~/mne-hcp-data/mne-hcp-testing")
     )
+    hcp_path = hcp_path.expanduser().resolve(strict=True)
+    return dict(hcp_path=hcp_path, subject="105923")

@@ -6,11 +6,12 @@
 # https://github.com/dengemann/make-mne-hcp-testing-data/blob/master/make_mne_hcp_testing_data.ipynb
 #
 # Since the raw data are not decimated by a factor of 100, you need to set
-# MNE_HCP_TEST_DECIM=1 when running the tests if you use these data.
+# MNE_HCP_TEST_DECIM=1 when running the tests if you use these data directly
+# (e.g., if you also set MNE_HCP_TESTING_PATH=~/mne-hcp-data/HCP).
 
 set -exo pipefail
 
-LOCAL=~/mne-hcp-data/mne-hcp-testing/105923
+LOCAL=~/mne-hcp-data/HCP/105923
 REMOTE=s3://hcp-openaccess/HCP/105923
 mkdir -p $LOCAL/unprocessed/MEG
 cd $LOCAL/unprocessed/MEG
