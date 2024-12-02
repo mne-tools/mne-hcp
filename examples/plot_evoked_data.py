@@ -5,7 +5,7 @@
 Visualize evoked data
 =====================
 
-Here we'll generate some attention for pecularities of visualizing the
+Here we'll generate some attention for peculiarities of visualizing the
 HCP evoked outputs using MNE plotting functions.
 """
 # Author: Denis A. Engemann
@@ -35,9 +35,9 @@ for evoked in hcp_evokeds:
     if not evoked.comment == 'Wrkmem_LM-TIM-face_BT-diff_MODE-mag':
         continue
 ##############################################################################
-# In order to plot topographic patterns we need to transform the sensor
-# positions to MNE coordinates one a copy of the data.
-# We're not using this these transformed data for any source analyses.
+# In order to plot topographic patterns, we need to transform the sensor
+# positions to MNE coordinates using a copy of the data.
+# We're not using these transformed data for any source analyses.
 # These take place in native BTI/4D coordinates.
 
 evoked_viz = evoked.copy()

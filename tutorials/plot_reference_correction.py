@@ -3,7 +3,7 @@
 Apply reference channel correction
 ==================================
 
-Apply reference channels and see what happens.
+Apply reference channels and see how it improves noisy channels.
 """
 # Author: Denis A. Engemann
 # License: BSD 3 clause
@@ -30,7 +30,7 @@ run_index = 0
 
 
 ###############################################################################
-# Then we define a spectral plotter for convenience
+# Then we define a spectral plotting helper function for convenience
 
 
 def plot_psd(X, label, Fs, NFFT, color=None):
@@ -44,10 +44,10 @@ def plot_psd(X, label, Fs, NFFT, color=None):
 
 
 ###############################################################################
-# Now we read in the data
+# Now, we read in the data.
 #
-# Then we plot the power spectrum of the MEG and reference channels,
-# apply the reference correction and add the resulting cleaned MEG channels
+# After that, we plot the power spectrum of the MEG and reference channels,
+# apply the reference correction, and add the resulting cleaned MEG channels
 # to our comparison.
 
 
@@ -63,12 +63,12 @@ ref_picks = mne.pick_types(raw.info, ref_meg=True, meg=False)
 # put single channel aside for comparison later
 chan1 = raw[meg_picks[0]][0]
 
-# add some plotting parameter
-decim_fit = 100  # we lean a purely spatial model, we don't need all samples
+# add some plotting parameters
+decim_fit = 100  # we learn a purely spatial model, we don't need all samples
 decim_show = 10  # we can make plotting faster
 n_fft = 2 ** 15  # let's use long windows to see low frequencies
 
-# we put aside the time series for later plotting
+# we put aside the time series for plotting later
 x_meg = raw[meg_picks][0][:, ::decim_show].mean(0)
 x_meg_ref = raw[ref_picks][0][:, ::decim_show].mean(0)
 
@@ -96,11 +96,13 @@ plt.grid()
 plt.show()
 
 ###############################################################################
-# We can see that the ref correction removes low frequencies which is expected
+# We can see that the ref correction removes low frequencies, which is
+# expected.
 
 
 ###############################################################################
-# By comparing single channel time series we can also see the detrending effect
+# By comparing single channel time series, we can also see the detrending
+# effect.
 
 chan1c = raw[meg_picks[0]][0]
 ch_name = raw.ch_names[meg_picks[0]]

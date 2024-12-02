@@ -24,24 +24,24 @@ subjects_dir = op.join(storage_dir, 'hcp-subjects')
 subject = '105923'  # our test subject
 
 ##############################################################################
-# and we assume to have the downloaded data, the MNE/freesurfer style
+# and we assume that we have the downloaded data, the MNE/freesurfer style
 # anatomy directory, and the MNE style MEG directory.
-# these can be obtained from :func:`make_mne_anatomy`.
+# These can be obtained from :func:`make_mne_anatomy`.
 # See also :ref:`tut_make_anatomy`.
 
 ##############################################################################
-# first we read the coregistration.
+# First, we read the coregistration.
 
 head_mri_t = mne.read_trans(
     op.join(recordings_path, subject, '{}-head_mri-trans.fif'.format(
             subject)))
 
 ##############################################################################
-# Now we can setup our source model.
+# Now, we can setup our source model.
 # Note that spacing has to be set to 'all' since no common MNE resampling
 # scheme has been employed in the HCP pipelines.
-# Since this will take very long time to compute and at this point no other
-# decimation scheme is available inside MNE, we will compute the source
+# Since this will take a very long time to compute (and at this point no other
+# decimation scheme is available inside MNE), we will compute the source
 # space on fsaverage, the freesurfer average brain, and morph it onto
 # the subject's native space. With `oct6` we have ~8000 dipole locations.
 
@@ -55,8 +55,9 @@ src_subject = mne.morph_source_spaces(
     src_fsaverage, subject, subjects_dir=subjects_dir)
 
 ##############################################################################
-# For the same reason `ico` has to be set to `None` when computing the bem.
-# The headshape is not computed with MNE and has a none standard configuration.
+# For the same reason, `ico` has to be set to `None` when computing the bem.
+# The headshape is not computed with MNE and has a `None` standard
+# configuration.
 
 bems = mne.make_bem_model(subject, conductivity=(0.3,),
                           subjects_dir=subjects_dir,
@@ -65,7 +66,7 @@ bem_sol = mne.make_bem_solution(bems)
 bem_sol['surfs'][0]['coord_frame'] = 5
 
 ##############################################################################
-# Now we can read the channels that we want to map to the cortical locations.
+# Now, we can read the channels that we want to map to the cortical locations.
 # Then we can compute the forward solution.
 
 info = hcp.read_info(subject=subject, hcp_path=hcp_path, data_type='rest',
@@ -80,7 +81,7 @@ mag_map = mne.sensitivity_map(
     fwd, projs=None, ch_type='mag', mode='fixed', exclude=[], verbose=None)
 
 ##############################################################################
-# we display sensitivity map on the original surface with little smoothing
+# We display sensitivity map on the original surface with little smoothing
 # and admire the expected curvature-driven sensitivity pattern.
 
 mag_map = mag_map.to_original_src(src_fsaverage, subjects_dir=subjects_dir)
